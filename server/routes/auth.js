@@ -16,8 +16,17 @@ router.post("/register", async (req, res) => {
   }
 })
 
-router.post("/login", (req, res) => {
-  res.send("Login")
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username, 
+      password: req.body.password
+    })
+
+    res.status(200).json(user)
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 module.exports = router
