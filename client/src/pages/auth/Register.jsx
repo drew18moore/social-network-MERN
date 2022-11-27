@@ -1,51 +1,80 @@
-import React, { useRef, useState } from 'react'
-import Axios from 'axios'
+import React, { useRef, useState } from "react";
+import Axios from "axios";
+import "./auth.css";
 
 export default function Register() {
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordConfirmRef = useRef(null);
 
-  const usernameRef = useRef(null)
-  const passwordRef = useRef(null)
-  const passwordConfirmRef = useRef(null)
-
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   async function register(e) {
-    e.preventDefault()
-    setError("")
-    if (usernameRef.current !== null && passwordRef.current !== null && passwordConfirmRef.current !== null) {
+    e.preventDefault();
+    setError("");
+    if (
+      usernameRef.current !== null &&
+      passwordRef.current !== null &&
+      passwordConfirmRef.current !== null
+    ) {
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-        return setError("Passwords do not match")
+        return setError("Passwords do not match");
       }
       await Axios.post("http://localhost:3000/api/auth/register", {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
-        passwordConfirm: passwordConfirmRef.current.value
-      }).then((res) => {
-        console.log(res.data);
-      }).catch((err) => {
-        setError(err.response.data.message);
+        passwordConfirm: passwordConfirmRef.current.value,
       })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          setError(err.response.data.message);
+        });
     } else {
-      console.error("usernameRef.current, passwordRef.current, or passwordConfirmRef is null")
+      console.error(
+        "usernameRef.current, passwordRef.current, or passwordConfirmRef is null"
+      );
     }
   }
 
   return (
     <>
-      {error}
-      <form onSubmit={register}>
-        <label htmlFor="input-username">Username</label>
-        <input ref={usernameRef} type="text" name="username" id="input-username" required />
+      <div className="container">
+        
+        <form onSubmit={register}>
+          <h2>Create a new account</h2>
+          {error ? <p className="error-message">{error}</p> : ""}
+          <input
+            ref={usernameRef}
+            type="text"
+            name="username"
+            id="input-username"
+            placeholder="Username"
+            required
+          />
 
-        <label htmlFor='input-password'>Password</label>
-        <input ref={passwordRef} type="password" name="password" id="input-password" required />
+          <input
+            ref={passwordRef}
+            type="password"
+            name="password"
+            id="input-password"
+            placeholder="Password"
+            required
+          />
 
-        <label htmlFor='input-password-confirm'>Confirm Password</label>
-        <input ref={passwordConfirmRef} type="password" name='password-confirm' id='input-password-confirm' required />
+          <input
+            ref={passwordConfirmRef}
+            type="password"
+            name="password-confirm"
+            id="input-password-confirm"
+            placeholder="Confirm Password"
+            required
+          />
 
-        <button type='submit'>Sign Up</button>
-      </form>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     </>
-    
-  )
+  );
 }
