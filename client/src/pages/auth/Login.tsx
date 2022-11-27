@@ -8,12 +8,16 @@ export default function Login() {
 
   async function login(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    await Axios.post("http://localhost:3000/api/auth/login", {
-      username: usernameRef.current.value,
-      password: passwordRef.current.value
-    }).then((res) => {
-      console.log(res.data);
-    })
+    if (usernameRef.current !== null && passwordRef.current !== null) {
+        await Axios.post("http://localhost:3000/api/auth/login", {
+        username: usernameRef.current.value,
+        password: passwordRef.current.value
+      }).then((res) => {
+        console.log(res.data);
+      })
+    } else {
+      console.error("usernameRef.current or passwordRef.current is null")
+    }
   }
 
   return (
