@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Axios from 'axios'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function Login() {
 
@@ -7,6 +8,8 @@ export default function Login() {
   const passwordRef = useRef(null)
 
   const [error, setError] = useState("")
+
+  const { setCurrentUser } = useAuth()
 
   async function login(e) {
     e.preventDefault()
@@ -17,6 +20,7 @@ export default function Login() {
         password: passwordRef.current.value
       }).then((res) => {
         console.log(res.data);
+        setCurrentUser(res.data);
       }).catch((err) => {
         setError(err.response.data.message);
       })
