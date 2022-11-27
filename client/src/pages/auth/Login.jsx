@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import Axios from 'axios'
 import { useAuth } from '../../contexts/AuthContext'
+import { useNavigate } from "react-router-dom"
 
 export default function Login() {
 
@@ -10,6 +11,7 @@ export default function Login() {
   const [error, setError] = useState("")
 
   const { setCurrentUser } = useAuth()
+  const navigate = useNavigate()
 
   async function login(e) {
     e.preventDefault()
@@ -21,6 +23,7 @@ export default function Login() {
       }).then((res) => {
         console.log(res.data);
         setCurrentUser(res.data);
+        navigate('/')
       }).catch((err) => {
         setError(err.response.data.message);
       })
