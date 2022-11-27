@@ -12,7 +12,9 @@ router.post("/register", async (req, res) => {
     const newUser = await user.save()
     res.status(200).json(newUser)
   } catch (err) {
-    console.log(err);
+    if (err.code === 11000) {
+      res.status(403).json({ message: "Account already in use" })
+    }
   }
 })
 
