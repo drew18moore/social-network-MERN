@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import Axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const usernameRef = useRef(null);
@@ -58,6 +58,7 @@ export default function Login() {
           />
 
           <button type="submit">Log In</button>
+          <p className="form-link">Need an account? <Link to="/register">Sign up</Link></p>
         </form>
       </div>
     </div>

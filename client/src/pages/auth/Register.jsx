@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 import "./auth.css";
 
 export default function Register() {
@@ -73,6 +74,7 @@ export default function Register() {
           />
 
           <button type="submit">Sign Up</button>
+          <p className="form-link">Already have an account? <Link to="/login">Log in</Link></p>
         </form>
       </div>
     </>

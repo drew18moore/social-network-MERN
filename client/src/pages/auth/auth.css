@@ -33,3 +33,13 @@ button {
   color: white;
   background-color: #1877F2;
 }
+
+.form-link {
+  text-align: center;
+  color: #8e8e8e
+}
+
+a {
+  text-decoration: none;
+  color: #1877F2;
+}
