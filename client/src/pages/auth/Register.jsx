@@ -3,13 +3,13 @@ import Axios from 'axios'
 
 export default function Register() {
 
-  const usernameRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
-  const passwordConfirmRef = useRef<HTMLInputElement>(null)
+  const usernameRef = useRef(null)
+  const passwordRef = useRef(null)
+  const passwordConfirmRef = useRef(null)
 
-  const [error, setError] = useState<string>("")
+  const [error, setError] = useState("")
 
-  async function register(e: React.FormEvent<HTMLFormElement>) {
+  async function register(e) {
     e.preventDefault()
     setError("")
     if (usernameRef.current !== null && passwordRef.current !== null && passwordConfirmRef.current !== null) {

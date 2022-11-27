@@ -3,12 +3,12 @@ import Axios from 'axios'
 
 export default function Login() {
 
-  const usernameRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+  const usernameRef = useRef(null)
+  const passwordRef = useRef(null)
 
-  const [error, setError] = useState<string>("")
+  const [error, setError] = useState("")
 
-  async function login(e: React.FormEvent<HTMLFormElement>) {
+  async function login(e) {
     e.preventDefault()
     setError("")
     if (usernameRef.current !== null && passwordRef.current !== null) {
