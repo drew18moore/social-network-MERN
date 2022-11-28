@@ -1,0 +1,27 @@
+header {
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    background-color: white;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding-inline: 15px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 50px;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-logo a, .nav-links a {
+  text-decoration: none;
+  color: black;
+}

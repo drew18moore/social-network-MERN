@@ -1,9 +1,13 @@
-import React from 'react'
-import { useAuth } from '../../contexts/AuthContext'
+import React from "react";
+import Navbar from "../../components/navbar/Navbar";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Home() {
-  const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
   return (
-    <div>Hello, {currentUser.username}</div>
-  )
+    <>
+      <Navbar />
+      <div>Hello, {currentUser.username}</div>
+    </>
+  );
 }

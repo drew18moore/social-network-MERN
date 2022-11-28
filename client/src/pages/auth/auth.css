@@ -14,6 +14,7 @@ form {
   padding: 50px;
   margin: 25px;
   border-radius: 6px;
+  background-color: white;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
@@ -39,7 +40,7 @@ button {
   color: #8e8e8e
 }
 
-a {
+.form-link a {
   text-decoration: none;
   color: #1877F2;
 }

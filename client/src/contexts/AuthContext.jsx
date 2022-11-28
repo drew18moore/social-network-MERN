@@ -9,7 +9,7 @@ export const useAuth = () => {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUser, setCurrentUser] = useState({_id: '63853a8561b33994cb56fb44', username: 'Drew', password: 'drew1212', __v: 0})
 
   useEffect(() => {
     console.log(currentUser)
