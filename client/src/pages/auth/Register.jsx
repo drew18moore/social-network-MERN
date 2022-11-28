@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "./auth.css";
 
 export default function Register() {
@@ -9,6 +10,9 @@ export default function Register() {
   const passwordConfirmRef = useRef(null);
 
   const [error, setError] = useState("");
+
+  const { setCurrentUser } = useAuth();
+  const navigate = useNavigate()
 
   async function register(e) {
     e.preventDefault();
@@ -28,6 +32,8 @@ export default function Register() {
       })
         .then((res) => {
           console.log(res.data);
+          setCurrentUser(res.data)
+          navigate("/")
         })
         .catch((err) => {
           setError(err.response.data.message);
