@@ -1,5 +1,4 @@
 import React from "react";
-import { useRef } from "react";
 import "./newPost.css";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
@@ -7,24 +6,26 @@ import { useState } from "react";
 
 export default function NewPost() {
   const { currentUser } = useAuth();
-  const textAreaRef = useRef();
+  const [userMessage, setUserMessage] = useState("");
 
   const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    axios
+    await axios
       .post("http://localhost:3000/api/posts/new", {
         userId: currentUser._id,
-        postBody: textAreaRef.current.value,
+        postBody: userMessage,
       })
       .catch((err) => {
         setError(err.response.data.message);
       });
+    setUserMessage("")
   };
 
-  const autoResize = (e) => {
+  const handleChange = (e) => {
+    setUserMessage(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight + 2}px`;
   };
@@ -34,13 +35,15 @@ export default function NewPost() {
       <form onSubmit={handleSubmit} className="new-post-form">
         {error ? <p className="error-message">{error}</p> : ""}
         <textarea
-          ref={textAreaRef}
           name="post body input"
           id="post-body-input"
+          value={userMessage}
           placeholder={`What's on your mind, ${currentUser.username}?`}
-          onChange={autoResize}
+          onChange={handleChange}
         />
-        <button type="submit">Post</button>
+        <button disabled={userMessage === "" ? true : false} type="submit">
+          Post
+        </button>
       </form>
     </div>
   );
