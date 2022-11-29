@@ -41,7 +41,7 @@ export default function NewPost() {
           placeholder={`What's on your mind, ${currentUser.username}?`}
           onChange={handleChange}
         />
-        <button disabled={userMessage === "" ? true : false} type="submit">
+        <button disabled={userMessage === "" ? true : false} type="submit" id="post-btn">
           Post
         </button>
       </form>

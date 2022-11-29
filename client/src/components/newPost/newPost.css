@@ -20,3 +20,9 @@
   border: 1px solid #B9B9B9;
   border-radius: 5px;
 }
+
+#post-btn:disabled {
+  background-color: #E4E6EB;
+  color: #B9B9B9;
+  cursor: not-allowed;
+}
