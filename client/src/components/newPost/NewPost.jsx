@@ -1,14 +1,27 @@
 import React from "react";
 import { useRef } from "react";
 import "./newPost.css";
-import { useAuth } from "../../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
+import { useState } from "react";
 
 export default function NewPost() {
-  const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
   const textAreaRef = useRef();
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    axios
+      .post("http://localhost:3000/api/posts/new", {
+        userId: currentUser._id,
+        postBody: textAreaRef.current.value,
+      })
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
   };
 
   const autoResize = (e) => {
@@ -19,6 +32,7 @@ export default function NewPost() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="new-post-form">
+        {error ? <p className="error-message">{error}</p> : ""}
         <textarea
           ref={textAreaRef}
           name="post body input"

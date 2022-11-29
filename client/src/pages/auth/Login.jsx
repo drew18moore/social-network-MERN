@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setError("");
     if (usernameRef.current !== null && passwordRef.current !== null) {
-      await Axios.post("http://localhost:3000/api/auth/login", {
+      await axios.post("http://localhost:3000/api/auth/login", {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       })

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./auth.css";
@@ -25,7 +25,7 @@ export default function Register() {
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
         return setError("Passwords do not match");
       }
-      await Axios.post("http://localhost:3000/api/auth/register", {
+      await axios.post("http://localhost:3000/api/auth/register", {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
         passwordConfirm: passwordConfirmRef.current.value,

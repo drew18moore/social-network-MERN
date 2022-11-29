@@ -5,6 +5,7 @@ const port = 3000
 const cors = require("cors")
 app.use(cors({ origin: "http://127.0.0.1:5173", }))
 const authRouter = require("./routes/auth")
+const postsRouter = require("./routes/posts")
 
 require('dotenv').config()
 
@@ -21,7 +22,7 @@ db.once('open', () => {
 // Routing
 app.use(express.json())
 app.use('/api/auth', authRouter)
-
+app.use('/api/posts', postsRouter)
 
 app.listen(port, () => {
   console.log(`Node server listening on port ${port}`);
