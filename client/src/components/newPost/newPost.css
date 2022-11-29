@@ -17,4 +17,6 @@
   font-size: 15px;
   resize: none;
   overflow: hidden;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
 }
