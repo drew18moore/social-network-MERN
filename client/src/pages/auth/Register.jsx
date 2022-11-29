@@ -49,7 +49,7 @@ export default function Register() {
     <>
       <div className="container">
         
-        <form onSubmit={register}>
+        <form onSubmit={register} className="auth-form">
           <h2>Create a new account</h2>
           {error ? <p className="error-message">{error}</p> : ""}
           <input
