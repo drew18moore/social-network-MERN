@@ -16,6 +16,7 @@ export default function NewPost() {
     await axios
       .post("http://localhost:3000/api/posts/new", {
         userId: currentUser._id,
+        username: currentUser.username,
         postBody: userMessage,
       })
       .catch((err) => {

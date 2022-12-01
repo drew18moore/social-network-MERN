@@ -25,7 +25,7 @@ export default function Timeline() {
         return <p key={post._id}>{post.postBody}</p>
       })} */}
       {posts.map(post => {
-        return <Post key={post._id} postBody={post.postBody} />
+        return <Post key={post._id} username={post.username} postBody={post.postBody} createdAt={post.createdAt}/>
       })}
     </div>)
 }
