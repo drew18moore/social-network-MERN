@@ -12,6 +12,7 @@ export default function NewPost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.target[0].style.height = "50px"
     setError("");
     await axios
       .post("http://localhost:3000/api/posts/new", {
