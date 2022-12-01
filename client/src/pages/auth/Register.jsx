@@ -47,7 +47,7 @@ export default function Register() {
 
   return (
     <>
-      <div className="container">
+      <div className="auth-container">
         
         <form onSubmit={register} className="auth-form">
           <h2>Create a new account</h2>

@@ -34,8 +34,8 @@ export default function Login() {
   }
 
   return (
-    <div className="login">
-      <div className="container">
+    <>
+      <div className="auth-container">
         <form onSubmit={login} className="auth-form">
           <h2>Log In</h2>
           {error ? <p className="error-message">{error}</p> : ""}
@@ -61,6 +61,6 @@ export default function Login() {
           <p className="form-link">Need an account? <Link to="/register">Sign up</Link></p>
         </form>
       </div>
-    </div>
+    </>
   );
 }
