@@ -24,6 +24,9 @@ router.post("/new", async (req, res) => {
 router.get("/timeline", async (req, res) => {
   try {
     const posts = await Post.find();
+    posts.sort((a, b) => {
+      return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()
+    })
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ message: err });
