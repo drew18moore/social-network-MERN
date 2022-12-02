@@ -3,7 +3,18 @@ const mongoose = require("mongoose")
 const app = express()
 const port = 3000
 const cors = require("cors")
-app.use(cors({ origin: "http://127.0.0.1:5173", }))
+
+let whitelist = ["http://localhost:5173", "http://192.168.1.19:5173"]
+let corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  }
+}
+app.use(cors(corsOptions))
 const authRouter = require("./routes/auth")
 const postsRouter = require("./routes/posts")
 
