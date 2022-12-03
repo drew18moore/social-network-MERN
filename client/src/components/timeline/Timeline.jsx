@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import Post from "../post/Post";
+import NewPost from "../newPost/NewPost";
 import "./timeline.css"
 
 export default function Timeline() {
@@ -19,13 +20,20 @@ export default function Timeline() {
     fetchPosts();
   }, []);
 
+  const addPost = (post) => {
+    let updatedPosts = [...posts]
+    updatedPosts.unshift(post)
+    setPosts(updatedPosts)
+  }
+
   return (
-    <div className="posts">
-      {/* {posts.map(post => {
-        return <p key={post._id}>{post.postBody}</p>
-      })} */}
-      {posts.map(post => {
-        return <Post key={post._id} username={post.username} postBody={post.postBody} createdAt={post.createdAt}/>
-      })}
-    </div>)
+    <>
+      <NewPost addPost={addPost}/>
+      <div className="posts">
+        {posts.map(post => {
+          return <Post key={post._id} username={post.username} postBody={post.postBody} createdAt={post.createdAt}/>
+        })}
+      </div>
+    </>
+  )
 }

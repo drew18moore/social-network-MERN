@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { useAuth } from "../../contexts/AuthContext";
-import NewPost from "../../components/newPost/NewPost";
 import Timeline from "../../components/timeline/Timeline";
 
 export default function Home() {
@@ -9,7 +8,6 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <NewPost />
       <Timeline />
     </>
   );

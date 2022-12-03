@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import { useState } from "react";
 
-export default function NewPost() {
+export default function NewPost({ addPost }) {
   const { currentUser } = useAuth();
   const [userMessage, setUserMessage] = useState("");
 
@@ -19,6 +19,8 @@ export default function NewPost() {
         userId: currentUser._id,
         username: currentUser.username,
         postBody: userMessage,
+      }).then((res) => {
+        addPost(res.data);
       })
       .catch((err) => {
         setError(err.response.data.message);
