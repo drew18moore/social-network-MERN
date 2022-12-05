@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 router.post("/new", async (req, res) => {
   if (req.body.postBody === "") {
@@ -9,7 +10,7 @@ router.post("/new", async (req, res) => {
 
   const post = new Post({
     userId: req.body.userId,
-    username: req.body.username,
+    // username: req.body.username,
     postBody: req.body.postBody,
   });
 
@@ -23,10 +24,19 @@ router.post("/new", async (req, res) => {
 
 router.get("/timeline", async (req, res) => {
   try {
-    const posts = await Post.find();
-    posts.sort((a, b) => {
-      return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()
-    })
+    const allPosts = await Post.find();
+    allPosts.sort((a, b) => {
+      return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
+    });
+    const posts = await Promise.all(
+      allPosts.map(async (post) => {
+        const postUser = await User.findById(post.userId)
+        return {
+          ...post.toJSON(),
+          username: postUser.username,
+        };
+      })
+    );
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ message: err });
