@@ -10,13 +10,14 @@ router.post("/new", async (req, res) => {
 
   const post = new Post({
     userId: req.body.userId,
-    // username: req.body.username,
     postBody: req.body.postBody,
   });
 
   try {
     const newPost = await post.save();
-    res.status(200).json(newPost);
+    const newPostUser = await User.findById(newPost.userId)
+    const response = { ...newPost.toJSON(), username: newPostUser.username }
+    res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err });
   }
