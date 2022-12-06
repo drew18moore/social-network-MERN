@@ -14,6 +14,7 @@ nav {
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 50px;
 }
 
@@ -24,4 +25,10 @@ nav {
 .nav-logo a, .nav-links a {
   text-decoration: none;
   color: black;
+}
+
+.nav-links img {
+  width: 40px;
+  vertical-align: middle;
+  border-radius: 50%;
 }

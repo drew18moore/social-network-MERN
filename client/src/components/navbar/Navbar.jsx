@@ -9,8 +9,8 @@ export default function Navbar() {
         <div className="nav-logo"><Link to="/">MERN Social</Link></div>
         <ul className='nav-links'>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/">Profile</Link></li>
           <li><Link to="/login">Log Out</Link></li>
+          <li><Link to="/profile"><img src='/default-pfp.jpg'/></Link></li>
         </ul>
       </nav>
     </header>
