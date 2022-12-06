@@ -16,9 +16,8 @@ export default function Profile() {
               <h1 className='name'>{currentUser.username}</h1>
               <h2 className='username'>@{currentUser.username}</h2>
             </div>
-            
           </div>
-          
+          <button className='edit-profile-btn'>Edit profile</button>
         </div>
       </div>
     </>

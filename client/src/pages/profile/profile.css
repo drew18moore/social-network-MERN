@@ -5,6 +5,8 @@
 }
 
 .profile-card {
+  display: flex;
+  justify-content: space-between;
   background-color: white;
   border-radius: 8px;
   margin: 25px;
@@ -20,7 +22,6 @@
 }
 
 .profile-img-username {
-  /* outline: 1px solid red; */
   width: 50%;
   display: flex;
   align-items: center;
@@ -35,5 +36,15 @@
 
 .username {
   font-size: 1rem;
-  font-weight: 100;
+  color: #757575;
+  font-weight: normal;
+}
+
+.edit-profile-btn {
+  align-self: flex-end;
+  background-color: #E4E6EB;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 10px
 }
