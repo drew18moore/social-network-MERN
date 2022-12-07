@@ -1,0 +1,48 @@
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-container {
+  padding: 15px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: fit-content;
+  margin: auto;
+  max-width: 600px;
+  max-height: 90%;
+  background-color: white;
+  border-radius: 8px;
+  overflow: scroll;
+}
+
+.modal-container button {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 50%;
+  padding: 8px;
+  background-color: #D8DADF;
+  color: #757575;
+  font-weight: bold;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+
+.modal-container h1 {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.modal-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+}

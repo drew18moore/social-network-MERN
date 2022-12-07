@@ -2,9 +2,13 @@ import React from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import "./profile.css"
 import { useAuth } from '../../contexts/AuthContext'
+import { useState } from 'react'
+import Modal from '../../components/modal/Modal'
+import EditProfile from '../../components/modal/EditProfile'
 
 export default function Profile() {
   const { currentUser } = useAuth()
+  const [showModal, setShowModal] = useState(false);
   return (
     <>
       <Navbar />
@@ -17,9 +21,10 @@ export default function Profile() {
               <h2 className='username'>@{currentUser.username}</h2>
             </div>
           </div>
-          <button className='edit-profile-btn'>Edit profile</button>
+          <button className='edit-profile-btn' onClick={() => setShowModal(prev => !prev)}>Edit profile</button>
         </div>
       </div>
+      {showModal && <Modal setShowModal={setShowModal}><EditProfile /></Modal>}
     </>
   )
 }
