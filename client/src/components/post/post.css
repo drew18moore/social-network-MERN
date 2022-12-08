@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: px;
-  padding: 10px;
+  padding: 10px 15px;
   padding-top: 5px;
   background-color: white;
   border-radius: 6px;
@@ -51,4 +51,33 @@
 .post-body {
   display: flex;
   flex-wrap: wrap;
+  font-size: 1.5rem;
+}
+
+.like-comment-share-btns {
+  display: flex;
+  justify-content: space-around;
+  color: #757575
+}
+
+.like-comment-share-btns .material-symbols-rounded {
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 300,
+  'GRAD' 0,
+  'opsz' 20
+}
+
+.like-comment-share-btns .material-symbols-rounded:hover {
+  color: #1d9bf0;
+  background-color: #e1eef6;
+}
+
+.post hr {
+  margin: 10px 0;
+  border-top: 1px solid #D8DADF;
+  border-bottom: none;
 }

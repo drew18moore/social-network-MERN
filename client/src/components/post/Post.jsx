@@ -26,6 +26,12 @@ export default function Post({ fullname, username, postBody, createdAt }) {
         </div>
       </div>
       <p className="post-body">{postBody}</p>
+      <hr />
+      <div className="like-comment-share-btns">
+        <span class="material-symbols-rounded">thumb_up</span>
+        <span class="material-symbols-rounded">chat_bubble</span>
+        <span class="material-symbols-rounded">google_plus_reshare</span>
+      </div>
     </div>
   );
 }
