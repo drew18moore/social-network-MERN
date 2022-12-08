@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import "./auth.css";
 
 export default function Register() {
+  const fullnameRef = useRef(null);
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
@@ -18,6 +19,7 @@ export default function Register() {
     e.preventDefault();
     setError("");
     if (
+      fullnameRef.current !== null &&
       usernameRef.current !== null &&
       passwordRef.current !== null &&
       passwordConfirmRef.current !== null
@@ -26,6 +28,7 @@ export default function Register() {
         return setError("Passwords do not match");
       }
       await axios.post("http://localhost:3000/api/auth/register", {
+        fullname: fullnameRef.current.value,
         username: usernameRef.current.value,
         password: passwordRef.current.value,
         passwordConfirm: passwordConfirmRef.current.value,
@@ -40,7 +43,7 @@ export default function Register() {
         });
     } else {
       console.error(
-        "usernameRef.current, passwordRef.current, or passwordConfirmRef is null"
+        "fullnameRef.current, usernameRef.current, passwordRef.current, or passwordConfirmRef is null"
       );
     }
   }
@@ -52,6 +55,15 @@ export default function Register() {
         <form onSubmit={register} className="auth-form">
           <h2>Create a new account</h2>
           {error ? <p className="error-message">{error}</p> : ""}
+          <input
+            ref={fullnameRef}
+            type="text"
+            name="fullname"
+            id="input-fullname"
+            placeholder="Full Name"
+            required
+          />
+
           <input
             ref={usernameRef}
             type="text"
