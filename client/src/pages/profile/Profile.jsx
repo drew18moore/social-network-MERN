@@ -17,7 +17,7 @@ export default function Profile() {
           <div className='profile-img-username'>
             <img className='profile-picture' src='/default-pfp.jpg' alt='profile picture' />
             <div className="profile-name-username">
-              <h1 className='name'>{currentUser.username}</h1>
+              <h1 className='name'>{currentUser.fullname}</h1>
               <h2 className='username'>@{currentUser.username}</h2>
             </div>
           </div>
