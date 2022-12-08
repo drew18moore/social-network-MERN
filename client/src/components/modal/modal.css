@@ -29,7 +29,7 @@
   border-bottom: none;
 }
 
-.modal-container button {
+.close-modal-btn {
   width: fit-content;
   height: fit-content;
   border-radius: 50%;
@@ -54,4 +54,10 @@
 .modal-container h2 {
   text-align: left;
   font-size: 1.5rem;
+}
+
+.modal-container form {
+  padding-inline: 15px;
+  display: grid;
+  gap: 15px;
 }

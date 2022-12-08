@@ -8,8 +8,8 @@ export default function Modal({ children, setShowModal }) {
       onClick={() => setShowModal((prev) => !prev)}
     >
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        <button onClick={() => setShowModal((prev) => !prev)}>
-          <span class="material-symbols-outlined">close</span>
+        <button className="close-modal-btn" onClick={() => setShowModal((prev) => !prev)}>
+          <span className="material-symbols-outlined">close</span>
         </button>
         {children}
       </div>
