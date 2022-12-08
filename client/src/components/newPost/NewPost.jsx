@@ -17,6 +17,7 @@ export default function NewPost({ addPost }) {
     await axios
       .post("http://localhost:3000/api/posts/new", {
         userId: currentUser._id,
+        fullname: currentUser.fullname,
         username: currentUser.username,
         postBody: userMessage,
       }).then((res) => {

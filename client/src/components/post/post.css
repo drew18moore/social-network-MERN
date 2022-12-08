@@ -13,11 +13,16 @@
 .post-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .post-username {
-  font-weight: bold;
+  color: #757575;
+}
+
+.post-dot {
+  color: #757575;
+  font-size: .5rem;
 }
 
 .post-date {

@@ -16,7 +16,7 @@ router.post("/new", async (req, res) => {
   try {
     const newPost = await post.save();
     const newPostUser = await User.findById(newPost.userId)
-    const response = { ...newPost.toJSON(), username: newPostUser.username }
+    const response = { ...newPost.toJSON(), fullname: newPostUser.fullname, username: newPostUser.username }
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -34,6 +34,7 @@ router.get("/timeline", async (req, res) => {
         const postUser = await User.findById(post.userId)
         return {
           ...post.toJSON(),
+          fullname: postUser.fullname,
           username: postUser.username,
         };
       })
