@@ -1,8 +1,9 @@
 .post {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: px;
   padding: 10px;
+  padding-top: 5px;
   background-color: white;
   border-radius: 6px;
   margin-inline: 25px;
@@ -13,7 +14,25 @@
 .post-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.left-post-header {
+  display: flex;
+  align-items: center;
   gap: 5px;
+}
+
+.meatball-btn {
+  padding: 5px;
+  border-radius: 50%;
+  color: #757575;
+  cursor: pointer;
+}
+
+.meatball-btn:hover {
+  color: #1d9bf0;
+  background-color: #e1eef6;
 }
 
 .post-username {
@@ -27,4 +46,9 @@
 
 .post-date {
   color: #757575;
+}
+
+.post-body {
+  display: flex;
+  flex-wrap: wrap;
 }
