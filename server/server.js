@@ -17,6 +17,7 @@ let corsOptions = {
 app.use(cors(corsOptions))
 const authRouter = require("./routes/auth")
 const postsRouter = require("./routes/posts")
+const usersRouter = require("./routes/users")
 
 require('dotenv').config()
 
@@ -34,6 +35,7 @@ db.once('open', () => {
 app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postsRouter)
+app.use('/api/users', usersRouter)
 
 app.listen(port, () => {
   console.log(`Node server listening on port ${port}`);

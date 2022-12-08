@@ -24,7 +24,7 @@ export default function Profile() {
           <button className='edit-profile-btn' onClick={() => setShowModal(prev => !prev)}>Edit profile</button>
         </div>
       </div>
-      {showModal && <Modal setShowModal={setShowModal}><EditProfile /></Modal>}
+      {showModal && <Modal setShowModal={setShowModal}><EditProfile setShowModal={setShowModal} /></Modal>}
     </>
   )
 }

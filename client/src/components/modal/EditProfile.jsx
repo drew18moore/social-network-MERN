@@ -1,15 +1,51 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
 
-export default function EditProfile() {
+export default function EditProfile({ setShowModal }) {
   const fullnameRef = useRef(null);
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const [error, setError] = useState("");
+
+  const { currentUser, setCurrentUser } = useAuth();
+
+  const handleSubmit = (e) => {
+    console.log(currentUser.password)
+    e.preventDefault();
+    setError("");
+    console.log(fullnameRef.current.value ? fullnameRef.current.value : currentUser.fullname)
+
+    if (passwordRef.current !== null) {
+      if (passwordRef.current.value === currentUser.password) {
+        axios.put(`http://localhost:3000/api/users/${currentUser._id}`, {
+          userId: currentUser._id,
+          fullname: fullnameRef.current.value ? fullnameRef.current.value : currentUser.fullname,
+          username: usernameRef.current.value ? usernameRef.current.value : currentUser.username,
+          password: passwordRef.current.value
+        }).then(res => {
+          console.log(res.data);
+          setCurrentUser(res.data);
+          setShowModal(false);
+        })
+      } else {
+        setError("Password doesn't match current user's password")
+        console.error("Password doesn't match current user's password")
+      }
+    } else {
+      console.error(
+        "passwordRef.current is null"
+      );
+    }
+  }
 
   return (
     <div>
       <h1>Edit Profile</h1>
       <hr />
-      <form>
+      <form onSubmit={handleSubmit}>
+      {error ? <p className="error-message">{error}</p> : ""}
         <input
           ref={fullnameRef}
           type="text"
@@ -32,7 +68,7 @@ export default function EditProfile() {
             placeholder="Password"
             required
           />
-          <button>Submit</button>
+          <button type="submit">Submit</button>
       </form>
     </div>
   );
