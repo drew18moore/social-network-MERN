@@ -1,9 +1,7 @@
 .post {
   display: flex;
   flex-direction: column;
-  gap: px;
-  padding: 10px 15px;
-  padding-top: 5px;
+  padding: 3px 15px 3px 15px;
   background-color: white;
   border-radius: 6px;
   margin-inline: 25px;
@@ -24,7 +22,7 @@
 }
 
 .meatball-btn {
-  padding: 5px;
+  padding: 8px;
   border-radius: 50%;
   color: #757575;
   cursor: pointer;
@@ -61,14 +59,10 @@
 }
 
 .like-comment-share-btns .material-symbols-rounded {
+  font-size: 20px;
   border-radius: 50%;
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 300,
-  'GRAD' 0,
-  'opsz' 20
 }
 
 .like-comment-share-btns .material-symbols-rounded:hover {
@@ -77,7 +71,7 @@
 }
 
 .post hr {
-  margin: 10px 0;
+  margin: 10px 0 3px 0;
   border-top: 1px solid #D8DADF;
   border-bottom: none;
 }
