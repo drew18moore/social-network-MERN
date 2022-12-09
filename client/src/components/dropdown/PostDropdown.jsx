@@ -8,19 +8,19 @@ export default function PostDropdown({ username }) {
     <ul>
       {username === currentUser.username && (
         <li>
-          <span class="material-symbols-outlined">edit</span>
+          <span className="material-symbols-outlined">edit</span>
           <p>Edit</p>
         </li>
       )}
       {username === currentUser.username && (
         <li>
-          <span class="material-symbols-rounded">delete</span>
+          <span className="material-symbols-rounded">delete</span>
           <p>Delete</p>
         </li>
       )}
       {username !== currentUser.username && (
         <li>
-          <span class="material-symbols-rounded">report</span>
+          <span className="material-symbols-rounded">report</span>
           <p>Report</p>
         </li>
       )}

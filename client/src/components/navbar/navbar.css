@@ -36,3 +36,9 @@ nav {
   vertical-align: middle;
   border-radius: 50%;
 }
+
+.account-dropdown-btn {
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}

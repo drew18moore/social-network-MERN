@@ -5,6 +5,7 @@
 }
 
 .dropdown ul {
+  width: max-content;
   overflow: hidden;
   list-style: none;
   background-color: white;
