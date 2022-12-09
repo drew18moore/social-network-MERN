@@ -23,7 +23,15 @@
   cursor: pointer;
 }
 
-.dropdown .material-symbols-outlined {
+.dropdown a {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.dropdown .material-symbols-rounded {
   font-size: 25px;
 }
 
