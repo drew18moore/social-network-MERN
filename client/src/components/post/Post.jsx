@@ -1,13 +1,24 @@
 import React from "react";
+import { useState } from "react";
+import Dropdown from "../dropdown/Dropdown";
+import PostDropdown from "../dropdown/PostDropdown";
 import "./post.css";
 
 export default function Post({ fullname, username, postBody, createdAt }) {
+  const [showDropdown, setShowdropdown] = useState(false);
+
   let date = new Date(createdAt);
   const dateOptions = {
     month: "long",
     day: "numeric",
     year: "numeric",
   };
+
+  const openDropdown = () => {
+    console.log("object");
+    setShowdropdown(prev => !prev)
+  }
+
   return (
     <div className="post">
       <div className="post-content">
@@ -25,9 +36,10 @@ export default function Post({ fullname, username, postBody, createdAt }) {
               </p>
             </div>
             <div className="right-post-header">
-              <div className="meatball-btn">
-                <span className="material-symbols-outlined">more_horiz</span>
+              <div className="meatball-btn" onClick={openDropdown}>
+                <span className="material-symbols-outlined">more_horiz</span>  
               </div>
+              {showDropdown && <Dropdown><PostDropdown/></Dropdown>}
             </div>
           </div>
           <p className="post-body">{postBody}</p>

@@ -36,11 +36,16 @@
   gap: 5px;
 }
 
+.right-post-header {
+  position: relative;
+}
+
 .meatball-btn {
   padding: 8px;
   border-radius: 50%;
   color: #757575;
   cursor: pointer;
+  user-select: none;
 }
 
 .meatball-btn:hover {
@@ -74,6 +79,7 @@
 }
 
 .like-comment-share-btns .material-symbols-rounded {
+  user-select: none;
   font-size: 20px;
   border-radius: 50%;
   padding: 10px;
