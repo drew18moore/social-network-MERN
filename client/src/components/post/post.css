@@ -1,13 +1,38 @@
 .post {
   display: flex;
   flex-direction: column;
-  padding: 3px 15px 3px 15px;
+  padding: 3px 10px 3px 10px;
   background-color: white;
   border-radius: 6px;
   margin-inline: 25px;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
+
+.post-content {
+  /* outline: 1px solid red; */
+  display: flex;
+  gap: 15px;
+}
+
+.post-text {
+  flex: 1;
+}
+
+.post-picture {
+  /* margin-top: 10px; */
+  /* outline: 1px solid red; */
+}
+
+.post-picture img {
+  margin-top: 5px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+/* .post-content {
+  display: flex;
+} */
 
 .post-header {
   display: flex;
