@@ -10,7 +10,6 @@
 }
 
 .post-content {
-  /* outline: 1px solid red; */
   display: flex;
   gap: 15px;
 }
@@ -19,20 +18,11 @@
   flex: 1;
 }
 
-.post-picture {
-  /* margin-top: 10px; */
-  /* outline: 1px solid red; */
-}
-
 .post-picture img {
   margin-top: 5px;
   width: 50px;
   border-radius: 50%;
 }
-
-/* .post-content {
-  display: flex;
-} */
 
 .post-header {
   display: flex;

@@ -26,24 +26,18 @@ export default function Post({ fullname, username, postBody, createdAt }) {
             </div>
             <div className="right-post-header">
               <div className="meatball-btn">
-                <span class="material-symbols-outlined">more_horiz</span>
+                <span className="material-symbols-outlined">more_horiz</span>
               </div>
             </div>
           </div>
           <p className="post-body">{postBody}</p>
-          
-          {/* <div className="like-comment-share-btns">
-          <span class="material-symbols-rounded">thumb_up</span>
-          <span class="material-symbols-rounded">chat_bubble</span>
-          <span class="material-symbols-rounded">google_plus_reshare</span>
-        </div> */}
         </div>
       </div>
       <hr />
       <div className="like-comment-share-btns">
-        <span class="material-symbols-rounded">thumb_up</span>
-        <span class="material-symbols-rounded">chat_bubble</span>
-        <span class="material-symbols-rounded">google_plus_reshare</span>
+        <span className="material-symbols-rounded">thumb_up</span>
+        <span className="material-symbols-rounded">chat_bubble</span>
+        <span className="material-symbols-rounded">google_plus_reshare</span>
       </div>
     </div>
   );
