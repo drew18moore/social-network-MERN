@@ -15,7 +15,6 @@ export default function Post({ fullname, username, postBody, createdAt }) {
   };
 
   const openDropdown = () => {
-    console.log("object");
     setShowdropdown(prev => !prev)
   }
 

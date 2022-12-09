@@ -14,10 +14,16 @@
 }
 
 .dropdown li {
+  display: flex;
+  gap: 15px;
+  align-items: center;
   font-size: 1.25rem;
   padding: 10px 15px;
   cursor: pointer;
-  
+}
+
+.dropdown .material-symbols-outlined {
+  font-size: 25px;
 }
 
 .dropdown li:hover {
