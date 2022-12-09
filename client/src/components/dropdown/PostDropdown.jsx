@@ -1,11 +1,14 @@
 import React from 'react'
+import { useAuth } from "../../contexts/AuthContext";
 
-export default function PostDropdown() {
+export default function PostDropdown({ username }) {
+  const { currentUser } = useAuth();
+  
   return (
     <ul>
-        <li>Edit</li>
-        <li>Delete</li>
-        <li>Report</li>
+        {username === currentUser.username && <li>Edit</li>}
+        {username === currentUser.username && <li>Delete</li>}
+        {username !== currentUser.username && <li>Report</li>}
       </ul>
   )
 }

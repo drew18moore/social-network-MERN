@@ -39,7 +39,7 @@ export default function Post({ fullname, username, postBody, createdAt }) {
               <div className="meatball-btn" onClick={openDropdown}>
                 <span className="material-symbols-outlined">more_horiz</span>  
               </div>
-              {showDropdown && <Dropdown><PostDropdown/></Dropdown>}
+              {showDropdown && <Dropdown><PostDropdown username={username} /></Dropdown>}
             </div>
           </div>
           <p className="post-body">{postBody}</p>
