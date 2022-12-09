@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function AccountDropdown() {
   return (
-    <ul>
+    <ul className="account-dropdown">
       <li>
         <Link to="/profile">
           <span className="material-symbols-rounded">person</span>

@@ -5,7 +5,7 @@ export default function PostDropdown({ username }) {
   const { currentUser } = useAuth();
 
   return (
-    <ul>
+    <ul className="post-dropdown">
       {username === currentUser.username && (
         <li>
           <span className="material-symbols-rounded">edit</span>
