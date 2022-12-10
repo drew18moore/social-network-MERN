@@ -41,8 +41,8 @@ export default function EditProfile({ setShowModal }) {
   }
 
   return (
-    <div>
-      <h1>Edit Profile</h1>
+    <div className="edit-profile">
+      <h1 className="modal-centered">Edit Profile</h1>
       <hr />
       <form onSubmit={handleSubmit}>
       {error ? <p className="error-message">{error}</p> : ""}

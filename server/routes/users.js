@@ -3,10 +3,12 @@ const router = express.Router();
 const User = require("../models/User");
 const multer = require("multer");
 const path = require("path");
+const Image = require("../models/Image")
+const fs = require("fs")
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, '../images')
+    cb(null, 'images')
   },
   filename: (req, file, cb) => {
     console.log(file)
@@ -17,6 +19,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage})
 
 router.post("/upload", upload.single("image"), (req, res) => {
+  console.log("req", req.file)
+  const saveImage = Image({
+    userId: req.body.userId,
+    img: {
+      data: fs.readFileSync("images/" + req.file.filename),
+      contentType: "image/png"
+    }
+  })
+  saveImage.save().then(console.log("Img is saved")).catch((err) => {
+    console.log(err, "error has occured")
+  })
   res.send("Image Uploaded")
 })
 

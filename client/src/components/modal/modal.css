@@ -91,3 +91,14 @@
 .delete-btn {
   background-color: #F4212E;
 }
+
+.edit-profile input {
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #B9B9B9;
+  padding-left: 15px;
+}
+
+.file-input {
+
+}
