@@ -35,6 +35,10 @@ button {
   background-color: #1877F2;
 }
 
+button:hover {
+  filter: brightness(90%);
+}
+
 .form-link {
   text-align: center;
   color: #8e8e8e

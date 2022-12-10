@@ -43,6 +43,10 @@
   top: 8px;
 }
 
+.close-modal-btn:hover {
+  filter: brightness(90%);
+}
+
 .material-symbols-outlined {
   vertical-align: middle;
 }
