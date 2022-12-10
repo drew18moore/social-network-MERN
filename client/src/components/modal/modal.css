@@ -48,7 +48,6 @@
 }
 
 .modal-container h1 {
-  text-align: center;
   font-size: 1.5rem;
 }
 
@@ -61,4 +60,30 @@
   padding-inline: 15px;
   display: grid;
   gap: 15px;
+}
+
+.modal-centered {
+  text-align: center;
+}
+
+.modal-btns {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}
+
+.modal-btns button {
+  width: 200px;
+}
+
+.cancel-btn {
+  background-color: white;
+  color: black;
+  border: 1px solid #B9B9B9;
+}
+
+.delete-btn {
+  background-color: #F4212E;
 }
