@@ -6,7 +6,7 @@ import "./post.css";
 import Modal from "../modal/Modal"
 import DeletePost from "../modal/DeletePost";
 
-export default function Post({ postId, fullname, username, postBody, createdAt }) {
+export default function Post({ postId, fullname, username, postBody, createdAt, deletePostById }) {
   const [showDropdown, setShowdropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
@@ -59,7 +59,7 @@ export default function Post({ postId, fullname, username, postBody, createdAt }
       </div>
       {showDeletePostModal && (
         <Modal setShowModal={setShowDeletePostModal}>
-          <DeletePost postId={postId} setShowModal={setShowDeletePostModal}/>
+          <DeletePost postId={postId} setShowModal={setShowDeletePostModal} deletePostById={deletePostById}/>
         </Modal>
       )}
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function DeletePost({ postId, setShowModal }) {
+export default function DeletePost({ postId, setShowModal, deletePostById }) {
   const { currentUser } = useAuth();
   const deletePost = async (postId) => {
     await axios
@@ -11,6 +11,7 @@ export default function DeletePost({ postId, setShowModal }) {
       })
       .then((res) => {
         console.log(res.data);
+        deletePostById(res.data._id);
       });
   };
   return (
@@ -18,15 +19,18 @@ export default function DeletePost({ postId, setShowModal }) {
       <h1 className="modal-centered">Delete Post?</h1>
       <hr />
       <h4 className="modal-centered">This action can't be undone</h4>
-
-      <form>
-        <div className="modal-btns">
-          <button type="button" onClick={() => setShowModal(prev => !prev)} className="cancel-btn">Cancel</button>
-          <button onClick={() => deletePost(postId)} className="delete-btn">
-            Delete
-          </button>{" "}
-        </div>
-      </form>
+      <div className="modal-btns">
+        <button
+          type="button"
+          onClick={() => setShowModal((prev) => !prev)}
+          className="cancel-btn"
+        >
+          Cancel
+        </button>
+        <button onClick={() => deletePost(postId)} className="delete-btn">
+          Delete
+        </button>{" "}
+      </div>
     </div>
   );
 }

@@ -26,12 +26,20 @@ export default function Timeline() {
     setPosts(updatedPosts)
   }
 
+  const deletePostById = (postId) => {
+    const indexToDelete = posts.findIndex(x => x._id === postId)
+    console.log(indexToDelete)
+    let updatedPosts = [...posts]
+    updatedPosts.splice(indexToDelete, 1)
+    setPosts(updatedPosts)
+  }
+
   return (
     <>
       <NewPost addPost={addPost}/>
       <div className="posts">
         {posts.map(post => {
-          return <Post key={post._id} postId={post._id} fullname={post.fullname} username={post.username} postBody={post.postBody} createdAt={post.createdAt}/>
+          return <Post key={post._id} postId={post._id} fullname={post.fullname} username={post.username} postBody={post.postBody} createdAt={post.createdAt} deletePostById={deletePostById} />
         })}
       </div>
     </>
