@@ -1,7 +1,16 @@
 import React from "react";
+import { useEffect } from "react";
 import "./modal.css";
 
 export default function Modal({ children, setShowModal }) {
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = "visible"
+    }
+  }, [])
+
   return (
     <div
       className="modal-backdrop"

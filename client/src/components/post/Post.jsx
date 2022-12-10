@@ -3,9 +3,12 @@ import { useState } from "react";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
 import "./post.css";
+import Modal from "../modal/Modal"
+import DeletePost from "../modal/DeletePost";
 
 export default function Post({ fullname, username, postBody, createdAt }) {
   const [showDropdown, setShowdropdown] = useState(false);
+  const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
   let date = new Date(createdAt);
   const dateOptions = {
@@ -15,8 +18,8 @@ export default function Post({ fullname, username, postBody, createdAt }) {
   };
 
   const openDropdown = () => {
-    setShowdropdown(prev => !prev)
-  }
+    setShowdropdown((prev) => !prev);
+  };
 
   return (
     <div className="post">
@@ -36,9 +39,13 @@ export default function Post({ fullname, username, postBody, createdAt }) {
             </div>
             <div className="right-post-header">
               <div className="meatball-btn" onClick={openDropdown}>
-                <span className="material-symbols-outlined">more_horiz</span>  
+                <span className="material-symbols-outlined">more_horiz</span>
               </div>
-              {showDropdown && <Dropdown><PostDropdown username={username} /></Dropdown>}
+              {showDropdown && (
+                <Dropdown>
+                  <PostDropdown username={username} setShowDeletePostModal={setShowDeletePostModal}/>
+                </Dropdown>
+              )}
             </div>
           </div>
           <p className="post-body">{postBody}</p>
@@ -50,6 +57,11 @@ export default function Post({ fullname, username, postBody, createdAt }) {
         <span className="material-symbols-rounded">chat_bubble</span>
         <span className="material-symbols-rounded">google_plus_reshare</span>
       </div>
+      {showDeletePostModal && (
+        <Modal setShowModal={setShowDeletePostModal}>
+          <DeletePost />
+        </Modal>
+      )}
     </div>
   );
 }
