@@ -23,6 +23,19 @@ router.post("/new", async (req, res) => {
   }
 });
 
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+    if (post.userId !== req.body.userId) {
+      return res.status(412).json({ message: "You can only delete your own posts" })
+    }
+    await post.deleteOne()
+    res.status(200).json({ message: "Post has been deleted" })
+  } catch (err) {
+    res.status(500).json({ message: err })
+  }
+})
+
 router.get("/timeline", async (req, res) => {
   try {
     const allPosts = await Post.find();
