@@ -15,6 +15,26 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
+.profile-picture-wrapper {
+  position: relative;
+  user-select: none;
+}
+
+.change-profile-picture-btn {
+  user-select: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  background-color: #E4E6EB;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.change-profile-picture-btn .material-symbols-rounded {
+  vertical-align: middle;
+}
+
 .profile-picture {
   width: 140px;
   border-radius: 50%;
