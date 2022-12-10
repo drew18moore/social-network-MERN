@@ -1,15 +1,32 @@
-import React from 'react'
+import React from "react";
+import axios from "axios";
+import { useAuth } from "../../contexts/AuthContext";
 
-export default function DeletePost() {
+export default function DeletePost({ postId, setShowModal }) {
+  const { currentUser } = useAuth();
+  const deletePost = async (postId) => {
+    await axios
+      .delete(`http://localhost:3000/api/posts/delete/${postId}`, {
+        data: { userId: currentUser._id },
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
   return (
     <div>
-      <h1 className='modal-centered'>Delete Post?</h1>
+      <h1 className="modal-centered">Delete Post?</h1>
       <hr />
-      <h4 className='modal-centered'>This action can't be undone</h4>
-      <div className="modal-btns">
-        <button className='cancel-btn'>Cancel</button>
-        <button className='delete-btn'>Delete</button>
-      </div>
+      <h4 className="modal-centered">This action can't be undone</h4>
+
+      <form>
+        <div className="modal-btns">
+          <button type="button" onClick={() => setShowModal(prev => !prev)} className="cancel-btn">Cancel</button>
+          <button onClick={() => deletePost(postId)} className="delete-btn">
+            Delete
+          </button>{" "}
+        </div>
+      </form>
     </div>
-  )
+  );
 }

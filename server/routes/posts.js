@@ -26,6 +26,8 @@ router.post("/new", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
+    console.log(req.body)
+    console.log(post.userId)
     if (post.userId !== req.body.userId) {
       return res.status(412).json({ message: "You can only delete your own posts" })
     }
