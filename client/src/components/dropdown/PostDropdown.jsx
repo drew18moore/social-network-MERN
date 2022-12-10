@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function PostDropdown({ username, setShowDeletePostModal }) {
+export default function PostDropdown({ username, setShowdropdown, setShowDeletePostModal }) {
   const { currentUser } = useAuth();
 
   return (
@@ -13,7 +13,12 @@ export default function PostDropdown({ username, setShowDeletePostModal }) {
         </li>
       )}
       {username === currentUser.username && (
-        <li onClick={() => setShowDeletePostModal(prev => !prev)}>
+        <li
+          onClick={() => {
+            setShowdropdown(false);
+            setShowDeletePostModal((prev) => !prev);
+          }}
+        >
           <span className="material-symbols-rounded">delete</span>
           <p>Delete</p>
         </li>

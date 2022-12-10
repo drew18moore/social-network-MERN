@@ -42,8 +42,8 @@ export default function Post({ fullname, username, postBody, createdAt }) {
                 <span className="material-symbols-outlined">more_horiz</span>
               </div>
               {showDropdown && (
-                <Dropdown>
-                  <PostDropdown username={username} setShowDeletePostModal={setShowDeletePostModal}/>
+                <Dropdown setShowdropdown={setShowdropdown}>
+                  <PostDropdown username={username} setShowdropdown={setShowdropdown} setShowDeletePostModal={setShowDeletePostModal}/>
                 </Dropdown>
               )}
             </div>
