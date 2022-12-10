@@ -5,10 +5,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
+import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 
 export default function Profile() {
   const { currentUser } = useAuth();
-  const [showModal, setShowModal] = useState(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showChangeProfilePictureModal, setShowChangeProfilePictureModal] = useState(false);
   return (
     <>
       <Navbar />
@@ -21,7 +23,7 @@ export default function Profile() {
                 src="/default-pfp.jpg"
                 alt="profile picture"
               />
-              <div className="change-profile-picture-btn">
+              <div className="change-profile-picture-btn" onClick={() => setShowChangeProfilePictureModal((prev) => !prev)}>
                 <span className="material-symbols-rounded">photo_camera</span>
               </div>
             </div>
@@ -32,17 +34,18 @@ export default function Profile() {
           </div>
           <button
             className="edit-profile-btn"
-            onClick={() => setShowModal((prev) => !prev)}
+            onClick={() => setShowEditProfileModal((prev) => !prev)}
           >
             Edit profile
           </button>
         </div>
       </div>
-      {showModal && (
-        <Modal setShowModal={setShowModal}>
-          <EditProfile setShowModal={setShowModal} />
+      {showEditProfileModal && (
+        <Modal setShowModal={setShowEditProfileModal}>
+          <EditProfile setShowModal={setShowEditProfileModal} />
         </Modal>
       )}
+      {showChangeProfilePictureModal && <Modal setShowModal={setShowChangeProfilePictureModal}><ChangeProfilePicture /></Modal>}
     </>
   );
 }
