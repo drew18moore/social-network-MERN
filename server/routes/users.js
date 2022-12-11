@@ -18,19 +18,40 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage})
 
-router.post("/upload", upload.single("image"), (req, res) => {
-  console.log("req", req.file)
-  const saveImage = Image({
-    userId: req.body.userId,
+// router.post("/upload", upload.single("image"), async (req, res) => {
+//   console.log("req", req.file)
+//   const saveImage = Image({
+//     userId: req.body.userId,
+//     img: {
+//       data: fs.readFileSync("images/" + req.file.filename),
+//       contentType: "image/png"
+//     }
+//   })
+//   const img = await saveImage.save().then(console.log("Img is saved")).catch((err) => {
+//     console.log(err, "error has occured")
+//   })
+//   res.status(200).json(img)
+// })
+
+router.put("/change-img/:id", upload.single("image"), async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    return res.status(403).json({ message: "You can only change your own profile picture" })
+  }
+
+  const updates = {
     img: {
       data: fs.readFileSync("images/" + req.file.filename),
       contentType: "image/png"
     }
+  }
+
+  User.findByIdAndUpdate(req.body.userId, updates, { new: true }, (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: err });
+    } else {
+      return res.status(200).json(result)
+    }
   })
-  saveImage.save().then(console.log("Img is saved")).catch((err) => {
-    console.log(err, "error has occured")
-  })
-  res.send("Image Uploaded")
 })
 
 router.put("/:id", async (req, res) => {

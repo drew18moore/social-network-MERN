@@ -22,12 +22,13 @@ export default function ChangeProfilePicture() {
     formdata.append("userId", currentUser._id);
 
     axios
-      .post(
-        "http://localhost:3000/api/users/upload", formdata,
+      .put(
+        `http://localhost:3000/api/users/change-img/${currentUser._id}`,
+        formdata,
         { headers: { "content-type": "multipart/form-data" } }
       )
       .then((res) => {
-        console.log(res);
+        console.log(res.data.img);
       })
       .catch((err) => {
         console.log(err);
