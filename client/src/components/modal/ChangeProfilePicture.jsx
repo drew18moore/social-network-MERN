@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function ChangeProfilePicture() {
+export default function ChangeProfilePicture({ setShowModal }) {
   const [file, setFile] = useState(null);
   const { currentUser } = useAuth();
 
@@ -28,6 +28,7 @@ export default function ChangeProfilePicture() {
         { headers: { "content-type": "multipart/form-data" } }
       )
       .then((res) => {
+        setShowModal(false);
         console.log(res.data.img);
       })
       .catch((err) => {

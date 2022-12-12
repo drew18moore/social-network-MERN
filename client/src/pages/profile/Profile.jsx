@@ -47,7 +47,7 @@ export default function Profile() {
           <EditProfile setShowModal={setShowEditProfileModal} />
         </Modal>
       )}
-      {showChangeProfilePictureModal && <Modal setShowModal={setShowChangeProfilePictureModal}><ChangeProfilePicture /></Modal>}
+      {showChangeProfilePictureModal && <Modal setShowModal={setShowChangeProfilePictureModal}><ChangeProfilePicture setShowModal={setShowChangeProfilePictureModal} /></Modal>}
     </>
   );
 }
