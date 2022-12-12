@@ -28,7 +28,13 @@ router.post("/login", async (req, res) => {
 
     !user && res.status(404).json({ message: "user not found" })
 
-    res.status(200).json(user)
+    const buffer = Buffer.from(user.img.data)
+    const b64String = buffer.toString("base64")
+    let newUser = {
+      ...user.toJSON(),
+      img: `data:image/png;base64,${b64String}`
+    }
+    res.status(200).json(newUser)
   } catch (err) {
     console.log(err);
   }

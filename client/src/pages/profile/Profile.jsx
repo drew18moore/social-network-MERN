@@ -6,6 +6,7 @@ import { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
 import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { currentUser } = useAuth();
@@ -20,7 +21,8 @@ export default function Profile() {
             <div className="profile-picture-wrapper">
               <img
                 className="profile-picture"
-                src="/default-pfp.jpg"
+                // src="/default-pfp.jpg"
+                src={currentUser.img || "default-pfp.jpg"}
                 alt="profile picture"
               />
               <div className="change-profile-picture-btn" onClick={() => setShowChangeProfilePictureModal((prev) => !prev)}>

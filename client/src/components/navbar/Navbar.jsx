@@ -3,9 +3,11 @@ import "./navbar.css"
 import { Link } from 'react-router-dom'
 import Dropdown from '../dropdown/Dropdown'
 import AccountDropdown from '../dropdown/AccountDropdown'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function Navbar() {
-  const [showDropdown, setShowDropdown] = useState(false) 
+  const [showDropdown, setShowDropdown] = useState(false)
+  const { currentUser } = useAuth()
 
   const openDropdown = () => {
     setShowDropdown(prev => !prev);
@@ -17,7 +19,7 @@ export default function Navbar() {
         <ul className='nav-links'>
           <li><Link to="/">Home</Link></li>
           <li className='account-dropdown-btn' onClick={openDropdown}>
-            <img src='/default-pfp.jpg'/>
+            <img src={currentUser.img || "default-pfp.jpg"}/>
             {showDropdown && <Dropdown><AccountDropdown /></Dropdown>}
           </li>
         </ul>
