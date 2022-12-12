@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function AccountDropdown() {
+export default function AccountDropdown({ setShowDropdown }) {
   return (
     <ul className="account-dropdown">
-      <li>
+      <li onClick={() => setShowDropdown((prev) => !prev)}>
         <Link to="/profile">
           <span className="material-symbols-rounded">person</span>
           <p>Profile</p>

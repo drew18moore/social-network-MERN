@@ -42,5 +42,8 @@ nav {
 .account-dropdown-btn {
   border-radius: 50%;
   cursor: pointer;
+}
+
+.account-dropdown-li {
   position: relative;
 }

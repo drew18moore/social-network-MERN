@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function PostDropdown({ username, setShowdropdown, setShowDeletePostModal }) {
+export default function PostDropdown({ username, setShowDropdown, setShowDeletePostModal }) {
   const { currentUser } = useAuth();
 
   return (
@@ -15,7 +15,7 @@ export default function PostDropdown({ username, setShowdropdown, setShowDeleteP
       {username === currentUser.username && (
         <li
           onClick={() => {
-            setShowdropdown(false);
+            setShowDropdown(false);
             setShowDeletePostModal((prev) => !prev);
           }}
         >

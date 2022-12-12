@@ -7,7 +7,7 @@ import Modal from "../modal/Modal"
 import DeletePost from "../modal/DeletePost";
 
 export default function Post({ postId, fullname, username, postBody, createdAt, deletePostById }) {
-  const [showDropdown, setShowdropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
   let date = new Date(createdAt);
@@ -18,7 +18,7 @@ export default function Post({ postId, fullname, username, postBody, createdAt, 
   };
 
   const openDropdown = () => {
-    setShowdropdown((prev) => !prev);
+    setShowDropdown((prev) => !prev);
   };
 
   return (
@@ -42,8 +42,8 @@ export default function Post({ postId, fullname, username, postBody, createdAt, 
                 <span className="material-symbols-outlined">more_horiz</span>
               </div>
               {showDropdown && (
-                <Dropdown setShowdropdown={setShowdropdown}>
-                  <PostDropdown username={username} setShowdropdown={setShowdropdown} setShowDeletePostModal={setShowDeletePostModal}/>
+                <Dropdown setShowDropdown={setShowDropdown}>
+                  <PostDropdown username={username} setShowDropdown={setShowDropdown} setShowDeletePostModal={setShowDeletePostModal}/>
                 </Dropdown>
               )}
             </div>
