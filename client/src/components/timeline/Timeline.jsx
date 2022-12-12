@@ -39,7 +39,7 @@ export default function Timeline() {
       <NewPost addPost={addPost}/>
       <div className="posts">
         {posts.map(post => {
-          return <Post key={post._id} postId={post._id} fullname={post.fullname} username={post.username} postBody={post.postBody} createdAt={post.createdAt} deletePostById={deletePostById} />
+          return <Post key={post._id} postId={post._id} fullname={post.fullname} username={post.username} postBody={post.postBody} createdAt={post.createdAt} profilePicture={post.profilePicture} deletePostById={deletePostById} />
         })}
       </div>
     </>

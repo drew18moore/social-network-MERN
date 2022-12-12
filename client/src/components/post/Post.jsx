@@ -6,7 +6,7 @@ import "./post.css";
 import Modal from "../modal/Modal"
 import DeletePost from "../modal/DeletePost";
 
-export default function Post({ postId, fullname, username, postBody, createdAt, deletePostById }) {
+export default function Post({ postId, fullname, username, postBody, createdAt, profilePicture, deletePostById }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
@@ -25,7 +25,7 @@ export default function Post({ postId, fullname, username, postBody, createdAt, 
     <div className="post">
       <div className="post-content">
         <div className="post-picture">
-          <img src="/default-pfp.jpg" alt="" />
+          <img src={profilePicture} alt="" />
         </div>
         <div className="post-text">
           <div className="post-header">

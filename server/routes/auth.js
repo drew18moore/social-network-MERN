@@ -28,11 +28,18 @@ router.post("/login", async (req, res) => {
 
     !user && res.status(404).json({ message: "user not found" })
 
-    const buffer = Buffer.from(user.img.data)
-    const b64String = buffer.toString("base64")
+    let profilePicture
+    if (user.img.data) {
+      const buffer = Buffer.from(user.img.data)
+      const b64String = buffer.toString("base64")
+      profilePicture = `data:image/png;base64,${b64String}`
+    } else {
+      profilePicture = "/default-pfp.jpg"
+    }
+   
     let newUser = {
       ...user.toJSON(),
-      img: `data:image/png;base64,${b64String}`
+      img: profilePicture
     }
     res.status(200).json(newUser)
   } catch (err) {

@@ -47,10 +47,21 @@ router.get("/timeline", async (req, res) => {
     const posts = await Promise.all(
       allPosts.map(async (post) => {
         const postUser = await User.findById(post.userId)
+
+        let profilePicture
+        if (postUser.img.data) {
+          const buffer = Buffer.from(postUser.img.data)
+          const b64String = buffer.toString("base64")
+          profilePicture = `data:image/png;base64,${b64String}`
+        } else {
+          profilePicture = "/default-pfp.jpg"
+        }
+        
         return {
           ...post.toJSON(),
           fullname: postUser.fullname,
           username: postUser.username,
+          profilePicture: profilePicture
         };
       })
     );
