@@ -29,7 +29,7 @@ export default function ChangeProfilePicture({ setShowModal }) {
       )
       .then((res) => {
         setShowModal(false);
-        console.log(res.data.img);
+        currentUser.img = res.data
       })
       .catch((err) => {
         console.log(err);
