@@ -5,9 +5,15 @@ import Register from './pages/auth/Register'
 import PrivateRoutes from './components/PrivateRoutes'
 import Home from './pages/home/Home'
 import Profile from "./pages/profile/Profile"
+import { useEffect } from 'react'
+import axios from 'axios'
+import { useAuth } from './contexts/AuthContext'
 
 export default function App() {
-
+  const { setCurrentUser } = useAuth()
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/users/main").then((res) => setCurrentUser(res.data))
+  }, [])
   return (
     <div className="App">
       <Routes>
