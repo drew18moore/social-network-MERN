@@ -15,7 +15,7 @@ export default function NewPost({ addPost }) {
     e.target[0].style.height = "50px"
     setError("");
     await axios
-      .post("http://localhost:3000/api/posts/new", {
+      .post("http://192.168.1.2:3000/api/posts/new", {
         userId: currentUser._id,
         fullname: currentUser.fullname,
         username: currentUser.username,

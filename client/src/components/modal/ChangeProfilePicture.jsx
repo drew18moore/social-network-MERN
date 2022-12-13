@@ -23,7 +23,7 @@ export default function ChangeProfilePicture({ setShowModal }) {
 
     axios
       .put(
-        `http://localhost:3000/api/users/change-img/${currentUser._id}`,
+        `http://192.168.1.2:3000/api/users/change-img/${currentUser._id}`,
         formdata,
         { headers: { "content-type": "multipart/form-data" } }
       )

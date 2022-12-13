@@ -19,7 +19,7 @@ export default function EditProfile({ setShowModal }) {
 
     if (passwordRef.current !== null) {
       if (passwordRef.current.value === currentUser.password) {
-        axios.put(`http://localhost:3000/api/users/${currentUser._id}`, {
+        axios.put(`http://192.168.1.2:3000/api/users/${currentUser._id}`, {
           userId: currentUser._id,
           fullname: fullnameRef.current.value ? fullnameRef.current.value : currentUser.fullname,
           username: usernameRef.current.value ? usernameRef.current.value : currentUser.username,

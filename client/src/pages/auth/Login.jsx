@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setError("");
     if (usernameRef.current !== null && passwordRef.current !== null) {
-      await axios.post("http://localhost:3000/api/auth/login", {
+      await axios.post("http://192.168.1.2:3000/api/auth/login", {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       })

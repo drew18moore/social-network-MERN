@@ -11,7 +11,7 @@ export default function Timeline() {
 
   const fetchPosts = async () => {
     await axios
-      .get("http://localhost:3000/api/posts/timeline")
+      .get("http://192.168.1.2:3000/api/posts/timeline")
       .then((res) => {
         setPosts(res.data);
       })

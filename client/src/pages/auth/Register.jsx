@@ -27,7 +27,7 @@ export default function Register() {
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
         return setError("Passwords do not match");
       }
-      await axios.post("http://localhost:3000/api/auth/register", {
+      await axios.post("http://192.168.1.2:3000/api/auth/register", {
         fullname: fullnameRef.current.value,
         username: usernameRef.current.value,
         password: passwordRef.current.value,

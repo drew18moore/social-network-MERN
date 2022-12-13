@@ -6,7 +6,7 @@ export default function DeletePost({ postId, setShowModal, deletePostById }) {
   const { currentUser } = useAuth();
   const deletePost = async (postId) => {
     await axios
-      .delete(`http://localhost:3000/api/posts/delete/${postId}`, {
+      .delete(`http://192.168.1.2:3000/api/posts/delete/${postId}`, {
         data: { userId: currentUser._id },
       })
       .then((res) => {
