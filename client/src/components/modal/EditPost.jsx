@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function EditPost({ postId, username, postBody, setShowModal }) {
+export default function EditPost({ postId, username, postBody, setShowModal, editPost }) {
   const { currentUser } = useAuth()
   const [userMessage, setUserMessage] = useState("");
 
@@ -25,6 +25,8 @@ export default function EditPost({ postId, username, postBody, setShowModal }) {
       postBody: userMessage
     }).then((res) => {
       console.log(res.data)
+      setShowModal(false);
+      editPost(res.data)
     })
   }
 

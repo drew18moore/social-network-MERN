@@ -34,12 +34,19 @@ export default function Timeline() {
     setPosts(updatedPosts)
   }
 
+  const editPost = (post) => {
+    const indexToUpdate = posts.findIndex(x => x._id === post._id)
+    let updatedPosts = [...posts]
+    updatedPosts[indexToUpdate].postBody = post.postBody
+    setPosts(updatedPosts)
+  }
+
   return (
     <>
       <NewPost addPost={addPost}/>
       <div className="posts">
         {posts.map(post => {
-          return <Post key={post._id} postId={post._id} fullname={post.fullname} username={post.username} postBody={post.postBody} createdAt={post.createdAt} profilePicture={post.profilePicture} deletePostById={deletePostById} />
+          return <Post key={post._id} postId={post._id} fullname={post.fullname} username={post.username} postBody={post.postBody} createdAt={post.createdAt} profilePicture={post.profilePicture} deletePostById={deletePostById} editPost={editPost}/>
         })}
       </div>
     </>

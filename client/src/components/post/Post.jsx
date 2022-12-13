@@ -15,6 +15,7 @@ export default function Post({
   createdAt,
   profilePicture,
   deletePostById,
+  editPost,
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
@@ -83,7 +84,13 @@ export default function Post({
       )}
       {showEditPostModal && (
         <Modal setShowModal={setShowEditPostModal}>
-          <EditPost postId={postId} username={username} postBody={postBody} setShowModal={setShowDeletePostModal} />
+          <EditPost
+            postId={postId}
+            username={username}
+            postBody={postBody}
+            setShowModal={setShowEditPostModal}
+            editPost={editPost}
+          />
         </Modal>
       )}
     </div>
