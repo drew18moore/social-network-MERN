@@ -15,28 +15,63 @@ router.post("/new", async (req, res) => {
 
   try {
     const newPost = await post.save();
-    const newPostUser = await User.findById(newPost.userId)
-    const response = { ...newPost.toJSON(), fullname: newPostUser.fullname, username: newPostUser.username }
+    const newPostUser = await User.findById(newPost.userId);
+    const response = {
+      ...newPost.toJSON(),
+      fullname: newPostUser.fullname,
+      username: newPostUser.username,
+    };
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err });
   }
 });
 
+router.put("/edit/:id", async (req, res) => {
+  if (req.body.postId !== req.params.id) {
+    return res
+      .status(403)
+      .json({ message: "You can only edit your own posts" });
+  }
+
+  if (req.body.postBody === "") {
+    return res.status(412).json({ message: "You must type a message." });
+  }
+
+  const updates = {
+    postBody: req.body.postBody,
+  };
+
+  Post.findOneAndUpdate(
+    req.body.postId,
+    updates,
+    { new: true },
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: err });
+      } else {
+        return res.status(200).json(result)
+      }
+    }
+  );
+});
+
 router.delete("/delete/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id)
-    console.log(req.body)
-    console.log(post.userId)
+    const post = await Post.findById(req.params.id);
+    console.log(req.body);
+    console.log(post.userId);
     if (post.userId !== req.body.userId) {
-      return res.status(412).json({ message: "You can only delete your own posts" })
+      return res
+        .status(412)
+        .json({ message: "You can only delete your own posts" });
     }
-    const response = await post.deleteOne()
-    res.status(200).json(response)
+    const response = await post.deleteOne();
+    res.status(200).json(response);
   } catch (err) {
-    res.status(500).json({ message: err })
+    res.status(500).json({ message: err });
   }
-})
+});
 
 router.get("/timeline", async (req, res) => {
   try {
@@ -46,22 +81,22 @@ router.get("/timeline", async (req, res) => {
     });
     const posts = await Promise.all(
       allPosts.map(async (post) => {
-        const postUser = await User.findById(post.userId)
+        const postUser = await User.findById(post.userId);
 
-        let profilePicture
+        let profilePicture;
         if (postUser.img.data) {
-          const buffer = Buffer.from(postUser.img.data)
-          const b64String = buffer.toString("base64")
-          profilePicture = `data:image/png;base64,${b64String}`
+          const buffer = Buffer.from(postUser.img.data);
+          const b64String = buffer.toString("base64");
+          profilePicture = `data:image/png;base64,${b64String}`;
         } else {
-          profilePicture = "/default-pfp.jpg"
+          profilePicture = "/default-pfp.jpg";
         }
-        
+
         return {
           ...post.toJSON(),
           fullname: postUser.fullname,
           username: postUser.username,
-          profilePicture: profilePicture
+          profilePicture: profilePicture,
         };
       })
     );

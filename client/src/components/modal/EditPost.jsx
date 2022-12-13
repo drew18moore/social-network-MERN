@@ -15,11 +15,16 @@ export default function EditPost({ postId, username, postBody, setShowModal }) {
     setUserMessage(postBody);
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log("Editing");
+  }
+
   return (
     <div>
       <h1 className="modal-centered">Edit Post</h1>
       <hr />
-      <form>
+      <form onSubmit={handleSubmit}>
         <textarea
           name="post body input"
           id="post-body-input"
