@@ -83,7 +83,7 @@ export default function Post({
       )}
       {showEditPostModal && (
         <Modal setShowModal={setShowEditPostModal}>
-          <EditPost postId={postId} setShowModal={setShowDeletePostModal} />
+          <EditPost postId={postId} username={username} postBody={postBody} setShowModal={setShowDeletePostModal} />
         </Modal>
       )}
     </div>
