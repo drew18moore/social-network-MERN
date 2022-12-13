@@ -3,12 +3,22 @@ import { useState } from "react";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
 import "./post.css";
-import Modal from "../modal/Modal"
+import Modal from "../modal/Modal";
 import DeletePost from "../modal/DeletePost";
+import EditPost from "../modal/EditPost";
 
-export default function Post({ postId, fullname, username, postBody, createdAt, profilePicture, deletePostById }) {
+export default function Post({
+  postId,
+  fullname,
+  username,
+  postBody,
+  createdAt,
+  profilePicture,
+  deletePostById,
+}) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+  const [showEditPostModal, setShowEditPostModal] = useState(false);
 
   let date = new Date(createdAt);
   const dateOptions = {
@@ -43,7 +53,12 @@ export default function Post({ postId, fullname, username, postBody, createdAt, 
               </div>
               {showDropdown && (
                 <Dropdown setShowDropdown={setShowDropdown}>
-                  <PostDropdown username={username} setShowDropdown={setShowDropdown} setShowDeletePostModal={setShowDeletePostModal}/>
+                  <PostDropdown
+                    username={username}
+                    setShowDropdown={setShowDropdown}
+                    setShowDeletePostModal={setShowDeletePostModal}
+                    setShowEditPostModal={setShowEditPostModal}
+                  />
                 </Dropdown>
               )}
             </div>
@@ -59,7 +74,16 @@ export default function Post({ postId, fullname, username, postBody, createdAt, 
       </div>
       {showDeletePostModal && (
         <Modal setShowModal={setShowDeletePostModal}>
-          <DeletePost postId={postId} setShowModal={setShowDeletePostModal} deletePostById={deletePostById}/>
+          <DeletePost
+            postId={postId}
+            setShowModal={setShowDeletePostModal}
+            deletePostById={deletePostById}
+          />
+        </Modal>
+      )}
+      {showEditPostModal && (
+        <Modal setShowModal={setShowEditPostModal}>
+          <EditPost postId={postId} setShowModal={setShowDeletePostModal} />
         </Modal>
       )}
     </div>

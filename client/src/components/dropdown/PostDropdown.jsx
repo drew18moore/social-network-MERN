@@ -1,13 +1,16 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function PostDropdown({ username, setShowDropdown, setShowDeletePostModal }) {
+export default function PostDropdown({ username, setShowDropdown, setShowDeletePostModal, setShowEditPostModal }) {
   const { currentUser } = useAuth();
 
   return (
     <ul className="post-dropdown">
       {username === currentUser.username && (
-        <li>
+        <li onClick={() => {
+          setShowDropdown(false);
+          setShowEditPostModal(true);
+        }}>
           <span className="material-symbols-rounded">edit</span>
           <p>Edit</p>
         </li>
