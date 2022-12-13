@@ -28,32 +28,31 @@ router.post("/new", async (req, res) => {
 });
 
 router.put("/edit/:id", async (req, res) => {
-  if (req.body.postId !== req.params.id) {
-    return res
-      .status(403)
-      .json({ message: "You can only edit your own posts" });
-  }
-
-  if (req.body.postBody === "") {
-    return res.status(412).json({ message: "You must type a message." });
-  }
-
-  const updates = {
-    postBody: req.body.postBody,
-  };
-
-  Post.findOneAndUpdate(
-    req.body.postId,
-    updates,
-    { new: true },
-    (err, result) => {
-      if (err) {
-        return res.status(500).json({ message: err });
-      } else {
-        return res.status(200).json(result)
-      }
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post.userId !== req.body.userId) {
+      return res.status(403).json("You can only update your own posts");
     }
-  );
+
+    const updates = {
+      postBody: req.body.postBody,
+    };
+
+    Post.findByIdAndUpdate(
+      req.params.id,
+      updates,
+      { new: true },
+      (err, result) => {
+        if (err) {
+          return res.status(500).json({ message: err });
+        } else {
+          return res.status(200).json(result);
+        }
+      }
+    );
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.delete("/delete/:id", async (req, res) => {

@@ -1,8 +1,11 @@
+import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function EditPost({ postId, username, postBody, setShowModal }) {
+  const { currentUser } = useAuth()
   const [userMessage, setUserMessage] = useState("");
 
   const handleChange = (e) => {
@@ -17,7 +20,12 @@ export default function EditPost({ postId, username, postBody, setShowModal }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("Editing");
+    axios.put(`http://192.168.1.2:3000/api/posts/edit/${postId}`, {
+      userId: currentUser._id,
+      postBody: userMessage
+    }).then((res) => {
+      console.log(res.data)
+    })
   }
 
   return (
