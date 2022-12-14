@@ -3,6 +3,7 @@ import "./newPost.css";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function NewPost({ addPost }) {
   const { currentUser } = useAuth();
@@ -41,9 +42,9 @@ export default function NewPost({ addPost }) {
       <form onSubmit={handleSubmit} className="new-post-form">
         {error ? <p className="error-message">{error}</p> : ""}
         <div className="input-area">
-          <div className="input-pfp">
+          <Link className="input-pfp" to={"/profile"}>
             <img src={currentUser.img} alt="" />
-          </div>
+          </Link>
           <textarea
             name="post body input"
             id="post-body-input"

@@ -26,6 +26,11 @@
   height: 50px;
   border-radius: 50%;
   vertical-align: middle;
+  cursor: pointer;
+}
+
+.input-area img:hover {
+  filter: brightness(90%);
 }
 
 #post-body-input {

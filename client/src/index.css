@@ -8,3 +8,7 @@
 html {
   background-color: #F0F2F5;
 }
+
+img {
+  user-select: none;
+}

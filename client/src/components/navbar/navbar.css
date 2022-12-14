@@ -39,6 +39,10 @@ nav {
   border-radius: 50%;
 }
 
+.nav-links img:hover {
+  filter: brightness(90%);
+}
+
 .account-dropdown-btn {
   border-radius: 50%;
   cursor: pointer;
