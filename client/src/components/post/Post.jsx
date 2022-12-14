@@ -8,6 +8,7 @@ import DeletePost from "../modal/DeletePost";
 import EditPost from "../modal/EditPost";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
+import { useEffect } from "react";
 
 export default function Post({
   postId,
@@ -18,13 +19,18 @@ export default function Post({
   profilePicture,
   deletePostById,
   editPost,
-  isLiked
+  isLiked,
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
+  const [liked, setLiked] = useState();
 
-  const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    setLiked(isLiked);
+  }, []);
 
   let date = new Date(createdAt);
   const dateOptions = {
@@ -38,12 +44,15 @@ export default function Post({
   };
 
   const likePost = () => {
-    axios.put(`http://192.168.1.2:3000/api/posts/like/${postId}`, {
-      userId: currentUser._id
-    }).then((res) => {
-      console.log(res.data);
-    })
-  }
+    axios
+      .put(`http://192.168.1.2:3000/api/posts/like/${postId}`, {
+        userId: currentUser._id,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setLiked(prev => !prev)
+      });
+  };
 
   return (
     <div className="post">
@@ -82,7 +91,10 @@ export default function Post({
       </div>
       <hr />
       <div className="like-comment-share-btns">
-        <div className={`like-btn ${isLiked ? "liked" : ""}`} onClick={likePost}>
+        <div
+          className={`like-btn ${liked ? "liked" : ""}`}
+          onClick={likePost}
+        >
           <span className="material-symbols-rounded">thumb_up</span>
         </div>
         <div className="comment-btn">
