@@ -12,7 +12,7 @@ export default function NewPost({ addPost }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    e.target[0].style.height = "50px"
+    e.target[0].style.height = "50px";
     setError("");
     await axios
       .post("http://192.168.1.2:3000/api/posts/new", {
@@ -20,13 +20,14 @@ export default function NewPost({ addPost }) {
         fullname: currentUser.fullname,
         username: currentUser.username,
         postBody: userMessage,
-      }).then((res) => {
+      })
+      .then((res) => {
         addPost(res.data);
       })
       .catch((err) => {
         setError(err.response.data.message);
       });
-    setUserMessage("")
+    setUserMessage("");
   };
 
   const handleChange = (e) => {
@@ -39,14 +40,23 @@ export default function NewPost({ addPost }) {
     <div className="container">
       <form onSubmit={handleSubmit} className="new-post-form">
         {error ? <p className="error-message">{error}</p> : ""}
-        <textarea
-          name="post body input"
-          id="post-body-input"
-          value={userMessage}
-          placeholder={`What's on your mind, ${currentUser.username}?`}
-          onChange={handleChange}
-        />
-        <button disabled={userMessage === "" ? true : false} type="submit" id="post-btn">
+        <div className="input-area">
+          <div className="input-pfp">
+            <img src={currentUser.img} alt="" />
+          </div>
+          <textarea
+            name="post body input"
+            id="post-body-input"
+            value={userMessage}
+            placeholder={`What's on your mind, ${currentUser.username}?`}
+            onChange={handleChange}
+          />
+        </div>
+        <button
+          disabled={userMessage === "" ? true : false}
+          type="submit"
+          id="post-btn"
+        >
           Post
         </button>
       </form>
