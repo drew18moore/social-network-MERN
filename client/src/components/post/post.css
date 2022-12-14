@@ -101,3 +101,9 @@
 .like-btn, .comment-btn, .share-btn {
   border-radius: 50%;
 }
+
+.liked .material-symbols-rounded {
+  color: #1d9bf0;
+  font-variation-settings:
+  'FILL' 1
+}

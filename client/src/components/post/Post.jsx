@@ -18,6 +18,7 @@ export default function Post({
   profilePicture,
   deletePostById,
   editPost,
+  isLiked
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
@@ -81,7 +82,7 @@ export default function Post({
       </div>
       <hr />
       <div className="like-comment-share-btns">
-        <div className="like-btn" onClick={likePost}>
+        <div className={`like-btn ${isLiked ? "liked" : ""}`} onClick={likePost}>
           <span className="material-symbols-rounded">thumb_up</span>
         </div>
         <div className="comment-btn">
