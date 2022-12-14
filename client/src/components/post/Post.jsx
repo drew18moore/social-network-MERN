@@ -6,6 +6,8 @@ import "./post.css";
 import Modal from "../modal/Modal";
 import DeletePost from "../modal/DeletePost";
 import EditPost from "../modal/EditPost";
+import axios from "axios";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Post({
   postId,
@@ -21,6 +23,8 @@ export default function Post({
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
 
+  const { currentUser } = useAuth()
+
   let date = new Date(createdAt);
   const dateOptions = {
     month: "long",
@@ -31,6 +35,14 @@ export default function Post({
   const openDropdown = () => {
     setShowDropdown((prev) => !prev);
   };
+
+  const likePost = () => {
+    axios.put(`http://192.168.1.2:3000/api/posts/like/${postId}`, {
+      userId: currentUser._id
+    }).then((res) => {
+      console.log(res.data);
+    })
+  }
 
   return (
     <div className="post">
@@ -69,9 +81,15 @@ export default function Post({
       </div>
       <hr />
       <div className="like-comment-share-btns">
-        <span className="material-symbols-rounded">thumb_up</span>
-        <span className="material-symbols-rounded">chat_bubble</span>
-        <span className="material-symbols-rounded">google_plus_reshare</span>
+        <div className="like-btn" onClick={likePost}>
+          <span className="material-symbols-rounded">thumb_up</span>
+        </div>
+        <div className="comment-btn">
+          <span className="material-symbols-rounded">chat_bubble</span>
+        </div>
+        <div className="share-btn">
+          <span className="material-symbols-rounded">google_plus_reshare</span>
+        </div>
       </div>
       {showDeletePostModal && (
         <Modal setShowModal={setShowDeletePostModal}>
