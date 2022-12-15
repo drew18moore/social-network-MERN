@@ -42,7 +42,7 @@ export default function NewPost({ addPost }) {
       <form onSubmit={handleSubmit} className="new-post-form">
         {error ? <p className="error-message">{error}</p> : ""}
         <div className="input-area">
-          <Link className="input-pfp" to={"/profile"}>
+          <Link className="input-pfp" to={`/${currentUser.username}`}>
             <img src={currentUser.img} alt="" />
           </Link>
           <textarea

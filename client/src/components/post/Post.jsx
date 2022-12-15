@@ -9,6 +9,7 @@ import EditPost from "../modal/EditPost";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Post({
   postId,
@@ -50,7 +51,7 @@ export default function Post({
       })
       .then((res) => {
         console.log(res.data);
-        setLiked(prev => !prev)
+        setLiked((prev) => !prev);
       });
   };
 
@@ -58,7 +59,9 @@ export default function Post({
     <div className="post">
       <div className="post-content">
         <div className="post-picture">
-          <img src={profilePicture} alt="" />
+          <Link className="post-pfp" to={`/${username}`}>
+            <img src={profilePicture} alt="" />
+          </Link>
         </div>
         <div className="post-text">
           <div className="post-header">
@@ -91,10 +94,7 @@ export default function Post({
       </div>
       <hr />
       <div className="like-comment-share-btns">
-        <div
-          className={`like-btn ${liked ? "liked" : ""}`}
-          onClick={likePost}
-        >
+        <div className={`like-btn ${liked ? "liked" : ""}`} onClick={likePost}>
           <span className="material-symbols-rounded">thumb_up</span>
         </div>
         <div className="comment-btn">

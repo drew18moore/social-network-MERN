@@ -26,7 +26,6 @@
   height: 50px;
   border-radius: 50%;
   vertical-align: middle;
-  cursor: pointer;
 }
 
 .input-area img:hover {
@@ -48,4 +47,8 @@
   background-color: #E4E6EB;
   color: #B9B9B9;
   cursor: not-allowed;
+}
+
+.input-pfp {
+  border-radius: 50%;
 }
