@@ -16,10 +16,20 @@ router.post("/new", async (req, res) => {
   try {
     const newPost = await post.save();
     const newPostUser = await User.findById(newPost.userId);
+
+    let profilePicture;
+    if (newPostUser.img.data) {
+      const buffer = Buffer.from(newPostUser.img.data);
+      const b64String = buffer.toString("base64");
+      profilePicture = `data:image/png;base64,${b64String}`;
+    } else {
+      profilePicture = "/default-pfp.jpg";
+    }
     const response = {
       ...newPost.toJSON(),
       fullname: newPostUser.fullname,
       username: newPostUser.username,
+      profilePicture: profilePicture,
     };
     res.status(200).json(response);
   } catch (err) {
@@ -74,18 +84,18 @@ router.delete("/delete/:id", async (req, res) => {
 
 router.put("/like/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id)
+    const post = await Post.findById(req.params.id);
     if (!post.likes.includes(req.body.userId)) {
-      await post.updateOne({ $push: { likes: req.body.userId } })
-      res.status(200).json("Post has been liked")
+      await post.updateOne({ $push: { likes: req.body.userId } });
+      res.status(200).json("Post has been liked");
     } else {
-      await post.updateOne({ $pull: { likes: req.body.userId } })
-      res.status(200).json("Post has been unliked")
+      await post.updateOne({ $pull: { likes: req.body.userId } });
+      res.status(200).json("Post has been unliked");
     }
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err);
   }
-})
+});
 
 router.get("/timeline", async (req, res) => {
   try {
