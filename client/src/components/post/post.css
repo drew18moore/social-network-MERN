@@ -29,6 +29,15 @@
   vertical-align: middle;
 }
 
+.post-fullname-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-fullname-link:hover {
+  text-decoration: underline;
+}
+
 .post-header {
   display: flex;
   align-items: center;

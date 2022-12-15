@@ -66,7 +66,10 @@ export default function Post({
         <div className="post-text">
           <div className="post-header">
             <div className="left-post-header">
-              <p className="post-fullname">{fullname}</p>
+              <Link className="post-fullname-link" to={`/${username}`}>
+                <p className="post-fullname">{fullname}</p>
+              </Link>
+
               <p className="post-username">@{username}</p>
               <p className="post-dot">&#8226;</p>
               <p className="post-date">
