@@ -10,9 +10,9 @@ import axios from 'axios'
 import { useAuth } from './contexts/AuthContext'
 
 export default function App() {
-  const { setCurrentUser } = useAuth()
+  const { currentUser, setCurrentUser } = useAuth()
   useEffect(() => {
-    axios.get("http://192.168.1.2:3000/api/users/main").then((res) => setCurrentUser(res.data))
+    axios.get(`http://192.168.1.2:3000/api/users/${currentUser._id}`).then((res) => setCurrentUser(res.data))
   }, [])
   return (
     <div className="App">

@@ -18,21 +18,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// router.post("/upload", upload.single("image"), async (req, res) => {
-//   console.log("req", req.file)
-//   const saveImage = Image({
-//     userId: req.body.userId,
-//     img: {
-//       data: fs.readFileSync("images/" + req.file.filename),
-//       contentType: "image/png"
-//     }
-//   })
-//   const img = await saveImage.save().then(console.log("Img is saved")).catch((err) => {
-//     console.log(err, "error has occured")
-//   })
-//   res.status(200).json(img)
-// })
-
 router.put("/change-img/:id", upload.single("image"), async (req, res) => {
   if (req.body.userId !== req.params.id) {
     return res
@@ -91,9 +76,9 @@ router.put("/:id", async (req, res) => {
   );
 });
 
-router.get("/main", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById("63893e3bfc3d34d25d9ae0cd");
+    const user = await User.findById(req.params.id);
 
     let profilePicture;
     if (user.img.data) {
