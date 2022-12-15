@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export default function Profile() {
+export default function Profile(props) {
   const { username } = useParams();
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showChangeProfilePictureModal, setShowChangeProfilePictureModal] =
@@ -28,7 +28,7 @@ export default function Profile() {
       .catch((err) => {
         console.log("Error", err);
       });
-  }, []);
+  }, [username]);
   return (
     <>
       <Navbar />
