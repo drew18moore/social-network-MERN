@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Change profile picture
 router.put("/change-img/:id", upload.single("image"), async (req, res) => {
   if (req.body.userId !== req.params.id) {
     return res
@@ -50,6 +51,7 @@ router.put("/change-img/:id", upload.single("image"), async (req, res) => {
   );
 });
 
+// Edit user info
 router.put("/:id", async (req, res) => {
   if (req.body.userId !== req.params.id) {
     return res
@@ -84,6 +86,7 @@ router.put("/:id", async (req, res) => {
   );
 });
 
+// Get user by unique username
 router.get("/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
@@ -108,4 +111,5 @@ router.get("/:username", async (req, res) => {
   }
 });
 
+// Follow user
 module.exports = router;
