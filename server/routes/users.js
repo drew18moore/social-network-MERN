@@ -70,7 +70,15 @@ router.put("/:id", async (req, res) => {
       if (err) {
         return res.status(500).json({ message: err });
       } else {
-        return res.status(200).json(result);
+        let profilePicture;
+        const buffer = Buffer.from(result.img.data);
+        const b64String = buffer.toString("base64");
+        profilePicture = `data:image/png;base64,${b64String}`;
+        const user = {
+          ...result.toJSON(),
+          img: profilePicture,
+        };
+        return res.status(200).json(user);
       }
     }
   );

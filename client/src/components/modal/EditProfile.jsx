@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
-export default function EditProfile({ setShowModal }) {
+export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -27,6 +27,7 @@ export default function EditProfile({ setShowModal }) {
         }).then(res => {
           console.log(res.data);
           setCurrentUser(res.data);
+          setUser(res.data);
           setShowModal(false);
         })
       } else {

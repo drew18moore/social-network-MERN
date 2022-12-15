@@ -56,7 +56,7 @@ export default function Profile() {
       </div>
       {showEditProfileModal && (
         <Modal setShowModal={setShowEditProfileModal}>
-          <EditProfile setShowModal={setShowEditProfileModal} />
+          <EditProfile setUser={setUser} setShowModal={setShowEditProfileModal} />
         </Modal>
       )}
       {showChangeProfilePictureModal && <Modal setShowModal={setShowChangeProfilePictureModal}><ChangeProfilePicture setShowModal={setShowChangeProfilePictureModal} /></Modal>}
