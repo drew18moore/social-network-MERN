@@ -76,9 +76,9 @@ router.put("/:id", async (req, res) => {
   );
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:username", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ username: req.params.username });
 
     let profilePicture;
     if (user.img.data) {
