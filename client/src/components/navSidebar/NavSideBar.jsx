@@ -1,19 +1,29 @@
 import React from "react";
 import "./navSidebar.css";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function NavSideBar() {
+  const { currentUser } = useAuth();
+
   return (
     <div className="nav-sidebar">
       <nav>
         <ul className="links">
-          <li className="selected">
-            <span className="material-symbols-rounded">home</span>Home
+          <li>
+            <Link className="selected" to="/">
+              <span className="material-symbols-rounded">home</span>Home
+            </Link>
           </li>
           <li>
-            <span className="material-symbols-rounded">person</span>Profile
+            <Link to={`/${currentUser.username}`}>
+              <span className="material-symbols-rounded">person</span>Profile
+            </Link>
           </li>
           <li>
-            <span className="material-symbols-rounded">settings</span>Settings
+            <Link>
+              <span className="material-symbols-rounded">settings</span>Settings
+            </Link>
           </li>
         </ul>
       </nav>
