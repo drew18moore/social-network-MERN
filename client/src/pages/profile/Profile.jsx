@@ -18,6 +18,7 @@ export default function Profile(props) {
   const { currentUser } = useAuth();
   const [user, setUser] = useState({});
   const [isFollowing, setIsFollowing] = useState()
+  const [followBtnText, setFollowBtnText] = useState("Following")
 
   useEffect(() => {
     axios
@@ -80,9 +81,11 @@ export default function Profile(props) {
             </button>
           ) : (
             <button
-              className="follow-profile-btn"
+              className={isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"}
               onClick={followUser}
-            >{isFollowing ? "Unfollow" : "Follow"}</button>
+              onMouseEnter={() => setFollowBtnText("Unfollow")}
+              onMouseLeave={() => setFollowBtnText("Following")}
+            >{isFollowing ? followBtnText : "Follow"}</button>
           )}
         </div>
       </div>

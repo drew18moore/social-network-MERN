@@ -78,3 +78,18 @@
   font-size: 1rem;
   padding: 10px
 }
+
+.unfollow-profile-btn {
+  align-self: flex-end;
+  background-color: #E4E6EB;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  width: 95px;
+}
+
+.unfollow-profile-btn:hover {
+  color: red;
+  background-color: rgba(244, 33, 46, 0.1);
+  border: 1px solid rgb(253, 201, 206);
+}
