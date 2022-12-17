@@ -1,0 +1,22 @@
+.nav-sidebar {
+  margin-top: 60px;
+  background-color: white;
+}
+
+.nav-sidebar .links {
+  display: grid;
+  gap: 1rem;
+  margin: 25px 15px 0 15px;
+  list-style: none;
+}
+
+.nav-sidebar li {
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.selected {
+  background-color: lightblue;
+}

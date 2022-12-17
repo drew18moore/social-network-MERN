@@ -1,0 +1,17 @@
+.home-contents {
+  margin: 0 auto;
+  max-width: 1300px;
+  display: flex;
+}
+
+.nav-sidebar {
+  flex-grow: 1;
+}
+
+.timeline-main {
+  flex-basis: 700px;
+}
+
+.placeholder-sidebar {
+  flex-grow: 1;
+}

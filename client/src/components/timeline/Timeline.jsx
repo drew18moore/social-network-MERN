@@ -44,7 +44,7 @@ export default function Timeline() {
   };
 
   return (
-    <>
+    <main className="timeline-main">
       <NewPost addPost={addPost} />
       <div className="posts">
         {posts.map((post) => {
@@ -64,6 +64,6 @@ export default function Timeline() {
           );
         })}
       </div>
-    </>
+    </main>
   );
 }
