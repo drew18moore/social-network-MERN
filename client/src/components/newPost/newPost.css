@@ -35,7 +35,13 @@
   resize: none;
   overflow: hidden;
   border: 1px solid #B9B9B9;
+  border: none;
+  background-color: #F0F2F5;
   border-radius: 5px;
+}
+
+#post-body-input:focus {
+  outline: 1px solid #757575;
 }
 
 #post-btn:disabled {

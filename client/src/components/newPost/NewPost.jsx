@@ -34,7 +34,7 @@ export default function NewPost({ addPost }) {
   const handleChange = (e) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
-    e.target.style.height = `${e.target.scrollHeight + 2}px`;
+    e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
   return (
