@@ -26,9 +26,14 @@
   position: absolute;
   bottom: 5%;
   right: 5%;
-  background-color: #E4E6EB;
+  background-color: #e4e6eb;
   border-radius: 50%;
   padding: 5px;
+  transition: 0.1s;
+}
+
+.change-profile-picture-btn:hover {
+  filter: brightness(90%);
 }
 
 .change-profile-picture-btn .material-symbols-rounded {
@@ -63,25 +68,25 @@
 
 .edit-profile-btn {
   align-self: flex-end;
-  background-color: #E4E6EB;
+  background-color: #e4e6eb;
   color: black;
   font-weight: bold;
   font-size: 1rem;
-  padding: 10px
+  padding: 10px;
 }
 
 .follow-profile-btn {
   align-self: flex-end;
-  background-color: #1877F2;
+  background-color: #1877f2;
   color: white;
   font-weight: bold;
   font-size: 1rem;
-  padding: 10px
+  padding: 10px;
 }
 
 .unfollow-profile-btn {
   align-self: flex-end;
-  background-color: #E4E6EB;
+  background-color: #e4e6eb;
   color: black;
   font-weight: bold;
   font-size: 1rem;

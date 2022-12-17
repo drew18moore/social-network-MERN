@@ -33,6 +33,7 @@ button {
   cursor: pointer;
   color: white;
   background-color: #1877F2;
+  transition: 0.1s;
 }
 
 button:enabled:hover {

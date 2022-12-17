@@ -26,6 +26,7 @@
   height: 50px;
   border-radius: 50%;
   vertical-align: middle;
+  transition: 0.1s;
 }
 
 .input-area img:hover {

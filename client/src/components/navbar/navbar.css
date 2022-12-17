@@ -37,6 +37,7 @@ nav {
   height: 40px;
   vertical-align: middle;
   border-radius: 50%;
+  transition: 0.1s;
 }
 
 .nav-links img:hover {

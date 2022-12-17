@@ -45,6 +45,10 @@
   font-size: 25px;
 }
 
+.dropdown li {
+  transition: 0.1s;
+}
+
 .dropdown li:hover {
   background-color: #D8DADF;
 }
