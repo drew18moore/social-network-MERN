@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../components/navbar/Navbar";
+import HeaderBar from "../../components/headerBar/HeaderBar";
 import { useAuth } from "../../contexts/AuthContext";
 import Timeline from "../../components/timeline/Timeline";
 import NavSideBar from "../../components/navSidebar/NavSideBar";
@@ -10,7 +10,7 @@ export default function Home() {
   const { currentUser } = useAuth();
   return (
     <>
-      <Navbar />
+      <HeaderBar />
       <div className="home-contents">
         <NavSideBar />
         <Timeline />

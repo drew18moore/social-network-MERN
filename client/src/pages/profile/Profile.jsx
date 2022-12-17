@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../components/navbar/Navbar";
+import Navbar from "../../components/headerBar/HeaderBar";
 import "./profile.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";

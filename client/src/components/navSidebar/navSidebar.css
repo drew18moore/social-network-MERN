@@ -11,6 +11,9 @@
 }
 
 .nav-sidebar li {
+  display: flex;
+  gap: 15px;
+  align-items: center;
   cursor: pointer;
   font-size: 1.25rem;
   padding: 15px;
@@ -19,4 +22,8 @@
 
 .selected {
   background-color: lightblue;
+}
+
+.nav-sidebar .material-symbols-rounded {
+  /* vertical-align: middle; */
 }
