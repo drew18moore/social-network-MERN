@@ -3,6 +3,11 @@
   background-color: white;
 }
 
+.nav-sidebar nav {
+  position: sticky;
+  top: 85px;
+}
+
 .nav-sidebar .links {
   display: grid;
   gap: 1rem;
@@ -22,8 +27,4 @@
 
 .selected {
   background-color: lightblue;
-}
-
-.nav-sidebar .material-symbols-rounded {
-  /* vertical-align: middle; */
 }
