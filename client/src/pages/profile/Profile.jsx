@@ -29,6 +29,17 @@ export default function Profile(props) {
         console.log("Error", err);
       });
   }, [username]);
+
+  const followUser = () => {
+    axios.put(`http://192.168.1.2:3000/api/users/follow/${username}`, {
+      currUsername: currentUser.username
+    }).then((res) => {
+      console.log(res.data);
+    }).catch((err) => {
+      console.log("Error", err)
+    })
+  }
+
   return (
     <>
       <Navbar />
@@ -57,13 +68,18 @@ export default function Profile(props) {
               <h2 className="username">@{user.username}</h2>
             </div>
           </div>
-          {user._id === currentUser._id && (
+          {user._id === currentUser._id ? (
             <button
               className="edit-profile-btn"
               onClick={() => setShowEditProfileModal((prev) => !prev)}
             >
               Edit profile
             </button>
+          ) : (
+            <button
+              className="follow-profile-btn"
+              onClick={followUser}
+            >Follow</button>
           )}
         </div>
       </div>
