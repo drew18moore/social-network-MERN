@@ -22,16 +22,22 @@ header nav {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 15px;
+}
+
+.nav-links .fullname {
+  font-weight: bold;
+  color: #757575;
 }
 
 .nav-links li {
   list-style: none;
 }
 
-.nav-logo a, .nav-links a {
+.nav-logo a {
   text-decoration: none;
-  color: black;
+  font-weight: bold;
+  color: #757575;
 }
 
 .nav-links img {

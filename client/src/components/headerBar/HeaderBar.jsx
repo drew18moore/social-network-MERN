@@ -19,9 +19,7 @@ export default function Navbar() {
           <Link to="/">MERN Social</Link>
         </div>
         <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
+          <p className="fullname">{ currentUser.fullname }</p>
           <li className="account-dropdown-li">
             <div className="account-dropdown-btn" onClick={openDropdown}>
               <img src={currentUser.img || "default-pfp.jpg"} />
