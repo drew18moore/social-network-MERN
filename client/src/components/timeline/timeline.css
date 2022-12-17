@@ -8,6 +8,8 @@
 
 .timeline-main {
   background-color: #F0F2F5;
+  margin-top: 60px;
+  border-radius: 8px;
   /* max-width: 650px; */
   /* width: fit-content;
   margin: 0 auto; */

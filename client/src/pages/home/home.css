@@ -2,6 +2,7 @@
   margin: 0 auto;
   max-width: 1300px;
   display: flex;
+  gap: 50px;
 }
 
 .nav-sidebar {
