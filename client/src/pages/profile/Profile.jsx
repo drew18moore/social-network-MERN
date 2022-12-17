@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../components/headerBar/HeaderBar";
+import HeaderBar from "../../components/headerBar/HeaderBar";
 import "./profile.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
@@ -9,6 +9,8 @@ import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import NavSideBar from "../../components/navSidebar/NavSideBar";
+import PlaceholderSidebar from "../../components/placeholderSidebar/PlaceholderSidebar";
 
 export default function Profile(props) {
   const { username } = useParams();
@@ -17,8 +19,8 @@ export default function Profile(props) {
     useState(false);
   const { currentUser } = useAuth();
   const [user, setUser] = useState({});
-  const [isFollowing, setIsFollowing] = useState()
-  const [followBtnText, setFollowBtnText] = useState("Following")
+  const [isFollowing, setIsFollowing] = useState();
+  const [followBtnText, setFollowBtnText] = useState("Following");
 
   useEffect(() => {
     axios
@@ -26,7 +28,7 @@ export default function Profile(props) {
       .then((res) => {
         setUser(res.data);
         console.log(res.data);
-        setIsFollowing(() => res.data.followers.includes(currentUser._id))
+        setIsFollowing(() => res.data.followers.includes(currentUser._id));
       })
       .catch((err) => {
         console.log("Error", err);
@@ -34,76 +36,91 @@ export default function Profile(props) {
   }, [username]);
 
   const followUser = () => {
-    axios.put(`http://192.168.1.2:3000/api/users/follow/${username}`, {
-      currUsername: currentUser.username
-    }).then((res) => {
-      setIsFollowing(prev => !prev)
-      console.log(res.data);
-    }).catch((err) => {
-      console.log("Error", err)
-    })
-  }
+    axios
+      .put(`http://192.168.1.2:3000/api/users/follow/${username}`, {
+        currUsername: currentUser.username,
+      })
+      .then((res) => {
+        setIsFollowing((prev) => !prev);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
 
   return (
     <>
-      <Navbar />
-      <div className="profile-container">
-        <div className="profile-card">
-          <div className="profile-img-username">
-            <div className="profile-picture-wrapper">
-              <img
-                className="profile-picture"
-                src={user.img || "default-pfp.jpg"}
-                alt="profile picture"
-              />
-              {user._id === currentUser._id && (
-                <div
-                  className="change-profile-picture-btn"
-                  onClick={() =>
-                    setShowChangeProfilePictureModal((prev) => !prev)
-                  }
-                >
-                  <span className="material-symbols-rounded">photo_camera</span>
+      <HeaderBar />
+      <div className="home-contents">
+        <NavSideBar />
+        <div className="profile-main">
+          <div className="profile-container">
+            <div className="profile-card">
+              <div className="profile-img-username">
+                <div className="profile-picture-wrapper">
+                  <img
+                    className="profile-picture"
+                    src={user.img || "default-pfp.jpg"}
+                    alt="profile picture"
+                  />
+                  {user._id === currentUser._id && (
+                    <div
+                      className="change-profile-picture-btn"
+                      onClick={() =>
+                        setShowChangeProfilePictureModal((prev) => !prev)
+                      }
+                    >
+                      <span className="material-symbols-rounded">
+                        photo_camera
+                      </span>
+                    </div>
+                  )}
                 </div>
+                <div className="profile-name-username">
+                  <h1 className="name">{user.fullname}</h1>
+                  <h2 className="username">@{user.username}</h2>
+                </div>
+              </div>
+              {user._id === currentUser._id ? (
+                <button
+                  className="edit-profile-btn"
+                  onClick={() => setShowEditProfileModal((prev) => !prev)}
+                >
+                  Edit profile
+                </button>
+              ) : (
+                <button
+                  className={
+                    isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"
+                  }
+                  onClick={followUser}
+                  onMouseEnter={() => setFollowBtnText("Unfollow")}
+                  onMouseLeave={() => setFollowBtnText("Following")}
+                >
+                  {isFollowing ? followBtnText : "Follow"}
+                </button>
               )}
             </div>
-            <div className="profile-name-username">
-              <h1 className="name">{user.fullname}</h1>
-              <h2 className="username">@{user.username}</h2>
-            </div>
           </div>
-          {user._id === currentUser._id ? (
-            <button
-              className="edit-profile-btn"
-              onClick={() => setShowEditProfileModal((prev) => !prev)}
-            >
-              Edit profile
-            </button>
-          ) : (
-            <button
-              className={isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"}
-              onClick={followUser}
-              onMouseEnter={() => setFollowBtnText("Unfollow")}
-              onMouseLeave={() => setFollowBtnText("Following")}
-            >{isFollowing ? followBtnText : "Follow"}</button>
+          {showEditProfileModal && (
+            <Modal setShowModal={setShowEditProfileModal}>
+              <EditProfile
+                setUser={setUser}
+                setShowModal={setShowEditProfileModal}
+              />
+            </Modal>
+          )}
+          {showChangeProfilePictureModal && (
+            <Modal setShowModal={setShowChangeProfilePictureModal}>
+              <ChangeProfilePicture
+                setShowModal={setShowChangeProfilePictureModal}
+              />
+            </Modal>
           )}
         </div>
+        <PlaceholderSidebar />
       </div>
-      {showEditProfileModal && (
-        <Modal setShowModal={setShowEditProfileModal}>
-          <EditProfile
-            setUser={setUser}
-            setShowModal={setShowEditProfileModal}
-          />
-        </Modal>
-      )}
-      {showChangeProfilePictureModal && (
-        <Modal setShowModal={setShowChangeProfilePictureModal}>
-          <ChangeProfilePicture
-            setShowModal={setShowChangeProfilePictureModal}
-          />
-        </Modal>
-      )}
     </>
   );
 }
