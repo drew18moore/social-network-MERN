@@ -1,7 +1,5 @@
 .posts {
   display: flex;
-  /* max-width: 650px; */
-  /* margin: 0 auto; */
   flex-direction: column;
   gap: 15px;
 }
@@ -10,7 +8,4 @@
   background-color: #F0F2F5;
   margin-top: 60px;
   border-radius: 8px;
-  /* max-width: 650px; */
-  /* width: fit-content;
-  margin: 0 auto; */
 }

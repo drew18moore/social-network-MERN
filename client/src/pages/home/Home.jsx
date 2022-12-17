@@ -17,9 +17,5 @@ export default function Home() {
         <PlaceholderSidebar />
       </div>
     </>
-    // <>
-    //   <Navbar />
-    //   <Timeline />
-    // </>
   );
 }
