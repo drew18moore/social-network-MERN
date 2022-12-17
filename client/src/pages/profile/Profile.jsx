@@ -17,6 +17,7 @@ export default function Profile(props) {
     useState(false);
   const { currentUser } = useAuth();
   const [user, setUser] = useState({});
+  const [isFollowing, setIsFollowing] = useState()
 
   useEffect(() => {
     axios
@@ -24,6 +25,7 @@ export default function Profile(props) {
       .then((res) => {
         setUser(res.data);
         console.log(res.data);
+        setIsFollowing(() => res.data.followers.includes(currentUser._id))
       })
       .catch((err) => {
         console.log("Error", err);
@@ -34,6 +36,7 @@ export default function Profile(props) {
     axios.put(`http://192.168.1.2:3000/api/users/follow/${username}`, {
       currUsername: currentUser.username
     }).then((res) => {
+      setIsFollowing(prev => !prev)
       console.log(res.data);
     }).catch((err) => {
       console.log("Error", err)
@@ -79,7 +82,7 @@ export default function Profile(props) {
             <button
               className="follow-profile-btn"
               onClick={followUser}
-            >Follow</button>
+            >{isFollowing ? "Unfollow" : "Follow"}</button>
           )}
         </div>
       </div>
