@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import Post from "../post/Post";
-import NewPost from "../newPost/NewPost";
+import Post from "../../components/post/Post";
+import NewPost from "../../components/newPost/NewPost";
 import "./timeline.css";
 import { useAuth } from "../../contexts/AuthContext";
 

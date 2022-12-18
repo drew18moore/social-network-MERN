@@ -1,5 +1,4 @@
 import React from "react";
-import HeaderBar from "../../components/headerBar/HeaderBar";
 import "./profile.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
@@ -9,10 +8,8 @@ import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import NavSideBar from "../../components/navSidebar/NavSideBar";
-import PlaceholderSidebar from "../../components/placeholderSidebar/PlaceholderSidebar";
 
-export default function Profile(props) {
+export default function Profile() {
   const { username } = useParams();
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showChangeProfilePictureModal, setShowChangeProfilePictureModal] =
