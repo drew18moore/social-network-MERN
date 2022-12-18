@@ -23,19 +23,14 @@ export default function App() {
 
   return (
     <div className="App">
-      <HeaderBar />
-      <div className="app-container">
-        <NavSideBar />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<Home />} exact />
-            <Route path="/:username" element={<Profile />} />
-          </Route>
-        </Routes>
-        <PlaceholderSidebar />
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/" element={<Home />} exact />
+          <Route path="/:username" element={<Profile />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
