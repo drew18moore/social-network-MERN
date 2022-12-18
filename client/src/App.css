@@ -1,0 +1,18 @@
+.app-container {
+  display: flex;
+  gap: 50px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.nav-sidebar {
+  flex-grow: 1;
+}
+
+.timeline-main {
+  flex-basis: 700px;
+}
+
+.placeholder-sidebar {
+  flex-grow: 1;
+}

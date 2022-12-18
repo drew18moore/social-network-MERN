@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 export default function NavSideBar() {
   const { currentUser } = useAuth();
   const location = useLocation();
+  console.log('RENDER');
   return (
     <div className="nav-sidebar">
       <nav>
