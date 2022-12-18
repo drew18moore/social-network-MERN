@@ -50,48 +50,56 @@ export default function Profile() {
     <div className="profile-main">
       <div className="profile-container">
         <div className="profile-card">
-          <div className="profile-img-username">
-            <div className="profile-picture-wrapper">
-              <img
-                className="profile-picture"
-                src={user.img || "default-pfp.jpg"}
-                alt="profile picture"
-              />
-              {user._id === currentUser._id && (
-                <div
-                  className="change-profile-picture-btn"
-                  onClick={() =>
-                    setShowChangeProfilePictureModal((prev) => !prev)
-                  }
-                >
-                  <span className="material-symbols-rounded">photo_camera</span>
-                </div>
-              )}
+          <div className="top">
+            <div className="profile-img-username">
+              <div className="profile-picture-wrapper">
+                <img
+                  className="profile-picture"
+                  src={user.img || "default-pfp.jpg"}
+                  alt="profile picture"
+                />
+                {user._id === currentUser._id && (
+                  <div
+                    className="change-profile-picture-btn"
+                    onClick={() =>
+                      setShowChangeProfilePictureModal((prev) => !prev)
+                    }
+                  >
+                    <span className="material-symbols-rounded">
+                      photo_camera
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="profile-name-username">
+                <h1 className="name">{user.fullname}</h1>
+                <h2 className="username">@{user.username}</h2>
+              </div>
             </div>
-            <div className="profile-name-username">
-              <h1 className="name">{user.fullname}</h1>
-              <h2 className="username">@{user.username}</h2>
-            </div>
+            {user._id === currentUser._id ? (
+              <button
+                className="edit-profile-btn"
+                onClick={() => setShowEditProfileModal((prev) => !prev)}
+              >
+                Edit profile
+              </button>
+            ) : (
+              <button
+                className={
+                  isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"
+                }
+                onClick={followUser}
+                onMouseEnter={() => setFollowBtnText("Unfollow")}
+                onMouseLeave={() => setFollowBtnText("Following")}
+              >
+                {isFollowing ? followBtnText : "Follow"}
+              </button>
+            )}
           </div>
-          {user._id === currentUser._id ? (
-            <button
-              className="edit-profile-btn"
-              onClick={() => setShowEditProfileModal((prev) => !prev)}
-            >
-              Edit profile
-            </button>
-          ) : (
-            <button
-              className={
-                isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"
-              }
-              onClick={followUser}
-              onMouseEnter={() => setFollowBtnText("Unfollow")}
-              onMouseLeave={() => setFollowBtnText("Following")}
-            >
-              {isFollowing ? followBtnText : "Follow"}
-            </button>
-          )}
+          <div className="bottom">
+            <span className="following"><span className="count">{user.following && user.following.length}</span> Following</span>
+            <span className="followers"><span className="count">{user.followers && user.followers.length}</span> Followers</span>
+          </div>
         </div>
       </div>
       {showEditProfileModal && (

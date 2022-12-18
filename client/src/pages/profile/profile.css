@@ -11,15 +11,21 @@
 }
 
 .profile-card {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  gap: 15px;
   background-color: white;
-  border-radius: 8px;
   margin: 25px;
   padding: 15px;
+  border-radius: 8px;
+}
+
+.profile-card .top {
+  display: flex;
+  justify-content: space-between;
 }
 
 .profile-picture-wrapper {
+  width: fit-content;
   position: relative;
   user-select: none;
 }
@@ -53,10 +59,8 @@
 
 .profile-img-username {
   width: 50%;
-  display: flex;
-  align-items: center;
+  display: grid;
   gap: 15px;
-  flex-wrap: wrap;
 }
 
 .profile-name-username {
@@ -101,4 +105,18 @@
   color: red;
   background-color: rgba(244, 33, 46, 0.1);
   border: 1px solid rgb(253, 201, 206);
+}
+
+.profile-card .bottom {
+  display: flex;
+  gap: 25px;
+}
+
+.following, .followers {
+  color: #757575;
+}
+
+.count {
+  color: black;
+  font-weight: bold;
 }
