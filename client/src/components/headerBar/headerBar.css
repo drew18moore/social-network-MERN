@@ -7,9 +7,6 @@ header {
   z-index: 100;
   max-width: 1300px;
   margin: 0 auto;
-}
-
-header nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,18 +14,41 @@ header nav {
   padding-inline: 15px;
 }
 
-.nav-links {
+.curr-user-wrapper {
+  position: relative;
+}
+
+.curr-user {
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 15px;
+  padding: 10px;
+  border-radius: 60px;
+  transition: 0.1s;
 }
 
-.nav-links .fullname {
+.curr-user:hover {
+  background-color: #F0F2F5;
+  /* border-radius: ; */
+}
+
+.curr-user-info {
+  text-align: right;
+}
+
+.curr-user .fullname {
   font-weight: bold;
   color: #757575;
+  font-size: .9rem;
 }
 
-.nav-links li {
+.curr-user .username {
+  color: #757575;
+  font-size: .9rem;
+}
+
+.curr-user li {
   list-style: none;
 }
 
@@ -38,7 +58,7 @@ header nav {
   color: #1877F2;
 }
 
-.nav-links img {
+.curr-user img {
   width: 40px;
   height: 40px;
   vertical-align: middle;
@@ -46,15 +66,6 @@ header nav {
   transition: 0.1s;
 }
 
-.nav-links img:hover {
+.curr-user img:hover {
   filter: brightness(90%);
-}
-
-.account-dropdown-btn {
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.account-dropdown-li {
-  position: relative;
 }

@@ -14,24 +14,28 @@ export default function Navbar() {
   };
   return (
     <header>
-      <nav>
-        <div className="nav-logo">
-          <Link to="/">MERN Social</Link>
+      <div className="nav-logo">
+        <Link to="/">MERN Social</Link>
+      </div>
+      <div className="curr-user-wrapper">
+        <div
+          className="curr-user account-dropdown-btn"
+          onClick={() => setShowDropdown((prev) => !prev)}
+        >
+          <div className="curr-user-info">
+            <p className="fullname">{currentUser.fullname}</p>
+            <p className="username">@{currentUser.username}</p>
+          </div>
+          {/* <div className="account-dropdown-btn" onClick={openDropdown}> */}
+          <img src={currentUser.img || "default-pfp.jpg"} />
+          {/* </div> */}
         </div>
-        <ul className="nav-links">
-          <p className="fullname">{ currentUser.fullname }</p>
-          <li className="account-dropdown-li">
-            <div className="account-dropdown-btn" onClick={openDropdown}>
-              <img src={currentUser.img || "default-pfp.jpg"} />
-            </div>
-            {showDropdown && (
-              <Dropdown setShowDropdown={setShowDropdown}>
-                <AccountDropdown setShowDropdown={setShowDropdown} />
-              </Dropdown>
-            )}
-          </li>
-        </ul>
-      </nav>
+        {showDropdown && (
+          <Dropdown setShowDropdown={setShowDropdown}>
+            <AccountDropdown setShowDropdown={setShowDropdown} />
+          </Dropdown>
+        )}
+      </div>
     </header>
   );
 }

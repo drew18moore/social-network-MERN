@@ -9,7 +9,8 @@
 
 .dropdown {
   position: absolute;
-  right: 0;
+  right: calc(50% - 20px);
+  top: 100%;
   z-index: 11;
 }
 
