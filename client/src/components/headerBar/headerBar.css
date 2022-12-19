@@ -65,7 +65,3 @@ header {
   border-radius: 50%;
   transition: 0.1s;
 }
-
-.curr-user img:hover {
-  filter: brightness(90%);
-}
