@@ -22,3 +22,8 @@ button {
 button:enabled:hover {
   filter: brightness(90%);
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}

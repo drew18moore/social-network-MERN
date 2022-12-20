@@ -3,13 +3,17 @@ import "./user.css";
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function User({ user }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const { currentUser } = useAuth();
   const [followBtnText, setFollowBtnText] = useState("Following");
 
-  const followUser = () => {
+  const navigate = useNavigate();
+
+  const followUser = (e) => {
+    e.stopPropagation();
     axios
       .put(`http://192.168.1.2:3000/api/users/follow/${user.username}`, {
         currUsername: currentUser.username,
@@ -20,7 +24,7 @@ export default function User({ user }) {
       });
   };
   return (
-    <div className="user">
+    <div className="user" onClick={() => navigate(`/${user.username}`)}>
       <div className="user-info">
         <img src={user.img} alt="" />
         <div className="info">
