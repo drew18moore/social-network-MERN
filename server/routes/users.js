@@ -132,4 +132,15 @@ router.put("/follow/:username", async (req, res) => {
     res.status(500).json({ message: err});
   }
 });
+
+// Get all unfollowed users
+router.get("/all-unfollowed/:id", async (req, res) => {
+  try {
+    const users = await User.find({ followers: { $nin: req.params.id }, _id: { $nin: req.params.id } })
+    res.status(200).json(users)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
 module.exports = router;
