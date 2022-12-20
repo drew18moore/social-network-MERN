@@ -11,7 +11,7 @@ header {
   align-items: center;
   justify-content: space-between;
   height: 70px;
-  padding-inline: 15px;
+  padding-inline: 25px;
 }
 
 .curr-user-wrapper {
@@ -53,6 +53,8 @@ header {
 }
 
 .nav-logo a {
+  padding: 15px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
   color: #1877F2;

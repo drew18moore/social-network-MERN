@@ -24,7 +24,6 @@ export default function Profile() {
       .get(`http://192.168.1.2:3000/api/users/${username}`)
       .then((res) => {
         setUser(res.data);
-        console.log(res.data);
         setIsFollowing(() => res.data.followers.includes(currentUser._id));
       })
       .catch((err) => {

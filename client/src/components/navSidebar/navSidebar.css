@@ -17,6 +17,11 @@
   gap: 15px;
   align-items: center;
   font-size: 1.25rem;
+  border-radius: 8px;
+}
+
+.nav-sidebar li:hover {
+  background-color: #E4E6EB;
 }
 
 .nav-sidebar a {
@@ -30,7 +35,13 @@
   width: 100%;
 }
 
+.nav-sidebar .material-symbols-rounded {
+  font-size: 2rem; 
+}
+
 .selected {
-  background-color: #1877F2;
-  color: white !important;
+  color: #1877F2 !important;
+  font-weight: bold;
+  font-variation-settings:
+  'FILL' 1
 }

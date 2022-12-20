@@ -12,7 +12,6 @@ export default function RightSidebar() {
 
   useEffect(() => {
     axios.get(`http://192.168.1.2:3000/api/users/all-unfollowed/${currentUser._id}`).then((res) => {
-      console.log(res.data);
       setUnfollowedUsers(res.data);
     })
   },[])
