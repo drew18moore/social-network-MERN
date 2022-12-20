@@ -67,7 +67,7 @@
   justify-items: baseline;
 }
 
-.username {
+.profile-name-username .username {
   font-size: 1rem;
   color: #757575;
   font-weight: normal;

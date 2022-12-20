@@ -1,0 +1,34 @@
+.user {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.user-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.user-info .username {
+  color: #757575;
+}
+
+.user button {
+  background-color: #1877f2;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 10px;
+}
