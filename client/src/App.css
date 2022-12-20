@@ -16,7 +16,5 @@
 }
 
 .right-sidebar {
-  flex-grow: 1;
   flex-basis: 350px;
-  flex-shrink: 1;
 }
