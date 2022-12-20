@@ -53,6 +53,7 @@ export default function Post({
       })
       .then((res) => {
         console.log(res.data);
+        setNumberOfLikes(res.data.numLikes)
         setLiked((prev) => !prev);
       });
   };
