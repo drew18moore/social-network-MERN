@@ -1,8 +1,9 @@
 .app-container {
   display: flex;
-  gap: 50px;
-  max-width: 1300px;
+  gap: 25px;
+  max-width: 1350px;
   margin: 0 auto;
+  padding-inline: 25px;
 }
 
 .nav-sidebar {
@@ -10,9 +11,11 @@
 }
 
 .timeline-main {
-  flex-basis: 700px;
+  flex-basis: 600px;
 }
 
-.placeholder-sidebar {
+.right-sidebar {
   flex-grow: 1;
+  flex-basis: 350px;
+  flex-shrink: 1;
 }
