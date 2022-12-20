@@ -6,10 +6,9 @@
 
 .timeline-main {
   background-color: #F0F2F5;
-  margin-top: 60px;
   border-radius: 8px;
   overflow: scroll;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 70px);
 }
 
 .timeline-main::-webkit-scrollbar {
