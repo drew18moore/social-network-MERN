@@ -25,10 +25,24 @@
   color: #757575;
 }
 
-.user button {
+.follow-user-btn {
   background-color: #1877f2;
   color: white;
   font-weight: bold;
   font-size: 1rem;
   padding: 10px;
+}
+
+.unfollow-user-btn {
+  background-color: #e4e6eb;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  width: 95px;
+}
+
+.unfollow-user-btn:hover {
+  color: red;
+  background-color: rgba(244, 33, 46, 0.1);
+  border: 1px solid rgb(253, 201, 206);
 }
