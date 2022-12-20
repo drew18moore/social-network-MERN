@@ -14,12 +14,21 @@
   border-radius: 50%;
   object-fit: cover;
   vertical-align: middle;
+  transition: .1s;
+}
+
+.user img:hover {
+  filter: brightness(90%);
 }
 
 .user-info {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.user-info .fullname:hover {
+  text-decoration: underline;
 }
 
 .user-info .username {

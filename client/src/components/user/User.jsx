@@ -24,11 +24,11 @@ export default function User({ user }) {
       });
   };
   return (
-    <div className="user" onClick={() => navigate(`/${user.username}`)}>
+    <div className="user">
       <div className="user-info">
-        <img src={user.img} alt="" />
+        <img src={user.img} alt="user profile picture" onClick={() => navigate(`/${user.username}`)}/>
         <div className="info">
-          <p className="fullname">{user.fullname}</p>
+          <p className="fullname" onClick={() => navigate(`/${user.username}`)}>{user.fullname}</p>
           <p className="username">@{user.username}</p>
         </div>
       </div>
