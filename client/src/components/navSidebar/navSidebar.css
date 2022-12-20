@@ -45,3 +45,18 @@
   font-variation-settings:
   'FILL' 1
 }
+
+@media (max-width: 1230px) {
+  .nav-sidebar li {
+    justify-self: center;
+  }
+
+  .nav-sidebar li {
+    width: fit-content;
+    border-radius: 50%;
+  }
+
+  .nav-sidebar .link-txt {
+    display: none;
+  }
+}

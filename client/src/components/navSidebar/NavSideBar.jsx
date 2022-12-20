@@ -13,17 +13,17 @@ export default function NavSideBar() {
         <ul className="links">
           <li>
             <Link className={location.pathname === "/" ? "selected" : ""} to="/">
-              <span className="material-symbols-rounded">home</span>Home
+              <span className="material-symbols-rounded">home</span><p className="link-txt">Home</p>
             </Link>
           </li>
           <li>
             <Link className={location.pathname === `/${currentUser.username}` ? "selected": ""} to={`/${currentUser.username}`}>
-              <span className="material-symbols-rounded">person</span>Profile
+              <span className="material-symbols-rounded">person</span><p className="link-txt">Profile</p>
             </Link>
           </li>
           <li>
             <Link>
-              <span className="material-symbols-rounded">settings</span>Settings
+              <span className="material-symbols-rounded">settings</span><p className="link-txt">Settings</p>
             </Link>
           </li>
         </ul>
