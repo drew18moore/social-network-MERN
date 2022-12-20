@@ -60,6 +60,7 @@ export default function Timeline() {
               deletePostById={deletePostById}
               editPost={editPost}
               isLiked={post.likes.includes(currentUser._id) }
+              numLikes={post.likes.length}
             />
           );
         })}

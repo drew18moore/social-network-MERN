@@ -118,6 +118,9 @@
 
 .like-btn, .comment-btn, .share-btn {
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .liked .material-symbols-rounded {

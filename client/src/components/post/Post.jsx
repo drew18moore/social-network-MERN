@@ -21,11 +21,13 @@ export default function Post({
   deletePostById,
   editPost,
   isLiked,
+  numLikes
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [liked, setLiked] = useState();
+  const [numberOfLikes, setNumberOfLikes] = useState(numLikes);
 
   const { currentUser } = useAuth();
 
@@ -98,7 +100,7 @@ export default function Post({
       <hr />
       <div className="like-comment-share-btns">
         <div className={`like-btn ${liked ? "liked" : ""}`} onClick={likePost}>
-          <span className="material-symbols-rounded">thumb_up</span>
+          <span className="material-symbols-rounded">thumb_up</span>{numberOfLikes}
         </div>
         <div className="comment-btn">
           <span className="material-symbols-rounded">chat_bubble</span>
