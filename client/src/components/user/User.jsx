@@ -5,7 +5,9 @@ export default function User({ user }) {
   console.log(user);
   return (
     <div className='user'>
-      {user.username}
+      <div className="user-info">
+        <img src={user.img} alt="" />
+      </div>
     </div>
   )
 }
