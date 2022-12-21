@@ -131,4 +131,37 @@ router.get("/timeline", async (req, res) => {
   }
 });
 
+// Get all posts by username
+router.get("/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username })
+    const userPosts = await Post.find({ userId: user._id })
+    userPosts.sort((a, b) => {
+      return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
+    });
+    const posts = await Promise.all(
+      userPosts.map(async (post) => {
+        let profilePicture;
+        if (user.img.data) {
+          const buffer = Buffer.from(user.img.data);
+          const b64String = buffer.toString("base64");
+          profilePicture = `data:image/png;base64,${b64String}`;
+        } else {
+          profilePicture = "/default-pfp.jpg";
+        }
+
+        return {
+          ...post.toJSON(),
+          fullname: user.fullname,
+          username: user.username,
+          profilePicture: profilePicture,
+        };
+      })
+    );
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 module.exports = router;
