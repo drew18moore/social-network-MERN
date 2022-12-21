@@ -163,4 +163,33 @@ router.get("/all-unfollowed/:id", async (req, res) => {
   }
 });
 
+// Get all followed users
+router.get("/following/:id", async (req, res) => {
+  try {
+    const users = await User.find({
+      followers: req.params.id
+    })
+
+    const followedUsers = users.map((user) => {
+      let profilePicture;
+      if (user.img.data) {
+        const buffer = Buffer.from(user.img.data);
+        const b64String = buffer.toString("base64");
+        profilePicture = `data:image/png;base64,${b64String}`;
+      } else {
+        profilePicture = "/default-pfp.jpg";
+      }
+
+      return {
+        ...user.toJSON(),
+        img: profilePicture,
+      }
+    });
+
+    res.status(200).json(followedUsers)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
+
 module.exports = router;
