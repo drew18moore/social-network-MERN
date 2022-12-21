@@ -21,7 +21,7 @@
   filter: brightness(90%);
 }
 
-.user-info {
+.user .user-info {
   display: flex;
   gap: 10px;
   align-items: center;

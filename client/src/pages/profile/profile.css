@@ -123,9 +123,15 @@
 
 .following, .followers {
   color: #757575;
+  cursor: pointer;
 }
 
 .count {
   color: black;
   font-weight: bold;
+}
+
+.following:hover, .followers:hover {
+  text-decoration: underline;
+  text-decoration-color: black;
 }

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./contexts/AuthContext";
 import Timeline from "./pages/timeline/Timeline";
+import Following from "./pages/following/Following";
 
 export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
@@ -26,6 +27,7 @@ export default function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<Timeline />} exact />
           <Route path="/:username" element={<Profile />} />
+          <Route path="/:username/following" element={<Following />}/>
         </Route>
       </Routes>
     </div>

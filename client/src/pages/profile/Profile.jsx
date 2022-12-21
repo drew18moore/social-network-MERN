@@ -6,7 +6,7 @@ import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
 import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Post from "../../components/post/Post";
 
@@ -19,6 +19,7 @@ export default function Profile() {
   const [user, setUser] = useState({});
   const [isFollowing, setIsFollowing] = useState();
   const [followBtnText, setFollowBtnText] = useState("Following");
+  const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
 
@@ -124,7 +125,7 @@ export default function Profile() {
             )}
           </div>
           <div className="bottom">
-            <span className="following">
+            <span className="following" onClick={() => navigate(`following`)}>
               <span className="count">
                 {user.following && user.following.length}
               </span>{" "}
