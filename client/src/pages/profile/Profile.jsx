@@ -131,7 +131,7 @@ export default function Profile() {
               </span>{" "}
               Following
             </span>
-            <span className="followers">
+            <span className="followers" onClick={() => navigate('followers')}>
               <span className="count">
                 {user.followers && user.followers.length}
               </span>{" "}

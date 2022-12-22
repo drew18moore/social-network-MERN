@@ -232,7 +232,7 @@ router.get("/:username/followers", async (req, res) => {
         fullname: user.fullname,
         username: user.username,
       },
-      followedUsers: followers,
+      followers: followers,
     });
   } catch (err) {
     res.status(500).json(err);
