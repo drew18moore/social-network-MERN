@@ -26,13 +26,19 @@ export default function Following() {
   return (
     <div className="profile-main">
       <div className="header">
-        <div className="back-btn" onClick={() => navigate(`/${user.username}`)}>
-          <span className="material-symbols-outlined">arrow_back</span>
+        <div className="top">
+          <div
+            className="back-btn"
+            onClick={() => navigate(`/${user.username}`)}
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </div>
+          <div className="user-info">
+            <p>{user.fullname}</p>
+            <p className="username">@{user.username}</p>
+          </div>
         </div>
-        <div className="user-info">
-          <p>{user.fullname}</p>
-          <p className="username">@{user.username}</p>
-        </div>
+        <h3>Following</h3>
       </div>
     </div>
   );

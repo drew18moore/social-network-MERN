@@ -1,11 +1,14 @@
 .header {
   padding: 15px 25px;
-  display: flex;
-  align-items: center;
-  gap: 25px;
   background-color: white;
   margin: 25px;
   border-radius: 8px;
+}
+
+.header .top {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }
 
 .profile-main .user-info {
@@ -23,4 +26,9 @@
 .profile-main .back-btn:hover {
   color: #1d9bf0;
   background-color: #e1eef6;
+}
+
+.header h3 {
+  text-align: center;
+  padding-top: 25px;
 }

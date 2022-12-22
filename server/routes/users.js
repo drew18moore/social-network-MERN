@@ -154,7 +154,7 @@ router.get("/all-unfollowed/:id", async (req, res) => {
       return {
         ...user.toJSON(),
         img: profilePicture,
-      }
+      };
     });
 
     res.status(200).json(unfollowedUsers);
@@ -164,11 +164,14 @@ router.get("/all-unfollowed/:id", async (req, res) => {
 });
 
 // Get all followed users
-router.get("/following/:id", async (req, res) => {
+router.get("/following/:username", async (req, res) => {
   try {
+    const user = await User.findOne({
+      username: req.params.username,
+    });
     const users = await User.find({
-      followers: req.params.id
-    })
+      followers: user._id.toString(),
+    });
 
     const followedUsers = users.map((user) => {
       let profilePicture;
@@ -183,13 +186,20 @@ router.get("/following/:id", async (req, res) => {
       return {
         ...user.toJSON(),
         img: profilePicture,
-      }
+      };
     });
+    console.log(followedUsers);
 
-    res.status(200).json(followedUsers)
+    res.status(200).json({
+      user: {
+        userId: user._id,
+        username: user.username,
+      },
+      followedUsers: followedUsers,
+    });
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err);
   }
-})
+});
 
 module.exports = router;
