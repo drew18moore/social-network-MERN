@@ -27,7 +27,7 @@ export default function Navbar() {
             <p className="username">@{currentUser.username}</p>
           </div>
           {/* <div className="account-dropdown-btn" onClick={openDropdown}> */}
-          <img src={currentUser.img || "default-pfp.jpg"} />
+          <img src={currentUser.img || "/default-pfp.jpg"} />
           {/* </div> */}
         </div>
         {showDropdown && (

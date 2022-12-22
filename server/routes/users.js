@@ -201,4 +201,42 @@ router.get("/:username/following", async (req, res) => {
   }
 });
 
+// Get all followers
+router.get("/:username/followers", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.params.username,
+    });
+    const users = await User.find({
+      following: user._id.toString(),
+    });
+
+    const followers = users.map((user) => {
+      let profilePicture;
+      if (user.img.data) {
+        const buffer = Buffer.from(user.img.data);
+        const b64String = buffer.toString("base64");
+        profilePicture = `data:image/png;base64,${b64String}`;
+      } else {
+        profilePicture = "/default-pfp.jpg";
+      }
+
+      return {
+        ...user.toJSON(),
+        img: profilePicture,
+      };
+    });
+
+    res.status(200).json({
+      user: {
+        fullname: user.fullname,
+        username: user.username,
+      },
+      followedUsers: followers,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 module.exports = router;
