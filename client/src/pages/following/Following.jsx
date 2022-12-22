@@ -8,14 +8,16 @@ import axios from "axios";
 export default function Following() {
   const { username } = useParams();
   const [user, setUser] = useState({});
+  const [followedUsers, setFollowedUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = () => {
       axios
-        .get(`http://192.168.1.2:3000/api/users/${username}`)
+        .get(`http://192.168.1.2:3000/api/users/${username}/following`)
         .then((res) => {
-          setUser(res.data);
+          setUser(res.data.user);
+          setFollowedUsers(res.data.followedUsers)
         })
         .catch((err) => {
           console.log("Error", err);

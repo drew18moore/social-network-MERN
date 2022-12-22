@@ -164,7 +164,7 @@ router.get("/all-unfollowed/:id", async (req, res) => {
 });
 
 // Get all followed users
-router.get("/following/:username", async (req, res) => {
+router.get("/:username/following", async (req, res) => {
   try {
     const user = await User.findOne({
       username: req.params.username,
@@ -192,7 +192,7 @@ router.get("/following/:username", async (req, res) => {
 
     res.status(200).json({
       user: {
-        userId: user._id,
+        fullname: user.fullname,
         username: user.username,
       },
       followedUsers: followedUsers,
