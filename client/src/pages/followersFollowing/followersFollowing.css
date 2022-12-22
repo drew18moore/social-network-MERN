@@ -52,6 +52,7 @@
 }
 
 .followers-link, .following-link {
+  cursor: pointer;
   border-radius: 8px;
   padding: 1rem;
   color: #757575;

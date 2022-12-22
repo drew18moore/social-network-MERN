@@ -173,7 +173,7 @@ router.get("/:username/following", async (req, res) => {
       followers: user._id.toString(),
     });
 
-    const followedUsers = users.map((user) => {
+    const following = users.map((user) => {
       let profilePicture;
       if (user.img.data) {
         const buffer = Buffer.from(user.img.data);
@@ -194,7 +194,7 @@ router.get("/:username/following", async (req, res) => {
         fullname: user.fullname,
         username: user.username,
       },
-      followedUsers: followedUsers,
+      following: following,
     });
   } catch (err) {
     res.status(500).json(err);
