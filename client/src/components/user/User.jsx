@@ -38,14 +38,15 @@ export default function User({ user }) {
           <p className="username">@{user.username}</p>
         </div>
       </div>
-      <button
+      {user._id !== currentUser._id && <button
         className={isFollowing ? "unfollow-user-btn" : "follow-user-btn"}
         onMouseEnter={() => setFollowBtnText("Unfollow")}
         onMouseLeave={() => setFollowBtnText("Following")}
         onClick={followUser}
       >
         {isFollowing ? followBtnText : "Follow"}
-      </button>
+      </button>}
+      
     </div>
   );
 }

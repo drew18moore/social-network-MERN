@@ -188,7 +188,6 @@ router.get("/:username/following", async (req, res) => {
         img: profilePicture,
       };
     });
-    console.log(followedUsers);
 
     res.status(200).json({
       user: {
