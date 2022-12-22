@@ -3,6 +3,8 @@
   background-color: white;
   margin: 25px;
   border-radius: 8px;
+  display: grid;
+  gap: 25px;
 }
 
 .header .top {
@@ -41,4 +43,35 @@
   margin: 25px;
   display: grid;
   gap: 5px;
+}
+
+.header .links {
+  justify-self: center;
+  display: flex;
+  gap: 15px;
+}
+
+.followers-link, .following-link {
+  border-radius: 8px;
+  padding: 1rem;
+  color: #757575;
+  font-weight: bold;
+}
+
+.followers-link:hover, .following-link:hover {
+  color: #1d9bf0;
+  background-color: #e1eef6;
+}
+
+.active-link {
+  color: black;
+}
+
+.active-link::after {
+  content: '';
+  background-color: #1d9bf0;
+  height: 2px;
+  display: block;
+  position: relative;
+  bottom: -1rem;
 }

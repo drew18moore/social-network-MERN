@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import User from "../../components/user/User";
 
@@ -40,7 +40,10 @@ export default function Followers() {
             <p className="username">@{user.username}</p>
           </div>
         </div>
-        <h3>Followers</h3>
+        <div className="links">
+          <Link className="followers-link active-link" to={`/${username}/followers`}>Followers</Link>
+          <Link className="following-link" to={`/${username}/following`}>Following</Link>
+        </div>
       </div>
       <div className="followed-users">
         {followers.map((user) => {
