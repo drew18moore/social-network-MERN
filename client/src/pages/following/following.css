@@ -11,7 +11,11 @@
   gap: 25px;
 }
 
-.profile-main .user-info {
+.header .username {
+  color: #757575;
+}
+
+.profile-main .following-user-info {
   display: grid;
   gap: 0;
 }
@@ -31,4 +35,10 @@
 .header h3 {
   text-align: center;
   padding-top: 25px;
+}
+
+.followed-users {
+  margin: 25px;
+  display: grid;
+  gap: 5px;
 }

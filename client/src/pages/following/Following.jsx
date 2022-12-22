@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./following.css";
 import axios from "axios";
+import User from "../../components/user/User";
 
 export default function Following() {
   const { username } = useParams();
@@ -17,7 +18,7 @@ export default function Following() {
         .get(`http://192.168.1.2:3000/api/users/${username}/following`)
         .then((res) => {
           setUser(res.data.user);
-          setFollowedUsers(res.data.followedUsers)
+          setFollowedUsers(res.data.followedUsers);
         })
         .catch((err) => {
           console.log("Error", err);
@@ -35,12 +36,17 @@ export default function Following() {
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </div>
-          <div className="user-info">
+          <div className="following-user-info">
             <p>{user.fullname}</p>
             <p className="username">@{user.username}</p>
           </div>
         </div>
         <h3>Following</h3>
+      </div>
+      <div className="followed-users">
+        {followedUsers.map((user) => {
+          return <User key={user._id} user={user} />;
+        })}
       </div>
     </div>
   );
