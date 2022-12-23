@@ -11,8 +11,16 @@
   flex-grow: 1;
 }
 
-.timeline-main {
+.main {
   flex-basis: 600px;
+  background-color: #F0F2F5;
+  border-radius: 8px;
+  overflow: scroll;
+  height: calc(100vh - 70px);
+}
+
+.main::-webkit-scrollbar {
+  width: 0px;
 }
 
 .right-sidebar {

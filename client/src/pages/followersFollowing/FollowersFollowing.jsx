@@ -41,7 +41,7 @@ export default function FollowersFollowing({ page }) {
   }, [username]);
 
   return (
-    <div className="profile-main">
+    <>
       <div className="header">
         <div className="top">
           <div
@@ -84,6 +84,6 @@ export default function FollowersFollowing({ page }) {
             return <User key={user._id} user={user} />;
           })}
       </div>
-    </div>
+    </>
   );
 }

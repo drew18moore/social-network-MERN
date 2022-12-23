@@ -1,16 +1,4 @@
-.profile-main {
-  flex-basis: 600px;
-  background-color: #F0F2F5;
-  height: calc(100vh - 70px);
-  overflow: scroll;
-  border-radius: 8px;
-}
-
-.profile-main::-webkit-scrollbar {
-  width: 0px;
-}
-
-.profile-main .posts-heading {
+.posts-heading {
   padding-bottom: 15px;
 }
 

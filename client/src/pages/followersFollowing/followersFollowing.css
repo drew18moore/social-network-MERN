@@ -17,19 +17,19 @@
   color: #757575;
 }
 
-.profile-main .following-user-info {
+.following-user-info {
   display: grid;
   gap: 0;
 }
 
-.profile-main .back-btn {
+.back-btn {
   cursor: pointer;
   border-radius: 50%;
   padding: 8px;
   transition: .1s;
 }
 
-.profile-main .back-btn:hover {
+.back-btn:hover {
   color: #1d9bf0;
   background-color: #e1eef6;
 }

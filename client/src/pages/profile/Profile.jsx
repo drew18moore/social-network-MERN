@@ -75,7 +75,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="profile-main">
+    <>
       <div className="profile-container">
         <div className="profile-card">
           <div className="top">
@@ -173,6 +173,6 @@ export default function Profile() {
           />
         </Modal>
       )}
-    </div>
+    </>
   );
 }

@@ -3,14 +3,3 @@
   flex-direction: column;
   gap: 15px;
 }
-
-.timeline-main {
-  background-color: #F0F2F5;
-  border-radius: 8px;
-  overflow: scroll;
-  height: calc(100vh - 70px);
-}
-
-.timeline-main::-webkit-scrollbar {
-  width: 0px;
-}

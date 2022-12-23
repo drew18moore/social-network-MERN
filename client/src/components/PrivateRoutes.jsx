@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import HeaderBar from "./headerBar/HeaderBar";
 import NavSideBar from "./navSidebar/NavSideBar";
-import RightSidebar from "./placeholderSidebar/RightSidebar";
+import RightSidebar from "./rightSidebar/RightSidebar";
 
 export default function PrivateRoutes() {
   const { currentUser } = useAuth();
@@ -12,7 +12,9 @@ export default function PrivateRoutes() {
       <HeaderBar />
       <div className="app-container">
         <NavSideBar />
-        <Outlet />
+        <div className="main">
+          <Outlet />
+        </div>
         <RightSidebar />
       </div>
     </>
