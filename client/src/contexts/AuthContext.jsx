@@ -15,11 +15,14 @@ export function AuthProvider({ children }) {
     password: "Drew1212!",
     __v: 0,
     fullname: "Drew Moore",
+    followers: [],
+    following: [],
+    img: ""
   });
 
   useEffect(() => {
     console.log(currentUser);
-  }, []);
+  }, [currentUser]);
 
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
