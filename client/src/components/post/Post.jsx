@@ -9,7 +9,7 @@ import EditPost from "../modal/EditPost";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Post({
   postId,
@@ -30,6 +30,7 @@ export default function Post({
   const [numberOfLikes, setNumberOfLikes] = useState(numLikes);
 
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLiked(isLiked);
@@ -59,7 +60,7 @@ export default function Post({
   };
 
   return (
-    <div className="post">
+    <div className="post" onClick={() => navigate(`/${username}/posts/${postId}`)}>
       <div className="post-content">
         <div className="post-picture">
           <Link className="post-pfp" to={`/${username}`}>

@@ -9,6 +9,7 @@ import axios from "axios";
 import { useAuth } from "./contexts/AuthContext";
 import Timeline from "./pages/timeline/Timeline";
 import FollowersFollowing from "./pages/followersFollowing/FollowersFollowing";
+import Post from "./pages/post/Post";
 
 export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/:username" element={<Profile />} />
           <Route path="/:username/following" element={<FollowersFollowing page="following" />}/>
           <Route path="/:username/followers" element={<FollowersFollowing page="followers" />}/>
+          <Route path="/:username/posts/:postId" element={<Post />} />
         </Route>
       </Routes>
     </div>
