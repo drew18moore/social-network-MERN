@@ -7,7 +7,10 @@ export default function Dropdown({ children, setShowDropdown }) {
       <div className="dropdown">{children}</div>
       <div
         className="dropdown-backdrop"
-        onClick={() => setShowDropdown(prev => !prev)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowDropdown(prev => !prev)
+        }}
       ></div>
     </>
   );

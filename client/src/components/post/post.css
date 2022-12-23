@@ -21,6 +21,10 @@
   padding-top: 5px;
 }
 
+.post-picture-btn {
+  border-radius: 50%;
+}
+
 .post-picture img {
   object-fit: cover;
   width: 50px;

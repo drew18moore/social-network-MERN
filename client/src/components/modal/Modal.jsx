@@ -14,7 +14,10 @@ export default function Modal({ children, setShowModal }) {
   return (
     <div
       className="modal-backdrop"
-      onClick={() => setShowModal((prev) => !prev)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowModal((prev) => !prev)
+      }}
     >
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         <button className="close-modal-btn" onClick={() => setShowModal((prev) => !prev)}>

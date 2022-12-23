@@ -1,23 +1,32 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function PostDropdown({ username, setShowDropdown, setShowDeletePostModal, setShowEditPostModal }) {
+export default function PostDropdown({
+  username,
+  setShowDropdown,
+  setShowDeletePostModal,
+  setShowEditPostModal,
+}) {
   const { currentUser } = useAuth();
 
   return (
     <ul className="post-dropdown">
       {username === currentUser.username && (
-        <li onClick={() => {
-          setShowDropdown(false);
-          setShowEditPostModal(true);
-        }}>
+        <li
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowDropdown(false);
+            setShowEditPostModal(true);
+          }}
+        >
           <span className="material-symbols-rounded">edit</span>
           <p>Edit</p>
         </li>
       )}
       {username === currentUser.username && (
         <li
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setShowDropdown(false);
             setShowDeletePostModal((prev) => !prev);
           }}
@@ -27,7 +36,11 @@ export default function PostDropdown({ username, setShowDropdown, setShowDeleteP
         </li>
       )}
       {username !== currentUser.username && (
-        <li>
+        <li
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <span className="material-symbols-rounded">report</span>
           <p>Report</p>
         </li>

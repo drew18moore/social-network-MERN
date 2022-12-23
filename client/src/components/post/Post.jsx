@@ -21,7 +21,7 @@ export default function Post({
   deletePostById,
   editPost,
   isLiked,
-  numLikes
+  numLikes,
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
@@ -43,36 +43,48 @@ export default function Post({
     year: "numeric",
   };
 
-  const openDropdown = () => {
+  const openDropdown = (e) => {
+    e.stopPropagation();
     setShowDropdown((prev) => !prev);
   };
 
-  const likePost = () => {
+  const likePost = (e) => {
+    e.stopPropagation();
     axios
       .put(`http://192.168.1.2:3000/api/posts/like/${postId}`, {
         userId: currentUser._id,
       })
       .then((res) => {
         console.log(res.data);
-        setNumberOfLikes(res.data.numLikes)
+        setNumberOfLikes(res.data.numLikes);
         setLiked((prev) => !prev);
       });
   };
 
+  const gotoPostPage = (e) => {
+    e.preventDefault();
+    navigate(`/${username}/posts/${postId}`);
+  };
+
+  const gotoProfilePage = (e) => {
+    e.stopPropagation();
+    navigate(`/${username}`)
+  }
+
   return (
-    <div className="post" onClick={() => navigate(`/${username}/posts/${postId}`)}>
+    <div className="post" onClick={gotoPostPage}>
       <div className="post-content">
         <div className="post-picture">
-          <Link className="post-pfp" to={`/${username}`}>
+          <div className="post-picture-btn" onClick={gotoProfilePage}>
             <img src={profilePicture} alt="" />
-          </Link>
+          </div>
         </div>
         <div className="post-text">
           <div className="post-header">
             <div className="left-post-header">
-              <Link className="post-fullname-link" to={`/${username}`}>
+              <div className="post-fullname-link" onClick={gotoProfilePage}>
                 <p className="post-fullname">{fullname}</p>
-              </Link>
+              </div>
 
               <p className="post-username">@{username}</p>
               <p className="post-dot">&#8226;</p>
@@ -102,7 +114,8 @@ export default function Post({
       <hr />
       <div className="like-comment-share-btns">
         <div className={`like-btn ${liked ? "liked" : ""}`} onClick={likePost}>
-          <span className="material-symbols-rounded">thumb_up</span>{numberOfLikes}
+          <span className="material-symbols-rounded">thumb_up</span>
+          {numberOfLikes}
         </div>
         <div className="comment-btn">
           <span className="material-symbols-rounded">chat_bubble</span>
