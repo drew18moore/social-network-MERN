@@ -47,7 +47,7 @@
   text-decoration: underline;
 }
 
-.post-header {
+.post .post-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
