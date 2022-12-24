@@ -1,7 +1,7 @@
 import React from "react";
 import "./newPost.css";
 import { useAuth } from "../../contexts/AuthContext";
-import axios from "axios";
+import api from "../../api/api";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,8 +15,8 @@ export default function NewPost({ addPost }) {
     e.preventDefault();
     e.target[0].style.height = "50px";
     setError("");
-    await axios
-      .post("http://192.168.1.2:3000/api/posts/new", {
+    await api
+      .post("/api/posts/new", {
         userId: currentUser._id,
         fullname: currentUser.fullname,
         username: currentUser.username,

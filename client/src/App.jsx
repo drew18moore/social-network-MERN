@@ -5,7 +5,7 @@ import Register from "./pages/auth/Register";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Profile from "./pages/profile/Profile";
 import { useEffect } from "react";
-import axios from "axios";
+import api from "./api/api";
 import { useAuth } from "./contexts/AuthContext";
 import Timeline from "./pages/timeline/Timeline";
 import FollowersFollowing from "./pages/followersFollowing/FollowersFollowing";
@@ -15,8 +15,8 @@ export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
 
   useEffect(() => {
-    axios
-      .get(`http://192.168.1.2:3000/api/users/${currentUser.username}`)
+    api
+      .get(`/api/users/${currentUser.username}`)
       .then((res) => setCurrentUser(res.data));
   }, []);
 

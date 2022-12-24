@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function ChangeProfilePicture({ setShowModal }) {
@@ -15,15 +15,15 @@ export default function ChangeProfilePicture({ setShowModal }) {
 
   const uploadFile = (e) => {
     e.preventDefault();
-
+    console.log("currimg", currentUser.img)
     let formdata = new FormData();
 
     formdata.append("image", file);
     formdata.append("userId", currentUser._id);
 
-    axios
+    api
       .put(
-        `http://192.168.1.2:3000/api/users/change-img/${currentUser._id}`,
+        `/api/users/change-img/${currentUser._id}`,
         formdata,
         { headers: { "content-type": "multipart/form-data" } }
       )

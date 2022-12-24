@@ -6,7 +6,7 @@ import "./post.css";
 import Modal from "../modal/Modal";
 import DeletePost from "../modal/DeletePost";
 import EditPost from "../modal/EditPost";
-import axios from "axios";
+import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -50,8 +50,8 @@ export default function Post({
 
   const likePost = (e) => {
     e.stopPropagation();
-    axios
-      .put(`http://192.168.1.2:3000/api/posts/like/${postId}`, {
+    api
+      .put(`/api/posts/like/${postId}`, {
         userId: currentUser._id,
       })
       .then((res) => {

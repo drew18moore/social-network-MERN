@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import axios from "axios";
+import api from "../../api/api";
 
 export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
@@ -19,7 +19,7 @@ export default function EditProfile({ setUser, setShowModal }) {
 
     if (passwordRef.current !== null) {
       if (passwordRef.current.value === currentUser.password) {
-        axios.put(`http://192.168.1.2:3000/api/users/${currentUser._id}`, {
+        api.put(`/api/users/${currentUser._id}`, {
           userId: currentUser._id,
           fullname: fullnameRef.current.value ? fullnameRef.current.value : currentUser.fullname,
           username: usernameRef.current.value ? usernameRef.current.value : currentUser.username,

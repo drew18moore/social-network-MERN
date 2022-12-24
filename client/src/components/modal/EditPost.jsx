@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api/api";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -20,7 +20,7 @@ export default function EditPost({ postId, username, postBody, setShowModal, edi
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.put(`http://192.168.1.2:3000/api/posts/edit/${postId}`, {
+    api.put(`/api/posts/edit/${postId}`, {
       userId: currentUser._id,
       postBody: userMessage
     }).then((res) => {

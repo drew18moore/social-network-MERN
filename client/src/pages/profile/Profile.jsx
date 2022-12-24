@@ -7,8 +7,8 @@ import EditProfile from "../../components/modal/EditProfile";
 import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import Post from "../../components/post/Post";
+import api from "../../api/api";
 
 export default function Profile() {
   const { username } = useParams();
@@ -26,8 +26,8 @@ export default function Profile() {
   useEffect(() => {
     const fetchData = async () => {
       // Fetch user data
-      await axios
-        .get(`http://192.168.1.2:3000/api/users/${username}`)
+      await api
+        .get(`/api/users/${username}`)
         .then((res) => {
           setUser(res.data);
           setIsFollowing(() => res.data.followers.includes(currentUser._id));
@@ -36,8 +36,8 @@ export default function Profile() {
           console.log("Error", err);
         });
       // Fetch user posts
-      await axios
-        .get(`http://192.168.1.2:3000/api/posts/${username}`)
+      await api
+        .get(`/api/posts/${username}`)
         .then((res) => {
           setPosts(res.data);
         });
@@ -46,8 +46,8 @@ export default function Profile() {
   }, [username]);
 
   const followUser = () => {
-    axios
-      .put(`http://192.168.1.2:3000/api/users/follow/${username}`, {
+    api
+      .put(`/api/users/follow/${username}`, {
         currUsername: currentUser.username,
       })
       .then((res) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import "./user.css";
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -20,8 +20,8 @@ export default function User({ user }) {
   
   const followUser = (e) => {
     e.stopPropagation();
-    axios
-      .put(`http://192.168.1.2:3000/api/users/follow/${user.username}`, {
+    api
+      .put(`/api/users/follow/${user.username}`, {
         currUsername: currentUser.username,
       })
       .then((res) => {

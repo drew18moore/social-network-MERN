@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import "./rightSidebar.css"
-import axios from "axios"
+import api from "../../api/api"
 import { useAuth } from '../../contexts/AuthContext';
 import User from '../user/User';
 
@@ -11,7 +11,7 @@ export default function RightSidebar() {
   const [unfollowedUsers, setUnfollowedUsers] = useState();
 
   useEffect(() => {
-    axios.get(`http://192.168.1.2:3000/api/users/all-unfollowed/${currentUser._id}`).then((res) => {
+    api.get(`/api/users/all-unfollowed/${currentUser._id}`).then((res) => {
       setUnfollowedUsers(res.data);
     })
   },[])

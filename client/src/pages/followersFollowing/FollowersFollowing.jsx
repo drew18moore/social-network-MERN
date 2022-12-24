@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api/api";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,8 +15,8 @@ export default function FollowersFollowing({ page }) {
 
   useEffect(() => {
     const fetchFollowers = () => {
-      axios
-        .get(`http://192.168.1.2:3000/api/users/${username}/followers`)
+      api
+        .get(`/api/users/${username}/followers`)
         .then((res) => {
           setUser(res.data.user);
           setFollowers(res.data.followers);
@@ -27,8 +27,8 @@ export default function FollowersFollowing({ page }) {
     };
 
     const fetchFollowing = () => {
-      axios
-        .get(`http://192.168.1.2:3000/api/users/${username}/following`)
+      api
+        .get(`/api/users/${username}/following`)
         .then((res) => {
           setFollowing(res.data.following);
         })

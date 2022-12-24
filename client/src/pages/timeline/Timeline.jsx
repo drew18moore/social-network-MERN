@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
 import "./timeline.css";
@@ -12,8 +12,8 @@ export default function Timeline() {
   const { currentUser } = useAuth();
 
   const fetchPosts = async () => {
-    await axios
-      .get("http://192.168.1.2:3000/api/posts/timeline")
+    await api
+      .get("/api/posts/timeline")
       .then((res) => {
         setPosts(res.data);
       });
