@@ -37,7 +37,7 @@ export default function Profile() {
         });
       // Fetch user posts
       await api
-        .get(`/api/posts/${username}`)
+        .get(`/api/posts/${username}/all`)
         .then((res) => {
           setPosts(res.data);
         });
