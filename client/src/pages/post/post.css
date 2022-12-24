@@ -1,0 +1,44 @@
+.post-main {
+  background-color: white;
+  margin: 25px;
+  border-radius: 8px;
+  padding: 15px;
+  display: grid;
+  gap: 10px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* outline: 1px solid red; */
+}
+
+.post-header-left {
+  display: flex;
+  /* outline: 1px solid red; */
+  align-items: center;
+  gap: 10px;
+}
+
+.post-header-right {
+  align-self: flex-start;
+}
+
+.post-pfp-btn img {
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.post-body {
+  /* outline: 1px solid red; */
+}
+
+.post-date {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

@@ -9,6 +9,19 @@ export default function Post() {
   const { username, postId } = useParams();
   const [post, setPost] = useState({});
 
+  let time = new Date(post.createdAt);
+  const timeOptions = {
+    hour: "numeric",
+    minute: "numeric",
+  }
+
+  let date = new Date(post.createdAt);
+  const dateOptions = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+
   useEffect(() => {
     const fetchPost = async () => {
       await api.get(`/api/posts/${username}/${postId}`).then((res) => {
@@ -37,7 +50,14 @@ export default function Post() {
           </div>
         </div>
       </div>
-      
+      <div className="post-body">
+        {post.postBody}
+      </div>
+      <div className="post-date">
+        <p>{time.toLocaleString("en-US", timeOptions)}</p>
+        <p className='post-dot'>&#8226;</p>
+        <p>{date.toLocaleString("en-US", dateOptions)}</p>
+      </div>
     </div>
   )
 }
