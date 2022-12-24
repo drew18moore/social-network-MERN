@@ -132,7 +132,7 @@ router.get("/timeline", async (req, res) => {
 });
 
 // Get all posts by username
-router.get("/:username", async (req, res) => {
+router.get("/:username/all", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username })
     const userPosts = await Post.find({ userId: user._id })
@@ -161,6 +161,33 @@ router.get("/:username", async (req, res) => {
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
+  }
+})
+
+router.get("/:username/:id", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username })
+    const post = await Post.findById(req.params.id);
+
+    let profilePicture;
+    if (user.img.data) {
+      const buffer = Buffer.from(user.img.data);
+      const b64String = buffer.toString("base64");
+      profilePicture = `data:image/png;base64,${b64String}`;
+    } else {
+      profilePicture = "/default-pfp.jpg";
+    }
+
+    const postData = {
+      ...post.toJSON(),
+      fullname: user.fullname,
+      username: user.username,
+      profilePicture: profilePicture
+    }
+
+    res.status(200).json(postData);
+  } catch (err) {
+    res.status(500).json(err)
   }
 })
 
