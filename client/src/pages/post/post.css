@@ -2,7 +2,7 @@
   background-color: white;
   margin: 25px;
   border-radius: 8px;
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   display: grid;
   gap: 10px;
 }
@@ -11,12 +11,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* outline: 1px solid red; */
 }
 
 .post-header-left {
   display: flex;
-  /* outline: 1px solid red; */
   align-items: center;
   gap: 10px;
 }
@@ -33,12 +31,18 @@
   vertical-align: middle;
 }
 
-.post-body {
-  /* outline: 1px solid red; */
-}
-
 .post-date {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.post-main hr {
+  border-top: 1px solid #D8DADF;
+  border-bottom: none;
+}
+
+.post-bottom .like-comment-share-btns {
+  margin-top: 3px;
+  margin-bottom: 3px;
 }

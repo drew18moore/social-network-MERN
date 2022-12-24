@@ -58,6 +58,22 @@ export default function Post() {
         <p className='post-dot'>&#8226;</p>
         <p>{date.toLocaleString("en-US", dateOptions)}</p>
       </div>
+      <div className="post-bottom">
+        <hr/>
+        <div className="like-comment-share-btns">
+          <div className={`like-btn `} >
+            <span className="material-symbols-rounded">thumb_up</span>
+            {post.numberOfLikes}
+          </div>
+          <div className="comment-btn">
+            <span className="material-symbols-rounded">chat_bubble</span>
+          </div>
+          <div className="share-btn">
+            <span className="material-symbols-rounded">google_plus_reshare</span>
+          </div>
+        </div>
+      </div>
+      
     </div>
   )
 }
