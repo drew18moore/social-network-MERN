@@ -8,13 +8,13 @@ import { useEffect } from "react";
 
 export default function User({ user }) {
   const { currentUser } = useAuth();
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState();
   const [followBtnText, setFollowBtnText] = useState("Following");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const following = currentUser.following.includes(user._id)
+    const following = user.followers.includes(currentUser._id)
     setIsFollowing(following);
   },[])
   
@@ -26,7 +26,6 @@ export default function User({ user }) {
       })
       .then((res) => {
         setIsFollowing((prev) => !prev);
-        console.log(res.data);
       });
   };
   return (

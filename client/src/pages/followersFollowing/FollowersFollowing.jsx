@@ -14,8 +14,10 @@ export default function FollowersFollowing({ page }) {
   const [currPage, setCurrPage] = useState(page);
 
   useEffect(() => {
-    const fetchFollowers = () => {
-      api
+    setFollowers([]);
+    setFollowing([]);
+    const fetchFollowers = async () => {
+      await api
         .get(`/api/users/${username}/followers`)
         .then((res) => {
           setUser(res.data.user);
@@ -26,8 +28,8 @@ export default function FollowersFollowing({ page }) {
         });
     };
 
-    const fetchFollowing = () => {
-      api
+    const fetchFollowing = async () => {
+      await api
         .get(`/api/users/${username}/following`)
         .then((res) => {
           setFollowing(res.data.following);
@@ -38,7 +40,7 @@ export default function FollowersFollowing({ page }) {
     };
     fetchFollowers();
     fetchFollowing();
-  }, [username]);
+  }, [username, currPage]);
 
   return (
     <>
