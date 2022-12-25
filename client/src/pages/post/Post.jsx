@@ -3,11 +3,15 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import api from '../../api/api';
+import { useAuth } from '../../contexts/AuthContext';
 import "./post.css";
 
 export default function Post() {
   const { username, postId } = useParams();
+  const { currentUser } = useAuth();
   const [post, setPost] = useState({});
+  const [liked, setLiked] = useState(false);
+  const [numberOfLikes, setNumberOfLikes] = useState();
 
   let time = new Date(post.createdAt);
   const timeOptions = {
@@ -26,6 +30,8 @@ export default function Post() {
     const fetchPost = async () => {
       await api.get(`/api/posts/${username}/${postId}`).then((res) => {
         setPost(res.data);
+        setLiked(res.data.likes.includes(currentUser._id))
+        setNumberOfLikes(res.data.likes.length)
       })
       
     }
@@ -61,9 +67,9 @@ export default function Post() {
       <div className="post-bottom">
         <hr/>
         <div className="like-comment-share-btns">
-          <div className={`like-btn `} >
+          <div className={`like-btn ${liked ? "liked" : ""}`} >
             <span className="material-symbols-rounded">thumb_up</span>
-            {post.numberOfLikes}
+            {numberOfLikes}
           </div>
           <div className="comment-btn">
             <span className="material-symbols-rounded">chat_bubble</span>
