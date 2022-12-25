@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from '../../api/api';
 import { useAuth } from '../../contexts/AuthContext';
 import "./post.css";
@@ -22,6 +22,8 @@ export default function Post() {
   const [post, setPost] = useState({});
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState();
+
+  const navigate = useNavigate();
 
   let time = new Date(post.createdAt);
   const timeOptions = {
@@ -57,6 +59,10 @@ export default function Post() {
     let updatedPost = { ...post, postBody: newPost.postBody };
     setPost(updatedPost);
   };
+
+  const deletePostById = () => {
+    navigate("/")
+  }
 
   return (
     <div className='post-main'>
