@@ -64,6 +64,19 @@ export default function Post() {
     navigate("/")
   }
 
+  const likePost = (e) => {
+    e.stopPropagation();
+    api
+      .put(`/api/posts/like/${postId}`, {
+        userId: currentUser._id,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setNumberOfLikes(res.data.numLikes);
+        setLiked((prev) => !prev);
+      });
+  }
+
   return (
     <div className='post-main'>
       <div className="post-header">
@@ -103,7 +116,7 @@ export default function Post() {
       <div className="post-bottom">
         <hr/>
         <div className="like-comment-share-btns">
-          <div className={`like-btn ${liked ? "liked" : ""}`} >
+          <div className={`like-btn ${liked ? "liked" : ""}`} onClick={likePost} >
             <span className="material-symbols-rounded">thumb_up</span>
             {numberOfLikes}
           </div>
