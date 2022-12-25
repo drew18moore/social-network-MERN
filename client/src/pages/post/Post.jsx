@@ -5,9 +5,19 @@ import { useParams } from "react-router-dom";
 import api from '../../api/api';
 import { useAuth } from '../../contexts/AuthContext';
 import "./post.css";
+import Dropdown from "../../components/dropdown/Dropdown";
+import PostDropdown from "../../components/dropdown/PostDropdown";
+import Modal from '../../components/modal/Modal';
+import DeletePost from '../../components/modal/DeletePost';
+import EditPost from '../../components/modal/EditPost';
 
 export default function Post() {
   const { username, postId } = useParams();
+
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+  const [showEditPostModal, setShowEditPostModal] = useState(false);
+
   const { currentUser } = useAuth();
   const [post, setPost] = useState({});
   const [liked, setLiked] = useState(false);
@@ -38,6 +48,16 @@ export default function Post() {
     fetchPost();
   }, [username, postId])
 
+  const openDropdown = (e) => {
+    e.stopPropagation();
+    setShowDropdown((prev) => !prev);
+  };
+
+  const editPost = (newPost) => {
+    let updatedPost = { ...post, postBody: newPost.postBody };
+    setPost(updatedPost);
+  };
+
   return (
     <div className='post-main'>
       <div className="post-header">
@@ -51,9 +71,19 @@ export default function Post() {
           </div>
         </div>
         <div className="post-header-right">
-          <div className="meatball-btn">
+          <div className="meatball-btn" onClick={openDropdown}>
             <span className="material-symbols-outlined">more_horiz</span>
           </div>
+          {showDropdown && (
+                <Dropdown setShowDropdown={setShowDropdown}>
+                  <PostDropdown
+                    username={username}
+                    setShowDropdown={setShowDropdown}
+                    setShowDeletePostModal={setShowDeletePostModal}
+                    setShowEditPostModal={setShowEditPostModal}
+                  />
+                </Dropdown>
+              )}
         </div>
       </div>
       <div className="post-body">
@@ -79,7 +109,26 @@ export default function Post() {
           </div>
         </div>
       </div>
-      
+      {showDeletePostModal && (
+        <Modal setShowModal={setShowDeletePostModal}>
+          <DeletePost
+            postId={postId}
+            setShowModal={setShowDeletePostModal}
+            deletePostById={deletePostById}
+          />
+        </Modal>
+      )}
+      {showEditPostModal && (
+        <Modal setShowModal={setShowEditPostModal}>
+          <EditPost
+            postId={postId}
+            username={username}
+            postBody={post.postBody}
+            setShowModal={setShowEditPostModal}
+            editPost={editPost}
+          />
+        </Modal>
+      )}
     </div>
   )
 }

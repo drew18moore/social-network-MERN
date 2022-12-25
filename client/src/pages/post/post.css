@@ -21,6 +21,7 @@
 
 .post-header-right {
   align-self: flex-start;
+  position: relative;
 }
 
 .post-pfp-btn img {

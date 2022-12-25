@@ -11,7 +11,7 @@ export default function EditPost({ postId, username, postBody, setShowModal, edi
   const handleChange = (e) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
-    e.target.style.height = `${e.target.scrollHeight + 2}px`;
+    e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
   useEffect(() => {
@@ -24,7 +24,6 @@ export default function EditPost({ postId, username, postBody, setShowModal, edi
       userId: currentUser._id,
       postBody: userMessage
     }).then((res) => {
-      console.log(res.data)
       setShowModal(false);
       editPost(res.data)
     })
