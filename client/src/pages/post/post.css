@@ -1,3 +1,18 @@
+.post-top {
+  background-color: white;
+  margin: 25px;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.post-top p {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
 .post-main {
   background-color: white;
   margin: 25px;
