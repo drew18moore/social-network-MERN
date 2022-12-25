@@ -24,12 +24,30 @@
   position: relative;
 }
 
+.post-pfp-btn {
+  border-radius: 50%;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.post-pfp-btn:hover {
+  filter: brightness(90%);
+}
+
 .post-pfp-btn img {
   object-fit: cover;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   vertical-align: middle;
+}
+
+.post-fullname {
+  cursor: pointer;
+}
+
+.post-fullname:hover {
+  text-decoration: underline;
 }
 
 .post-date {

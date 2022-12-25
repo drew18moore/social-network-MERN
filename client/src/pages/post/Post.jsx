@@ -81,12 +81,12 @@ export default function Post() {
     <div className='post-main'>
       <div className="post-header">
         <div className="post-header-left">
-          <div className="post-pfp-btn">
+          <div className="post-pfp-btn" onClick={() => navigate(`/${username}`)}>
             <img src={post.profilePicture} alt="profile picture" />
           </div>
           <div className="post-fullname-username">
-            <div className="post-fullname">{post.fullname}</div>
-            <div className="post-username">{post.username}</div>
+            <div className="post-fullname" onClick={() => navigate(`/${username}`)}>{post.fullname}</div>
+            <div className="post-username">@{post.username}</div>
           </div>
         </div>
         <div className="post-header-right">
