@@ -76,87 +76,91 @@ export default function Profile() {
 
   return (
     <>
-      <div className="profile-container">
-        <div className="profile-card">
-          <div className="top">
-            <div className="profile-img-username">
-              <div className="profile-picture-wrapper">
-                <img
-                  className="profile-picture"
-                  src={user.img || "default-pfp.jpg"}
-                  alt="profile picture"
-                />
-                {user._id === currentUser._id && (
-                  <div
-                    className="change-profile-picture-btn"
-                    onClick={() =>
-                      setShowChangeProfilePictureModal((prev) => !prev)
-                    }
-                  >
-                    <span className="material-symbols-rounded">
-                      photo_camera
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="profile-name-username">
-                <h1 className="name">{user.fullname}</h1>
-                <h2 className="username">@{user.username}</h2>
-              </div>
+      <div className="profile-top">
+        <div className="back-btn" onClick={() => navigate("/")}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </div>
+        <p>{user.fullname}</p>
+      </div>
+      <div className="profile-card">
+        <div className="top">
+          <div className="profile-img-username">
+            <div className="profile-picture-wrapper">
+              <img
+                className="profile-picture"
+                src={user.img || "default-pfp.jpg"}
+                alt="profile picture"
+              />
+              {user._id === currentUser._id && (
+                <div
+                  className="change-profile-picture-btn"
+                  onClick={() =>
+                    setShowChangeProfilePictureModal((prev) => !prev)
+                  }
+                >
+                  <span className="material-symbols-rounded">
+                    photo_camera
+                  </span>
+                </div>
+              )}
             </div>
-            {user._id === currentUser._id ? (
-              <button
-                className="edit-profile-btn"
-                onClick={() => setShowEditProfileModal((prev) => !prev)}
-              >
-                Edit profile
-              </button>
-            ) : (
-              <button
-                className={
-                  isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"
-                }
-                onClick={followUser}
-                onMouseEnter={() => setFollowBtnText("Unfollow")}
-                onMouseLeave={() => setFollowBtnText("Following")}
-              >
-                {isFollowing ? followBtnText : "Follow"}
-              </button>
-            )}
+            <div className="profile-name-username">
+              <h1 className="name">{user.fullname}</h1>
+              <h2 className="username">@{user.username}</h2>
+            </div>
           </div>
-          <div className="bottom">
-            <span className="following" onClick={() => navigate(`following`)}>
-              <span className="count">
-                {user.following && user.following.length}
-              </span>{" "}
-              Following
-            </span>
-            <span className="followers" onClick={() => navigate('followers')}>
-              <span className="count">
-                {user.followers && user.followers.length}
-              </span>{" "}
-              Followers
-            </span>
-          </div>
+          {user._id === currentUser._id ? (
+            <button
+              className="edit-profile-btn"
+              onClick={() => setShowEditProfileModal((prev) => !prev)}
+            >
+              Edit profile
+            </button>
+          ) : (
+            <button
+              className={
+                isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"
+              }
+              onClick={followUser}
+              onMouseEnter={() => setFollowBtnText("Unfollow")}
+              onMouseLeave={() => setFollowBtnText("Following")}
+            >
+              {isFollowing ? followBtnText : "Follow"}
+            </button>
+          )}
         </div>
-        <h2 className="posts-heading">Posts</h2>
-        <div className="posts">
-          {posts.map((post) => (
-            <Post
-              key={post._id}
-              postId={post._id}
-              fullname={post.fullname}
-              username={post.username}
-              postBody={post.postBody}
-              createdAt={post.createdAt}
-              profilePicture={post.profilePicture}
-              deletePostById={deletePostById}
-              editPost={editPost}
-              isLiked={post.likes.includes(currentUser._id)}
-              numLikes={post.likes.length}
-            />
-          ))}
+        <div className="bottom">
+          <span className="following" onClick={() => navigate(`following`)}>
+            <span className="count">
+              {user.following && user.following.length}
+            </span>{" "}
+            Following
+          </span>
+          <span className="followers" onClick={() => navigate('followers')}>
+            <span className="count">
+              {user.followers && user.followers.length}
+            </span>{" "}
+            Followers
+          </span>
         </div>
+      </div>
+      <h2 className="posts-heading">Posts</h2>
+      <div className="posts">
+        {posts.map((post) => (
+          <Post
+            key={post._id}
+            postId={post._id}
+            fullname={post.fullname}
+            username={post.username}
+            postBody={post.postBody}
+            createdAt={post.createdAt}
+            profilePicture={post.profilePicture}
+            deletePostById={deletePostById}
+            editPost={editPost}
+            isLiked={post.likes.includes(currentUser._id)}
+            numLikes={post.likes.length}
+          />
+        ))}
       </div>
       {showEditProfileModal && (
         <Modal setShowModal={setShowEditProfileModal}>

@@ -1,10 +1,16 @@
-.posts-heading {
-  padding-bottom: 15px;
+.profile-top {
+  background-color: white;
+  margin: 25px;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
 }
 
-.profile-container {
-  max-width: 1000px;
-  margin-inline: auto;
+.posts-heading {
+  padding-bottom: 15px;
 }
 
 .profile-card {

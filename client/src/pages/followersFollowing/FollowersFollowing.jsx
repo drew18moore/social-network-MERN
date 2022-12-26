@@ -53,7 +53,7 @@ export default function FollowersFollowing({ page }) {
             <span className="material-symbols-outlined">arrow_back</span>
           </div>
           <div className="following-user-info">
-            <p>{user.fullname}</p>
+            <p className="fullname">{user.fullname}</p>
             <p className="username">@{user.username}</p>
           </div>
         </div>

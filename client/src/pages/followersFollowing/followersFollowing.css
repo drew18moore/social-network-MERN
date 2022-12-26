@@ -17,6 +17,10 @@
   color: #757575;
 }
 
+.header .fullname {
+  font-weight: bold;
+}
+
 .following-user-info {
   display: grid;
   gap: 0;
