@@ -6,6 +6,7 @@ import "./post.css";
 import Modal from "../modal/Modal";
 import DeletePost from "../modal/DeletePost";
 import EditPost from "../modal/EditPost";
+import CommentModal from "../modal/CommentModal";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
@@ -26,6 +27,7 @@ export default function Post({
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
   const [liked, setLiked] = useState();
   const [numberOfLikes, setNumberOfLikes] = useState(numLikes);
 
@@ -60,6 +62,11 @@ export default function Post({
         setLiked((prev) => !prev);
       });
   };
+
+  const openCommentModal = (e) => {
+    e.stopPropagation();
+    setShowCommentModal(true);
+  }
 
   const gotoPostPage = (e) => {
     e.preventDefault();
@@ -117,7 +124,7 @@ export default function Post({
           <span className="material-symbols-rounded">thumb_up</span>
           {numberOfLikes}
         </div>
-        <div className="comment-btn">
+        <div className="comment-btn" onClick={openCommentModal}>
           <span className="material-symbols-rounded">chat_bubble</span>
         </div>
         <div className="share-btn">
@@ -141,6 +148,17 @@ export default function Post({
             postBody={postBody}
             setShowModal={setShowEditPostModal}
             editPost={editPost}
+          />
+        </Modal>
+      )}
+      {showCommentModal && (
+        <Modal setShowModal={setShowCommentModal}>
+          <CommentModal 
+            postId={postId}
+            fullname={fullname}
+            username={username}
+            postBody={postBody}
+            profilePicture={profilePicture}
           />
         </Modal>
       )}
