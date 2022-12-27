@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 
 // CREATE post
 router.post("/new", async (req, res) => {
@@ -198,6 +199,28 @@ router.get("/:username/:id", async (req, res) => {
     res.status(200).json(postData);
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+// CREATE comment
+router.post("/:postId/comment", async (req, res) => {
+  if (req.body.commentBody === "") {
+    return res.status(412).json({ message: "You must type a message." });
+  }
+
+  const comment = new Comment({
+    userId: req.body.userId,
+    commentBody: req.body.commentBody,
+  });
+
+  try {
+    const newComment = await comment.save();
+    const post = await Post.findById(req.params.postId);
+    post.comments.unshift(newComment._id.toString());
+    await post.save();
+    res.status(200).json(newComment);
+  } catch (err) {
+    res.status(500).json({ message: err });
   }
 });
 
