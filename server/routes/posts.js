@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
 
+// CREATE post
 router.post("/new", async (req, res) => {
   if (req.body.postBody === "") {
     return res.status(412).json({ message: "You must type a message." });
@@ -37,6 +38,7 @@ router.post("/new", async (req, res) => {
   }
 });
 
+// EDIT post
 router.put("/edit/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -65,6 +67,7 @@ router.put("/edit/:id", async (req, res) => {
   }
 });
 
+// DELETE post
 router.delete("/delete/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -82,22 +85,28 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+// LIKE/UNLIKE post
 router.put("/like/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     const numLikes = post.likes.length;
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
-      res.status(200).json({ message: "Post has been liked", numLikes: numLikes + 1 });
+      res
+        .status(200)
+        .json({ message: "Post has been liked", numLikes: numLikes + 1 });
     } else {
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      res.status(200).json({ message: "Post has been unliked", numLikes: numLikes - 1 });
+      res
+        .status(200)
+        .json({ message: "Post has been unliked", numLikes: numLikes - 1 });
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
+// GET all posts
 router.get("/timeline", async (req, res) => {
   try {
     const allPosts = await Post.find();
@@ -134,8 +143,8 @@ router.get("/timeline", async (req, res) => {
 // Get all posts by username
 router.get("/:username/all", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username })
-    const userPosts = await Post.find({ userId: user._id })
+    const user = await User.findOne({ username: req.params.username });
+    const userPosts = await Post.find({ userId: user._id });
     userPosts.sort((a, b) => {
       return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
     });
@@ -162,11 +171,12 @@ router.get("/:username/all", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-})
+});
 
+// GET post
 router.get("/:username/:id", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username })
+    const user = await User.findOne({ username: req.params.username });
     const post = await Post.findById(req.params.id);
 
     let profilePicture;
@@ -182,13 +192,13 @@ router.get("/:username/:id", async (req, res) => {
       ...post.toJSON(),
       fullname: user.fullname,
       username: user.username,
-      profilePicture: profilePicture
-    }
+      profilePicture: profilePicture,
+    };
 
     res.status(200).json(postData);
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err);
   }
-})
+});
 
 module.exports = router;
