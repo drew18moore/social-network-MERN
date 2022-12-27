@@ -45,6 +45,8 @@ export default function Post({
     year: "numeric",
   };
 
+  const dateFormated = date.toLocaleString("en-US", dateOptions)
+
   const openDropdown = (e) => {
     e.stopPropagation();
     setShowDropdown((prev) => !prev);
@@ -96,7 +98,7 @@ export default function Post({
               <p className="post-username">@{username}</p>
               <p className="post-dot">&#8226;</p>
               <p className="post-date">
-                {date.toLocaleString("en-US", dateOptions)}
+                {dateFormated}
               </p>
             </div>
             <div className="right-post-header">
@@ -159,6 +161,7 @@ export default function Post({
             username={username}
             postBody={postBody}
             profilePicture={profilePicture}
+            date={dateFormated}
           />
         </Modal>
       )}
