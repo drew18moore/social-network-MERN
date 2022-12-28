@@ -80,3 +80,12 @@
   margin-top: 3px;
   margin-bottom: 3px;
 }
+
+.comment-section h2 {
+  margin-bottom: 5px;
+}
+
+.comments {
+  display: grid;
+  gap: 15px;
+}

@@ -9,7 +9,7 @@ import api from "./api/api";
 import { useAuth } from "./contexts/AuthContext";
 import Timeline from "./pages/timeline/Timeline";
 import FollowersFollowing from "./pages/followersFollowing/FollowersFollowing";
-import Post from "./pages/post/Post";
+import PostPage from "./pages/post/PostPage";
 
 export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/:username" element={<Profile />} />
           <Route path="/:username/following" element={<FollowersFollowing page="following" />}/>
           <Route path="/:username/followers" element={<FollowersFollowing page="followers" />}/>
-          <Route path="/:username/posts/:postId" element={<Post />} />
+          <Route path="/:username/posts/:postId" element={<PostPage />} />
         </Route>
       </Routes>
     </div>

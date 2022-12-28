@@ -4,14 +4,15 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import "./post.css";
+import "./postPage.css";
 import Dropdown from "../../components/dropdown/Dropdown";
 import PostDropdown from "../../components/dropdown/PostDropdown";
 import Modal from "../../components/modal/Modal";
 import DeletePost from "../../components/modal/DeletePost";
 import EditPost from "../../components/modal/EditPost";
+import Post from "../../components/post/Post";
 
-export default function Post() {
+export default function PostPage() {
   const { username, postId } = useParams();
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -41,6 +42,7 @@ export default function Post() {
   useEffect(() => {
     const fetchPost = async () => {
       await api.get(`/api/posts/${username}/${postId}`).then((res) => {
+        console.log(res.data);
         setPost(res.data);
         setLiked(res.data.likes.includes(currentUser._id));
         setNumberOfLikes(res.data.likes.length);
@@ -165,6 +167,26 @@ export default function Post() {
             />
           </Modal>
         )}
+      </div>
+      <div className="comment-section">
+        <h2>Comments</h2>
+        <div className="comments">
+          {post.comments && post.comments.map((comment) => {
+            return (
+              <Post
+                key={comment._id}
+                postId={comment._id}
+                fullname={comment.fullname}
+                username={comment.username}
+                postBody={comment.commentBody}
+                createdAt={comment.createdAt}
+                profilePicture={comment.profilePicture}
+                isLiked={comment.likes.includes(currentUser._id) }
+                numLikes={comment.likes.length}
+              />
+            );
+          })}
+        </div>
       </div>
     </>
   );
