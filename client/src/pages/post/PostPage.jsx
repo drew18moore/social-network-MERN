@@ -97,6 +97,10 @@ export default function PostPage() {
     setPost(updatedPost);
   };
 
+  const editComment = (comment) => {
+
+  }
+
   return (
     <>
       <div className="post-top">
@@ -212,10 +216,12 @@ export default function PostPage() {
               return (
                 <Comment
                   key={comment._id}
+                  commentId={comment._id}
                   fullname={comment.fullname}
                   username={comment.username}
                   profilePicture={comment.profilePicture}
                   commentBody={comment.commentBody}
+                  editComment={editComment}
                 />
               );
             })}

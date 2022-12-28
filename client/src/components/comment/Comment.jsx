@@ -3,9 +3,12 @@ import "./comment.css";
 import { useState } from "react";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
+import Modal from "../modal/Modal";
+import EditPost from "../modal/EditPost";
 
-export default function Comment({ fullname, username, profilePicture, commentBody }) {
+export default function Comment({ commentId, fullname, username, profilePicture, commentBody, editComment }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showEditPostModal, setShowEditPostModal] = useState(false);
 
   return (
     <div className="comment">
@@ -24,7 +27,7 @@ export default function Comment({ fullname, username, profilePicture, commentBod
                 <PostDropdown 
                   username={username}
                   setShowDropdown={setShowDropdown}
-                  
+                  setShowEditPostModal={setShowEditPostModal}
                 />
               </Dropdown>
             )}
@@ -33,6 +36,17 @@ export default function Comment({ fullname, username, profilePicture, commentBod
 
         <p className="comment-body">{commentBody}</p>
       </div>
+      {showEditPostModal && (
+        <Modal setShowModal={setShowEditPostModal}>
+          <EditPost
+            postId={commentId}
+            username={username}
+            postBody={commentBody}
+            setShowModal={setShowEditPostModal}
+            editPost={editComment}
+          />
+        </Modal>
+      )}
     </div>
   );
 }
