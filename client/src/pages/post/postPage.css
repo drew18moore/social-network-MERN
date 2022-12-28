@@ -39,6 +39,10 @@
   position: relative;
 }
 
+.post-body {
+  word-break: break-all;
+}
+
 .post-pfp-btn {
   border-radius: 50%;
   transition: 0.1s;
