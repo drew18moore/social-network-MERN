@@ -97,7 +97,14 @@ export default function PostPage() {
     setPost(updatedPost);
   };
 
-  const editComment = (comment) => {};
+  const editComment = (comment) => {
+    const indexToUpdate = post.comments.findIndex((x) => x._id === comment._id)
+    const updatedComments = [...post.comments];
+    updatedComments[indexToUpdate].commentBody = comment.commentBody;
+
+    const updatedPost = { ...post, comments: updatedComments }
+    setPost(updatedPost)
+  };
 
   return (
     <>
