@@ -163,6 +163,10 @@
   align-items: center;
 }
 
+.modal-comment-picture {
+  align-self: flex-start;
+}
+
 .modal-comment-form img:hover {
   filter: none !important;
 }

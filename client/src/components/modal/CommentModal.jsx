@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { useState } from "react";
 
 export default function CommentModal({
   postId,
@@ -10,6 +11,13 @@ export default function CommentModal({
   date,
 }) {
   const { currentUser } = useAuth();
+  const [userReply, setUserReply] = useState("");
+
+  const handleChange = (e) => {
+    setUserReply(e.target.value);
+    e.target.style.height = "50px";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
 
   return (
     <div className="comment-modal">
@@ -41,9 +49,10 @@ export default function CommentModal({
             <textarea
               id="post-body-input"
               placeholder="Write your reply"
+              onChange={handleChange}
             ></textarea>
           </div>
-          <button type="submit" id="post-btn">
+          <button type="submit" id="post-btn" disabled={userReply === "" ? true : false}>
             Reply
           </button>
         </form>
