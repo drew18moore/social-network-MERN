@@ -86,6 +86,6 @@
 }
 
 .comments {
+  padding-inline: 25px;
   display: grid;
-  gap: 15px;
 }

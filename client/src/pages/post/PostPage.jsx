@@ -10,7 +10,7 @@ import PostDropdown from "../../components/dropdown/PostDropdown";
 import Modal from "../../components/modal/Modal";
 import DeletePost from "../../components/modal/DeletePost";
 import EditPost from "../../components/modal/EditPost";
-import Post from "../../components/post/Post";
+import Comment from "../../components/comment/Comment";
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -173,16 +173,11 @@ export default function PostPage() {
         <div className="comments">
           {post.comments && post.comments.map((comment) => {
             return (
-              <Post
+              <Comment
                 key={comment._id}
-                postId={comment._id}
                 fullname={comment.fullname}
-                username={comment.username}
-                postBody={comment.commentBody}
-                createdAt={comment.createdAt}
                 profilePicture={comment.profilePicture}
-                isLiked={comment.likes.includes(currentUser._id) }
-                numLikes={comment.likes.length}
+                commentBody={comment.commentBody}
               />
             );
           })}

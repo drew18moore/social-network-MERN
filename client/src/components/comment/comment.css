@@ -1,0 +1,29 @@
+.comment {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+}
+
+.comment-pfp {
+  border-radius: 50%;
+}
+
+.comment-pfp img {
+  border-radius: 50%;
+  vertical-align: middle;
+  object-fit: cover;
+  height: 40px;
+  width: 40px;
+}
+
+.comment-text {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.comment-text .fullname {
+  font-weight: bold;
+}
