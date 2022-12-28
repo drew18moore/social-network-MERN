@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
+import api from "../../api/api";
 
 export default function CommentModal({
   postId,
@@ -18,6 +19,18 @@ export default function CommentModal({
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.target[0].style.height = "50px";
+    await api.post(`/api/posts/${postId}/comment`, {
+      userId: currentUser._id,
+      commentBody: userReply
+    }).then((res) => {
+      console.log(res.data)
+    })
+    setUserReply("");
+  }
 
   return (
     <div className="comment-modal">
@@ -41,18 +54,23 @@ export default function CommentModal({
         <div className="modal-post-spacer">
           <div className="vertical-line"></div>
         </div>
-        <form className="modal-comment-form">
+        <form onSubmit={handleSubmit} className="modal-comment-form">
           <div className="input-area">
             <div className="modal-comment-picture">
               <img src={currentUser.img} alt="" />
             </div>
             <textarea
               id="post-body-input"
+              value={userReply}
               placeholder="Write your reply"
               onChange={handleChange}
             ></textarea>
           </div>
-          <button type="submit" id="post-btn" disabled={userReply === "" ? true : false}>
+          <button
+            type="submit"
+            id="post-btn"
+            disabled={userReply === "" ? true : false}
+          >
             Reply
           </button>
         </form>
