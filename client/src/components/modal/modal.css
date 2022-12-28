@@ -101,6 +101,10 @@
 }
 
 /* CommentModal */
+.comment-modal-main {
+  margin: 1rem 1rem 0 1rem;
+}
+
 .modal-post {
   display: flex;
   gap: 15px;
@@ -138,4 +142,27 @@
   display: flex;
   flex-wrap: wrap;
   font-size: 1.5rem;
+}
+
+.modal-post-spacer .vertical-line {
+  width: 2px;
+  border: none;
+  height: 3rem;
+  margin-left: 24px;
+  background-color:#B9B9B9;
+  /* background-color: #cfd9de; */
+}
+
+.modal-comment-form {
+  margin-top: 10px;
+  padding: 0 !important;
+}
+
+.modal-comment-form .input-area {
+  display: flex;
+  align-items: center;
+}
+
+.modal-comment-form img:hover {
+  filter: none !important;
 }
