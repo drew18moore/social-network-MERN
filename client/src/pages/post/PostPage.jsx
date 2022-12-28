@@ -11,7 +11,7 @@ import Modal from "../../components/modal/Modal";
 import DeletePost from "../../components/modal/DeletePost";
 import EditPost from "../../components/modal/EditPost";
 import Comment from "../../components/comment/Comment";
-import CommentModal from "../../components/modal/CommentModal"
+import CommentModal from "../../components/modal/CommentModal";
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -33,7 +33,7 @@ export default function PostPage() {
     hour: "numeric",
     minute: "numeric",
   };
-  const timeFormated = time.toLocaleString("en-US", timeOptions)
+  const timeFormated = time.toLocaleString("en-US", timeOptions);
 
   let date = new Date(post.createdAt);
   const dateOptions = {
@@ -41,7 +41,7 @@ export default function PostPage() {
     day: "numeric",
     year: "numeric",
   };
-  const dateFormated = date.toLocaleString("en-US", dateOptions)
+  const dateFormated = date.toLocaleString("en-US", dateOptions);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -80,6 +80,21 @@ export default function PostPage() {
         setNumberOfLikes(res.data.numLikes);
         setLiked((prev) => !prev);
       });
+  };
+
+  const addComment = (comment) => {
+    const newComments = [...post.comments];
+    newComments.unshift({
+      ...comment,
+      fullname: currentUser.fullname,
+      username: currentUser.username,
+      profilePicture: currentUser.img,
+    });
+    let updatedPost = {
+      ...post,
+      comments: newComments,
+    };
+    setPost(updatedPost);
   };
 
   return (
@@ -141,7 +156,10 @@ export default function PostPage() {
               <span className="material-symbols-rounded">thumb_up</span>
               {numberOfLikes}
             </div>
-            <div className="comment-btn" onClick={() => setShowCommentModal(true)}>
+            <div
+              className="comment-btn"
+              onClick={() => setShowCommentModal(true)}
+            >
               <span className="material-symbols-rounded">chat_bubble</span>
             </div>
             <div className="share-btn">
@@ -181,6 +199,7 @@ export default function PostPage() {
               profilePicture={post.profilePicture}
               date={dateFormated}
               setShowCommentModal={setShowCommentModal}
+              addComment={addComment}
             />
           </Modal>
         )}
@@ -188,16 +207,17 @@ export default function PostPage() {
       <div className="comment-section">
         <h2>Comments</h2>
         <div className="comments">
-          {post.comments && post.comments.map((comment) => {
-            return (
-              <Comment
-                key={comment._id}
-                fullname={comment.fullname}
-                profilePicture={comment.profilePicture}
-                commentBody={comment.commentBody}
-              />
-            );
-          })}
+          {post.comments &&
+            post.comments.map((comment) => {
+              return (
+                <Comment
+                  key={comment._id}
+                  fullname={comment.fullname}
+                  profilePicture={comment.profilePicture}
+                  commentBody={comment.commentBody}
+                />
+              );
+            })}
         </div>
       </div>
     </>
