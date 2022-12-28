@@ -19,9 +19,32 @@
 .comment-text {
   display: grid;
   gap: 5px;
-  padding: 10px;
+  padding: 3px 10px 10px 10px;
   background-color: white;
   border-radius: 8px;
+}
+
+.comment-top {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.comment-dropdown-wrapper {
+  position: relative;
+}
+
+.comment-top .meatball-btn {
+  padding: 5px;
+  border-radius: 50%;
+  color: #757575;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.1s;
+}
+
+.comment-top .meatball-btn .material-symbols-outlined {
+  font-size: 1.4rem;
 }
 
 .comment-text .fullname {
