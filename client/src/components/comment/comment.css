@@ -17,8 +17,8 @@
 }
 
 .comment-text {
-  display: grid;
-  gap: 5px;
+  flex: 1;
+  word-break: break-all;
   padding: 3px 10px 10px 10px;
   background-color: white;
   border-radius: 8px;
@@ -26,7 +26,7 @@
 
 .comment-top {
   display: flex;
-  gap: 15px;
+  justify-content: space-between;
   align-items: center;
 }
 
