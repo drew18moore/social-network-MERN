@@ -162,6 +162,7 @@ export default function Post({
             postBody={postBody}
             profilePicture={profilePicture}
             date={dateFormated}
+            setShowCommentModal={setShowCommentModal}
           />
         </Modal>
       )}

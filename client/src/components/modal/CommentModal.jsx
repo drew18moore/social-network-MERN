@@ -10,6 +10,7 @@ export default function CommentModal({
   postBody,
   profilePicture,
   date,
+  setShowCommentModal
 }) {
   const { currentUser } = useAuth();
   const [userReply, setUserReply] = useState("");
@@ -27,7 +28,7 @@ export default function CommentModal({
       userId: currentUser._id,
       commentBody: userReply
     }).then((res) => {
-      console.log(res.data)
+      setShowCommentModal(false);
     })
     setUserReply("");
   }
