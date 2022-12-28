@@ -6,7 +6,14 @@ import PostDropdown from "../dropdown/PostDropdown";
 import Modal from "../modal/Modal";
 import EditPost from "../modal/EditPost";
 
-export default function Comment({ commentId, fullname, username, profilePicture, commentBody, editComment }) {
+export default function Comment({
+  commentId,
+  fullname,
+  username,
+  profilePicture,
+  commentBody,
+  editComment,
+}) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
 
@@ -24,7 +31,7 @@ export default function Comment({ commentId, fullname, username, profilePicture,
             </div>
             {showDropdown && (
               <Dropdown setShowDropdown={setShowDropdown}>
-                <PostDropdown 
+                <PostDropdown
                   username={username}
                   setShowDropdown={setShowDropdown}
                   setShowEditPostModal={setShowEditPostModal}
@@ -44,6 +51,7 @@ export default function Comment({ commentId, fullname, username, profilePicture,
             postBody={commentBody}
             setShowModal={setShowEditPostModal}
             editPost={editComment}
+            type="COMMENT"
           />
         </Modal>
       )}

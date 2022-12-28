@@ -97,9 +97,7 @@ export default function PostPage() {
     setPost(updatedPost);
   };
 
-  const editComment = (comment) => {
-
-  }
+  const editComment = (comment) => {};
 
   return (
     <>
@@ -190,6 +188,7 @@ export default function PostPage() {
               postBody={post.postBody}
               setShowModal={setShowEditPostModal}
               editPost={editPost}
+              type="POST"
             />
           </Modal>
         )}

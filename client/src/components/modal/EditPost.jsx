@@ -4,9 +4,23 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function EditPost({ postId, username, postBody, setShowModal, editPost }) {
-  const { currentUser } = useAuth()
+export default function EditPost({
+  postId,
+  username,
+  postBody,
+  setShowModal,
+  editPost,
+  type,
+}) {
+  const { currentUser } = useAuth();
   const [userMessage, setUserMessage] = useState("");
+
+  const endpoint =
+    type === "POST"
+      ? "/api/posts/edit"
+      : type === "COMMENT"
+      ? "api/comments/edit"
+      : undefined;
 
   const handleChange = (e) => {
     setUserMessage(e.target.value);
@@ -19,15 +33,17 @@ export default function EditPost({ postId, username, postBody, setShowModal, edi
   }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    api.put(`/api/posts/edit/${postId}`, {
-      userId: currentUser._id,
-      postBody: userMessage
-    }).then((res) => {
-      setShowModal(false);
-      editPost(res.data)
-    })
-  }
+    e.preventDefault();
+    api
+      .put(`${endpoint}/${postId}`, {
+        userId: currentUser._id,
+        postBody: userMessage,
+      })
+      .then((res) => {
+        setShowModal(false);
+        editPost(res.data);
+      });
+  };
 
   return (
     <div>

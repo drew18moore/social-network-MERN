@@ -45,7 +45,7 @@ export default function Post({
     year: "numeric",
   };
 
-  const dateFormated = date.toLocaleString("en-US", dateOptions)
+  const dateFormated = date.toLocaleString("en-US", dateOptions);
 
   const openDropdown = (e) => {
     e.stopPropagation();
@@ -68,7 +68,7 @@ export default function Post({
   const openCommentModal = (e) => {
     e.stopPropagation();
     setShowCommentModal(true);
-  }
+  };
 
   const gotoPostPage = (e) => {
     e.preventDefault();
@@ -77,8 +77,8 @@ export default function Post({
 
   const gotoProfilePage = (e) => {
     e.stopPropagation();
-    navigate(`/${username}`)
-  }
+    navigate(`/${username}`);
+  };
 
   return (
     <div className="post" onClick={gotoPostPage}>
@@ -97,9 +97,7 @@ export default function Post({
 
               <p className="post-username">@{username}</p>
               <p className="post-dot">&#8226;</p>
-              <p className="post-date">
-                {dateFormated}
-              </p>
+              <p className="post-date">{dateFormated}</p>
             </div>
             <div className="right-post-header">
               <div className="meatball-btn" onClick={openDropdown}>
@@ -150,12 +148,13 @@ export default function Post({
             postBody={postBody}
             setShowModal={setShowEditPostModal}
             editPost={editPost}
+            type="POST"
           />
         </Modal>
       )}
       {showCommentModal && (
         <Modal setShowModal={setShowCommentModal}>
-          <CommentModal 
+          <CommentModal
             postId={postId}
             fullname={fullname}
             username={username}
