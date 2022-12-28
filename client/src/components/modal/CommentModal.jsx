@@ -11,7 +11,7 @@ export default function CommentModal({
   profilePicture,
   date,
   setShowCommentModal,
-  addComment
+  addComment,
 }) {
   const { currentUser } = useAuth();
   const [userReply, setUserReply] = useState("");
@@ -25,15 +25,17 @@ export default function CommentModal({
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
-    await api.post(`/api/posts/${postId}/comment`, {
-      userId: currentUser._id,
-      commentBody: userReply
-    }).then((res) => {
-      addComment(res.data)
-      setShowCommentModal(false);
-    })
+    await api
+      .post(`/api/posts/${postId}/comment`, {
+        userId: currentUser._id,
+        commentBody: userReply,
+      })
+      .then((res) => {
+        addComment(res.data);
+        setShowCommentModal(false);
+      });
     setUserReply("");
-  }
+  };
 
   return (
     <div className="comment-modal">
@@ -43,6 +45,9 @@ export default function CommentModal({
         <div className="modal-post">
           <div className="modal-post-picture">
             <img src={profilePicture} alt="" />
+            <div className="modal-post-spacer">
+              <div className="vertical-line"></div>
+            </div>
           </div>
           <div className="modal-post-text">
             <div className="modal-post-header">
