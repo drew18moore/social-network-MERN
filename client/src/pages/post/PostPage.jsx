@@ -11,6 +11,7 @@ import Modal from "../../components/modal/Modal";
 import DeletePost from "../../components/modal/DeletePost";
 import EditPost from "../../components/modal/EditPost";
 import Comment from "../../components/comment/Comment";
+import CommentModal from "../../components/modal/CommentModal"
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -18,6 +19,7 @@ export default function PostPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
 
   const { currentUser } = useAuth();
   const [post, setPost] = useState({});
@@ -31,6 +33,7 @@ export default function PostPage() {
     hour: "numeric",
     minute: "numeric",
   };
+  const timeFormated = time.toLocaleString("en-US", timeOptions)
 
   let date = new Date(post.createdAt);
   const dateOptions = {
@@ -38,6 +41,7 @@ export default function PostPage() {
     day: "numeric",
     year: "numeric",
   };
+  const dateFormated = date.toLocaleString("en-US", dateOptions)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -123,9 +127,9 @@ export default function PostPage() {
         </div>
         <div className="post-body">{post.postBody}</div>
         <div className="post-date">
-          <p>{time.toLocaleString("en-US", timeOptions)}</p>
+          <p>{timeFormated}</p>
           <p className="post-dot">&#8226;</p>
-          <p>{date.toLocaleString("en-US", dateOptions)}</p>
+          <p>{dateFormated}</p>
         </div>
         <div className="post-bottom">
           <hr />
@@ -137,7 +141,7 @@ export default function PostPage() {
               <span className="material-symbols-rounded">thumb_up</span>
               {numberOfLikes}
             </div>
-            <div className="comment-btn">
+            <div className="comment-btn" onClick={() => setShowCommentModal(true)}>
               <span className="material-symbols-rounded">chat_bubble</span>
             </div>
             <div className="share-btn">
@@ -164,6 +168,19 @@ export default function PostPage() {
               postBody={post.postBody}
               setShowModal={setShowEditPostModal}
               editPost={editPost}
+            />
+          </Modal>
+        )}
+        {showCommentModal && (
+          <Modal setShowModal={setShowCommentModal}>
+            <CommentModal
+              postId={postId}
+              fullname={post.fullname}
+              username={username}
+              postBody={post.postBody}
+              profilePicture={post.profilePicture}
+              date={dateFormated}
+              setShowCommentModal={setShowCommentModal}
             />
           </Modal>
         )}
