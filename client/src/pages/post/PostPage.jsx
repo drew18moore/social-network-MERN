@@ -213,6 +213,7 @@ export default function PostPage() {
                 <Comment
                   key={comment._id}
                   fullname={comment.fullname}
+                  username={comment.username}
                   profilePicture={comment.profilePicture}
                   commentBody={comment.commentBody}
                 />

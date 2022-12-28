@@ -4,7 +4,7 @@ import { useState } from "react";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
 
-export default function Comment({ fullname, profilePicture, commentBody }) {
+export default function Comment({ fullname, username, profilePicture, commentBody }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
@@ -21,7 +21,11 @@ export default function Comment({ fullname, profilePicture, commentBody }) {
             </div>
             {showDropdown && (
               <Dropdown setShowDropdown={setShowDropdown}>
-                <PostDropdown />
+                <PostDropdown 
+                  username={username}
+                  setShowDropdown={setShowDropdown}
+                  
+                />
               </Dropdown>
             )}
           </div>
