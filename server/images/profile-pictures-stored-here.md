@@ -1,0 +1,1 @@
+This directory is where user uploaded profile pictures will be stored

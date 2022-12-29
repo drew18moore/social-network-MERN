@@ -15,7 +15,7 @@ export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
 
   useEffect(() => {
-    api
+    currentUser && api
       .get(`/api/users/${currentUser.username}`)
       .then((res) => setCurrentUser(res.data));
   }, []);
