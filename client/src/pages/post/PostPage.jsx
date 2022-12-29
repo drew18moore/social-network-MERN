@@ -98,17 +98,23 @@ export default function PostPage() {
   };
 
   const editComment = (comment) => {
-    const indexToUpdate = post.comments.findIndex((x) => x._id === comment._id)
+    const indexToUpdate = post.comments.findIndex((x) => x._id === comment._id);
     const updatedComments = [...post.comments];
     updatedComments[indexToUpdate].commentBody = comment.commentBody;
 
-    const updatedPost = { ...post, comments: updatedComments }
-    setPost(updatedPost)
+    const updatedPost = { ...post, comments: updatedComments };
+    setPost(updatedPost);
   };
 
   const deleteCommentById = (commentId) => {
+    console.log(post.comments);
+    const indexToDelete = post.comments.findIndex((x) => x._id === commentId);
+    const updatedComments = [...post.comments];
+    updatedComments.splice(indexToDelete, 1);
 
-  }
+    const updatedPost = { ...post, comments: updatedComments };
+    setPost(updatedPost);
+  };
 
   return (
     <>
