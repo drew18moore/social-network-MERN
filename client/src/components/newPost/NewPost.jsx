@@ -54,7 +54,7 @@ export default function NewPost({ addPost }) {
           />
         </div>
         <button
-          disabled={userMessage === "" ? true : false}
+          disabled={userMessage === ""}
           type="submit"
           id="post-btn"
         >

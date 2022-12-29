@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
       password: req.body.password,
     });
 
-    !user && res.status(404).json({ message: "user not found" });
+    !user && res.status(404).json({ message: "User not found" });
 
     let profilePicture;
     if (user.img.data) {

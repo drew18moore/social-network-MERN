@@ -77,7 +77,7 @@ export default function CommentModal({
           <button
             type="submit"
             id="post-btn"
-            disabled={userReply === "" ? true : false}
+            disabled={userReply === ""}
           >
             Reply
           </button>
