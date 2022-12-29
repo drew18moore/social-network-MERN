@@ -31,7 +31,7 @@ export default function CommentModal({
         commentBody: userReply,
       })
       .then((res) => {
-        addComment(res.data);
+        addComment && addComment(res.data);
         setShowCommentModal(false);
       });
     setUserReply("");
