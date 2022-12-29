@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Comment = require("../models/Comment");
-const { post } = require("./posts");
+const Post = require("../models/Post");
 
 // Edit comment
 router.put("/edit/:id", async (req, res) => {
@@ -21,7 +21,7 @@ router.put("/edit/:id", async (req, res) => {
       { new: true },
       (err, result) => {
         if (err) {
-          return res.status(500).json({ message: err })
+          return res.status(500).json({ message: err });
         } else {
           return res.status(200).json(result);
         }
@@ -29,6 +29,28 @@ router.put("/edit/:id", async (req, res) => {
     );
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+// Delete comment
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    console.log(req.body.parentId)
+    const comment = await Comment.findById(req.params.id);
+    const parentPost = await Post.findById(req.body.parentId);
+
+    if (comment.userId !== req.body.userId) {
+      return res
+        .status(412)
+        .json({ message: "You can only delete your own comments" });
+    }
+
+    await parentPost.updateOne({ $pull: { comments: req.params.id } });
+    const response = await comment.deleteOne();
+
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ message: err });
   }
 });
 

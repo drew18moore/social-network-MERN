@@ -9,6 +9,7 @@ import DeletePost from "../modal/DeletePost";
 
 export default function Comment({
   commentId,
+  parentId,
   fullname,
   username,
   profilePicture,
@@ -63,6 +64,7 @@ export default function Comment({
         <Modal setShowModal={setShowDeletePostModal}>
           <DeletePost
             postId={commentId}
+            parentId={parentId}
             setShowModal={setShowDeletePostModal}
             deletePostById={deleteCommentById}
             type="COMMENT"

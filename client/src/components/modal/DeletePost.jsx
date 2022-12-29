@@ -4,10 +4,12 @@ import { useAuth } from "../../contexts/AuthContext";
 
 export default function DeletePost({
   postId,
+  parentId,
   setShowModal,
   deletePostById,
   type,
 }) {
+  console.log(parentId);
   const { currentUser } = useAuth();
   console.log(type)
   const endpoint =
@@ -20,11 +22,12 @@ export default function DeletePost({
   const deletePost = async (postId) => {
     await api
       .delete(`${endpoint}/${postId}`, {
-        data: { userId: currentUser._id },
+        data: { userId: currentUser._id, parentId: parentId },
       })
       .then((res) => {
         console.log(res.data);
         deletePostById(res.data._id);
+        setShowModal(false);
       });
   };
   return (
