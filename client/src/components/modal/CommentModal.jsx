@@ -12,6 +12,7 @@ export default function CommentModal({
   date,
   setShowCommentModal,
   addComment,
+  setNumberOfComments
 }) {
   const { currentUser } = useAuth();
   const [userReply, setUserReply] = useState("");
@@ -33,6 +34,7 @@ export default function CommentModal({
       .then((res) => {
         addComment && addComment(res.data);
         setShowCommentModal(false);
+        setNumberOfComments && setNumberOfComments(prev => prev + 1)
       });
     setUserReply("");
   };

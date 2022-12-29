@@ -61,6 +61,7 @@ export default function Timeline() {
               editPost={editPost}
               isLiked={post.likes.includes(currentUser._id) }
               numLikes={post.likes.length}
+              numComments={post.comments.length}
             />
           );
         })}

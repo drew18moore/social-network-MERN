@@ -23,6 +23,7 @@ export default function Post({
   editPost,
   isLiked,
   numLikes,
+  numComments
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
@@ -30,6 +31,7 @@ export default function Post({
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [liked, setLiked] = useState();
   const [numberOfLikes, setNumberOfLikes] = useState(numLikes);
+  const [numberOfComments, setNumberOfComments] = useState(numComments);
 
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -126,6 +128,7 @@ export default function Post({
         </div>
         <div className="comment-btn" onClick={openCommentModal}>
           <span className="material-symbols-rounded">chat_bubble</span>
+          {numberOfComments}
         </div>
         <div className="share-btn">
           <span className="material-symbols-rounded">google_plus_reshare</span>
@@ -163,6 +166,7 @@ export default function Post({
             profilePicture={profilePicture}
             date={dateFormated}
             setShowCommentModal={setShowCommentModal}
+            setNumberOfComments={setNumberOfComments}
           />
         </Modal>
       )}

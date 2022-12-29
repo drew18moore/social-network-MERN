@@ -25,6 +25,7 @@ export default function PostPage() {
   const [post, setPost] = useState({});
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState();
+  const [numberOfComments, setNumberOfComments] = useState();
 
   const navigate = useNavigate();
 
@@ -50,6 +51,7 @@ export default function PostPage() {
         setPost(res.data);
         setLiked(res.data.likes.includes(currentUser._id));
         setNumberOfLikes(res.data.likes.length);
+        setNumberOfComments(res.data.comments.length);
       });
     };
     fetchPost();
@@ -95,6 +97,7 @@ export default function PostPage() {
       comments: newComments,
     };
     setPost(updatedPost);
+    setNumberOfComments(updatedPost.comments.length)
   };
 
   const editComment = (comment) => {
@@ -114,6 +117,7 @@ export default function PostPage() {
 
     const updatedPost = { ...post, comments: updatedComments };
     setPost(updatedPost);
+    setNumberOfComments(updatedPost.comments.length)
   };
 
   return (
@@ -180,6 +184,7 @@ export default function PostPage() {
               onClick={() => setShowCommentModal(true)}
             >
               <span className="material-symbols-rounded">chat_bubble</span>
+              {numberOfComments}
             </div>
             <div className="share-btn">
               <span className="material-symbols-rounded">
