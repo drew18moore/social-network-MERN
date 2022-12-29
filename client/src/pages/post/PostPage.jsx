@@ -106,6 +106,10 @@ export default function PostPage() {
     setPost(updatedPost)
   };
 
+  const deleteCommentById = (commentId) => {
+
+  }
+
   return (
     <>
       <div className="post-top">
@@ -184,6 +188,7 @@ export default function PostPage() {
               postId={postId}
               setShowModal={setShowDeletePostModal}
               deletePostById={deletePostById}
+              type="POST"
             />
           </Modal>
         )}
@@ -228,6 +233,7 @@ export default function PostPage() {
                   profilePicture={comment.profilePicture}
                   commentBody={comment.commentBody}
                   editComment={editComment}
+                  deleteCommentById={deleteCommentById}
                 />
               );
             })}

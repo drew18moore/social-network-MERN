@@ -2,11 +2,24 @@ import React from "react";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function DeletePost({ postId, setShowModal, deletePostById }) {
+export default function DeletePost({
+  postId,
+  setShowModal,
+  deletePostById,
+  type,
+}) {
   const { currentUser } = useAuth();
+  console.log(type)
+  const endpoint =
+    type === "POST"
+      ? "/api/posts/delete"
+      : type === "COMMENT"
+      ? "api/comments/delete"
+      : undefined;
+
   const deletePost = async (postId) => {
     await api
-      .delete(`/api/posts/delete/${postId}`, {
+      .delete(`${endpoint}/${postId}`, {
         data: { userId: currentUser._id },
       })
       .then((res) => {

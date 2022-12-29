@@ -5,6 +5,7 @@ import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
 import Modal from "../modal/Modal";
 import EditPost from "../modal/EditPost";
+import DeletePost from "../modal/DeletePost";
 
 export default function Comment({
   commentId,
@@ -13,9 +14,11 @@ export default function Comment({
   profilePicture,
   commentBody,
   editComment,
+  deleteCommentById
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
+  const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
   return (
     <div className="comment">
@@ -35,6 +38,7 @@ export default function Comment({
                   username={username}
                   setShowDropdown={setShowDropdown}
                   setShowEditPostModal={setShowEditPostModal}
+                  setShowDeletePostModal={setShowDeletePostModal}
                 />
               </Dropdown>
             )}
@@ -51,6 +55,16 @@ export default function Comment({
             postBody={commentBody}
             setShowModal={setShowEditPostModal}
             editPost={editComment}
+            type="COMMENT"
+          />
+        </Modal>
+      )}
+      {showDeletePostModal && (
+        <Modal setShowModal={setShowDeletePostModal}>
+          <DeletePost
+            postId={commentId}
+            setShowModal={setShowDeletePostModal}
+            deletePostById={deleteCommentById}
             type="COMMENT"
           />
         </Modal>

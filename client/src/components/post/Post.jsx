@@ -137,6 +137,7 @@ export default function Post({
             postId={postId}
             setShowModal={setShowDeletePostModal}
             deletePostById={deletePostById}
+            type="POST"
           />
         </Modal>
       )}
