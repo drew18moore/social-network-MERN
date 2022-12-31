@@ -17,7 +17,7 @@ A social media app built using the MERN stack
 ```
 npm install npm@latest -g
 ```
-* mongodb
+* Install mongodb
 
 ### Installation
 1. Clone the repo
@@ -31,6 +31,11 @@ npm install
 
 cd ../client
 npm install
+```
+
+3. Inside of the root of the server directory, create a .env file, and write the following:
+```
+DATABASE_URL = "mongodb://localhost/social"
 ```
 ## Usage
 * To run the application, open two terminal instances and run:
