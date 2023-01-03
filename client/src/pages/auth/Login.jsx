@@ -37,7 +37,7 @@ export default function Login() {
     <>
       <div className="auth-container">
         <form onSubmit={login} className="auth-form">
-          <h2>Log In</h2>
+          <h2 className="auth-heading">Log In</h2>
           {error ? <p className="error-message">{error}</p> : ""}
           <input
             ref={usernameRef}
