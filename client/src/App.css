@@ -56,3 +56,43 @@
     display: none;
   }
 }
+
+/* MOBILE STYLES */
+@media (width < 590px) {
+  .app-container {
+    margin-top: 0;
+    padding: 0;
+  }
+
+  header {
+    display: none !important;
+  }
+
+  .nav-sidebar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .nav-sidebar nav {
+    padding: 0 !important;
+  }
+
+  .nav-sidebar .links {
+    flex-direction: row !important;
+    justify-content: space-around;
+  }
+
+  .main {
+    height: calc(100vh - 60px);
+  }
+
+  .post-header {
+    font-size: 0.9rem;
+  }
+
+  .post-body {
+    font-size: 1.25rem !important;
+  }
+}

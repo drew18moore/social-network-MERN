@@ -6,7 +6,8 @@
 }
 
 .nav-sidebar .links {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   margin-inline: 15px;
   list-style: none;

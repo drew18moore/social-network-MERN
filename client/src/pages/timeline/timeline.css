@@ -1,5 +1,6 @@
 .posts {
   display: flex;
+  padding-bottom: 50%;
   flex-direction: column;
   gap: 15px;
 }

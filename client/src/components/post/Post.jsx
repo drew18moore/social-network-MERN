@@ -42,7 +42,7 @@ export default function Post({
 
   let date = new Date(createdAt);
   const dateOptions = {
-    month: "long",
+    month: "short",
     day: "numeric",
     year: "numeric",
   };
