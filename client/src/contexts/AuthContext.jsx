@@ -9,7 +9,7 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(import.meta.env.VITE_USER && JSON.parse(import.meta.env.VITE_USER));
 
   useEffect(() => {
     console.log(currentUser);

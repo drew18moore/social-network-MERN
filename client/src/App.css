@@ -12,6 +12,7 @@
 }
 
 .main {
+  flex-shrink: 0;
   flex-basis: 600px;
   background-color: #F0F2F5;
   border-radius: 8px;
@@ -25,4 +26,29 @@
 
 .right-sidebar {
   flex-basis: 350px;
+}
+
+@media (max-width: 1230px) {
+  .nav-sidebar li {
+    justify-self: center;
+  }
+
+  .nav-sidebar li {
+    width: fit-content;
+    border-radius: 50%;
+  }
+
+  .nav-sidebar .link-txt {
+    display: none;
+  }
+}
+
+@media (width < 1100px) {
+  .nav-sidebar {
+    flex-grow: 0;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
 }

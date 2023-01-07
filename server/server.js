@@ -1,19 +1,18 @@
+require('dotenv').config()
 const express = require("express")
 const mongoose = require("mongoose")
 const app = express()
 const port = 3000
 const cors = require("cors")
-
-let corsOptions = {
-  origin: "*"
-}
-app.use(cors(corsOptions))
 const authRouter = require("./routes/auth")
 const postsRouter = require("./routes/posts")
 const usersRouter = require("./routes/users")
 const commentsRouter = require("./routes/comments")
 
-require('dotenv').config()
+let corsOptions = {
+  origin: "*"
+}
+app.use(cors(corsOptions))
 
 // Connect to MongoDB database
 mongoose.connect(process.env.DATABASE_URL)
