@@ -48,6 +48,17 @@
   text-decoration: underline;
 }
 
+.post-fullname-link, .post-username {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-fullname {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .post .post-header {
   display: flex;
   align-items: center;
@@ -89,6 +100,7 @@
 
 .post-date {
   color: #757575;
+  flex-shrink: 0;
 }
 
 .post-body {

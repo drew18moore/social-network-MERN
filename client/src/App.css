@@ -48,6 +48,10 @@
     flex-grow: 0;
   }
 
+  .main {
+    flex-shrink: 1;
+  }
+
   .right-sidebar {
     display: none;
   }
