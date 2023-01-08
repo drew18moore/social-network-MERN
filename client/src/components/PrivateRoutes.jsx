@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import HeaderBar from "./headerBar/HeaderBar";
@@ -13,7 +13,9 @@ export default function PrivateRoutes() {
       <div className="app-container">
         <NavSideBar />
         <div className="main">
-          <Outlet />
+          <Suspense>
+            <Outlet />
+          </Suspense>
         </div>
         <RightSidebar />
       </div>

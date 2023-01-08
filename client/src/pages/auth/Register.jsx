@@ -13,7 +13,7 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const { setCurrentUser } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   async function register(e) {
     e.preventDefault();
@@ -27,16 +27,17 @@ export default function Register() {
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
         return setError("Passwords do not match");
       }
-      await api.post("/api/auth/register", {
-        fullname: fullnameRef.current.value,
-        username: usernameRef.current.value,
-        password: passwordRef.current.value,
-        passwordConfirm: passwordConfirmRef.current.value,
-      })
+      await api
+        .post("/api/auth/register", {
+          fullname: fullnameRef.current.value,
+          username: usernameRef.current.value,
+          password: passwordRef.current.value,
+          passwordConfirm: passwordConfirmRef.current.value,
+        })
         .then((res) => {
           console.log(res.data);
-          setCurrentUser(res.data)
-          navigate("/")
+          setCurrentUser(res.data);
+          navigate("/");
         })
         .catch((err) => {
           setError(err.response.data.message);
@@ -51,7 +52,6 @@ export default function Register() {
   return (
     <>
       <div className="auth-container">
-        
         <form onSubmit={register} className="auth-form">
           <h2 className="auth-heading">Create a new account</h2>
           {error ? <p className="error-message">{error}</p> : ""}
@@ -92,7 +92,9 @@ export default function Register() {
           />
 
           <button type="submit">Sign Up</button>
-          <p className="form-link">Already have an account? <Link to="/login">Log in</Link></p>
+          <p className="form-link">
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
         </form>
       </div>
     </>

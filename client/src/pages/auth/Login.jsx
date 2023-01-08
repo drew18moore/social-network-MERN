@@ -16,10 +16,11 @@ export default function Login() {
     e.preventDefault();
     setError("");
     if (usernameRef.current !== null && passwordRef.current !== null) {
-      await api.post("/api/auth/login", {
-        username: usernameRef.current.value,
-        password: passwordRef.current.value,
-      })
+      await api
+        .post("/api/auth/login", {
+          username: usernameRef.current.value,
+          password: passwordRef.current.value,
+        })
         .then((res) => {
           console.log(res.data);
           setCurrentUser(res.data);
@@ -58,7 +59,9 @@ export default function Login() {
           />
 
           <button type="submit">Log In</button>
-          <p className="form-link">Need an account? <Link to="/register">Sign up</Link></p>
+          <p className="form-link">
+            Need an account? <Link to="/register">Sign up</Link>
+          </p>
         </form>
       </div>
     </>

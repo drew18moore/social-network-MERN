@@ -175,7 +175,45 @@
 
 .modal-comment-form .input-area {
   display: flex;
+  gap: 10px;
   align-items: center;
+}
+
+.modal-comment-form .input-area img {
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  vertical-align: middle;
+  transition: 0.1s;
+}
+
+#post-body-input {
+  height: 50px;
+  width: 100%;
+  padding: 15px;
+  font-size: 15px;
+  resize: none;
+  overflow: hidden;
+  border: 1px solid #B9B9B9;
+  border: none;
+  background-color: #F0F2F5;
+  border-radius: 5px;
+}
+
+#post-body-input::placeholder {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#post-body-input:focus {
+  outline: 1px solid #757575;
+}
+
+#post-btn:disabled {
+  background-color: #E4E6EB;
+  color: #B9B9B9;
+  cursor: not-allowed;
 }
 
 .modal-comment-picture {

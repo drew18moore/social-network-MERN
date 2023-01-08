@@ -97,7 +97,7 @@ export default function PostPage() {
       comments: newComments,
     };
     setPost(updatedPost);
-    setNumberOfComments(updatedPost.comments.length)
+    setNumberOfComments(updatedPost.comments.length);
   };
 
   const editComment = (comment) => {
@@ -117,7 +117,7 @@ export default function PostPage() {
 
     const updatedPost = { ...post, comments: updatedComments };
     setPost(updatedPost);
-    setNumberOfComments(updatedPost.comments.length)
+    setNumberOfComments(updatedPost.comments.length);
   };
 
   return (
@@ -205,28 +205,28 @@ export default function PostPage() {
         )}
         {showEditPostModal && (
           <Modal setShowModal={setShowEditPostModal}>
-            <EditPost
-              postId={postId}
-              username={username}
-              postBody={post.postBody}
-              setShowModal={setShowEditPostModal}
-              editPost={editPost}
-              type="POST"
-            />
+              <EditPost
+                postId={postId}
+                username={username}
+                postBody={post.postBody}
+                setShowModal={setShowEditPostModal}
+                editPost={editPost}
+                type="POST"
+              />
           </Modal>
         )}
         {showCommentModal && (
           <Modal setShowModal={setShowCommentModal}>
-            <CommentModal
-              postId={postId}
-              fullname={post.fullname}
-              username={username}
-              postBody={post.postBody}
-              profilePicture={post.profilePicture}
-              date={dateFormated}
-              setShowCommentModal={setShowCommentModal}
-              addComment={addComment}
-            />
+              <CommentModal
+                postId={postId}
+                fullname={post.fullname}
+                username={username}
+                postBody={post.postBody}
+                profilePicture={post.profilePicture}
+                date={dateFormated}
+                setShowCommentModal={setShowCommentModal}
+                addComment={addComment}
+              />
           </Modal>
         )}
       </div>

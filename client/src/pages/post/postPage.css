@@ -13,6 +13,20 @@
   font-size: 1.25rem;
 }
 
+.meatball-btn {
+  padding: 8px;
+  border-radius: 50%;
+  color: #757575;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.1s;
+}
+
+.meatball-btn:hover {
+  color: #1d9bf0;
+  background-color: #e1eef6;
+}
+
 .post-main {
   background-color: white;
   margin: 25px;
@@ -69,10 +83,27 @@
   text-decoration: underline;
 }
 
-.post-date {
+.post-username {
+  color: #757575;
+}
+
+.post-body {
   display: flex;
+  flex-wrap: wrap;
+  font-size: 1.5rem;
+}
+
+.post-date {
+  color: #757575;
+  display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 5px;
+}
+
+.post-dot {
+  color: #757575;
+  font-size: .5rem;
 }
 
 .post-main hr {
@@ -83,6 +114,36 @@
 .post-bottom .like-comment-share-btns {
   margin-top: 3px;
   margin-bottom: 3px;
+  display: flex;
+  justify-content: space-around;
+  color: #757575
+}
+
+.like-comment-share-btns .material-symbols-rounded {
+  user-select: none;
+  font-size: 20px;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.like-comment-share-btns .material-symbols-rounded:hover {
+  color: #1d9bf0;
+  background-color: #e1eef6;
+}
+
+.like-btn, .comment-btn, .share-btn {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.liked .material-symbols-rounded {
+  color: #1d9bf0;
+  font-variation-settings:
+  'FILL' 1
 }
 
 .comment-section h2 {
