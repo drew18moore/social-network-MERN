@@ -13,7 +13,7 @@ export default function Timeline() {
 
   const fetchPosts = async () => {
     await api
-      .get("/api/posts/timeline")
+      .get(`/api/posts/timeline/${currentUser._id}`)
       .then((res) => {
         setPosts(res.data);
       });
