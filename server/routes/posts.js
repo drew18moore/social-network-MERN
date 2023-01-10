@@ -110,11 +110,9 @@ router.put("/like/:id", async (req, res) => {
 // GET all followed user posts, by userId
 router.get("/timeline/:userId", async (req, res) => {
   try {
+    const page = req.query.page - 1
     const { following } = await User.findById(req.params.userId)
-    const allPosts = await Post.find({ userId: {$in: [req.params.userId, ...following]} });
-    allPosts.sort((a, b) => {
-      return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
-    });
+    const allPosts = await Post.find({ userId: {$in: [req.params.userId, ...following]} }, null, { skip: page * req.query.limit, limit: req.query.limit }).sort({ createdAt: -1 });
     const posts = await Promise.all(
       allPosts.map(async (post) => {
         const postUser = await User.findById(post.userId);
