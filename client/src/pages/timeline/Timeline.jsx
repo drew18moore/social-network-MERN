@@ -6,21 +6,30 @@ import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
 import "./timeline.css";
 import { useAuth } from "../../contexts/AuthContext";
+import { useRef } from "react";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);
   const { currentUser } = useAuth();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 20;
+
   const fetchPosts = async () => {
     await api
-      .get(`/api/posts/timeline/${currentUser._id}`)
+      .get(`/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`)
       .then((res) => {
-        setPosts(res.data);
+        setPosts((prev) => [...prev, ...res.data]);
+        setIsLoading(false);
+      }).catch((err) => {
+        setIsLoading(false);
       });
   };
   useEffect(() => {
+    setIsLoading(true);
     fetchPosts();
-  }, []);
+  }, [page]);
 
   const addPost = (post) => {
     let updatedPosts = [...posts];
@@ -59,7 +68,7 @@ export default function Timeline() {
               profilePicture={post.profilePicture}
               deletePostById={deletePostById}
               editPost={editPost}
-              isLiked={post.likes.includes(currentUser._id) }
+              isLiked={post.likes.includes(currentUser._id)}
               numLikes={post.likes.length}
               numComments={post.comments.length}
             />

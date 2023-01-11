@@ -6,11 +6,11 @@ import { HashRouter as Router } from "react-router-dom"
 import { AuthProvider } from "./contexts/AuthContext"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProvider>
       <Router>
         <App />
       </Router>
     </AuthProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 )
