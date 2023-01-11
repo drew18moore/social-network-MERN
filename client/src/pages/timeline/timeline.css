@@ -1,6 +1,20 @@
+.timeline {
+  padding-bottom: 50%;
+}
+
 .posts {
   display: flex;
-  padding-bottom: 50%;
+  /* padding-bottom: 50%; */
   flex-direction: column;
   gap: 15px;
+}
+
+.loading {
+  background-color: white;
+  width: fit-content;
+  margin: 1rem auto;
+  text-align: center;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 17px;
 }

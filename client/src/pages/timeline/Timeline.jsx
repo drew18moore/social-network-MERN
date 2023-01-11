@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import api from "../../api/api";
@@ -16,13 +16,27 @@ export default function Timeline() {
   const [page, setPage] = useState(1);
   const limit = 20;
 
+  const observer = useRef();
+  const lastPostRef = useCallback((element) => {
+    if (isLoading) return
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage(prev => prev + 1)
+      }
+    })
+    if (element) observer.current.observe(element)
+    console.log(element)
+  }, [isLoading])
+
   const fetchPosts = async () => {
     await api
       .get(`/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`)
       .then((res) => {
         setPosts((prev) => [...prev, ...res.data]);
         setIsLoading(false);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setIsLoading(false);
       });
   };
@@ -53,10 +67,29 @@ export default function Timeline() {
   };
 
   return (
-    <>
+    <div className="timeline">
       <NewPost addPost={addPost} />
       <div className="posts">
-        {posts.map((post) => {
+        {posts.map((post, index) => {
+          if (posts.length - 1 === index) {
+            return (
+              <Post
+                ref={lastPostRef}
+                key={post._id}
+                postId={post._id}
+                fullname={post.fullname}
+                username={post.username}
+                postBody={post.postBody}
+                createdAt={post.createdAt}
+                profilePicture={post.profilePicture}
+                deletePostById={deletePostById}
+                editPost={editPost}
+                isLiked={post.likes.includes(currentUser._id)}
+                numLikes={post.likes.length}
+                numComments={post.comments.length}
+              />
+            );
+          }
           return (
             <Post
               key={post._id}
@@ -75,6 +108,7 @@ export default function Timeline() {
           );
         })}
       </div>
-    </>
+      {isLoading && <p className="loading">Loading...</p>}
+    </div>
   );
 }

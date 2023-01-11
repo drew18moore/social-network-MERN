@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { useState } from "react";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
@@ -12,7 +12,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function Post({
+const Post = forwardRef(({
   postId,
   fullname,
   username,
@@ -24,7 +24,7 @@ export default function Post({
   isLiked,
   numLikes,
   numComments
-}) {
+}, ref) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -83,7 +83,7 @@ export default function Post({
   };
 
   return (
-    <div className="post" onClick={gotoPostPage}>
+    <div ref={ref} className="post" onClick={gotoPostPage}>
       <div className="post-content">
         <div className="post-picture">
           <div className="post-picture-btn" onClick={gotoProfilePage}>
@@ -172,4 +172,6 @@ export default function Post({
       )}
     </div>
   );
-}
+})
+
+export default Post
