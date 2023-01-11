@@ -15,6 +15,7 @@ export default function Timeline() {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 20;
+  const [isNextPage, setIsNextPage] = useState(true);
 
   const observer = useRef();
   const lastPostRef = useCallback((element) => {
@@ -25,7 +26,7 @@ export default function Timeline() {
         setPage(prev => prev + 1)
       }
     })
-    if (element) observer.current.observe(element)
+    if (element && isNextPage) observer.current.observe(element)
     console.log(element)
   }, [isLoading])
 
@@ -33,7 +34,9 @@ export default function Timeline() {
     await api
       .get(`/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`)
       .then((res) => {
-        setPosts((prev) => [...prev, ...res.data]);
+        setPosts((prev) => [...prev, ...res.data.posts]);
+        setIsNextPage(res.data.numFound > 0)
+        console.log("NUM_FOUND:", res.data.numFound)
         setIsLoading(false);
       })
       .catch((err) => {

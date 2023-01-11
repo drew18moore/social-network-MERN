@@ -134,7 +134,7 @@ router.get("/timeline/:userId", async (req, res) => {
         };
       })
     );
-    res.status(200).json(posts);
+    res.status(200).json({numFound: posts.length, posts: posts});
   } catch (err) {
     res.status(500).json({ message: err });
   }
