@@ -1,6 +1,6 @@
 .header {
   padding: 15px 25px;
-  background-color: white;
+  background-color: var(--background-color-primary);
   margin: 25px;
   border-radius: 8px;
   display: grid;
@@ -24,6 +24,10 @@
 .following-user-info {
   display: grid;
   gap: 0;
+}
+
+.following-user-info .fullname {
+  color: var(--text-color-primary);
 }
 
 .back-btn {
@@ -69,7 +73,7 @@
 }
 
 .active-link {
-  color: black;
+  color: var(--text-color-primary);
 }
 
 .active-link::after {

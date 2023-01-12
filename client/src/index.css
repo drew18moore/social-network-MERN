@@ -5,6 +5,19 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+:root {
+  --background-color-primary: white;
+  --background-color-secondary: #F0F2F5;
+  
+  --btn-background-color-primary: #1877F2;
+  --btn-color-primary: white;
+  --btn-background-color-disabled: #E4E6EB;
+  --btn-color-disabled: #B9B9B9;
+
+  --text-color-primary: black;
+  --text-color-secondary: #757575;
+}
+
 img {
   user-select: none;
 }
@@ -14,8 +27,8 @@ button {
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  color: white;
-  background-color: #1877F2;
+  color: var(--btn-color-primary);
+  background-color: var(--btn-background-color-primary);
   transition: 0.1s;
 }
 
@@ -23,7 +36,23 @@ button:enabled:hover {
   filter: brightness(90%);
 }
 
+button:disabled {
+  background-color: var(--btn-background-color-disabled);
+  color: var(--btn-color-disabled);
+  cursor: not-allowed;
+}
+
 a {
   text-decoration: none;
-  color: black;
+  color: var(--text-color-primary);
+}
+
+.error-message {
+  background-color: #F8D7DA;
+  border: 1px solid #ebccd1;
+  color: #a94442;
+  border-radius: 8px;
+  width: fit-content;
+  padding: 0.25rem .5rem;
+  margin: 0 auto;
 }

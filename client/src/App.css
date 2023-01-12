@@ -15,7 +15,7 @@
 .main {
   flex-shrink: 0;
   flex-basis: 600px;
-  background-color: #F0F2F5;
+  background-color: var(--background-color-secondary);
   border-radius: 8px;
   overflow: scroll;
   height: calc(100vh - 70px);
@@ -62,7 +62,7 @@
 /* MOBILE STYLES */
 @media (width < 590px) {
   html {
-    background-color: #F0F2F5;
+    background-color: var(--background-color-secondary);
   }
 
   .app-container {

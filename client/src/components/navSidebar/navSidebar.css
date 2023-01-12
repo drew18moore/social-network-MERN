@@ -1,5 +1,5 @@
 .nav-sidebar nav {
-  background-color: #F0F2F5;
+  background-color: var(--background-color-secondary);
   border-radius: 8px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -27,7 +27,7 @@
 
 .nav-sidebar a {
   text-decoration: none;
-  color: black;
+  color: var(--text-color-primary);
   display: flex;
   align-items: center;
   gap: 15px;

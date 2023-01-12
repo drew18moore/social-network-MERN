@@ -1,5 +1,5 @@
 .user {
-  background-color: white;
+  background-color: var(--background-color-primary);
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -28,11 +28,13 @@
 }
 
 .user-info .fullname {
+  color: var(--text-color-primary);
   cursor: pointer;
 }
 
 .user-info .fullname:hover {
   text-decoration: underline;
+  text-decoration-color: var(--text-color-primary);
 }
 
 .user-info .username {
@@ -49,7 +51,7 @@
 
 .unfollow-user-btn {
   background-color: #e4e6eb;
-  color: black;
+  color: var(--text-color-primary);
   font-weight: bold;
   font-size: 1rem;
   width: 95px;

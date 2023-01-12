@@ -1,5 +1,6 @@
 .profile-top {
-  background-color: white;
+  background-color: var(--background-color-primary);
+  color: var(--text-color-primary);
   margin: 25px;
   border-radius: 8px;
   padding: 5px;
@@ -12,12 +13,13 @@
 .posts-heading {
   padding-bottom: 15px;
   text-align: center;
+  color: var(--text-color-primary);
 }
 
 .profile-card {
   display: grid;
   gap: 15px;
-  background-color: white;
+  background-color: var(--background-color-primary);
   margin: 25px;
   padding: 15px;
   border-radius: 8px;
@@ -73,6 +75,10 @@
   justify-items: baseline;
 }
 
+.profile-name-username .name {
+  color: var(--text-color-primary);
+}
+
 .profile-name-username .username {
   font-size: 1rem;
   color: #757575;
@@ -82,7 +88,7 @@
 .edit-profile-btn {
   align-self: flex-end;
   background-color: #e4e6eb;
-  color: black;
+  color: var(--text-color-primary);
   font-weight: bold;
   font-size: 1rem;
   padding: 10px;
@@ -100,7 +106,7 @@
 .unfollow-profile-btn {
   align-self: flex-end;
   background-color: #e4e6eb;
-  color: black;
+  color: var(--text-color-primary);
   font-weight: bold;
   font-size: 1rem;
   width: 95px;
@@ -123,13 +129,13 @@
 }
 
 .count {
-  color: black;
+  color: var(--text-color-primary);
   font-weight: bold;
 }
 
 .following:hover, .followers:hover {
   text-decoration: underline;
-  text-decoration-color: black;
+  text-decoration-color: var(--text-color-primary);
 }
 
 .posts {

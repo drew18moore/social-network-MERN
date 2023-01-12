@@ -10,7 +10,7 @@
 }
 
 .loading {
-  background-color: white;
+  background-color: var(--background-color-primary);
   width: fit-content;
   margin: 1rem auto;
   text-align: center;

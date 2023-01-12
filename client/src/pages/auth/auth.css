@@ -5,16 +5,7 @@
 
 .auth-heading {
   text-align: center;
-}
-
-.error-message {
-  background-color: #F8D7DA;
-  border: 1px solid #ebccd1;
-  color: #a94442;
-  border-radius: 8px;
-  width: fit-content;
-  padding: 0.25rem .5rem;
-  margin: 0 auto;
+  color: var(--text-color-primary);
 }
 
 .auth-form {
@@ -24,7 +15,7 @@
   padding: 50px;
   margin: 25px;
   border-radius: 6px;
-  background-color: white;
+  background-color: var(--background-color-primary);
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
@@ -34,6 +25,7 @@
   border-radius: 5px;
   border: 1px solid #B9B9B9;
   padding-left: 15px;
+  color: var(--text-color-primary);
 }
 
 .form-link {

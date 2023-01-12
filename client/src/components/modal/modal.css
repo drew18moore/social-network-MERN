@@ -20,7 +20,7 @@
   margin: auto;
   max-width: 600px;
   max-height: 90%;
-  background-color: white;
+  background-color: var(--background-color-primary);
   border-radius: 8px;
   overflow: auto;
 }
@@ -54,11 +54,16 @@
 
 .modal-container h1 {
   font-size: 1.5rem;
+  color: var(--text-color-primary);
 }
 
 .modal-container h2 {
   text-align: left;
   font-size: 1.5rem;
+}
+
+.modal-container h4 {
+  color: var(--text-color-primary);
 }
 
 .modal-container form {
@@ -84,8 +89,8 @@
 }
 
 .cancel-btn {
-  background-color: white;
-  color: black;
+  background-color: var(--background-color-primary);
+  color: var(--text-color-primary);
   border: 1px solid #B9B9B9;
 }
 
@@ -197,7 +202,8 @@
   overflow: hidden;
   border: 1px solid #B9B9B9;
   border: none;
-  background-color: #F0F2F5;
+  background-color: var(--background-color-secondary);
+  color: var(--text-color-primary);
   border-radius: 5px;
 }
 
@@ -208,12 +214,6 @@
 
 #post-body-input:focus {
   outline: 1px solid #757575;
-}
-
-#post-btn:disabled {
-  background-color: #E4E6EB;
-  color: #B9B9B9;
-  cursor: not-allowed;
 }
 
 .modal-comment-picture {

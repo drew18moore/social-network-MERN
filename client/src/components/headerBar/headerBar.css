@@ -1,5 +1,5 @@
 header {
-  background-color: white;
+  background-color: var(--background-color-primary);
   position: fixed;
   top: 0;
   left: 0;
@@ -29,7 +29,7 @@ header {
 }
 
 .curr-user:hover {
-  background-color: #F0F2F5;
+  background-color: var(--background-color-secondary);
 }
 
 .curr-user-info {

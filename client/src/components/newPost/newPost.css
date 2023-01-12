@@ -5,7 +5,7 @@
   padding: 20px;
   margin: 25px;
   border-radius: 6px;
-  background-color: white;
+  background-color: var(--background-color-primary);
 }
 
 .input-area {
@@ -35,7 +35,7 @@
   overflow: hidden;
   border: 1px solid #B9B9B9;
   border: none;
-  background-color: #F0F2F5;
+  background-color: var(--background-color-secondary);
   border-radius: 5px;
 }
 
@@ -46,12 +46,6 @@
 
 #post-body-input:focus {
   outline: 1px solid #757575;
-}
-
-#post-btn:disabled {
-  background-color: #E4E6EB;
-  color: #B9B9B9;
-  cursor: not-allowed;
 }
 
 .input-pfp {
