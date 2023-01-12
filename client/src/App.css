@@ -9,6 +9,7 @@
 
 .nav-sidebar {
   flex-grow: 1;
+  z-index: 100;
 }
 
 .main {
@@ -60,6 +61,10 @@
 
 /* MOBILE STYLES */
 @media (width < 590px) {
+  html {
+    background-color: #F0F2F5;
+  }
+
   .app-container {
     margin-top: 0;
     padding: 0;
@@ -70,7 +75,7 @@
   }
 
   .nav-sidebar {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -86,7 +91,9 @@
   }
 
   .main {
-    height: calc(100vh - 60px);
+    height: 100%;
+    background-color: unset;
+    overflow: unset;
   }
 
   .post-header {
