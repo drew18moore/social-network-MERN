@@ -9,7 +9,7 @@
   --background-color-primary: white;
   --background-color-secondary: #F0F2F5;
   
-  --btn-background-color-primary: #1877F2;
+  --accent-color-primary: #1877F2;
   --btn-color-primary: white;
   --btn-background-color-disabled: #E4E6EB;
   --btn-color-disabled: #B9B9B9;
@@ -28,7 +28,7 @@ button {
   border: none;
   cursor: pointer;
   color: var(--btn-color-primary);
-  background-color: var(--btn-background-color-primary);
+  background-color: var(--accent-color-primary);
   transition: 0.1s;
 }
 

@@ -35,5 +35,5 @@
 
 .form-link a {
   text-decoration: none;
-  color: #1877F2;
+  color: var(--accent-color-primary);
 }

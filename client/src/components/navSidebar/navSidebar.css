@@ -41,7 +41,7 @@
 }
 
 .selected {
-  color: #1877F2 !important;
+  color: var(--accent-color-primary) !important;
   font-weight: bold;
   font-variation-settings:
   'FILL' 1

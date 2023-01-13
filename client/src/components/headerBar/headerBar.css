@@ -56,7 +56,7 @@ header {
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  color: #1877F2;
+  color: var(--accent-color-primary);
 }
 
 .curr-user img {
