@@ -81,7 +81,7 @@
 
 .profile-name-username .username {
   font-size: 1rem;
-  color: #757575;
+  color: var(--text-color-secondary);
   font-weight: normal;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .following, .followers {
-  color: #757575;
+  color: var(--text-color-secondary);
   cursor: pointer;
 }
 

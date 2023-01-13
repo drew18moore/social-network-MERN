@@ -45,7 +45,7 @@
 }
 
 #post-body-input:focus {
-  outline: 1px solid #757575;
+  outline: 1px solid var(--text-color-secondary);
 }
 
 .input-pfp {

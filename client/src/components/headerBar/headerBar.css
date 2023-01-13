@@ -38,12 +38,12 @@ header {
 
 .curr-user .fullname {
   font-weight: bold;
-  color: #757575;
+  color: var(--text-color-secondary);
   font-size: .9rem;
 }
 
 .curr-user .username {
-  color: #757575;
+  color: var(--text-color-secondary);
   font-size: .9rem;
 }
 

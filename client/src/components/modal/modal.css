@@ -37,7 +37,7 @@
   border-radius: 50%;
   padding: 8px;
   background-color: #D8DADF;
-  color: #757575;
+  color: var(--text-color-secondary);
   font-weight: bold;
   position: absolute;
   right: 8px;
@@ -150,11 +150,11 @@
 }
 
 .modal-post-username, .modal-post-date {
-  color: #757575;
+  color: var(--text-color-secondary);
 }
 
 .modal-post-dot {
-  color: #757575;
+  color: var(--text-color-secondary);
   font-size: .5rem;
 }
 
@@ -213,7 +213,7 @@
 }
 
 #post-body-input:focus {
-  outline: 1px solid #757575;
+  outline: 1px solid var(--text-color-secondary);
 }
 
 .modal-comment-picture {

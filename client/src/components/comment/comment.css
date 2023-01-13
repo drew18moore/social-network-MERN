@@ -37,7 +37,7 @@
 .comment-top .meatball-btn {
   padding: 5px;
   border-radius: 50%;
-  color: #757575;
+  color: var(--text-color-secondary);
   cursor: pointer;
   user-select: none;
   transition: 0.1s;

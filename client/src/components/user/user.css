@@ -38,7 +38,7 @@
 }
 
 .user-info .username {
-  color: #757575;
+  color: var(--text-color-secondary);
 }
 
 .follow-user-btn {

@@ -79,7 +79,7 @@
 .meatball-btn {
   padding: 8px;
   border-radius: 50%;
-  color: #757575;
+  color: var(--text-color-secondary);
   cursor: pointer;
   user-select: none;
   transition: 0.1s;
@@ -91,16 +91,16 @@
 }
 
 .post-username {
-  color: #757575;
+  color: var(--text-color-secondary);
 }
 
 .post-dot {
-  color: #757575;
+  color: var(--text-color-secondary);
   font-size: .5rem;
 }
 
 .post-date {
-  color: #757575;
+  color: var(--text-color-secondary);
   flex-shrink: 0;
 }
 
@@ -114,7 +114,7 @@
 .like-comment-share-btns {
   display: flex;
   justify-content: space-around;
-  color: #757575
+  color: var(--text-color-secondary)
 }
 
 .like-comment-share-btns .material-symbols-rounded {
