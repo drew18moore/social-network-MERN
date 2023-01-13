@@ -1,3 +1,7 @@
+button > .lds-ellipsis div{
+  background-color: var(--btn-color-primary);
+}
+
 .lds-ellipsis {
   display: flex;
   align-items: center;
@@ -11,7 +15,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #fff;
+  background-color: var(--text-color-secondary);
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {

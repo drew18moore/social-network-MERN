@@ -7,6 +7,7 @@ import NewPost from "../../components/newPost/NewPost";
 import "./timeline.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { useRef } from "react";
+import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);
@@ -18,25 +19,28 @@ export default function Timeline() {
   const [isNextPage, setIsNextPage] = useState(true);
 
   const observer = useRef();
-  const lastPostRef = useCallback((element) => {
-    if (isLoading) return
-    if (observer.current) observer.current.disconnect()
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPage(prev => prev + 1)
-      }
-    })
-    if (element && isNextPage) observer.current.observe(element)
-    console.log(element)
-  }, [isLoading])
+  const lastPostRef = useCallback(
+    (element) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prev) => prev + 1);
+        }
+      });
+      if (element && isNextPage) observer.current.observe(element);
+      console.log(element);
+    },
+    [isLoading]
+  );
 
   const fetchPosts = async () => {
     await api
       .get(`/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`)
       .then((res) => {
         setPosts((prev) => [...prev, ...res.data.posts]);
-        setIsNextPage(res.data.numFound > 0)
-        console.log("NUM_FOUND:", res.data.numFound)
+        setIsNextPage(res.data.numFound > 0);
+        console.log("NUM_FOUND:", res.data.numFound);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -111,7 +115,11 @@ export default function Timeline() {
           );
         })}
       </div>
-      {isLoading && <p className="loading">Loading...</p>}
+      {isLoading && (
+        <div className="loading">
+          <LoadingAnimation />
+        </div>
+      )}
     </div>
   );
 }
