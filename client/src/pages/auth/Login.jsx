@@ -2,11 +2,13 @@ import React, { useRef, useState } from "react";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 export default function Login() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const { setCurrentUser } = useAuth();
@@ -16,6 +18,7 @@ export default function Login() {
     e.preventDefault();
     setError("");
     if (usernameRef.current !== null && passwordRef.current !== null) {
+      setIsLoading(true);
       await api
         .post("/api/auth/login", {
           username: usernameRef.current.value,
@@ -24,9 +27,11 @@ export default function Login() {
         .then((res) => {
           console.log(res.data);
           setCurrentUser(res.data);
+          setIsLoading(false);
           navigate("/");
         })
         .catch((err) => {
+          setIsLoading(false);
           setError(err.response.data.message);
         });
     } else {
@@ -58,7 +63,7 @@ export default function Login() {
             required
           />
 
-          <button type="submit">Log In</button>
+          <button type="submit">{isLoading ? <LoadingAnimation /> : "Log In"}</button>
           <p className="form-link">
             Need an account? <Link to="/register">Sign up</Link>
           </p>

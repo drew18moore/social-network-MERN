@@ -3,6 +3,7 @@ import api from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./auth.css";
+import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 export default function Register() {
   const fullnameRef = useRef(null);
@@ -10,6 +11,7 @@ export default function Register() {
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const { setCurrentUser } = useAuth();
@@ -27,6 +29,7 @@ export default function Register() {
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
         return setError("Passwords do not match");
       }
+      setIsLoading(true);
       await api
         .post("/api/auth/register", {
           fullname: fullnameRef.current.value,
@@ -37,9 +40,11 @@ export default function Register() {
         .then((res) => {
           console.log(res.data);
           setCurrentUser(res.data);
+          setIsLoading(false);
           navigate("/");
         })
         .catch((err) => {
+          setIsLoading(false);
           setError(err.response.data.message);
         });
     } else {
@@ -91,7 +96,9 @@ export default function Register() {
             required
           />
 
-          <button type="submit">Sign Up</button>
+          <button type="submit">
+            {isLoading ? <LoadingAnimation /> : "Sign Up"}
+          </button>
           <p className="form-link">
             Already have an account? <Link to="/login">Log in</Link>
           </p>

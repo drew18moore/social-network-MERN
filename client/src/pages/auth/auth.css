@@ -37,3 +37,7 @@
   text-decoration: none;
   color: var(--accent-color-primary);
 }
+
+.auth-container button {
+  position: relative;
+}
