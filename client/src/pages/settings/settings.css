@@ -1,0 +1,44 @@
+.settings-top {
+  background-color: var(--background-color-primary);
+  color: var(--text-color-primary);
+  margin: 25px;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
+}
+
+.settings-container {
+  margin: 0 25px;
+  display: grid;
+  gap: 15px;
+}
+
+.settings-container hr {
+  border-top: 1px solid #D8DADF;
+  border-bottom: none;
+  margin: 15px 0;
+}
+
+.settings-container > div {
+  padding: 15px;
+  background-color: var(--background-color-primary);
+  color: var(--text-color-primary);
+  border-radius: 8px;
+}
+
+.delete-account h2 {
+  color: rgb(244, 33, 46);
+}
+
+.delete-account button {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+  color: rgb(244, 33, 46);
+  background-color: rgba(244, 33, 46, 0.1);
+  border: 1px solid rgb(253, 201, 206);
+}
