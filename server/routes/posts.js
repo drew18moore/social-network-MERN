@@ -72,12 +72,13 @@ router.put("/edit/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    console.log(req.body);
-    console.log(post.userId);
     if (post.userId !== req.body.userId) {
       return res
         .status(412)
         .json({ message: "You can only delete your own posts" });
+    }
+    if (post.comments.length) {
+      await Comment.deleteMany({ _id: { $in: post.comments } })
     }
     const response = await post.deleteOne();
     res.status(200).json(response);
