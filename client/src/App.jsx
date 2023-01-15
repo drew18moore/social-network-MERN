@@ -11,6 +11,7 @@ import { useAuth } from "./contexts/AuthContext";
 // import Timeline from "./pages/timeline/Timeline";
 import FollowersFollowing from "./pages/followersFollowing/FollowersFollowing";
 import PostPage from "./pages/post/PostPage";
+import Settings from "./pages/settings/Settings";
 
 const Timeline = lazy(() => import("./pages/timeline/Timeline"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
@@ -42,6 +43,7 @@ export default function App() {
             element={<FollowersFollowing page="followers" />}
           />
           <Route path="/:username/posts/:postId" element={<PostPage />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>
     </div>

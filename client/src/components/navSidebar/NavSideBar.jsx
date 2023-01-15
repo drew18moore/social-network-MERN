@@ -22,7 +22,7 @@ export default function NavSideBar() {
             </Link>
           </li>
           <li>
-            <Link>
+            <Link className={location.pathname === "/settings" ? "selected": ""} to="/settings">
               <span className="material-symbols-rounded">settings</span><p className="link-txt">Settings</p>
             </Link>
           </li>
