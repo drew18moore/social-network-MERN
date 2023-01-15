@@ -5,6 +5,7 @@ const multer = require("multer");
 const path = require("path");
 const Image = require("../models/Image");
 const fs = require("fs");
+const { deletePost } = require("../routes/posts")
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

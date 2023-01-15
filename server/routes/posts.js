@@ -4,6 +4,26 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 const Comment = require("../models/Comment");
 
+const deletePost = async (postId, userId) => {
+  try {
+    const post = await Post.findById(postId);
+    if (post.userId !== userId) {
+      return {
+        statusCode: 412,
+        response: { message: "You can only delete your own posts" },
+      };
+    }
+    // Delete comments
+    if (post.comments.length) {
+      await Comment.deleteMany({ _id: { $in: post.comments } });
+    }
+    const response = await post.deleteOne();
+    return { statusCode: 200, response: response };
+  } catch (err) {
+    return { statusCode: 500, response: { message: err } };
+  }
+};
+
 // CREATE post
 router.post("/new", async (req, res) => {
   if (req.body.postBody === "") {
@@ -70,21 +90,24 @@ router.put("/edit/:id", async (req, res) => {
 
 // DELETE post
 router.delete("/delete/:id", async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    if (post.userId !== req.body.userId) {
-      return res
-        .status(412)
-        .json({ message: "You can only delete your own posts" });
-    }
-    if (post.comments.length) {
-      await Comment.deleteMany({ _id: { $in: post.comments } })
-    }
-    const response = await post.deleteOne();
-    res.status(200).json(response);
-  } catch (err) {
-    res.status(500).json({ message: err });
-  }
+  const response = await deletePost(req.params.id, req.body.userId);
+  res.status(response.statusCode).json(response.response);
+
+  // try {
+  //   const post = await Post.findById(req.params.id);
+  //   if (post.userId !== req.body.userId) {
+  //     return res
+  //       .status(412)
+  //       .json({ message: "You can only delete your own posts" });
+  //   }
+  //   if (post.comments.length) {
+  //     await Comment.deleteMany({ _id: { $in: post.comments } });
+  //   }
+  //   const response = await post.deleteOne();
+  //   res.status(200).json(response);
+  // } catch (err) {
+  //   res.status(500).json({ message: err });
+  // }
 });
 
 // LIKE/UNLIKE post
@@ -111,9 +134,13 @@ router.put("/like/:id", async (req, res) => {
 // GET all followed user posts, by userId
 router.get("/timeline/:userId", async (req, res) => {
   try {
-    const page = req.query.page - 1
-    const { following } = await User.findById(req.params.userId)
-    const allPosts = await Post.find({ userId: {$in: [req.params.userId, ...following]} }, null, { skip: page * req.query.limit, limit: req.query.limit }).sort({ createdAt: -1 });
+    const page = req.query.page - 1;
+    const { following } = await User.findById(req.params.userId);
+    const allPosts = await Post.find(
+      { userId: { $in: [req.params.userId, ...following] } },
+      null,
+      { skip: page * req.query.limit, limit: req.query.limit }
+    ).sort({ createdAt: -1 });
     const posts = await Promise.all(
       allPosts.map(async (post) => {
         const postUser = await User.findById(post.userId);
@@ -135,7 +162,7 @@ router.get("/timeline/:userId", async (req, res) => {
         };
       })
     );
-    res.status(200).json({numFound: posts.length, posts: posts});
+    res.status(200).json({ numFound: posts.length, posts: posts });
   } catch (err) {
     res.status(500).json({ message: err });
   }
@@ -195,7 +222,7 @@ router.get("/:username/:id", async (req, res) => {
       post.comments.map(async (commentId) => {
         const comment = await Comment.findById(commentId);
         const commentUser = await User.findById(comment.userId);
-        
+
         let commentProfilePicture;
         if (commentUser.img.data) {
           const buffer = Buffer.from(commentUser.img.data);
@@ -210,7 +237,7 @@ router.get("/:username/:id", async (req, res) => {
           fullname: commentUser.fullname,
           username: commentUser.username,
           profilePicture: commentProfilePicture,
-        }
+        };
         return commentWithUserData;
       })
     ).then((values) => {
@@ -222,7 +249,7 @@ router.get("/:username/:id", async (req, res) => {
       fullname: user.fullname,
       username: user.username,
       profilePicture: profilePicture,
-      comments: comments
+      comments: comments,
     };
 
     res.status(200).json(postData);
@@ -253,4 +280,4 @@ router.post("/:postId/comment", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = { router, deletePost };
