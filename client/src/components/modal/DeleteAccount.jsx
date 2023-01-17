@@ -58,7 +58,7 @@ const DeleteAccount = () => {
         <label>
           <p>Confirm your password</p>
           <input
-            type="text"
+            type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
