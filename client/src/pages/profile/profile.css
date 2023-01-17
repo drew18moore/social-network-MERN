@@ -112,9 +112,9 @@
 }
 
 .unfollow-profile-btn:hover {
-  color: red;
-  background-color: rgba(244, 33, 46, 0.1);
-  border: 1px solid rgb(253, 201, 206);
+  color: var(--text-color-warning);
+  background-color: var(--background-color-warning);
+  border: 1px solid var(--border-color-warning);
 }
 
 .profile-card .bottom {
