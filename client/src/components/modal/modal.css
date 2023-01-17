@@ -223,3 +223,25 @@
 .modal-comment-form img:hover {
   filter: none !important;
 }
+
+.delete-account-modal button {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+  color: rgb(244, 33, 46);
+  background-color: rgba(244, 33, 46, 0.1);
+  border: 1px solid rgb(253, 201, 206);
+}
+
+.delete-account-modal input {
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #B9B9B9;
+  padding-left: 15px;
+  color: var(--text-color-primary);
+}
+
+.delete-account-modal .warning-text {
+  margin: 0 15px 15px 15px;
+}

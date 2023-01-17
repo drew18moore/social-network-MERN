@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./settings.css"
+import "./settings.css";
+import Modal from "../../components/modal/Modal";
+import DeleteAccount from "../../components/modal/DeleteAccount";
 
 const Settings = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
   return (
     <>
@@ -19,10 +23,14 @@ const Settings = () => {
         <div className="delete-account">
           <h2>Delete Account</h2>
           <hr />
-          <p>Once you delete your account, there is no going back. Please be certain.</p>
-          <button>Delete your account</button>
+          <p>
+            Once you delete your account, there is no going back. Please be
+            certain.
+          </p>
+          <button onClick={() => setShowModal(true)}>Delete your account</button>
         </div>
       </div>
+      {showModal && <Modal setShowModal={setShowModal}><DeleteAccount /></Modal>}
     </>
   );
 };
