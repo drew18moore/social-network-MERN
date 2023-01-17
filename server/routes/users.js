@@ -7,6 +7,7 @@ const Image = require("../models/Image");
 const fs = require("fs");
 const { deletePost } = require("../routes/posts");
 const Post = require("../models/Post");
+const bcrypt = require("bcrypt");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -244,19 +245,24 @@ router.get("/:username/followers", async (req, res) => {
 // DELETE user by id
 router.delete("/delete/:userId", async (req, res) => {
   try {
+    const user = await User.findById(req.params.userId);
+
+    if (!(await bcrypt.compare(req.body.password, user.password))) {
+      return res.status(400).json({ message: "Incorrect password" });
+    }
+
     const postIds = await Post.find({ userId: req.params.userId })
-    .select("_id")
-    .then((res) => res.map((val) => val._id));
-  for (let id of postIds) {
-    await deletePost(id, req.params.userId)
-  }
+      .select("_id")
+      .then((res) => res.map((val) => val._id));
+    for (let id of postIds) {
+      await deletePost(id, req.params.userId);
+    }
 
-  const user = await User.findById(req.params.userId)
-  await user.deleteOne()
+    await user.deleteOne();
 
-  res.status(200).json({ message: "User account has been deleted" })
+    res.status(200).json({ message: "User account has been deleted" });
   } catch (err) {
-    res.status(500).json({ message: err })
+    res.status(500).json({ message: err });
   }
 });
 

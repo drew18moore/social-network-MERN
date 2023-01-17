@@ -245,3 +245,7 @@
 .delete-account-modal .warning-text {
   margin: 0 15px 15px 15px;
 }
+
+.delete-account-modal .error-message {
+  margin-bottom: 15px;
+}
