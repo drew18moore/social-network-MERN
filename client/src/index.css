@@ -37,6 +37,7 @@ button:enabled:hover {
 }
 
 button:disabled {
+  border: none;
   background-color: var(--btn-background-color-disabled);
   color: var(--btn-color-disabled);
   cursor: not-allowed;

@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+
+const CONFIRMATION_PHRASE = "delete my account";
 
 const DeleteAccount = () => {
-  const [confirmationPhrase, setConfirmationPhrase] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [confirmationPhrase, setConfirmationPhrase] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const validate = () => {
+    return confirmationPhrase === CONFIRMATION_PHRASE && confirmPassword.length > 0
+  }
 
   const handleSubmit = () => {};
   return (
@@ -30,7 +37,7 @@ const DeleteAccount = () => {
             required
           />
         </label>
-        <button>Delete this account</button>
+        <button disabled={!validate()}>Delete this account</button>
       </form>
     </div>
   );
