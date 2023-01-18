@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import api from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import "./auth.css";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
+import "./auth.css";
 
 export default function Register() {
   const fullnameRef = useRef(null);
@@ -20,37 +20,23 @@ export default function Register() {
   async function register(e) {
     e.preventDefault();
     setError("");
-    if (
-      fullnameRef.current !== null &&
-      usernameRef.current !== null &&
-      passwordRef.current !== null &&
-      passwordConfirmRef.current !== null
-    ) {
-      if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-        return setError("Passwords do not match");
-      }
-      setIsLoading(true);
-      await api
-        .post("/api/auth/register", {
-          fullname: fullnameRef.current.value,
-          username: usernameRef.current.value,
-          password: passwordRef.current.value,
-          passwordConfirm: passwordConfirmRef.current.value,
-        })
-        .then((res) => {
-          console.log(res.data);
-          setCurrentUser(res.data);
-          setIsLoading(false);
-          navigate("/");
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          setError(err.response.data.message);
-        });
-    } else {
-      console.error(
-        "fullnameRef.current, usernameRef.current, passwordRef.current, or passwordConfirmRef is null"
-      );
+    setIsLoading(true);
+    try {
+      if (passwordRef.current.value !== passwordConfirmRef.current.value)
+        throw new Error("Passwords do not match");
+      const response = await api.post("/api/auth/register", {
+        fullname: fullnameRef.current.value,
+        username: usernameRef.current.value,
+        password: passwordRef.current.value,
+        passwordConfirm: passwordConfirmRef.current.value,
+      });
+      console.log(response.data);
+      setCurrentUser(response.data);
+      setIsLoading(false);
+      navigate("/");
+    } catch (err) {
+      setIsLoading(false);
+      setError(err?.response?.data?.message || err.message);
     }
   }
 

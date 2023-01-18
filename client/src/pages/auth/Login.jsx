@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 export default function Login() {
@@ -17,25 +17,19 @@ export default function Login() {
   async function login(e) {
     e.preventDefault();
     setError("");
-    if (usernameRef.current !== null && passwordRef.current !== null) {
-      setIsLoading(true);
-      await api
-        .post("/api/auth/login", {
-          username: usernameRef.current.value,
-          password: passwordRef.current.value,
-        })
-        .then((res) => {
-          console.log(res.data);
-          setCurrentUser(res.data);
-          setIsLoading(false);
-          navigate("/");
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          setError(err.response.data.message);
-        });
-    } else {
-      console.error("usernameRef.current or passwordRef.current is null");
+    setIsLoading(true);
+    try {
+      const response = await api.post("/api/auth/login", {
+        username: usernameRef.current?.value,
+        password: passwordRef.current?.value,
+      });
+      setCurrentUser(response.data);
+      setIsLoading(false);
+      navigate("/");
+    } catch (err) {
+      setIsLoading(false);
+      console.error(err);
+      setError(err.response.data.message);
     }
   }
 
@@ -63,7 +57,9 @@ export default function Login() {
             required
           />
 
-          <button type="submit">{isLoading ? <LoadingAnimation /> : "Log In"}</button>
+          <button type="submit">
+            {isLoading ? <LoadingAnimation /> : "Log In"}
+          </button>
           <p className="form-link">
             Need an account? <Link to="/register">Sign up</Link>
           </p>
