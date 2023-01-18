@@ -1,10 +1,8 @@
-import React from "react";
-import "./user.css";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import "./user.css";
 
 export default function User({ user }) {
   const { currentUser } = useAuth();
@@ -14,38 +12,46 @@ export default function User({ user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const following = user.followers.includes(currentUser._id)
+    const following = user.followers.includes(currentUser._id);
     setIsFollowing(following);
-  },[])
-  
-  const followUser = (e) => {
+  }, []);
+
+  const followUser = async (e) => {
     e.stopPropagation();
-    api
-      .put(`/api/users/follow/${user.username}`, {
+    try {
+      await api.put(`/api/users/follow/${user.username}`, {
         currUsername: currentUser.username,
-      })
-      .then((res) => {
-        setIsFollowing((prev) => !prev);
       });
+      setIsFollowing((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div className="user">
       <div className="user-info">
-        <img src={user.img} alt="user profile picture" onClick={() => navigate(`/${user.username}`)}/>
+        <img
+          src={user.img}
+          alt="user profile picture"
+          onClick={() => navigate(`/${user.username}`)}
+        />
         <div className="info">
-          <p className="fullname" onClick={() => navigate(`/${user.username}`)}>{user.fullname}</p>
+          <p className="fullname" onClick={() => navigate(`/${user.username}`)}>
+            {user.fullname}
+          </p>
           <p className="username">@{user.username}</p>
         </div>
       </div>
-      {user._id !== currentUser._id && <button
-        className={isFollowing ? "unfollow-user-btn" : "follow-user-btn"}
-        onMouseEnter={() => setFollowBtnText("Unfollow")}
-        onMouseLeave={() => setFollowBtnText("Following")}
-        onClick={followUser}
-      >
-        {isFollowing ? followBtnText : "Follow"}
-      </button>}
-      
+      {user._id !== currentUser._id && (
+        <button
+          className={isFollowing ? "unfollow-user-btn" : "follow-user-btn"}
+          onMouseEnter={() => setFollowBtnText("Unfollow")}
+          onMouseLeave={() => setFollowBtnText("Following")}
+          onClick={followUser}
+        >
+          {isFollowing ? followBtnText : "Follow"}
+        </button>
+      )}
     </div>
   );
 }

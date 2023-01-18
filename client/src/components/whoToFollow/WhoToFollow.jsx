@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
-import "./whoToFollow.css";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import User from "../user/User";
+import "./whoToFollow.css";
 
 const WhoToFollow = () => {
   const { currentUser } = useAuth();
   const [unfollowedUsers, setUnfollowedUsers] = useState();
 
   useEffect(() => {
-    api.get(`/api/users/all-unfollowed/${currentUser._id}`).then((res) => {
-      setUnfollowedUsers(res.data);
-    });
+    const fetchData = async () => {
+      try {
+        const response = await api.get(
+          `/api/users/all-unfollowed/${currentUser._id}`
+        );
+        setUnfollowedUsers(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
