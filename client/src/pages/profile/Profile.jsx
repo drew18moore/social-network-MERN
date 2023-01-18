@@ -25,22 +25,19 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch user data
-      await api
-        .get(`/api/users/${username}`)
-        .then((res) => {
-          setUser(res.data);
-          setIsFollowing(() => res.data.followers.includes(currentUser._id));
-        })
-        .catch((err) => {
-          console.log("Error", err);
-        });
-      // Fetch user posts
-      await api
-        .get(`/api/posts/${username}/all`)
-        .then((res) => {
-          setPosts(res.data);
-        });
+      try {
+        const [responseUser, responsePosts] = await Promise.all([
+          api.get(`/api/users/${username}`),
+          api.get(`/api/posts/${username}/all`),
+        ]);
+        setUser(responseUser.data);
+        setIsFollowing(() =>
+          responseUser.data.followers.includes(currentUser._id)
+        );
+        setPosts(responsePosts.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchData();
   }, [username]);
@@ -98,9 +95,7 @@ export default function Profile() {
                     setShowChangeProfilePictureModal((prev) => !prev)
                   }
                 >
-                  <span className="material-symbols-rounded">
-                    photo_camera
-                  </span>
+                  <span className="material-symbols-rounded">photo_camera</span>
                 </div>
               )}
             </div>
@@ -136,7 +131,7 @@ export default function Profile() {
             </span>{" "}
             Following
           </span>
-          <span className="followers" onClick={() => navigate('followers')}>
+          <span className="followers" onClick={() => navigate("followers")}>
             <span className="count">
               {user.followers && user.followers.length}
             </span>{" "}

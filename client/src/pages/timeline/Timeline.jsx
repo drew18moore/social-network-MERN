@@ -29,23 +29,21 @@ export default function Timeline() {
         }
       });
       if (element && isNextPage) observer.current.observe(element);
-      console.log(element);
     },
     [isLoading]
   );
 
   const fetchPosts = async () => {
-    await api
-      .get(`/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`)
-      .then((res) => {
-        setPosts((prev) => [...prev, ...res.data.posts]);
-        setIsNextPage(res.data.numFound > 0);
-        console.log("NUM_FOUND:", res.data.numFound);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-      });
+    try {
+      const response = await api.get(
+        `/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`
+      );
+      setPosts((prev) => [...prev, ...response.data.posts]);
+      setIsNextPage(response.data.numFound > 0);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     setIsLoading(true);
