@@ -1,14 +1,12 @@
-import React from "react";
-import "./profile.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
 import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import Post from "../../components/post/Post";
-import api from "../../api/api";
+import "./profile.css";
 
 export default function Profile() {
   const { username } = useParams();
@@ -42,18 +40,16 @@ export default function Profile() {
     fetchData();
   }, [username]);
 
-  const followUser = () => {
-    api
-      .put(`/api/users/follow/${username}`, {
+  const followUser = async () => {
+    try {
+      const response = await api.put(`/api/users/follow/${username}`, {
         currUsername: currentUser.username,
-      })
-      .then((res) => {
-        setIsFollowing((prev) => !prev);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("Error", err);
       });
+      setIsFollowing((prev) => !prev);
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const deletePostById = (postId) => {

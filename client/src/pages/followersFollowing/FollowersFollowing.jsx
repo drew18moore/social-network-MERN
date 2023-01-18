@@ -1,9 +1,8 @@
-import api from "../../api/api";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../api/api";
 import User from "../../components/user/User";
-import "./followersFollowing.css"
+import "./followersFollowing.css";
 
 export default function FollowersFollowing({ page }) {
   const { username } = useParams();
@@ -16,30 +15,20 @@ export default function FollowersFollowing({ page }) {
   useEffect(() => {
     setFollowers([]);
     setFollowing([]);
-    const fetchFollowers = async () => {
-      await api
-        .get(`/api/users/${username}/followers`)
-        .then((res) => {
-          setUser(res.data.user);
-          setFollowers(res.data.followers);
-        })
-        .catch((err) => {
-          console.log("Error", err);
-        });
+    const fetchData = async () => {
+      try {
+        const [responseFollowers, responseFollowing] = await Promise.all([
+          api.get(`/api/users/${username}/followers`),
+          api.get(`/api/users/${username}/following`),
+        ]);
+        setUser(responseFollowers.data.user);
+        setFollowers(responseFollowers.data.followers);
+        setFollowing(responseFollowing.data.following);
+      } catch (err) {
+        console.error(err);
+      }
     };
-
-    const fetchFollowing = async () => {
-      await api
-        .get(`/api/users/${username}/following`)
-        .then((res) => {
-          setFollowing(res.data.following);
-        })
-        .catch((err) => {
-          console.log("Error", err);
-        });
-    };
-    fetchFollowers();
-    fetchFollowing();
+    fetchData();
   }, [username, currPage]);
 
   return (

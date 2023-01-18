@@ -1,13 +1,10 @@
-import React, { useCallback } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import api from "../../api/api";
+import { useAuth } from "../../contexts/AuthContext";
 import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
-import "./timeline.css";
-import { useAuth } from "../../contexts/AuthContext";
-import { useRef } from "react";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
+import "./timeline.css";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);

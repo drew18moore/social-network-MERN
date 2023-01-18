@@ -1,17 +1,14 @@
-import "./App.css";
-import { lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import PrivateRoutes from "./components/PrivateRoutes";
-// import Profile from "./pages/profile/Profile";
-import { useEffect } from "react";
 import api from "./api/api";
 import { useAuth } from "./contexts/AuthContext";
-// import Timeline from "./pages/timeline/Timeline";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import FollowersFollowing from "./pages/followersFollowing/FollowersFollowing";
 import PostPage from "./pages/post/PostPage";
 import Settings from "./pages/settings/Settings";
+import PrivateRoutes from "./components/PrivateRoutes";
+import "./App.css";
 
 const Timeline = lazy(() => import("./pages/timeline/Timeline"));
 const Profile = lazy(() => import("./pages/profile/Profile"));

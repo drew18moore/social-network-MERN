@@ -1,10 +1,7 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import "./postPage.css";
 import Dropdown from "../../components/dropdown/Dropdown";
 import PostDropdown from "../../components/dropdown/PostDropdown";
 import Modal from "../../components/modal/Modal";
@@ -12,6 +9,7 @@ import DeletePost from "../../components/modal/DeletePost";
 import EditPost from "../../components/modal/EditPost";
 import Comment from "../../components/comment/Comment";
 import CommentModal from "../../components/modal/CommentModal";
+import "./postPage.css";
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -46,13 +44,16 @@ export default function PostPage() {
 
   useEffect(() => {
     const fetchPost = async () => {
-      await api.get(`/api/posts/${username}/${postId}`).then((res) => {
-        console.log(res.data);
-        setPost(res.data);
-        setLiked(res.data.likes.includes(currentUser._id));
-        setNumberOfLikes(res.data.likes.length);
-        setNumberOfComments(res.data.comments.length);
-      });
+      try {
+        const response = await api.get(`/api/posts/${username}/${postId}`);
+        console.log(response.data);
+        setPost(response.data);
+        setLiked(response.data.likes.includes(currentUser._id));
+        setNumberOfLikes(response.data.likes.length);
+        setNumberOfComments(response.data.comments.length);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchPost();
   }, [username, postId]);
@@ -71,17 +72,18 @@ export default function PostPage() {
     navigate("/");
   };
 
-  const likePost = (e) => {
+  const likePost = async (e) => {
     e.stopPropagation();
-    api
-      .put(`/api/posts/like/${postId}`, {
+    try {
+      const response = await api.put(`/api/posts/like/${postId}`, {
         userId: currentUser._id,
-      })
-      .then((res) => {
-        console.log(res.data);
-        setNumberOfLikes(res.data.numLikes);
-        setLiked((prev) => !prev);
       });
+      console.log(response.data);
+      setNumberOfLikes(response.data.numLikes);
+      setLiked((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const addComment = (comment) => {
@@ -205,28 +207,28 @@ export default function PostPage() {
         )}
         {showEditPostModal && (
           <Modal setShowModal={setShowEditPostModal}>
-              <EditPost
-                postId={postId}
-                username={username}
-                postBody={post.postBody}
-                setShowModal={setShowEditPostModal}
-                editPost={editPost}
-                type="POST"
-              />
+            <EditPost
+              postId={postId}
+              username={username}
+              postBody={post.postBody}
+              setShowModal={setShowEditPostModal}
+              editPost={editPost}
+              type="POST"
+            />
           </Modal>
         )}
         {showCommentModal && (
           <Modal setShowModal={setShowCommentModal}>
-              <CommentModal
-                postId={postId}
-                fullname={post.fullname}
-                username={username}
-                postBody={post.postBody}
-                profilePicture={post.profilePicture}
-                date={dateFormated}
-                setShowCommentModal={setShowCommentModal}
-                addComment={addComment}
-              />
+            <CommentModal
+              postId={postId}
+              fullname={post.fullname}
+              username={username}
+              postBody={post.postBody}
+              profilePicture={post.profilePicture}
+              date={dateFormated}
+              setShowCommentModal={setShowCommentModal}
+              addComment={addComment}
+            />
           </Modal>
         )}
       </div>
@@ -235,6 +237,7 @@ export default function PostPage() {
         <div className="comments">
           {post.comments &&
             post.comments.map((comment) => {
+              console.log(comment);
               return (
                 <Comment
                   key={comment._id}
