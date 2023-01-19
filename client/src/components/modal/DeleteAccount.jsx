@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 const CONFIRMATION_PHRASE = "delete my account";
 
@@ -26,11 +25,9 @@ const DeleteAccount = () => {
       const response = await api.delete(`api/users/delete/${currentUser._id}`, {
         data: { password: confirmPassword },
       });
-
-      console.log(response.data);
       navigate("/login");
     } catch (err) {
-      setError(err.response.data.message);
+      setError(err.response?.data?.message || err.message);
       console.log(err);
     }
   };

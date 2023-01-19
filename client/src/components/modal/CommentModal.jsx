@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
 import api from "../../api/api";
 
 export default function CommentModal({
@@ -12,7 +11,7 @@ export default function CommentModal({
   date,
   setShowCommentModal,
   addComment,
-  setNumberOfComments
+  setNumberOfComments,
 }) {
   const { currentUser } = useAuth();
   const [userReply, setUserReply] = useState("");
@@ -26,16 +25,17 @@ export default function CommentModal({
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
-    await api
-      .post(`/api/posts/${postId}/comment`, {
+    try {
+      const response = await api.post(`/api/posts/${postId}/comment`, {
         userId: currentUser._id,
         commentBody: userReply,
-      })
-      .then((res) => {
-        addComment && addComment(res.data);
-        setShowCommentModal(false);
-        setNumberOfComments && setNumberOfComments(prev => prev + 1)
       });
+      addComment && addComment(response.data);
+      setShowCommentModal(false);
+      setNumberOfComments && setNumberOfComments((prev) => prev + 1);
+    } catch (err) {
+      console.error(err);
+    }
     setUserReply("");
   };
 
@@ -76,11 +76,7 @@ export default function CommentModal({
               onChange={handleChange}
             ></textarea>
           </div>
-          <button
-            type="submit"
-            id="post-btn"
-            disabled={userReply === ""}
-          >
+          <button type="submit" id="post-btn" disabled={userReply === ""}>
             Reply
           </button>
         </form>

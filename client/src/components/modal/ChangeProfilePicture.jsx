@@ -1,39 +1,37 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function ChangeProfilePicture({ setShowModal }) {
   const [file, setFile] = useState(null);
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
 
   const handleFile = (e) => {
     const inputFile = e.target.files[0];
-    console.log(inputFile);
     setFile(inputFile);
   };
 
-  const uploadFile = (e) => {
+  const uploadFile = async (e) => {
     e.preventDefault();
-    console.log("currimg", currentUser.img)
     let formdata = new FormData();
-
     formdata.append("image", file);
     formdata.append("userId", currentUser._id);
-
-    api
-      .put(
+    try {
+      const response = await api.put(
         `/api/users/change-img/${currentUser._id}`,
         formdata,
         { headers: { "content-type": "multipart/form-data" } }
-      )
-      .then((res) => {
-        setShowModal(false);
-        currentUser.img = res.data
-      })
-      .catch((err) => {
-        console.log(err);
+      );
+      setShowModal(false);
+      setCurrentUser((prev) => {
+        return {
+          ...prev,
+          img: response.data,
+        };
       });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
