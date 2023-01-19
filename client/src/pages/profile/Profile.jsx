@@ -150,6 +150,7 @@ export default function Profile() {
             editPost={editPost}
             isLiked={post.likes.includes(currentUser._id)}
             numLikes={post.likes.length}
+            numComments={post.comments.length}
           />
         ))}
       </div>
