@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
     };
     res.status(200).json(newUser);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 });
 

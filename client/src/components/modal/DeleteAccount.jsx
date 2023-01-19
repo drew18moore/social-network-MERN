@@ -28,7 +28,7 @@ const DeleteAccount = () => {
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || err.message);
-      console.log(err);
+      console.error(err);
     }
   };
   return (
