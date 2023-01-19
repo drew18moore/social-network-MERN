@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import "./modal.css";
 
 export default function Modal({ children, setShowModal }) {

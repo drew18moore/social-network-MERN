@@ -11,29 +11,23 @@ export default function EditProfile({ setUser, setShowModal }) {
 
   const { currentUser, setCurrentUser } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (passwordRef.current !== null) {
-      api
-        .put(`/api/users/${currentUser._id}`, {
-          userId: currentUser._id,
-          fullname: fullnameRef.current.value
-            ? fullnameRef.current.value
-            : currentUser.fullname,
-          username: usernameRef.current.value
-            ? usernameRef.current.value
-            : currentUser.username,
-          password: passwordRef.current.value,
-        })
-        .then((res) => {
-          console.log(res.data);
-          setCurrentUser(res.data);
-          setUser(res.data);
-          setShowModal(false);
-        });
-    } else {
-      console.error("passwordRef.current is null");
+    try {
+      const response = await api.put(`/api/users/${currentUser._id}`, {
+        userId: currentUser._id,
+        fullname: fullnameRef.current.value || currentUser.fullname,
+        username: usernameRef.current.value || currentUser.username,
+        password: passwordRef.current.value,
+      });
+      console.log(response.data);
+      setCurrentUser(response.data);
+      setUser(response.data);
+      setShowModal(false);
+    } catch (err) {
+      console.error(err);
+      setError(err.response.data.message || err.message);
     }
   };
 

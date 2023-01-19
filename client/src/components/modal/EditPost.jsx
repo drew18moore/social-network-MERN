@@ -1,7 +1,5 @@
+import React, { useEffect, useState } from "react";
 import api from "../../api/api";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function EditPost({
@@ -32,17 +30,18 @@ export default function EditPost({
     setUserMessage(postBody);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    api
-      .put(`${endpoint}/${postId}`, {
+    try {
+      const response = await api.put(`${endpoint}/${postId}`, {
         userId: currentUser._id,
         postBody: userMessage,
-      })
-      .then((res) => {
-        setShowModal(false);
-        editPost(res.data);
       });
+      setShowModal(false);
+      editPost(response.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
