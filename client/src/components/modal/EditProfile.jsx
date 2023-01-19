@@ -12,41 +12,37 @@ export default function EditProfile({ setUser, setShowModal }) {
   const { currentUser, setCurrentUser } = useAuth();
 
   const handleSubmit = (e) => {
-    console.log(currentUser.password)
     e.preventDefault();
     setError("");
-    console.log(fullnameRef.current.value ? fullnameRef.current.value : currentUser.fullname)
-
     if (passwordRef.current !== null) {
-      if (passwordRef.current.value === currentUser.password) {
-        api.put(`/api/users/${currentUser._id}`, {
+      api
+        .put(`/api/users/${currentUser._id}`, {
           userId: currentUser._id,
-          fullname: fullnameRef.current.value ? fullnameRef.current.value : currentUser.fullname,
-          username: usernameRef.current.value ? usernameRef.current.value : currentUser.username,
-          password: passwordRef.current.value
-        }).then(res => {
+          fullname: fullnameRef.current.value
+            ? fullnameRef.current.value
+            : currentUser.fullname,
+          username: usernameRef.current.value
+            ? usernameRef.current.value
+            : currentUser.username,
+          password: passwordRef.current.value,
+        })
+        .then((res) => {
           console.log(res.data);
           setCurrentUser(res.data);
           setUser(res.data);
           setShowModal(false);
-        })
-      } else {
-        setError("Password doesn't match current user's password")
-        console.error("Password doesn't match current user's password")
-      }
+        });
     } else {
-      console.error(
-        "passwordRef.current is null"
-      );
+      console.error("passwordRef.current is null");
     }
-  }
+  };
 
   return (
     <div className="edit-profile">
       <h1 className="modal-centered">Edit Profile</h1>
       <hr />
       <form onSubmit={handleSubmit}>
-      {error ? <p className="error-message">{error}</p> : ""}
+        {error ? <p className="error-message">{error}</p> : ""}
         <input
           ref={fullnameRef}
           type="text"
@@ -62,14 +58,14 @@ export default function EditProfile({ setUser, setShowModal }) {
           placeholder="Username"
         />
         <input
-            ref={passwordRef}
-            type="password"
-            name="password"
-            id="input-password"
-            placeholder="Password"
-            required
-          />
-          <button type="submit">Submit</button>
+          ref={passwordRef}
+          type="password"
+          name="password"
+          id="input-password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

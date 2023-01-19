@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import "./headerBar.css";
 import { Link } from "react-router-dom";
 import Dropdown from "../dropdown/Dropdown";
 import AccountDropdown from "../dropdown/AccountDropdown";
 import { useAuth } from "../../contexts/AuthContext";
+import "./headerBar.css";
 
 export default function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const { currentUser } = useAuth();
 
-  const openDropdown = () => {
-    setShowDropdown((prev) => !prev);
-  };
   return (
     <header>
       <div className="nav-logo">

@@ -1,11 +1,10 @@
-import React from "react";
-import "./comment.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
 import Modal from "../modal/Modal";
 import EditPost from "../modal/EditPost";
 import DeletePost from "../modal/DeletePost";
+import "./comment.css";
 
 export default function Comment({
   commentId,

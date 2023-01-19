@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-import { useContext, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 const AuthContext = React.createContext();
 
@@ -9,7 +7,9 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(import.meta.env.VITE_USER && JSON.parse(import.meta.env.VITE_USER));
+  const [currentUser, setCurrentUser] = useState(
+    import.meta.env.VITE_USER && JSON.parse(import.meta.env.VITE_USER)
+  );
 
   useEffect(() => {
     console.log(currentUser);

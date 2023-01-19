@@ -62,6 +62,12 @@ router.put("/:id", async (req, res) => {
       .json({ message: "You can only update your own account" });
   }
 
+  const user = await User.findById(req.params.id);
+
+  if (!(await bcrypt.compare(req.body.password, user.password))) {
+    return res.status(400).json({ message: "Incorrect password" });
+  }
+
   const updates = {
     fullname: req.body.fullname,
     username: req.body.username,
