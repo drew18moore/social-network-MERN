@@ -9,12 +9,14 @@ import PostPage from "./pages/post/PostPage";
 import Settings from "./pages/settings/Settings";
 import PrivateRoutes from "./components/PrivateRoutes";
 import "./App.css";
+import { useTheme } from "./contexts/ThemeContext";
 
 const Timeline = lazy(() => import("./pages/timeline/Timeline"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
 
 export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
+  const { theme } = useTheme();
 
   useEffect(() => {
     currentUser &&

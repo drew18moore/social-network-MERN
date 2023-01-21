@@ -5,7 +5,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-:root {
+:root.light {
   --background-color-primary: white;
   --background-color-secondary: #F0F2F5;
   --background-color-warning: rgba(244, 33, 46, 0.1);
