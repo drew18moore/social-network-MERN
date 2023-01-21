@@ -14,9 +14,13 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(Themes.Light);
 
   useEffect(() => {
-    console.log(theme);
+    setTheme(localStorage.getItem("theme") || "light");
+  }, [])
+
+  useEffect(() => {
     document.querySelector(":root").className = "";
     document.querySelector(":root").classList.add(theme);
+    localStorage.setItem("theme", theme)
   }, [theme]);
 
   return (
