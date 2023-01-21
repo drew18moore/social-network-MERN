@@ -29,6 +29,85 @@
   border-radius: 8px;
 }
 
+/* Appearance */
+.appearance-options {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.appearance-options > div {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.themes {
+  background-color: var(--background-color-secondary);
+  border-radius: 8px;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.themes > input[type="radio"] {
+  display: none;
+}
+
+.themes > label {
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.themes > label::before {
+  content: "";
+  height: 1rem;
+  width: 1rem;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.themes > label[for="light"] {
+  background-color: white;
+  color: black;
+}
+
+.themes > label[for="light"]::before {
+  border-color: #B9B9B9;
+}
+
+.themes > label[for="dark"] {
+  background-color: black;
+  color: white;
+}
+
+.themes > label[for="dark"]::before {
+  border-color: #757575;
+}
+
+.themes > input[type="radio"]:checked + label::before {
+  width: 0.75em;
+  height: 0.75em;
+  background-color: var(--accent-color-primary);
+  outline: 2px solid var(--accent-color-primary);
+}
+
+.themes > input[type="radio"]:checked + label[for="light"]::before {
+  border: 0.25em solid white !important;
+}
+
+.themes > input[type="radio"]:checked + label[for="dark"]::before {
+  border: 0.25em solid black !important;
+}
+
+/* .themes > input[type="radio"]:checked + label {
+  outline: 3px solid var(--accent-color-primary);
+} */
+
+/* Delete Account */
+
 .delete-account h2 {
   color: rgb(244, 33, 46);
 }

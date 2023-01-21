@@ -15,6 +15,7 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     console.log(theme);
+    document.querySelector(":root").className = "";
     document.querySelector(":root").classList.add(theme);
   }, [theme]);
 
