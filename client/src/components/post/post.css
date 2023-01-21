@@ -87,7 +87,7 @@
 
 .meatball-btn:hover {
   color: #1d9bf0;
-  background-color: #e1eef6;
+  background-color: rgba(29,155,240,0.1);
 }
 
 .post-username {
@@ -128,12 +128,14 @@
 
 .like-comment-share-btns .material-symbols-rounded:hover {
   color: #1d9bf0;
-  background-color: #e1eef6;
+  background-color: rgba(29,155,240,0.1);
 }
 
 .post hr {
   margin: 10px 0 3px 0;
-  border-top: 1px solid #D8DADF;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1px solid var(--hr-color);
   border-bottom: none;
 }
 

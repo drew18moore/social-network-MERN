@@ -42,7 +42,8 @@
   position: absolute;
   bottom: 5%;
   right: 5%;
-  background-color: #e4e6eb;
+  color: var(--text-color-primary);
+  background-color: var(--btn-background-color-secondary);
   border-radius: 50%;
   padding: 5px;
   transition: 0.1s;
@@ -87,7 +88,7 @@
 
 .edit-profile-btn {
   align-self: flex-end;
-  background-color: #e4e6eb;
+  background-color: var(--btn-background-color-secondary);
   color: var(--text-color-primary);
   font-weight: bold;
   font-size: 1rem;
@@ -104,7 +105,7 @@
 
 .unfollow-profile-btn {
   align-self: flex-end;
-  background-color: #e4e6eb;
+  background-color: var(--btn-background-color-secondary);
   color: var(--text-color-primary);
   font-weight: bold;
   font-size: 1rem;

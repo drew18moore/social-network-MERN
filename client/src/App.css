@@ -61,8 +61,8 @@
 
 /* MOBILE STYLES */
 @media (width < 590px) {
-  html {
-    background-color: var(--background-color-secondary);
+  :root {
+    background-color: var(--background-color-secondary) !important;
   }
 
   .app-container {

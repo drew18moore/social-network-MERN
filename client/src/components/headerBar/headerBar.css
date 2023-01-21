@@ -29,7 +29,7 @@ header {
 }
 
 .curr-user:hover {
-  background-color: var(--background-color-secondary);
+  background-color: var(--hover-color);
 }
 
 .curr-user-info {
@@ -38,7 +38,7 @@ header {
 
 .curr-user .fullname {
   font-weight: bold;
-  color: var(--text-color-secondary);
+  color: var(--text-color-primary);
   font-size: .9rem;
 }
 

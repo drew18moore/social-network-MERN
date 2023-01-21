@@ -17,7 +17,9 @@
 }
 
 .settings-container hr {
-  border-top: 1px solid #D8DADF;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1px solid var(--hr-color);
   border-bottom: none;
   margin: 15px 0;
 }

@@ -27,7 +27,9 @@
 
 .modal-container hr {
   margin: 15px 0;
-  border-top: 1px solid #D8DADF;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1px solid var(--hr-color);
   border-bottom: none;
 }
 
@@ -36,7 +38,7 @@
   height: fit-content;
   border-radius: 50%;
   padding: 8px;
-  background-color: #D8DADF;
+  background-color: var(--hr-color);
   color: var(--text-color-secondary);
   font-weight: bold;
   position: absolute;
@@ -149,6 +151,10 @@
   word-break: break-all;
 }
 
+.modal-post-fullname {
+  color: var(--text-color-primary);
+}
+
 .modal-post-username, .modal-post-date {
   color: var(--text-color-secondary);
 }
@@ -162,6 +168,7 @@
   display: flex;
   flex-wrap: wrap;
   font-size: 1.5rem;
+  color: var(--text-color-primary);
 }
 
 .modal-post-spacer .vertical-line {
@@ -169,7 +176,7 @@
   border: none;
   height: 3rem;
   margin-left: 24px;
-  background-color:#B9B9B9;
+  background-color:var(--hr-color);
   /* background-color: #cfd9de; */
 }
 

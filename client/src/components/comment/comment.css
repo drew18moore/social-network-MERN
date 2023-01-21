@@ -49,4 +49,9 @@
 
 .comment-text .fullname {
   font-weight: bold;
+  color: var(--text-color-primary);
+}
+
+.comment-text .comment-body {
+  color: var(--text-color-primary);
 }

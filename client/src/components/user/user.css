@@ -49,7 +49,7 @@
 }
 
 .unfollow-user-btn {
-  background-color: #e4e6eb;
+  background-color: var(--btn-background-color-secondary);
   color: var(--text-color-primary);
   font-weight: bold;
   font-size: 1rem;
