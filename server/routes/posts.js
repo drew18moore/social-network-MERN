@@ -171,8 +171,14 @@ router.get("/timeline/:userId", async (req, res) => {
 // Get all posts by username
 router.get("/:username/all", async (req, res) => {
   try {
+    const page = req.query.page - 1 || 0;
+    const limit = req.query.limit || 5;
+    console.log(page, limit);
     const user = await User.findOne({ username: req.params.username });
-    const userPosts = await Post.find({ userId: user._id });
+    const userPosts = await Post.find({ userId: user._id }, null, {
+      skip: page * limit,
+      limit: limit,
+    }).sort({ createdAt: -1 });
     userPosts.sort((a, b) => {
       return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
     });
@@ -195,9 +201,9 @@ router.get("/:username/all", async (req, res) => {
         };
       })
     );
-    res.status(200).json(posts);
+    res.status(200).json({ numFound: posts.length, posts: posts });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err });
   }
 });
 

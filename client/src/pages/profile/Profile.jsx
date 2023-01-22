@@ -21,18 +21,23 @@ export default function Profile() {
 
   const [posts, setPosts] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 20;
+  const [isNextPage, setIsNextPage] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [responseUser, responsePosts] = await Promise.all([
           api.get(`/api/users/${username}`),
-          api.get(`/api/posts/${username}/all`),
+          api.get(`/api/posts/${username}/all?page=${page}&limit=${limit}`),
         ]);
         setUser(responseUser.data);
         setIsFollowing(() =>
           responseUser.data.followers.includes(currentUser._id)
         );
-        setPosts(responsePosts.data);
+        setPosts(responsePosts.data.posts);
       } catch (err) {
         console.error(err);
       }
