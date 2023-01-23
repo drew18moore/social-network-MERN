@@ -52,3 +52,46 @@
   font-variation-settings:
   'FILL' 1
 }
+
+/* Account dropdown btn */
+
+.curr-user-wrapper {
+  position: relative;
+  margin-top: auto;
+}
+
+.curr-user {
+  margin: 0 auto;
+  /* width: fit-content; */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 60px;
+  transition: 0.1s;
+}
+
+.curr-user:hover {
+  background-color: var(--hover-color);
+}
+
+.curr-user .fullname {
+  font-weight: bold;
+  color: var(--text-color-primary);
+  font-size: .9rem;
+}
+
+.curr-user .username {
+  color: var(--text-color-secondary);
+  font-size: .9rem;
+}
+
+.curr-user img {
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  border-radius: 50%;
+  transition: 0.1s;
+}
