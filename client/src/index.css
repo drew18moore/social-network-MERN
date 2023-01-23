@@ -65,6 +65,7 @@ img {
 }
 
 button {
+  font-size: 1rem;
   height: 40px;
   border-radius: 5px;
   border: none;

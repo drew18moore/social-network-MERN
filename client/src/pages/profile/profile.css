@@ -91,7 +91,6 @@
   background-color: var(--btn-background-color-secondary);
   color: var(--text-color-primary);
   font-weight: bold;
-  font-size: 1rem;
   padding: 10px;
 }
 
@@ -99,7 +98,6 @@
   align-self: flex-end;
   color: white;
   font-weight: bold;
-  font-size: 1rem;
   padding: 10px;
 }
 
@@ -108,7 +106,6 @@
   background-color: var(--btn-background-color-secondary);
   color: var(--text-color-primary);
   font-weight: bold;
-  font-size: 1rem;
   width: 95px;
 }
 
