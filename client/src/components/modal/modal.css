@@ -94,10 +94,16 @@
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
   border: 1px solid #B9B9B9;
+  font-size: 1rem;
 }
 
 .delete-btn {
   background-color: #F4212E;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: var(--background-color-warning);
+  color: var(--text-color-warning);
+  border: 1px solid var(--border-color-warning);
 }
 
 .edit-profile input {

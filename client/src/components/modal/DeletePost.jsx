@@ -43,7 +43,7 @@ export default function DeletePost({
           Cancel
         </button>
         <button onClick={() => deletePost(postId)} className="delete-btn">
-          Delete
+          Delete Post
         </button>{" "}
       </div>
     </div>
