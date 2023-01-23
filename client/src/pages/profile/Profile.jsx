@@ -21,10 +21,8 @@ export default function Profile() {
 
   const [posts, setPosts] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const limit = 20;
-  const [isNextPage, setIsNextPage] = useState(true);
+  const limit = 0;
 
   useEffect(() => {
     const fetchData = async () => {

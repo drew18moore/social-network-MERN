@@ -172,7 +172,7 @@ router.get("/timeline/:userId", async (req, res) => {
 router.get("/:username/all", async (req, res) => {
   try {
     const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 5;
+    const limit = req.query.limit || 0;
     console.log(page, limit);
     const user = await User.findOne({ username: req.params.username });
     const userPosts = await Post.find({ userId: user._id }, null, {
