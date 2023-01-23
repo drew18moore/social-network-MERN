@@ -3,7 +3,7 @@
   gap: 25px;
   max-width: 1300px;
   margin: 0 auto;
-  margin-top: 70px;
+  margin-top: 1rem;
   padding-inline: 25px;
 }
 
@@ -18,7 +18,7 @@
   background-color: var(--background-color-secondary);
   border-radius: 8px;
   overflow: scroll;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 1rem);
   position: relative;
 }
 
@@ -40,8 +40,13 @@
     border-radius: 50%;
   }
 
-  .nav-sidebar .link-txt {
+  .nav-sidebar .link-txt, .nav-sidebar .curr-user-info {
     display: none;
+  }
+
+  .curr-user {
+    width: fit-content;
+    border-radius: 50%;
   }
 }
 

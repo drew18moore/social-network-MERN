@@ -16,9 +16,12 @@ header {
 
 .curr-user-wrapper {
   position: relative;
+  margin-top: auto;
 }
 
 .curr-user {
+  margin: 0 auto;
+  /* width: fit-content; */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -33,7 +36,7 @@ header {
 }
 
 .curr-user-info {
-  text-align: right;
+  /* text-align: right; */
 }
 
 .curr-user .fullname {

@@ -9,7 +9,7 @@ export default function PrivateRoutes() {
   const { currentUser } = useAuth();
   return currentUser ? (
     <>
-      <HeaderBar />
+      {/* <HeaderBar /> */}
       <div className="app-container">
         <NavSideBar />
         <div className="main">
