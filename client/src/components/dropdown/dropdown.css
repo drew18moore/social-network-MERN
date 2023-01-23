@@ -10,7 +10,6 @@
 .dropdown {
   position: absolute;
   right: calc(50% - 20px);
-  top: 100%;
   z-index: 102;
 }
 
@@ -55,7 +54,7 @@
   background-color: var(--hover-color);
 }
 
-.dropdown::after {
+/* .dropdown::after {
   content: "";
   width: 0;
   height: 0;
@@ -64,5 +63,7 @@
   border-bottom: 5px solid var(--background-color-primary);
   position: absolute;
   top: -5px;
+  bottom: -5px;
+  transform: rotateX(180deg);
   right: 15px;
-}
+} */
