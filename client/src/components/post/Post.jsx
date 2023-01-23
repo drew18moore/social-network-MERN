@@ -43,13 +43,23 @@ const Post = forwardRef(
     }, []);
 
     let date = new Date(createdAt);
-    const dateOptions = {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    };
-
-    const dateFormated = date.toLocaleString("en-US", dateOptions);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    let dateFormated;
+    if (diff < 60000) {
+      dateFormated = `${Math.floor(diff / 60000)}s`;
+    } else if (diff < 3600000) {
+      dateFormated = `${Math.floor(diff / 60000)}m`;
+    } else if (diff < 86400000) {
+      dateFormated = `${Math.floor(diff / 3600000)}h`;
+    } else {
+      const dateOptions = {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      };
+      dateFormated = date.toLocaleString("en-US", dateOptions);
+    }
 
     const openDropdown = (e) => {
       e.stopPropagation();
