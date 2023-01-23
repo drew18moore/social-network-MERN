@@ -31,6 +31,10 @@
 }
 
 @media (max-width: 1230px) {
+  .nav-sidebar .links {
+    align-items: center;
+  }
+
   .nav-sidebar li {
     justify-self: center;
   }
