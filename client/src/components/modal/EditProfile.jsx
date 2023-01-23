@@ -56,10 +56,10 @@ export default function EditProfile({ setUser, setShowModal }) {
           type="password"
           name="password"
           id="input-password"
-          placeholder="Password"
+          placeholder="Current password"
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Save</button>
       </form>
     </div>
   );

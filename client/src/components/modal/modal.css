@@ -250,8 +250,13 @@
 
 .delete-account-modal .warning-text {
   margin: 0 15px 15px 15px;
+  color: var(--text-color-primary);
 }
 
 .delete-account-modal .error-message {
   margin-bottom: 15px;
+}
+
+.delete-account-modal label {
+  color: var(--text-color-primary);
 }
