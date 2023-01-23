@@ -29,16 +29,22 @@
 }
 
 .auth-container input {
-  height: 40px;
+  height: 50px;
+  font-size: 1rem;
   border-radius: 5px;
-  border: 1px solid #B9B9B9;
-  padding-left: 15px;
+  border: none;
+  padding: 15px;
   color: var(--text-color-primary);
+  background-color: var(--background-color-secondary);
+}
+
+.auth-container input:focus {
+  outline: 1px solid var(--text-color-secondary);
 }
 
 .form-link {
   text-align: center;
-  color: #8e8e8e
+  color: var(--text-color-secondary);
 }
 
 .form-link a {
