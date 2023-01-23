@@ -51,7 +51,7 @@ export default function EditPost({
       <form onSubmit={handleSubmit}>
         <textarea
           name="post body input"
-          id="post-body-input"
+          className="post-body-input"
           value={userMessage}
           placeholder={`What's on your mind, ${username}?`}
           onChange={handleChange}

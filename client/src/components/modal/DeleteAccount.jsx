@@ -43,7 +43,7 @@ const DeleteAccount = () => {
       <form onSubmit={handleSubmit}>
         <label>
           <p>
-            Type <i>delete my account</i> below:
+            Type <i>delete my account</i> to confirm:
           </p>
           <input
             type="text"
@@ -53,10 +53,11 @@ const DeleteAccount = () => {
         </label>
 
         <label>
-          <p>Confirm your password</p>
+          <p>Enter your password</p>
           <input
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Password"
             required
           />
         </label>

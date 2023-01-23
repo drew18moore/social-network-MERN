@@ -44,7 +44,7 @@ export default function NewPost({ addPost }) {
           </Link>
           <textarea
             name="post body input"
-            id="post-body-input"
+            className="post-body-input"
             value={userMessage}
             placeholder={`What's on your mind, ${currentUser.username}?`}
             onChange={handleChange}

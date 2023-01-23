@@ -33,6 +33,18 @@
   border-bottom: none;
 }
 
+.modal-container input {
+  height: 50px;
+  width: 100%;
+  padding: 15px;
+  font-size: 1rem;
+  resize: none;
+  border: none;
+  background-color: var(--background-color-secondary);
+  color: var(--text-color-primary);
+  border-radius: 5px;
+}
+
 .close-modal-btn {
   width: fit-content;
   height: fit-content;
@@ -102,13 +114,6 @@
   background-color: var(--background-color-warning);
   color: var(--text-color-warning);
   border: 1px solid var(--border-color-warning);
-}
-
-.edit-profile input {
-  height: 40px;
-  border-radius: 5px;
-  border: 1px solid #B9B9B9;
-  padding-left: 15px;
 }
 
 /* CommentModal */
@@ -204,26 +209,25 @@
   transition: 0.1s;
 }
 
-#post-body-input {
+.post-body-input {
   height: 50px;
   width: 100%;
   padding: 15px;
   font-size: 15px;
   resize: none;
   overflow: hidden;
-  border: 1px solid #B9B9B9;
   border: none;
   background-color: var(--background-color-secondary);
   color: var(--text-color-primary);
   border-radius: 5px;
 }
 
-#post-body-input::placeholder {
+.post-body-input::placeholder {
   white-space: nowrap;
   overflow: hidden;
 }
 
-#post-body-input:focus {
+.post-body-input:focus {
   outline: 1px solid var(--text-color-secondary);
 }
 
@@ -242,14 +246,6 @@
   color: var(--text-color-warning);
   background-color: var(--background-color-warning);
   border: 1px solid var(--border-color-warning);
-}
-
-.delete-account-modal input {
-  height: 40px;
-  border-radius: 5px;
-  border: 1px solid #B9B9B9;
-  padding-left: 15px;
-  color: var(--text-color-primary);
 }
 
 .delete-account-modal .warning-text {

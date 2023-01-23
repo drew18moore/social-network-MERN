@@ -70,7 +70,7 @@ export default function CommentModal({
               <img src={currentUser.img} alt="" />
             </div>
             <textarea
-              id="post-body-input"
+              className="post-body-input"
               value={userReply}
               placeholder="Write your reply"
               onChange={handleChange}
