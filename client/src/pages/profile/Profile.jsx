@@ -22,14 +22,17 @@ export default function Profile() {
   const [posts, setPosts] = useState([]);
 
   const [page, setPage] = useState(1);
-  const limit = 0;
+  const limit = 20;
+  const [isNextPage, setIsNextPage] = useState(true);
 
   useEffect(() => {
+    setPage(1);
+    setIsNextPage(true);
     const fetchData = async () => {
       try {
         const [responseUser, responsePosts] = await Promise.all([
           api.get(`/api/users/${username}`),
-          api.get(`/api/posts/${username}/all?page=${page}&limit=${limit}`),
+          api.get(`/api/posts/${username}/all?page=1&limit=${limit}`),
         ]);
         setUser(responseUser.data);
         setIsFollowing(() =>
@@ -42,6 +45,19 @@ export default function Profile() {
     };
     fetchData();
   }, [username]);
+
+  const loadMorePosts = async () => {
+    try {
+      const response = await api.get(`/api/posts/${username}/all?page=${page+1}&limit=${limit}`)
+      setPosts(prev => {
+        return [...prev, ...response.data.posts]
+      })
+      response.data.numFound === 0 && setIsNextPage(false);
+      setPage(prev => prev + 1);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const followUser = async () => {
     try {
@@ -156,7 +172,9 @@ export default function Profile() {
             numComments={post.comments.length}
           />
         ))}
+        {isNextPage && <button onClick={loadMorePosts} className="load-more-posts">Load More</button>}
       </div>
+      
       {showEditProfileModal && (
         <Modal setShowModal={setShowEditProfileModal}>
           <EditProfile

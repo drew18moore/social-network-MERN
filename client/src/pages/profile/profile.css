@@ -141,3 +141,13 @@
   flex-direction: column;
   gap: 15px;
 }
+
+.load-more-posts {
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  height: fit-content;
+  margin: 0 auto;
+  background-color: var(--background-color-primary);
+  color: var(--text-color-secondary);
+  border-radius: 9999px;
+}
