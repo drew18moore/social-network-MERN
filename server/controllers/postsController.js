@@ -259,6 +259,7 @@ const createNewComment = async (req, res) => {
 
   const comment = new Comment({
     userId: req.body.userId,
+    parentId: req.params.postId,
     commentBody: req.body.commentBody,
   });
 

@@ -4,6 +4,10 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  parentId: {
+    type: String,
+    required: true,
+  },
   commentBody: {
     type: String,
     required: true,

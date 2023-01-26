@@ -27,7 +27,11 @@ const DeleteAccount = () => {
       });
       navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message || err.message);
+      setError(
+        typeof err.response?.data?.message === "string"
+          ? err.response?.data?.message
+          : err.message
+      );
       console.error(err);
     }
   };

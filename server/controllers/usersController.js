@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const fs = require("fs");
-const { deletePost } = require("../routes/posts");
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 const bcrypt = require("bcrypt");
 
 const changeProfilePicture = async (req, res) => {
@@ -226,21 +226,31 @@ const getFollowers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
+    console.log("START");
     const user = await User.findById(req.params.userId);
 
     if (!(await bcrypt.compare(req.body.password, user.password))) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
+    // Array of post IDs from user's posts
     const postIds = await Post.find({ userId: req.params.userId })
       .select("_id")
-      .then((res) => res.map((val) => val._id));
-    for (let id of postIds) {
-      await deletePost(id, req.params.userId);
-    }
-
+      .then((res) => res.map((val) => val._id.toString()));
+    const commentIds = await Comment.find({ userId: req.params.userId })
+      .select("_id")
+      .then((res) => res.map((val) => val._id.toString()));
+    // REMOVE commentId from posts
+    await Post.updateMany({ comments: { $in: commentIds } }, { $pull: { comments: { $in: commentIds } } })
+    // DELETE comments from the user
+    await Comment.deleteMany({ userId: req.params.userId });
+    // DELETE comments from user's posts
+    await Comment.deleteMany({ parentId: { $in: postIds } });
+    // DELETE user's posts
+    await Post.deleteMany({ _id: { $in: postIds } });
+    // DELETE user
     await user.deleteOne();
-
+    console.log("DONE");
     res.status(200).json({ message: "User account has been deleted" });
   } catch (err) {
     res.status(500).json({ message: err });
