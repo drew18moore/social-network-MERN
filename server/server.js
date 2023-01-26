@@ -5,7 +5,7 @@ const app = express()
 const port = 3000
 const cors = require("cors")
 const authRouter = require("./routes/auth")
-const { router: postsRouter } = require("./routes/posts")
+const postsRouter = require("./routes/posts")
 const usersRouter = require("./routes/users")
 const commentsRouter = require("./routes/comments")
 
