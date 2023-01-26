@@ -12,9 +12,9 @@ export default function DeletePost({
   const { currentUser } = useAuth();
   const endpoint =
     type === "POST"
-      ? "/api/posts/delete"
+      ? "/api/posts/"
       : type === "COMMENT"
-      ? "api/comments/delete"
+      ? "api/comments/"
       : undefined;
 
   const deletePost = async (postId) => {

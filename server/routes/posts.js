@@ -6,10 +6,10 @@ const postsController = require("../controllers/postsController");
 router.post("/new", postsController.createNewPost);
 
 // EDIT post
-router.put("/edit/:id", postsController.editPost);
+router.put("/:id", postsController.editPost);
 
 // DELETE post
-router.delete("/delete/:id", postsController.deletePost);
+router.delete("/:id", postsController.deletePost);
 
 // LIKE/UNLIKE post
 router.put("/like/:id", postsController.likePost);
@@ -21,7 +21,7 @@ router.get("/timeline/:userId", postsController.getTimelinePosts);
 router.get("/:username/all", postsController.getPostsByUsername);
 
 // GET post
-router.get("/:username/:id", postsController.getPostById);
+router.get("/:id", postsController.getPostById);
 
 // CREATE comment
 router.post("/:postId/comment", postsController.createNewComment);

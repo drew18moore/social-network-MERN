@@ -45,7 +45,7 @@ export default function PostPage() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await api.get(`/api/posts/${username}/${postId}`);
+        const response = await api.get(`/api/posts/${postId}`);
         console.log(response.data);
         setPost(response.data);
         setLiked(response.data.likes.includes(currentUser._id));

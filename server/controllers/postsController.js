@@ -2,26 +2,6 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 const Comment = require("../models/Comment");
 
-// const deletePost = async (postId, userId) => {
-//   try {
-//     const post = await Post.findById(postId);
-//     if (post.userId !== userId) {
-//       return {
-//         statusCode: 412,
-//         response: { message: "You can only delete your own posts" },
-//       };
-//     }
-//     // Delete comments
-//     if (post.comments.length) {
-//       await Comment.deleteMany({ _id: { $in: post.comments } });
-//     }
-//     const response = await post.deleteOne();
-//     return { statusCode: 200, response: response };
-//   } catch (err) {
-//     return { statusCode: 500, response: { message: err } };
-//   }
-// };
-
 const createNewPost = async (req, res) => {
   if (req.body.postBody === "") {
     return res.status(412).json({ message: "You must type a message." });
@@ -198,8 +178,8 @@ const getPostsByUsername = async (req, res) => {
 
 const getPostById = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
     const post = await Post.findById(req.params.id);
+    const user = await User.findOne({ _id: post.userId });
 
     let profilePicture;
     if (user.img.data) {

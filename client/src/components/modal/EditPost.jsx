@@ -15,9 +15,9 @@ export default function EditPost({
 
   const endpoint =
     type === "POST"
-      ? "/api/posts/edit"
+      ? "/api/posts/"
       : type === "COMMENT"
-      ? "api/comments/edit"
+      ? "api/comments/"
       : undefined;
 
   const handleChange = (e) => {
