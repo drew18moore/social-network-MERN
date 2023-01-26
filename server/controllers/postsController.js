@@ -36,6 +36,62 @@ const createNewPost = async (req, res) => {
   }
 };
 
+const getPostById = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    const user = await User.findOne({ _id: post.userId });
+
+    let profilePicture;
+    if (user.img.data) {
+      const buffer = Buffer.from(user.img.data);
+      const b64String = buffer.toString("base64");
+      profilePicture = `data:image/png;base64,${b64String}`;
+    } else {
+      profilePicture = "/default-pfp.jpg";
+    }
+
+    // get all comments by id
+    let comments;
+    await Promise.all(
+      post.comments.map(async (commentId) => {
+        const comment = await Comment.findById(commentId);
+        const commentUser = await User.findById(comment.userId);
+
+        let commentProfilePicture;
+        if (commentUser.img.data) {
+          const buffer = Buffer.from(commentUser.img.data);
+          const b64String = buffer.toString("base64");
+          commentProfilePicture = `data:image/png;base64,${b64String}`;
+        } else {
+          commentProfilePicture = "/default-pfp.jpg";
+        }
+
+        const commentWithUserData = {
+          ...comment.toJSON(),
+          fullname: commentUser.fullname,
+          username: commentUser.username,
+          profilePicture: commentProfilePicture,
+        };
+        return commentWithUserData;
+      })
+    ).then((values) => {
+      comments = values;
+    });
+
+    const postData = {
+      ...post.toJSON(),
+      fullname: user.fullname,
+      username: user.username,
+      profilePicture: profilePicture,
+      comments: comments,
+    };
+
+    res.status(200).json(postData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 const editPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -173,62 +229,6 @@ const getPostsByUsername = async (req, res) => {
     res.status(200).json({ numFound: posts.length, posts: posts });
   } catch (err) {
     res.status(500).json({ message: err });
-  }
-};
-
-const getPostById = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    const user = await User.findOne({ _id: post.userId });
-
-    let profilePicture;
-    if (user.img.data) {
-      const buffer = Buffer.from(user.img.data);
-      const b64String = buffer.toString("base64");
-      profilePicture = `data:image/png;base64,${b64String}`;
-    } else {
-      profilePicture = "/default-pfp.jpg";
-    }
-
-    // get all comments by id
-    let comments;
-    await Promise.all(
-      post.comments.map(async (commentId) => {
-        const comment = await Comment.findById(commentId);
-        const commentUser = await User.findById(comment.userId);
-
-        let commentProfilePicture;
-        if (commentUser.img.data) {
-          const buffer = Buffer.from(commentUser.img.data);
-          const b64String = buffer.toString("base64");
-          commentProfilePicture = `data:image/png;base64,${b64String}`;
-        } else {
-          commentProfilePicture = "/default-pfp.jpg";
-        }
-
-        const commentWithUserData = {
-          ...comment.toJSON(),
-          fullname: commentUser.fullname,
-          username: commentUser.username,
-          profilePicture: commentProfilePicture,
-        };
-        return commentWithUserData;
-      })
-    ).then((values) => {
-      comments = values;
-    });
-
-    const postData = {
-      ...post.toJSON(),
-      fullname: user.fullname,
-      username: user.username,
-      profilePicture: profilePicture,
-      comments: comments,
-    };
-
-    res.status(200).json(postData);
-  } catch (err) {
-    res.status(500).json(err);
   }
 };
 
