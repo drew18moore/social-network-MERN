@@ -14,7 +14,7 @@ router.route("/:id")
   .delete(postsController.deletePost);
 
 // LIKE/UNLIKE post
-router.put("/like/:id", postsController.likePost);
+router.put("/:id/like", postsController.likePost);
 
 // GET all followed user posts, by userId
 router.get("/timeline/:userId", postsController.getTimelinePosts);

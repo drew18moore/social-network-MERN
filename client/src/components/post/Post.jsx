@@ -69,7 +69,7 @@ const Post = forwardRef(
     const likePost = async (e) => {
       e.stopPropagation();
       try {
-        const response = await api.put(`/api/posts/like/${postId}`, {
+        const response = await api.put(`/api/posts/${postId}/like`, {
           userId: currentUser._id,
         });
         setNumberOfLikes(response.data.numLikes);
