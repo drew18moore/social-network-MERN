@@ -1,6 +1,28 @@
 const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 
+const newComment = async (req, res) => {
+  if (req.body.commentBody === "") {
+    return res.status(412).json({ message: "You must type a message." });
+  }
+
+  const comment = new Comment({
+    userId: req.body.userId,
+    parentId: req.body.parentId,
+    commentBody: req.body.commentBody,
+  });
+
+  try {
+    const newComment = await comment.save();
+    const post = await Post.findById(req.body.parentId);
+    post.comments.unshift(newComment._id.toString());
+    await post.save();
+    res.status(200).json(newComment);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+}
+
 const editComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
@@ -50,4 +72,4 @@ const deleteComment = async (req, res) => {
   }
 }
 
-module.exports = { editComment, deleteComment }
+module.exports = { newComment, editComment, deleteComment }

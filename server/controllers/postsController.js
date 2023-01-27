@@ -232,28 +232,6 @@ const getPostsByUsername = async (req, res) => {
   }
 };
 
-const createNewComment = async (req, res) => {
-  if (req.body.commentBody === "") {
-    return res.status(412).json({ message: "You must type a message." });
-  }
-
-  const comment = new Comment({
-    userId: req.body.userId,
-    parentId: req.params.postId,
-    commentBody: req.body.commentBody,
-  });
-
-  try {
-    const newComment = await comment.save();
-    const post = await Post.findById(req.params.postId);
-    post.comments.unshift(newComment._id.toString());
-    await post.save();
-    res.status(200).json(newComment);
-  } catch (err) {
-    res.status(500).json({ message: err });
-  }
-};
-
 module.exports = {
   createNewPost,
   editPost,
@@ -262,5 +240,4 @@ module.exports = {
   getTimelinePosts,
   getPostsByUsername,
   getPostById,
-  createNewComment,
 };

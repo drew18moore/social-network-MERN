@@ -22,7 +22,4 @@ router.get("/timeline/:userId", postsController.getTimelinePosts);
 // Get all posts by username
 router.get("/:username/all", postsController.getPostsByUsername);
 
-// CREATE comment
-router.post("/:postId/comment", postsController.createNewComment);
-
 module.exports = router;

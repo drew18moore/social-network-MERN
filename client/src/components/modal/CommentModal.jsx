@@ -26,8 +26,9 @@ export default function CommentModal({
     e.preventDefault();
     e.target[0].style.height = "50px";
     try {
-      const response = await api.post(`/api/posts/${postId}/comment`, {
+      const response = await api.post("/api/comments/new", {
         userId: currentUser._id,
+        parentId: postId,
         commentBody: userReply,
       });
       addComment && addComment(response.data);
