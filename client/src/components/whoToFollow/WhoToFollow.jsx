@@ -7,12 +7,13 @@ import "./whoToFollow.css";
 const WhoToFollow = () => {
   const { currentUser } = useAuth();
   const [unfollowedUsers, setUnfollowedUsers] = useState();
+  const limit = 4;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get(
-          `/api/users/all-unfollowed/${currentUser._id}`
+          `/api/users/all-unfollowed/${currentUser._id}?page=1&limit=${limit}`
         );
         setUnfollowedUsers(response.data);
       } catch (err) {
@@ -29,6 +30,7 @@ const WhoToFollow = () => {
         unfollowedUsers.map((user) => {
           return <User user={user} key={user._id} />;
         })}
+      <button className="show-more">Show More</button>
     </div>
   );
 };

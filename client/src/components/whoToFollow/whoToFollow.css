@@ -1,7 +1,7 @@
 .who-to-follow {
   background-color: var(--background-color-secondary);
   border-radius: 8px;
-  padding: 15px;
+  padding: 15px 15px 5px 15px;
   display: grid;
   overflow: auto;
   gap: 5px;
@@ -11,4 +11,13 @@
 .who-to-follow h2 {
   margin-bottom: 10px;
   color: var(--text-color-primary);
+}
+
+.who-to-follow .show-more {
+  background-color: var(--background-color-secondary);
+  color: var(--accent-color-primary);
+  height: fit-content;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  margin: 0 auto;
 }
