@@ -123,10 +123,16 @@ const followUser = async (req, res) => {
 
 const getUnfollowedUsers = async (req, res) => {
   try {
-    const users = await User.find({
-      followers: { $nin: req.params.id },
-      _id: { $nin: req.params.id },
-    });
+    const page = req.query.page - 1 || 0;
+    const limit = req.query.limit || 0;
+    const users = await User.find(
+      {
+        followers: { $nin: req.params.id },
+        _id: { $nin: req.params.id },
+      },
+      null,
+      { skip: page * limit, limit: limit }
+    );
 
     const unfollowedUsers = users.map((user) => {
       let profilePicture;
@@ -241,7 +247,10 @@ const deleteUser = async (req, res) => {
       .select("_id")
       .then((res) => res.map((val) => val._id.toString()));
     // REMOVE commentId from posts
-    await Post.updateMany({ comments: { $in: commentIds } }, { $pull: { comments: { $in: commentIds } } })
+    await Post.updateMany(
+      { comments: { $in: commentIds } },
+      { $pull: { comments: { $in: commentIds } } }
+    );
     // DELETE comments from the user
     await Comment.deleteMany({ userId: req.params.userId });
     // DELETE comments from user's posts
