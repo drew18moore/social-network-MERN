@@ -150,7 +150,7 @@ const getUnfollowedUsers = async (req, res) => {
       };
     });
 
-    res.status(200).json(unfollowedUsers);
+    res.status(200).json({ numFound: unfollowedUsers.length, unfollowedUsers: unfollowedUsers });
   } catch (err) {
     res.status(500).json(err);
   }

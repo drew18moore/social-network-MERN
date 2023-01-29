@@ -8,6 +8,7 @@ const WhoToFollow = () => {
   const { currentUser } = useAuth();
   const [unfollowedUsers, setUnfollowedUsers] = useState();
   const limit = 4;
+  const [isNextPage, setIsNextPage] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +16,8 @@ const WhoToFollow = () => {
         const response = await api.get(
           `/api/users/all-unfollowed/${currentUser._id}?page=1&limit=${limit}`
         );
-        setUnfollowedUsers(response.data);
+        setUnfollowedUsers(response.data.unfollowedUsers);
+        response.data.numFound < limit ? setIsNextPage(false) : setIsNextPage(true);
       } catch (err) {
         console.error(err);
       }
@@ -30,7 +32,7 @@ const WhoToFollow = () => {
         unfollowedUsers.map((user) => {
           return <User user={user} key={user._id} />;
         })}
-      <button className="show-more">Show More</button>
+      {isNextPage && <button className="show-more">Show More</button>}
     </div>
   );
 };
