@@ -13,6 +13,10 @@
   z-index: 102;
 }
 
+.dropdown:has(> .account-dropdown) {
+  left: 0;
+}
+
 .dropdown ul {
   width: max-content;
   overflow: hidden;
@@ -53,17 +57,3 @@
 .dropdown li:hover {
   background-color: var(--hover-color);
 }
-
-/* .dropdown::after {
-  content: "";
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid var(--background-color-primary);
-  position: absolute;
-  top: -5px;
-  bottom: -5px;
-  transform: rotateX(180deg);
-  right: 15px;
-} */

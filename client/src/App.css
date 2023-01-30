@@ -35,11 +35,11 @@
     align-items: center;
   }
 
-  .nav-sidebar li {
+  .nav-sidebar nav li {
     justify-self: center;
   }
 
-  .nav-sidebar li {
+  .nav-sidebar nav li {
     width: fit-content;
     border-radius: 50%;
   }
