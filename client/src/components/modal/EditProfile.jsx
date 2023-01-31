@@ -17,8 +17,8 @@ export default function EditProfile({ setUser, setShowModal }) {
     try {
       const response = await api.put(`/api/users/${currentUser._id}`, {
         userId: currentUser._id,
-        fullname: fullnameRef.current.value || currentUser.fullname,
-        username: usernameRef.current.value || currentUser.username,
+        fullname: fullnameRef.current.value.trim() || currentUser.fullname,
+        username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
         password: passwordRef.current.value,
       });
       console.log(response.data);

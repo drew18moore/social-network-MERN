@@ -20,7 +20,7 @@ export default function Login() {
     setIsLoading(true);
     try {
       const response = await api.post("/api/auth/login", {
-        username: usernameRef.current?.value,
+        username: usernameRef.current?.value.trim().toLowerCase(),
         password: passwordRef.current?.value,
       });
       setCurrentUser(response.data);
