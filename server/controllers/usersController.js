@@ -150,12 +150,10 @@ const getUnfollowedUsers = async (req, res) => {
       };
     });
 
-    res
-      .status(200)
-      .json({
-        numFound: unfollowedUsers.length,
-        unfollowedUsers: unfollowedUsers,
-      });
+    res.status(200).json({
+      numFound: unfollowedUsers.length,
+      unfollowedUsers: unfollowedUsers,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -207,12 +205,18 @@ const getFollowedUsers = async (req, res) => {
 
 const getFollowers = async (req, res) => {
   try {
+    const page = req.query.page - 1 || 0;
+    const limit = req.query.limit || 0;
     const user = await User.findOne({
       username: req.params.username,
     });
-    const users = await User.find({
-      following: user._id.toString(),
-    });
+    const users = await User.find(
+      {
+        following: user._id.toString(),
+      },
+      null,
+      { skip: page * limit, limit: limit }
+    );
 
     const followers = users.map((user) => {
       let profilePicture;
@@ -235,6 +239,7 @@ const getFollowers = async (req, res) => {
         fullname: user.fullname,
         username: user.username,
       },
+      numFound: followers.length,
       followers: followers,
     });
   } catch (err) {
