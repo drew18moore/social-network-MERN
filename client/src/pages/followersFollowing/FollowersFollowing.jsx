@@ -4,23 +4,39 @@ import api from "../../api/api";
 import User from "../../components/user/User";
 import "./followersFollowing.css";
 
-export default function FollowersFollowing({ page }) {
+export default function FollowersFollowing({ tab }) {
   const { username } = useParams();
   const [user, setUser] = useState({});
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const navigate = useNavigate();
-  const [currPage, setCurrPage] = useState(page);
+  const [currTab, setCurrTab] = useState(tab);
+
+  const [pageFollowing, setPageFollowing] = useState(1);
+  const [pageFollowers, setPageFollowers] = useState(1);
+  const limit = 10;
+  const [isNextPageFollowers, setIsNextPageFollowers] = useState(true);
+  const [isNextPageFollowing, setIsNextPageFollowing] = useState(true);
 
   useEffect(() => {
     setFollowers([]);
     setFollowing([]);
+    setPageFollowers(1);
+    setPageFollowing(1);
+    setIsNextPageFollowers(true);
+    setIsNextPageFollowing(true);
     const fetchData = async () => {
       try {
         const [responseFollowers, responseFollowing] = await Promise.all([
-          api.get(`/api/users/${username}/followers`),
-          api.get(`/api/users/${username}/following`),
+          api.get(`/api/users/${username}/followers?page=1&limit=${limit}`),
+          api.get(`/api/users/${username}/following?page=1&limit=${limit}`),
         ]);
+        responseFollowers.data.numFound < limit
+          ? setIsNextPageFollowers(false)
+          : setIsNextPageFollowers(true);
+        responseFollowing.data.numFound < limit
+          ? setIsNextPageFollowing(false)
+          : setIsNextPageFollowing(true);
         setUser(responseFollowers.data.user);
         setFollowers(responseFollowers.data.followers);
         setFollowing(responseFollowing.data.following);
@@ -29,7 +45,9 @@ export default function FollowersFollowing({ page }) {
       }
     };
     fetchData();
-  }, [username, currPage]);
+  }, [username, currTab]);
+
+  const loadMorePosts = () => {};
 
   return (
     <>
@@ -49,31 +67,41 @@ export default function FollowersFollowing({ page }) {
         <div className="links">
           <div
             className={`followers-link ${
-              currPage === "followers" && "active-link"
+              currTab === "followers" && "active-link"
             }`}
-            onClick={() => setCurrPage("followers")}
+            onClick={() => setCurrTab("followers")}
           >
             Followers
           </div>
           <div
             className={`following-link ${
-              currPage === "following" && "active-link"
+              currTab === "following" && "active-link"
             }`}
-            onClick={() => setCurrPage("following")}
+            onClick={() => setCurrTab("following")}
           >
             Following
           </div>
         </div>
       </div>
       <div className="followed-users">
-        {currPage === "followers" &&
+        {currTab === "followers" &&
           followers.map((user) => {
             return <User key={user._id} user={user} />;
           })}
-        {currPage === "following" &&
+        {currTab === "followers" && isNextPageFollowers && (
+          <button onClick={loadMorePosts} className="load-more-posts">
+            Load More
+          </button>
+        )}
+        {currTab === "following" &&
           following.map((user) => {
             return <User key={user._id} user={user} />;
           })}
+        {currTab === "following" && isNextPageFollowing && (
+          <button onClick={loadMorePosts} className="load-more-posts">
+            Load More
+          </button>
+        )}
       </div>
     </>
   );

@@ -35,11 +35,11 @@ export default function App() {
           <Route path="/:username" element={<Profile />} />
           <Route
             path="/:username/following"
-            element={<FollowersFollowing page="following" />}
+            element={<FollowersFollowing tab="following" />}
           />
           <Route
             path="/:username/followers"
-            element={<FollowersFollowing page="followers" />}
+            element={<FollowersFollowing tab="followers" />}
           />
           <Route path="/:username/posts/:postId" element={<PostPage />} />
           <Route path="/settings" element={<Settings />} />
