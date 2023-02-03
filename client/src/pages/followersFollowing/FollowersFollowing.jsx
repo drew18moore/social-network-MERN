@@ -47,7 +47,36 @@ export default function FollowersFollowing({ tab }) {
     fetchData();
   }, [username, currTab]);
 
-  const loadMorePosts = () => {};
+  const loadMoreFollowers = async () => {
+    try {
+      const response = await api.get(
+        `/api/users/${username}/followers?page=${
+          pageFollowers + 1
+        }&limit=${limit}`
+      );
+      response.data.numFound === 0
+        ? setIsNextPageFollowers(false)
+        : setFollowers((prev) => [...prev, ...response.data.followers]);
+      setPageFollowers((prev) => prev + 1);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const loadMoreFollowing = async () => {
+    try {
+      const response = await api.get(
+        `/api/users/${username}/following?page=${
+          pageFollowing + 1
+        }&limit=${limit}`
+      );
+      response.data.numFound === 0
+        ? setIsNextPageFollowing(false)
+        : setFollowing((prev) => [...prev, ...response.data.following]);
+      setPageFollowing((prev) => prev + 1);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -89,7 +118,7 @@ export default function FollowersFollowing({ tab }) {
             return <User key={user._id} user={user} />;
           })}
         {currTab === "followers" && isNextPageFollowers && (
-          <button onClick={loadMorePosts} className="load-more-posts">
+          <button onClick={loadMoreFollowers} className="load-more">
             Load More
           </button>
         )}
@@ -98,7 +127,7 @@ export default function FollowersFollowing({ tab }) {
             return <User key={user._id} user={user} />;
           })}
         {currTab === "following" && isNextPageFollowing && (
-          <button onClick={loadMorePosts} className="load-more-posts">
+          <button onClick={loadMoreFollowing} className="load-more">
             Load More
           </button>
         )}
