@@ -5,7 +5,7 @@ import api from "../../api/api";
 export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
   const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
+  const [password, setPassword ] = useState("");
 
   const [error, setError] = useState("");
 
@@ -19,7 +19,7 @@ export default function EditProfile({ setUser, setShowModal }) {
         userId: currentUser._id,
         fullname: fullnameRef.current.value.trim() || currentUser.fullname,
         username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
-        password: passwordRef.current.value,
+        password: password,
       });
       console.log(response.data);
       setCurrentUser(response.data);
@@ -52,14 +52,14 @@ export default function EditProfile({ setUser, setShowModal }) {
           placeholder="Username"
         />
         <input
-          ref={passwordRef}
+          onChange={(e) => setPassword(e.target.value)}
           type="password"
           name="password"
           id="input-password"
           placeholder="Current password"
           required
         />
-        <button type="submit">Save</button>
+        <button type="submit" disabled={password === ""}>Save</button>
       </form>
     </div>
   );
