@@ -125,7 +125,7 @@ export default function PostPage() {
   return (
     <>
       <div className="post-top">
-        <div className="back-btn" onClick={() => navigate("/")}>
+        <div className="back-btn" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
         </div>
         <p>Post</p>

@@ -13,7 +13,7 @@ const Settings = () => {
   return (
     <>
       <div className="settings-top">
-        <div className="back-btn" onClick={() => navigate("/")}>
+        <div className="back-btn" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
         </div>
         <p>Settings</p>

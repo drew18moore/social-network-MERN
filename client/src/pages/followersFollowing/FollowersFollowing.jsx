@@ -84,7 +84,7 @@ export default function FollowersFollowing({ tab }) {
         <div className="top">
           <div
             className="back-btn"
-            onClick={() => navigate(`/${user.username}`)}
+            onClick={() => navigate(-1)}
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </div>
