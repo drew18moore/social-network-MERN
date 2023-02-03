@@ -98,7 +98,10 @@ export default function FollowersFollowing({ tab }) {
             className={`followers-link ${
               currTab === "followers" && "active-link"
             }`}
-            onClick={() => setCurrTab("followers")}
+            onClick={() => { 
+              setCurrTab("followers")
+              navigate(`/${user.username}/followers`)
+            }}
           >
             Followers
           </div>
@@ -106,7 +109,10 @@ export default function FollowersFollowing({ tab }) {
             className={`following-link ${
               currTab === "following" && "active-link"
             }`}
-            onClick={() => setCurrTab("following")}
+            onClick={() => {
+              setCurrTab("following")
+              navigate(`/${user.username}/following`)
+            }}
           >
             Following
           </div>
