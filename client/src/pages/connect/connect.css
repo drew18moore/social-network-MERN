@@ -1,0 +1,17 @@
+.connect-top {
+  background-color: var(--background-color-primary);
+  color: var(--text-color-primary);
+  margin: 25px;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
+}
+
+.connect-h1 {
+  margin: 0 25px;
+  padding: 0 5px;
+  font-size: 1.5rem;
+}

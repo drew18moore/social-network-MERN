@@ -8,7 +8,7 @@ export default function RightSidebar() {
 
   return (
     <div className='right-sidebar'>
-      {location.pathname === "/settings" ? <></> : <WhoToFollow />}
+      {location.pathname === "/settings" || location.pathname === "/connect" ? <></> : <WhoToFollow />}
     </div>
   )
 }
