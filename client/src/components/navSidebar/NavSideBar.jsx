@@ -25,6 +25,15 @@ export default function NavSideBar() {
           </li>
           <li>
             <Link
+              className={location.pathname === "/connect" ? "selected" : ""}
+              to="/connect"
+            >
+              <span className="material-symbols-rounded">group</span>
+              <p className="link-txt">Connect</p>
+            </Link>
+          </li>
+          <li>
+            <Link
               className={
                 location.pathname === `/${currentUser.username}`
                   ? "selected"
