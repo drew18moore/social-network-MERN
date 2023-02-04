@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import User from "../user/User";
@@ -9,6 +10,7 @@ const WhoToFollow = () => {
   const [unfollowedUsers, setUnfollowedUsers] = useState();
   const limit = 4;
   const [isNextPage, setIsNextPage] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +34,7 @@ const WhoToFollow = () => {
         unfollowedUsers.map((user) => {
           return <User user={user} key={user._id} />;
         })}
-      {isNextPage && <button className="show-more">Show More</button>}
+      {isNextPage && <button className="show-more" onClick={() => navigate("/connect")}>Show More</button>}
     </div>
   );
 };
