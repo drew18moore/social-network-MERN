@@ -75,6 +75,10 @@
     background-color: var(--background-color-secondary) !important;
   }
 
+  .main {
+    padding-inline: 0;
+  }
+
   .app-container {
     margin-top: 0;
     padding: 0;
