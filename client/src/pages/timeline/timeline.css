@@ -8,13 +8,3 @@
   flex-direction: column;
   gap: 15px;
 }
-
-.loading {
-  background-color: var(--background-color-primary);
-  width: fit-content;
-  margin: 1rem auto;
-  text-align: center;
-  font-size: 1rem;
-  padding: 1rem 1rem;
-  border-radius: 17px;
-}

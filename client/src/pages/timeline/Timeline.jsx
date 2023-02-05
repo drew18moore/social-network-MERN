@@ -111,7 +111,7 @@ export default function Timeline() {
         })}
       </div>
       {isLoading && (
-        <div className="loading">
+        <div className="loading-background">
           <LoadingAnimation />
         </div>
       )}

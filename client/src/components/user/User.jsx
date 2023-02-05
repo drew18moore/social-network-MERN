@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import "./user.css";
 
-export default function User({ user }) {
+const User = forwardRef(({ user }, ref) => {
   const { currentUser } = useAuth();
   const [isFollowing, setIsFollowing] = useState();
   const [followBtnText, setFollowBtnText] = useState("Following");
@@ -28,7 +28,7 @@ export default function User({ user }) {
     }
   };
   return (
-    <div className="user">
+    <div ref={ref} className="user">
       <div className="user-info">
         <img
           src={user.img}
@@ -55,3 +55,6 @@ export default function User({ user }) {
     </div>
   );
 }
+)
+
+export default User;
