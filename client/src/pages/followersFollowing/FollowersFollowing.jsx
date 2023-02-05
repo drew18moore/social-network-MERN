@@ -79,7 +79,7 @@ export default function FollowersFollowing({ tab }) {
   };
 
   return (
-    <>
+    <div className="followers-following-page">
       <div className="header">
         <div className="top">
           <div
@@ -138,6 +138,6 @@ export default function FollowersFollowing({ tab }) {
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 }

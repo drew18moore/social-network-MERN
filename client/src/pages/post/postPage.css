@@ -1,7 +1,11 @@
+.post-page {
+  display: grid;
+  gap: 25px;
+}
 .post-top {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
-  margin: 25px;
+  /* margin: 25px; */
   border-radius: 8px;
   padding: 5px;
   display: flex;
@@ -30,7 +34,7 @@
 
 .post-main {
   background-color: var(--background-color-primary);
-  margin: 25px;
+  /* margin: 25px; */
   border-radius: 8px;
   padding: 15px 15px 0 15px;
   display: grid;
@@ -156,6 +160,6 @@
 }
 
 .comments {
-  padding-inline: 25px;
+  /* padding-inline: 25px; */
   display: grid;
 }

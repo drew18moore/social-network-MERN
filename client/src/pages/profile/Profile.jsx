@@ -48,16 +48,18 @@ export default function Profile() {
 
   const loadMorePosts = async () => {
     try {
-      const response = await api.get(`/api/posts/${username}/all?page=${page+1}&limit=${limit}`)
-      setPosts(prev => {
-        return [...prev, ...response.data.posts]
-      })
+      const response = await api.get(
+        `/api/posts/${username}/all?page=${page + 1}&limit=${limit}`
+      );
+      setPosts((prev) => {
+        return [...prev, ...response.data.posts];
+      });
       response.data.numFound === 0 && setIsNextPage(false);
-      setPage(prev => prev + 1);
+      setPage((prev) => prev + 1);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const followUser = async () => {
     try {
@@ -87,7 +89,7 @@ export default function Profile() {
   };
 
   return (
-    <>
+    <div className="profile">
       <div className="profile-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
@@ -154,27 +156,33 @@ export default function Profile() {
           </span>
         </div>
       </div>
-      <h2 className="posts-heading">Posts</h2>
-      <div className="posts">
-        {posts.map((post) => (
-          <Post
-            key={post._id}
-            postId={post._id}
-            fullname={post.fullname}
-            username={post.username}
-            postBody={post.postBody}
-            createdAt={post.createdAt}
-            profilePicture={post.profilePicture}
-            deletePostById={deletePostById}
-            editPost={editPost}
-            isLiked={post.likes.includes(currentUser._id)}
-            numLikes={post.likes.length}
-            numComments={post.comments.length}
-          />
-        ))}
-        {isNextPage && <button onClick={loadMorePosts} className="load-more-posts">Load More</button>}
+      <div className="posts-container">
+        <h2 className="posts-heading">Posts</h2>
+        <div className="posts">
+          {posts.map((post) => (
+            <Post
+              key={post._id}
+              postId={post._id}
+              fullname={post.fullname}
+              username={post.username}
+              postBody={post.postBody}
+              createdAt={post.createdAt}
+              profilePicture={post.profilePicture}
+              deletePostById={deletePostById}
+              editPost={editPost}
+              isLiked={post.likes.includes(currentUser._id)}
+              numLikes={post.likes.length}
+              numComments={post.comments.length}
+            />
+          ))}
+          {isNextPage && (
+            <button onClick={loadMorePosts} className="load-more-posts">
+              Load More
+            </button>
+          )}
+        </div>
       </div>
-      
+
       {showEditProfileModal && (
         <Modal setShowModal={setShowEditProfileModal}>
           <EditProfile
@@ -190,6 +198,6 @@ export default function Profile() {
           />
         </Modal>
       )}
-    </>
+    </div>
   );
 }

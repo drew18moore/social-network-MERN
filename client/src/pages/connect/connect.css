@@ -1,7 +1,12 @@
+.connect-page {
+  display: grid;
+  gap: 25px;
+}
+
 .connect-top {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
-  margin: 25px;
+  /* margin: 25px */
   border-radius: 8px;
   padding: 5px;
   display: flex;
@@ -12,13 +17,13 @@
 
 .connect-h1 {
   color: var(--text-color-primary);
-  margin: 0 25px;
+  /* margin: 0 25px; */
   padding: 0 5px;
   font-size: 1.5rem;
 }
 
 .unfollowed-users {
-  margin: 15px 25px;
+  margin: 15px 0;
   display: grid;
   gap: 5px;
 }

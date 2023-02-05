@@ -33,7 +33,7 @@ const Connect = () => {
 
   useEffect(() => {
     console.log(page);
-  }, [page])
+  }, [page]);
 
   const fetchData = async () => {
     try {
@@ -56,29 +56,32 @@ const Connect = () => {
   }, [page]);
 
   return (
-    <>
+    <div className="connect-page">
       <div className="connect-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
         </div>
         <p>Connect</p>
       </div>
-      <h1 className="connect-h1">People you may know</h1>
-      <div className="unfollowed-users">
-        {unfollowedUsers &&
-          unfollowedUsers.map((user, index) => {
-            if (unfollowedUsers.length - 1 === index) {
-              return <User ref={lastUserRef} user={user} key={user._id} />;
-            }
-            return <User user={user} key={user._id} />;
-          })}
+      <div className="unfollowed-users-container">
+        <h1 className="connect-h1">People you may know</h1>
+        <div className="unfollowed-users">
+          {unfollowedUsers &&
+            unfollowedUsers.map((user, index) => {
+              if (unfollowedUsers.length - 1 === index) {
+                return <User ref={lastUserRef} user={user} key={user._id} />;
+              }
+              return <User user={user} key={user._id} />;
+            })}
+        </div>
       </div>
+
       {isLoading && (
         <div className="loading-background">
           <LoadingAnimation />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
