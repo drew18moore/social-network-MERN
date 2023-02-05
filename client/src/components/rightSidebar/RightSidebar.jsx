@@ -3,12 +3,14 @@ import "./rightSidebar.css"
 import { useLocation } from 'react-router-dom';
 import WhoToFollow from '../whoToFollow/WhoToFollow';
 
+const whoToFollowBlacklist = [/\/settings/, /\/connect/, /\/\w+\/following/, /\/\w+\/followers/]
+
 export default function RightSidebar() {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   return (
     <div className='right-sidebar'>
-      {location.pathname === "/settings" || location.pathname === "/connect" ? <></> : <WhoToFollow />}
+      {whoToFollowBlacklist.some(path => path.test(pathname)) ? <></> : <WhoToFollow />}
     </div>
   )
 }
