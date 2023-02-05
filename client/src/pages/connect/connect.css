@@ -11,6 +11,7 @@
 }
 
 .connect-h1 {
+  color: var(--text-color-primary);
   margin: 0 25px;
   padding: 0 5px;
   font-size: 1.5rem;
