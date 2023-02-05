@@ -6,7 +6,6 @@
 .profile-top {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
-  /* margin: 25px; */
   border-radius: 8px;
   padding: 5px;
   display: flex;
@@ -25,7 +24,6 @@
   display: grid;
   gap: 15px;
   background-color: var(--background-color-primary);
-  /* margin: 25px; */
   padding: 15px;
   border-radius: 8px;
 }

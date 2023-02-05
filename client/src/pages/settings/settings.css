@@ -6,7 +6,6 @@
 .settings-top {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
-  /* margin: 25px; */
   border-radius: 8px;
   padding: 5px;
   display: flex;
@@ -16,7 +15,6 @@
 }
 
 .settings-container {
-  /* margin: 0 25px; */
   display: grid;
   gap: 15px;
 }
@@ -108,10 +106,6 @@
 .themes > input[type="radio"]:checked + label[for="dark"]::before {
   border: 0.25em solid black !important;
 }
-
-/* .themes > input[type="radio"]:checked + label {
-  outline: 3px solid var(--accent-color-primary);
-} */
 
 /* Delete Account */
 

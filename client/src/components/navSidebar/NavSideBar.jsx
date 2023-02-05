@@ -54,25 +54,6 @@ export default function NavSideBar() {
               <p className="link-txt">Settings</p>
             </Link>
           </li>
-          {/* <li>
-            <div className="curr-user-wrapper">
-              <div
-                className="curr-user account-dropdown-btn"
-                onClick={() => setShowDropdown((prev) => !prev)}
-              >
-                <img src={currentUser.img || "/default-pfp.jpg"} />
-                <div className="curr-user-info">
-                  <p className="fullname">{currentUser.fullname}</p>
-                  <p className="username">@{currentUser.username}</p>
-                </div>
-              </div>
-              {showDropdown && (
-                <Dropdown setShowDropdown={setShowDropdown}>
-                  <AccountDropdown setShowDropdown={setShowDropdown} />
-                </Dropdown>
-              )}
-            </div>
-          </li> */}
         </ul>
       </nav>
       <div className="curr-user-wrapper">

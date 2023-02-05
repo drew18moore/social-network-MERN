@@ -62,7 +62,6 @@
 
 .curr-user {
   margin: 0 auto;
-  /* width: fit-content; */
   cursor: pointer;
   display: flex;
   align-items: center;

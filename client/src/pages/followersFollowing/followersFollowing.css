@@ -6,7 +6,6 @@
 .header {
   padding: 15px 25px;
   background-color: var(--background-color-primary);
-  /* margin: 25px; */
   border-radius: 8px;
   display: grid;
   gap: 25px;
@@ -54,7 +53,6 @@
 }
 
 .followed-users {
-  /* margin: 25px; */
   display: grid;
   gap: 5px;
 }
