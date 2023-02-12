@@ -55,7 +55,6 @@ export default function Timeline() {
 
   const deletePostById = (postId) => {
     const indexToDelete = posts.findIndex((x) => x._id === postId);
-    console.log(indexToDelete);
     let updatedPosts = [...posts];
     updatedPosts.splice(indexToDelete, 1);
     setPosts(updatedPosts);

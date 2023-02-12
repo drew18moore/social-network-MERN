@@ -22,8 +22,6 @@ export default function Register() {
     setError("");
     setIsLoading(true);
     try {
-      console.log(fullnameRef.current.value, fullnameRef.current.value.trim());
-      console.log(usernameRef.current.value, usernameRef.current.value.trim().toLowerCase());
       if (passwordRef.current.value !== passwordConfirmRef.current.value)
         throw new Error("Passwords do not match");
       const response = await api.post("/api/auth/register", {
@@ -32,7 +30,6 @@ export default function Register() {
         password: passwordRef.current.value,
         passwordConfirm: passwordConfirmRef.current.value,
       });
-      console.log(response.data);
       setCurrentUser(response.data);
       setIsLoading(false);
       navigate("/");

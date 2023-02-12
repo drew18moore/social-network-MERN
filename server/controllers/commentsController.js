@@ -53,7 +53,6 @@ const editComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    console.log(req.body.parentId)
     const comment = await Comment.findById(req.params.id);
     const parentPost = await Post.findById(req.body.parentId);
 

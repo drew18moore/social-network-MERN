@@ -22,7 +22,6 @@ export default function DeletePost({
       const response = await api.delete(`${endpoint}/${postId}`, {
         data: { userId: currentUser._id, parentId: parentId },
       });
-      console.log(response.data);
       deletePostById(response.data._id);
       setShowModal(false);
     } catch (err) {

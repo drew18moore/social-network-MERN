@@ -34,6 +34,7 @@ export default function Profile() {
           api.get(`/api/users/${username}`),
           api.get(`/api/posts/${username}/all?page=1&limit=${limit}`),
         ]);
+        responsePosts.data.numFound < limit ? setIsNextPage(false) : setIsNextPage(true);
         setUser(responseUser.data);
         setIsFollowing(() =>
           responseUser.data.followers.includes(currentUser._id)
@@ -67,7 +68,6 @@ export default function Profile() {
         currUsername: currentUser.username,
       });
       setIsFollowing((prev) => !prev);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -75,7 +75,6 @@ export default function Profile() {
 
   const deletePostById = (postId) => {
     const indexToDelete = posts.findIndex((x) => x._id === postId);
-    console.log(indexToDelete);
     let updatedPosts = [...posts];
     updatedPosts.splice(indexToDelete, 1);
     setPosts(updatedPosts);

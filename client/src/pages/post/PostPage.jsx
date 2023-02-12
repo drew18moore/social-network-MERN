@@ -46,7 +46,6 @@ export default function PostPage() {
     const fetchPost = async () => {
       try {
         const response = await api.get(`/api/posts/${postId}`);
-        console.log(response.data);
         setPost(response.data);
         setLiked(response.data.likes.includes(currentUser._id));
         setNumberOfLikes(response.data.likes.length);
@@ -78,7 +77,6 @@ export default function PostPage() {
       const response = await api.put(`/api/posts/${postId}/like`, {
         userId: currentUser._id,
       });
-      console.log(response.data);
       setNumberOfLikes(response.data.numLikes);
       setLiked((prev) => !prev);
     } catch (err) {
@@ -112,7 +110,6 @@ export default function PostPage() {
   };
 
   const deleteCommentById = (commentId) => {
-    console.log(post.comments);
     const indexToDelete = post.comments.findIndex((x) => x._id === commentId);
     const updatedComments = [...post.comments];
     updatedComments.splice(indexToDelete, 1);
@@ -237,7 +234,6 @@ export default function PostPage() {
         <div className="comments">
           {post.comments &&
             post.comments.map((comment) => {
-              console.log(comment);
               return (
                 <Comment
                   key={comment._id}

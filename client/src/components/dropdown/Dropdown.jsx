@@ -8,7 +8,6 @@ export default function Dropdown({ children, setShowDropdown }) {
   useLayoutEffect(() => {
     const rect = dropdownRef.current.getBoundingClientRect();
     if (rect.bottom > window.innerHeight) {
-      console.log("object");
       setDropdownStyle({
         bottom: "100%",
       });
@@ -17,7 +16,6 @@ export default function Dropdown({ children, setShowDropdown }) {
         top: "100%" 
       });
     }
-    console.log(dropdownStyle);
   }, []);
 
   return (

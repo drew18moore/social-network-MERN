@@ -31,10 +31,6 @@ const Connect = () => {
     [isLoading]
   );
 
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
-
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -42,7 +38,6 @@ const Connect = () => {
         `/api/users/all-unfollowed/${currentUser._id}?page=${page}&limit=${limit}`
       );
       setUnfollowedUsers((prev) => [...prev, ...response.data.unfollowedUsers]);
-      console.log(response.data);
       setIsNextPage(response.data.numFound > 0);
       setIsLoading(false);
     } catch (err) {
