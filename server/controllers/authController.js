@@ -10,8 +10,34 @@ const handleRegister = async (req, res) => {
       username: req.body.username,
       password: hashedPassword,
     });
+    
+    const accessToken = jwt.sign(
+      { username: user.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "10s" }
+    );
 
-    const newUser = await user.save();
+    const refreshToken = jwt.sign(
+      { username: user.username },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "15s" }
+    );
+
+    user.refreshToken = refreshToken;
+    const savedUser = await user.save();
+
+    let newUser = {
+      ...savedUser.toJSON(),
+      accessToken,
+    };
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     res.status(200).json(newUser);
   } catch (err) {
     if (err.code === 11000) {
