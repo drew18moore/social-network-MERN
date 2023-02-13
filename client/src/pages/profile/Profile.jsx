@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
 import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import Post from "../../components/post/Post";
 import "./profile.css";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function Profile() {
   const { username } = useParams();
@@ -14,6 +15,7 @@ export default function Profile() {
   const [showChangeProfilePictureModal, setShowChangeProfilePictureModal] =
     useState(false);
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [user, setUser] = useState({});
   const [isFollowing, setIsFollowing] = useState();
   const [followBtnText, setFollowBtnText] = useState("Following");
@@ -31,8 +33,8 @@ export default function Profile() {
     const fetchData = async () => {
       try {
         const [responseUser, responsePosts] = await Promise.all([
-          api.get(`/api/users/${username}`),
-          api.get(`/api/posts/${username}/all?page=1&limit=${limit}`),
+          axiosPrivate.get(`/api/users/${username}`),
+          axiosPrivate.get(`/api/posts/${username}/all?page=1&limit=${limit}`),
         ]);
         responsePosts.data.numFound < limit ? setIsNextPage(false) : setIsNextPage(true);
         setUser(responseUser.data);
@@ -49,7 +51,7 @@ export default function Profile() {
 
   const loadMorePosts = async () => {
     try {
-      const response = await api.get(
+      const response = await axiosPrivate.get(
         `/api/posts/${username}/all?page=${page + 1}&limit=${limit}`
       );
       setPosts((prev) => {
@@ -64,7 +66,7 @@ export default function Profile() {
 
   const followUser = async () => {
     try {
-      const response = await api.put(`/api/users/follow/${username}`, {
+      const response = await axiosPrivate.put(`/api/users/follow/${username}`, {
         currUsername: currentUser.username,
       });
       setIsFollowing((prev) => !prev);

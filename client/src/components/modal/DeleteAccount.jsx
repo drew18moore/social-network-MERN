@@ -1,7 +1,9 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const CONFIRMATION_PHRASE = "delete my account";
 
@@ -10,6 +12,7 @@ const DeleteAccount = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
   const validate = () => {
@@ -22,7 +25,7 @@ const DeleteAccount = () => {
     e.preventDefault();
     setError("");
     try {
-      const response = await api.delete(`api/users/delete/${currentUser._id}`, {
+      const response = await axiosPrivate.delete(`api/users/delete/${currentUser._id}`, {
         data: { password: confirmPassword },
       });
       navigate("/login");

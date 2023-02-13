@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function EditPost({
   postId,
@@ -11,6 +12,7 @@ export default function EditPost({
   type,
 }) {
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [userMessage, setUserMessage] = useState("");
 
   const endpoint =
@@ -33,7 +35,7 @@ export default function EditPost({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.put(`${endpoint}/${postId}`, {
+      const response = await axiosPrivate.put(`${endpoint}/${postId}`, {
         userId: currentUser._id,
         postBody: userMessage,
       });

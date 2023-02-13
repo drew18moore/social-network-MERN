@@ -1,25 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const postsController = require("../controllers/postsController");
+const verifyJWT = require("../middleware/verifyJWT");
 
 // CREATE post
-router.post("/new", postsController.createNewPost);
+router.post("/new", verifyJWT, postsController.createNewPost);
 
 router.route("/:id")
   // get post by id
-  .get(postsController.getPostById)
+  .get(verifyJWT, postsController.getPostById)
   // edit post by id
-  .put(postsController.editPost)
+  .put(verifyJWT, postsController.editPost)
   // delete post by id
-  .delete(postsController.deletePost);
+  .delete(verifyJWT, postsController.deletePost);
 
 // LIKE/UNLIKE post
-router.put("/:id/like", postsController.likePost);
+router.put("/:id/like", verifyJWT, postsController.likePost);
 
 // GET all followed user posts, by userId
-router.get("/timeline/:userId", postsController.getTimelinePosts);
+router.get("/timeline/:userId", verifyJWT, postsController.getTimelinePosts);
 
 // Get all posts by username
-router.get("/:username/all", postsController.getPostsByUsername);
+router.get("/:username/all", verifyJWT, postsController.getPostsByUsername);
 
 module.exports = router;

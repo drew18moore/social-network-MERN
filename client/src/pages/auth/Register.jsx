@@ -24,12 +24,18 @@ export default function Register() {
     try {
       if (passwordRef.current.value !== passwordConfirmRef.current.value)
         throw new Error("Passwords do not match");
-      const response = await api.post("/api/auth/register", {
-        fullname: fullnameRef.current.value.trim(),
-        username: usernameRef.current.value.trim().toLowerCase(),
-        password: passwordRef.current.value,
-        passwordConfirm: passwordConfirmRef.current.value,
-      });
+      const response = await api.post(
+        "/api/auth/register",
+        {
+          fullname: fullnameRef.current.value.trim(),
+          username: usernameRef.current.value.trim().toLowerCase(),
+          password: passwordRef.current.value,
+          passwordConfirm: passwordConfirmRef.current.value,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       setCurrentUser(response.data);
       setIsLoading(false);
       navigate("/");

@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./timeline.css";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -32,7 +34,7 @@ export default function Timeline() {
 
   const fetchPosts = async () => {
     try {
-      const response = await api.get(
+      const response = await axiosPrivate.get(
         `/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`
       );
       setPosts((prev) => [...prev, ...response.data.posts]);

@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const commentsController = require("../controllers/commentsController");
+const verifyJWT = require("../middleware/verifyJWT");
 
 // Create new comment
-router.post("/new", commentsController.newComment);
+router.post("/new", verifyJWT, commentsController.newComment);
 
 router.route("/:id")
   // Edit comment
-  .put(commentsController.editComment)
+  .put(verifyJWT, commentsController.editComment)
   // Delete comment
-  .delete(commentsController.deleteComment);
+  .delete(verifyJWT, commentsController.deleteComment);
 
 module.exports = router;

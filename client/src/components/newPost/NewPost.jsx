@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./newPost.css";
 
 export default function NewPost({ addPost }) {
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [userMessage, setUserMessage] = useState("");
 
   const [error, setError] = useState();
@@ -15,7 +17,7 @@ export default function NewPost({ addPost }) {
     e.target[0].style.height = "50px";
     setError("");
     try {
-      const response = await api.post("/api/posts/new", {
+      const response = await axiosPrivate.post("/api/posts/new", {
         userId: currentUser._id,
         fullname: currentUser.fullname,
         username: currentUser.username,

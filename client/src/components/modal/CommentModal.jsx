@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import api from "../../api/api";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+// import api from "../../api/api";
 
 export default function CommentModal({
   postId,
@@ -15,6 +16,7 @@ export default function CommentModal({
 }) {
   const { currentUser } = useAuth();
   const [userReply, setUserReply] = useState("");
+  const axiosPrivate = useAxiosPrivate();
 
   const handleChange = (e) => {
     setUserReply(e.target.value);
@@ -26,7 +28,7 @@ export default function CommentModal({
     e.preventDefault();
     e.target[0].style.height = "50px";
     try {
-      const response = await api.post("/api/comments/new", {
+      const response = await axiosPrivate.post("/api/comments/new", {
         userId: currentUser._id,
         parentId: postId,
         commentBody: userReply,

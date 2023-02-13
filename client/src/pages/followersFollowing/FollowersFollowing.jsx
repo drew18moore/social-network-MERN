@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import User from "../../components/user/User";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./followersFollowing.css";
 
 export default function FollowersFollowing({ tab }) {
   const { username } = useParams();
+  const axiosPrivate = useAxiosPrivate();
   const [user, setUser] = useState({});
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -28,8 +30,8 @@ export default function FollowersFollowing({ tab }) {
     const fetchData = async () => {
       try {
         const [responseFollowers, responseFollowing] = await Promise.all([
-          api.get(`/api/users/${username}/followers?page=1&limit=${limit}`),
-          api.get(`/api/users/${username}/following?page=1&limit=${limit}`),
+          axiosPrivate.get(`/api/users/${username}/followers?page=1&limit=${limit}`),
+          axiosPrivate.get(`/api/users/${username}/following?page=1&limit=${limit}`),
         ]);
         responseFollowers.data.numFound < limit
           ? setIsNextPageFollowers(false)
@@ -49,7 +51,7 @@ export default function FollowersFollowing({ tab }) {
 
   const loadMoreFollowers = async () => {
     try {
-      const response = await api.get(
+      const response = await axiosPrivate.get(
         `/api/users/${username}/followers?page=${
           pageFollowers + 1
         }&limit=${limit}`
@@ -64,7 +66,7 @@ export default function FollowersFollowing({ tab }) {
   };
   const loadMoreFollowing = async () => {
     try {
-      const response = await api.get(
+      const response = await axiosPrivate.get(
         `/api/users/${username}/following?page=${
           pageFollowing + 1
         }&limit=${limit}`

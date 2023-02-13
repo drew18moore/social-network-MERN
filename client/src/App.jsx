@@ -1,6 +1,6 @@
 import { useEffect, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import api from "./api/api";
+import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import { useAuth } from "./contexts/AuthContext";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -18,10 +18,11 @@ const Profile = lazy(() => import("./pages/profile/Profile"));
 export default function App() {
   const { currentUser, setCurrentUser } = useAuth();
   const { theme } = useTheme();
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     currentUser &&
-      api
+      axiosPrivate
         .get(`/api/users/${currentUser.username}`)
         .then((res) => setCurrentUser(res.data));
   }, []);

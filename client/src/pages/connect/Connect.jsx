@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import User from "../../components/user/User";
 import { useAuth } from "../../contexts/AuthContext";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./connect.css";
 
 const Connect = () => {
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [unfollowedUsers, setUnfollowedUsers] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,7 @@ const Connect = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await api.get(
+      const response = await axiosPrivate.get(
         `/api/users/all-unfollowed/${currentUser._id}?page=${page}&limit=${limit}`
       );
       setUnfollowedUsers((prev) => [...prev, ...response.data.unfollowedUsers]);

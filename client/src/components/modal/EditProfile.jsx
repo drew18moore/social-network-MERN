@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import api from "../../api/api";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+// import api from "../../api/api";
 
 export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
@@ -10,12 +11,13 @@ export default function EditProfile({ setUser, setShowModal }) {
   const [error, setError] = useState("");
 
   const { currentUser, setCurrentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
-      const response = await api.put(`/api/users/${currentUser._id}`, {
+      const response = await axiosPrivate.put(`/api/users/${currentUser._id}`, {
         userId: currentUser._id,
         fullname: fullnameRef.current.value.trim() || currentUser.fullname,
         username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,

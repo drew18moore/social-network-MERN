@@ -19,10 +19,17 @@ export default function Login() {
     setError("");
     setIsLoading(true);
     try {
-      const response = await api.post("/api/auth/login", {
-        username: usernameRef.current?.value.trim().toLowerCase(),
-        password: passwordRef.current?.value,
-      });
+      const response = await api.post(
+        "/api/auth/login",
+        {
+          username: usernameRef.current?.value.trim().toLowerCase(),
+          password: passwordRef.current?.value,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      const accessToken = response?.data?.accessToken;
       setCurrentUser(response.data);
       setIsLoading(false);
       navigate("/");

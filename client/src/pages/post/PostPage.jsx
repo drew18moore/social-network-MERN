@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../../components/dropdown/Dropdown";
 import PostDropdown from "../../components/dropdown/PostDropdown";
@@ -10,9 +10,11 @@ import EditPost from "../../components/modal/EditPost";
 import Comment from "../../components/comment/Comment";
 import CommentModal from "../../components/modal/CommentModal";
 import "./postPage.css";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function PostPage() {
   const { username, postId } = useParams();
+  const axiosPrivate = useAxiosPrivate();
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
@@ -45,7 +47,7 @@ export default function PostPage() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await api.get(`/api/posts/${postId}`);
+        const response = await axiosPrivate.get(`/api/posts/${postId}`);
         setPost(response.data);
         setLiked(response.data.likes.includes(currentUser._id));
         setNumberOfLikes(response.data.likes.length);
@@ -74,7 +76,7 @@ export default function PostPage() {
   const likePost = async (e) => {
     e.stopPropagation();
     try {
-      const response = await api.put(`/api/posts/${postId}/like`, {
+      const response = await axiosPrivate.put(`/api/posts/${postId}/like`, {
         userId: currentUser._id,
       });
       setNumberOfLikes(response.data.numLikes);

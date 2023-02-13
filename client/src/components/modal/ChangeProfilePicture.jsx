@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import api from "../../api/api";
+// import api from "../../api/api";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function ChangeProfilePicture({ setShowModal }) {
   const [file, setFile] = useState(null);
   const { currentUser, setCurrentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
 
   const handleFile = (e) => {
     const inputFile = e.target.files[0];
@@ -17,7 +19,7 @@ export default function ChangeProfilePicture({ setShowModal }) {
     formdata.append("image", file);
     formdata.append("userId", currentUser._id);
     try {
-      const response = await api.put(
+      const response = await axiosPrivate.put(
         `/api/users/change-img/${currentUser._id}`,
         formdata,
         { headers: { "content-type": "multipart/form-data" } }

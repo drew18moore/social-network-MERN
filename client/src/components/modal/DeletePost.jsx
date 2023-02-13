@@ -1,6 +1,7 @@
 import React from "react";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function DeletePost({
   postId,
@@ -10,6 +11,7 @@ export default function DeletePost({
   type,
 }) {
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const endpoint =
     type === "POST"
       ? "/api/posts/"
@@ -19,7 +21,7 @@ export default function DeletePost({
 
   const deletePost = async (postId) => {
     try {
-      const response = await api.delete(`${endpoint}/${postId}`, {
+      const response = await axiosPrivate.delete(`${endpoint}/${postId}`, {
         data: { userId: currentUser._id, parentId: parentId },
       });
       deletePostById(response.data._id);

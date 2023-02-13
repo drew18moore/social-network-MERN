@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAuth } from "../../contexts/AuthContext";
 import User from "../user/User";
 import "./whoToFollow.css";
 
 const WhoToFollow = () => {
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [unfollowedUsers, setUnfollowedUsers] = useState();
   const limit = 4;
   const [isNextPage, setIsNextPage] = useState();
@@ -15,7 +17,7 @@ const WhoToFollow = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(
+        const response = await axiosPrivate.get(
           `/api/users/all-unfollowed/${currentUser._id}?page=1&limit=${limit}`
         );
         setUnfollowedUsers(response.data.unfollowedUsers);

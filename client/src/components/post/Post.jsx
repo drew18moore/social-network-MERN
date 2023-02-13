@@ -1,6 +1,6 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";
@@ -9,6 +9,7 @@ import DeletePost from "../modal/DeletePost";
 import EditPost from "../modal/EditPost";
 import CommentModal from "../modal/CommentModal";
 import "./post.css";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Post = forwardRef(
   (
@@ -36,6 +37,7 @@ const Post = forwardRef(
     const [numberOfComments, setNumberOfComments] = useState(numComments);
 
     const { currentUser } = useAuth();
+    const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -69,7 +71,7 @@ const Post = forwardRef(
     const likePost = async (e) => {
       e.stopPropagation();
       try {
-        const response = await api.put(`/api/posts/${postId}/like`, {
+        const response = await axiosPrivate.put(`/api/posts/${postId}/like`, {
           userId: currentUser._id,
         });
         setNumberOfLikes(response.data.numLikes);

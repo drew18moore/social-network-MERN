@@ -1,11 +1,13 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/api";
+// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./user.css";
 
 const User = forwardRef(({ user }, ref) => {
   const { currentUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [isFollowing, setIsFollowing] = useState();
   const [followBtnText, setFollowBtnText] = useState("Following");
 
@@ -19,7 +21,7 @@ const User = forwardRef(({ user }, ref) => {
   const followUser = async (e) => {
     e.stopPropagation();
     try {
-      await api.put(`/api/users/follow/${user.username}`, {
+      await axiosPrivate.put(`/api/users/follow/${user.username}`, {
         currUsername: currentUser.username,
       });
       setIsFollowing((prev) => !prev);

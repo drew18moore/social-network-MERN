@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const handleRegister = async (req, res) => {
   try {
@@ -30,6 +31,21 @@ const handleLogin = async (req, res) => {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
+    const accessToken = jwt.sign(
+      { username: user.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "30s" }
+    );
+
+    const refreshToken = jwt.sign(
+      { username: user.username },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
     let profilePicture;
     if (user.img.data) {
       const buffer = Buffer.from(user.img.data);
@@ -42,7 +58,14 @@ const handleLogin = async (req, res) => {
     let newUser = {
       ...user.toJSON(),
       img: profilePicture,
+      accessToken,
     };
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     res.status(200).json(newUser);
   } catch (err) {
     console.error(err);
