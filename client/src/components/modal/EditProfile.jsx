@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-// import api from "../../api/api";
 
 export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
@@ -29,6 +28,9 @@ export default function EditProfile({ setUser, setShowModal }) {
     } catch (err) {
       console.error(err);
       setError(err.response.data.message || err.message);
+      if (err.response?.status === 403) {
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
@@ -13,6 +13,8 @@ export default function Login() {
 
   const { setCurrentUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   async function login(e) {
     e.preventDefault();
@@ -32,7 +34,7 @@ export default function Login() {
       const accessToken = response?.data?.accessToken;
       setCurrentUser(response.data);
       setIsLoading(false);
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       setIsLoading(false);
       console.error(err);

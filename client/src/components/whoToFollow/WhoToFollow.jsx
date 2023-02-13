@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import api from "../../api/api";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAuth } from "../../contexts/AuthContext";
 import User from "../user/User";

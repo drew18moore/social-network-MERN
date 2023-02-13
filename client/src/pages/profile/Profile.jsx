@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-// import api from "../../api/api";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
@@ -20,6 +19,7 @@ export default function Profile() {
   const [isFollowing, setIsFollowing] = useState();
   const [followBtnText, setFollowBtnText] = useState("Following");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [posts, setPosts] = useState([]);
 
@@ -36,7 +36,9 @@ export default function Profile() {
           axiosPrivate.get(`/api/users/${username}`),
           axiosPrivate.get(`/api/posts/${username}/all?page=1&limit=${limit}`),
         ]);
-        responsePosts.data.numFound < limit ? setIsNextPage(false) : setIsNextPage(true);
+        responsePosts.data.numFound < limit
+          ? setIsNextPage(false)
+          : setIsNextPage(true);
         setUser(responseUser.data);
         setIsFollowing(() =>
           responseUser.data.followers.includes(currentUser._id)
@@ -44,6 +46,7 @@ export default function Profile() {
         setPosts(responsePosts.data.posts);
       } catch (err) {
         console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
       }
     };
     fetchData();
@@ -61,6 +64,7 @@ export default function Profile() {
       setPage((prev) => prev + 1);
     } catch (err) {
       console.error(err);
+      navigate("/login", { state: { from: location }, replace: true });
     }
   };
 
@@ -72,6 +76,7 @@ export default function Profile() {
       setIsFollowing((prev) => !prev);
     } catch (err) {
       console.error(err);
+      navigate("/login", { state: { from: location }, replace: true });
     }
   };
 

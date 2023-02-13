@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-// import api from "../../api/api";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import User from "../../components/user/User";
 import { useAuth } from "../../contexts/AuthContext";
@@ -16,6 +15,8 @@ const Connect = () => {
   const [page, setPage] = useState(1);
   const limit = 20;
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [isNextPage, setIsNextPage] = useState(true);
 
   const observer = useRef();
@@ -45,6 +46,7 @@ const Connect = () => {
     } catch (err) {
       console.error(err);
       setIsLoading(false);
+      navigate("/login", { state: { from: location }, replace: true });
     }
   };
 

@@ -1,5 +1,4 @@
 import React from "react";
-// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
@@ -28,6 +27,9 @@ export default function DeletePost({
       setShowModal(false);
     } catch (err) {
       console.error(err);
+      if (err.response?.status === 403) {
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
   };
   return (

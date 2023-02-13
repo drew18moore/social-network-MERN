@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-// import api from "../../api/api";
 
 export default function CommentModal({
   postId,
@@ -38,6 +37,9 @@ export default function CommentModal({
       setNumberOfComments && setNumberOfComments((prev) => prev + 1);
     } catch (err) {
       console.error(err);
+      if (err.response?.status === 403) {
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
     setUserReply("");
   };

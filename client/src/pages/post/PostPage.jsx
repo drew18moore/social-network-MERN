@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-// import api from "../../api/api";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../../components/dropdown/Dropdown";
 import PostDropdown from "../../components/dropdown/PostDropdown";
@@ -28,6 +27,7 @@ export default function PostPage() {
   const [numberOfComments, setNumberOfComments] = useState();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   let time = new Date(post.createdAt);
   const timeOptions = {
@@ -54,6 +54,7 @@ export default function PostPage() {
         setNumberOfComments(response.data.comments.length);
       } catch (err) {
         console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
       }
     };
     fetchPost();
@@ -83,6 +84,7 @@ export default function PostPage() {
       setLiked((prev) => !prev);
     } catch (err) {
       console.error(err);
+      navigate("/login", { state: { from: location }, replace: true });
     }
   };
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../dropdown/Dropdown";
 import PostDropdown from "../dropdown/PostDropdown";

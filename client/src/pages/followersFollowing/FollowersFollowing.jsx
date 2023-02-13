@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-// import api from "../../api/api";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import User from "../../components/user/User";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./followersFollowing.css";
@@ -12,6 +11,7 @@ export default function FollowersFollowing({ tab }) {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const [currTab, setCurrTab] = useState(tab);
 
   const [pageFollowing, setPageFollowing] = useState(1);
@@ -30,8 +30,12 @@ export default function FollowersFollowing({ tab }) {
     const fetchData = async () => {
       try {
         const [responseFollowers, responseFollowing] = await Promise.all([
-          axiosPrivate.get(`/api/users/${username}/followers?page=1&limit=${limit}`),
-          axiosPrivate.get(`/api/users/${username}/following?page=1&limit=${limit}`),
+          axiosPrivate.get(
+            `/api/users/${username}/followers?page=1&limit=${limit}`
+          ),
+          axiosPrivate.get(
+            `/api/users/${username}/following?page=1&limit=${limit}`
+          ),
         ]);
         responseFollowers.data.numFound < limit
           ? setIsNextPageFollowers(false)
@@ -44,6 +48,7 @@ export default function FollowersFollowing({ tab }) {
         setFollowing(responseFollowing.data.following);
       } catch (err) {
         console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
       }
     };
     fetchData();
@@ -84,10 +89,7 @@ export default function FollowersFollowing({ tab }) {
     <div className="followers-following-page">
       <div className="header">
         <div className="top">
-          <div
-            className="back-btn"
-            onClick={() => navigate(-1)}
-          >
+          <div className="back-btn" onClick={() => navigate(-1)}>
             <span className="material-symbols-outlined">arrow_back</span>
           </div>
           <div className="following-user-info">
@@ -100,9 +102,9 @@ export default function FollowersFollowing({ tab }) {
             className={`followers-link ${
               currTab === "followers" && "active-link"
             }`}
-            onClick={() => { 
-              setCurrTab("followers")
-              navigate(`/${user.username}/followers`)
+            onClick={() => {
+              setCurrTab("followers");
+              navigate(`/${user.username}/followers`);
             }}
           >
             Followers
@@ -112,8 +114,8 @@ export default function FollowersFollowing({ tab }) {
               currTab === "following" && "active-link"
             }`}
             onClick={() => {
-              setCurrTab("following")
-              navigate(`/${user.username}/following`)
+              setCurrTab("following");
+              navigate(`/${user.username}/following`);
             }}
           >
             Following

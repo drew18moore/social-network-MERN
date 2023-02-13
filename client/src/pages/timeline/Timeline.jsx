@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-// import api from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./timeline.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -42,6 +44,8 @@ export default function Timeline() {
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
+      console.error(err);
+      navigate("/login", { state: { from: location }, replace: true });
     }
   };
   useEffect(() => {

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-// import api from "../../api/api";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./newPost.css";
@@ -8,6 +7,9 @@ import "./newPost.css";
 export default function NewPost({ addPost }) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [userMessage, setUserMessage] = useState("");
 
   const [error, setError] = useState();
@@ -26,6 +28,9 @@ export default function NewPost({ addPost }) {
       addPost(response.data);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
+      if (err.response?.status === 403) {
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
     setUserMessage("");
   };
