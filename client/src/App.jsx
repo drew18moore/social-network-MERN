@@ -11,6 +11,7 @@ import Connect from "./pages/connect/Connect";
 import PrivateRoutes from "./components/PrivateRoutes";
 import "./App.css";
 import { useTheme } from "./contexts/ThemeContext";
+import PersistLogin from "./components/PersistLogin";
 
 const Timeline = lazy(() => import("./pages/timeline/Timeline"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
@@ -32,20 +33,22 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route element={<PrivateRoutes />}>
-          <Route path="/" element={<Timeline />} exact />
-          <Route path="/connect" element={<Connect />} exact />
-          <Route path="/:username" element={<Profile />} />
-          <Route
-            path="/:username/following"
-            element={<FollowersFollowing tab="following" />}
-          />
-          <Route
-            path="/:username/followers"
-            element={<FollowersFollowing tab="followers" />}
-          />
-          <Route path="/:username/posts/:postId" element={<PostPage />} />
-          <Route path="/settings" element={<Settings />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<PrivateRoutes />}>
+            <Route path="/" element={<Timeline />} exact />
+            <Route path="/connect" element={<Connect />} exact />
+            <Route path="/:username" element={<Profile />} />
+            <Route
+              path="/:username/following"
+              element={<FollowersFollowing tab="following" />}
+            />
+            <Route
+              path="/:username/followers"
+              element={<FollowersFollowing tab="followers" />}
+            />
+            <Route path="/:username/posts/:postId" element={<PostPage />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
         </Route>
       </Routes>
     </div>
