@@ -4,13 +4,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import { axiosPrivate } from "../../api/api";
 
 export default function AccountDropdown({ setShowDropdown }) {
-  const { currentUser } = useAuth()
+  const { currentUser, setCurrentUser } = useAuth()
 
   const logout = async () => {
-    console.log("LOGGING OUT");
+    setCurrentUser({})
     try {
-      const res = await axiosPrivate.get("/api/logout")
-      console.log(res);
+      await axiosPrivate.get("/api/logout")
     } catch (err) {
       console.error(err);
     }
