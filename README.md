@@ -10,6 +10,21 @@ A social media app built using the MERN stack
 * ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 * ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 * ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+## Try it out
+[https://social-network-mern.vercel.app/](https://social-network-mern.vercel.app/)
+- Login using your username and password or create a new account
+- <strong>If you don't want to register</strong>, login using the <strong>demo</strong> account:
+  - <strong>username</strong>: demo
+  - <strong>password</strong>: 123456
+
+## Features
+- User authentication with JWT
+- Persistent user login
+- Create, edit, or delete your own posts
+- Follow other users
+- Like posts
+- Create, edit, or delete your own comments on posts
+- Dark mode toggle
 
 ## Getting Started
 ### Prerequisites
