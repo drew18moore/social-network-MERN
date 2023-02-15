@@ -17,16 +17,16 @@ const Timeline = lazy(() => import("./pages/timeline/Timeline"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
 
 export default function App() {
-  const { currentUser, setCurrentUser } = useAuth();
-  const { theme } = useTheme();
-  const axiosPrivate = useAxiosPrivate();
+  // const { currentUser, setCurrentUser } = useAuth();
+  // const { theme } = useTheme();
+  // const axiosPrivate = useAxiosPrivate();
 
-  useEffect(() => {
-    currentUser &&
-      axiosPrivate
-        .get(`/api/users/${currentUser.username}`)
-        .then((res) => setCurrentUser(res.data));
-  }, []);
+  // useEffect(() => {
+  //   currentUser &&
+  //     axiosPrivate
+  //       .get(`/api/users/${currentUser.username}`)
+  //       .then((res) => setCurrentUser(res.data));
+  // }, []);
 
   return (
     <div className="App">

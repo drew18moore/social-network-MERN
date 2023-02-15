@@ -27,7 +27,11 @@ const handleRegister = async (req, res) => {
     const savedUser = await user.save();
 
     let newUser = {
-      ...savedUser.toJSON(),
+      _id: savedUser._id,
+      fullname: savedUser.fullname,
+      username: savedUser.username,
+      following: savedUser.following,
+      followers: savedUser.followers,
       accessToken,
     };
 
@@ -82,7 +86,11 @@ const handleLogin = async (req, res) => {
     }
 
     let newUser = {
-      ...user.toJSON(),
+      _id: user._id,
+      fullname: user.fullname,
+      username: user.username,
+      following: user.following,
+      followers: user.followers,
       img: profilePicture,
       accessToken,
     };
