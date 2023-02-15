@@ -9,9 +9,9 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState({});
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log(currentUser);
+  // }, [currentUser]);
 
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
