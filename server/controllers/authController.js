@@ -64,13 +64,13 @@ const handleLogin = async (req, res) => {
     const accessToken = jwt.sign(
       { username: user.username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30s" }
+      { expiresIn: 900000 }
     );
 
     const refreshToken = jwt.sign(
       { username: user.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     user.refreshToken = refreshToken;
@@ -106,4 +106,51 @@ const handleLogin = async (req, res) => {
   }
 };
 
-module.exports = { handleRegister, handleLogin };
+const handlePersistentLogin = async (req, res) => {
+  try {
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+
+    const refreshToken = cookies.jwt;
+    const user = await User.findOne({ refreshToken });
+    if (!user) return res.status(403).json({ message: "Forbidden" });
+
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (err, decoded) => {
+        if (err || user.username !== decoded.username)
+          return res.status(403).json({ message: "Forbidden" });
+        const accessToken = jwt.sign(
+          { username: decoded.username },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: 900000 } // 15 mins
+        );
+
+        let profilePicture;
+        if (user.img.data) {
+          const buffer = Buffer.from(user.img.data);
+          const b64String = buffer.toString("base64");
+          profilePicture = `data:image/png;base64,${b64String}`;
+        } else {
+          profilePicture = "/default-pfp.jpg";
+        }
+
+        let newUser = {
+          _id: user._id,
+          fullname: user.fullname,
+          username: user.username,
+          following: user.following,
+          followers: user.followers,
+          img: profilePicture,
+          accessToken,
+        };
+        res.status(200).json(newUser);
+      }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+module.exports = { handleRegister, handleLogin, handlePersistentLogin };

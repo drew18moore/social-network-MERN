@@ -1,17 +1,19 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useRefreshToken from "../hooks/useRefreshToken";
 import { useAuth } from "../contexts/AuthContext";
+import api from "../api/api";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const refresh = useRefreshToken();
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
-        await refresh();
+        const response = await api.get("/api/auth/login/persist", {
+          withCredentials: true
+        })
+        setCurrentUser(response.data);
       } catch (err) {
         console.error(err);
       } finally {

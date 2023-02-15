@@ -1,7 +1,5 @@
-import { useEffect, lazy, Suspense } from "react";
+import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import useAxiosPrivate from "./hooks/useAxiosPrivate";
-import { useAuth } from "./contexts/AuthContext";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import FollowersFollowing from "./pages/followersFollowing/FollowersFollowing";
@@ -10,24 +8,12 @@ import Settings from "./pages/settings/Settings";
 import Connect from "./pages/connect/Connect";
 import PrivateRoutes from "./components/PrivateRoutes";
 import "./App.css";
-import { useTheme } from "./contexts/ThemeContext";
 import PersistLogin from "./components/PersistLogin";
 
 const Timeline = lazy(() => import("./pages/timeline/Timeline"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
 
 export default function App() {
-  // const { currentUser, setCurrentUser } = useAuth();
-  // const { theme } = useTheme();
-  // const axiosPrivate = useAxiosPrivate();
-
-  // useEffect(() => {
-  //   currentUser &&
-  //     axiosPrivate
-  //       .get(`/api/users/${currentUser.username}`)
-  //       .then((res) => setCurrentUser(res.data));
-  // }, []);
-
   return (
     <div className="App">
       <Routes>

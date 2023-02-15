@@ -15,7 +15,7 @@ const handleRefreshToken = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
         if (err || user.username !== decoded.username)
-          return res.status(403).json({ message: "Forbidden1" });
+          return res.status(403).json({ message: "Forbidden" });
         const accessToken = jwt.sign(
           { username: decoded.username },
           process.env.ACCESS_TOKEN_SECRET,
