@@ -165,6 +165,7 @@ export default function Profile() {
       <div className="posts-container">
         <h2 className="posts-heading">Posts</h2>
         <div className="posts">
+          {posts.length === 0 && <p className="no-posts">No Posts</p>}
           {posts.map((post) => (
             <Post
               key={post._id}
