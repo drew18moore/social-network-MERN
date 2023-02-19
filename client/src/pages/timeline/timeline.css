@@ -9,3 +9,11 @@
   flex-direction: column;
   gap: 15px;
 }
+
+.no-posts {
+  margin: 0 auto;
+  background-color: var(--background-color-primary);
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}

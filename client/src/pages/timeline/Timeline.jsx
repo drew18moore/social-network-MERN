@@ -77,6 +77,7 @@ export default function Timeline() {
     <div className="timeline">
       <NewPost addPost={addPost} />
       <div className="posts">
+        {posts.length === 0 && <p className="no-posts">No Posts</p>}
         {posts.map((post, index) => {
           if (posts.length - 1 === index) {
             return (
