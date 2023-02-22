@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
   },
   refreshToken: {
     type: String,
+  },
+  bookmarks: {
+    type: Array,
+    default: [],
   }
 });
 
