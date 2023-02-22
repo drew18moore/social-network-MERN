@@ -231,6 +231,21 @@ const getPostsByUsername = async (req, res) => {
   }
 };
 
+const bookmarkPost = async (req, res) => {
+  try {
+    const user = await User.findById(req.body.userId);
+    if (!user.bookmarks.includes(req.params.id)) {
+      await user.updateOne({ $push: { bookmarks: req.params.id } });
+      res.status(200).json({ message: "Post has been bookmarked" });
+    } else {
+      await user.updateOne({ $pull: { bookmarks: req.params.id } });
+      res.status(200).json({ message: "Post has been unbookmarked" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 module.exports = {
   createNewPost,
   editPost,
@@ -239,4 +254,5 @@ module.exports = {
   getTimelinePosts,
   getPostsByUsername,
   getPostById,
+  bookmarkPost
 };

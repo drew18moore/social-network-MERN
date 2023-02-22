@@ -17,6 +17,9 @@ router.route("/:id")
 // LIKE/UNLIKE post
 router.put("/:id/like", verifyJWT, postsController.likePost);
 
+// BOOKMARK/UNBOOKMARK Post
+router.put("/:id/bookmark", verifyJWT, postsController.bookmarkPost);
+
 // GET all followed user posts, by userId
 router.get("/timeline/:userId", verifyJWT, postsController.getTimelinePosts);
 
