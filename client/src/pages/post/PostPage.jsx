@@ -189,6 +189,11 @@ export default function PostPage() {
               <span className="material-symbols-rounded">chat_bubble</span>
               {numberOfComments}
             </div>
+            <div className="bookmark-btn">
+              <span className="material-symbols-rounded">
+                bookmark
+              </span>
+            </div>
             <div className="share-btn">
               <span className="material-symbols-rounded">
                 google_plus_reshare
