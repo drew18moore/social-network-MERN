@@ -284,6 +284,39 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getBookmarkedPosts = async (req, res) => {
+  try {
+    const { bookmarks } = await User.findById(req.params.id);
+    const bookmarkedPosts = await Post.find(
+      { _id: { $in: [...bookmarks] } }
+    );
+    const posts = await Promise.all(
+      bookmarkedPosts.map(async (post) => {
+        const postUser = await User.findById(post.userId);
+
+        let profilePicture;
+        if (postUser.img.data) {
+          const buffer = Buffer.from(postUser.img.data);
+          const b64String = buffer.toString("base64");
+          profilePicture = `data:image/png;base64,${b64String}`;
+        } else {
+          profilePicture = "/default-pfp.jpg";
+        }
+
+        return {
+          ...post.toJSON(),
+          fullname: postUser.fullname,
+          username: postUser.username,
+          profilePicture: profilePicture,
+        };
+      })
+    );
+    res.status(200).json({ posts: posts });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 module.exports = {
   changeProfilePicture,
   editUser,
@@ -293,4 +326,5 @@ module.exports = {
   getFollowedUsers,
   getFollowers,
   deleteUser,
+  getBookmarkedPosts
 };

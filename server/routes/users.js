@@ -32,4 +32,7 @@ router.get("/:username/followers", verifyJWT, usersController.getFollowers);
 // DELETE user by id
 router.delete("/delete/:userId", verifyJWT, usersController.deleteUser);
 
+// Get all bookmarked posts
+router.get("/:id/bookmarks", verifyJWT, usersController.getBookmarkedPosts);
+
 module.exports = router;
