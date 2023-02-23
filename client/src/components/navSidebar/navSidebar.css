@@ -46,7 +46,7 @@
   font-size: 2rem; 
 }
 
-.selected {
+.nav-sidebar .selected {
   color: var(--accent-color-primary) !important;
   font-weight: bold;
   font-variation-settings:

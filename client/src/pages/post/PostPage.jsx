@@ -25,6 +25,7 @@ export default function PostPage() {
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState();
   const [numberOfComments, setNumberOfComments] = useState();
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,6 +53,7 @@ export default function PostPage() {
         setLiked(response.data.likes.includes(currentUser._id));
         setNumberOfLikes(response.data.likes.length);
         setNumberOfComments(response.data.comments.length);
+        setIsBookmarked(response.data.isBookmarked);
       } catch (err) {
         console.error(err);
         navigate("/login", { state: { from: location }, replace: true });
@@ -176,7 +178,7 @@ export default function PostPage() {
           <hr />
           <div className="like-comment-share-btns">
             <div
-              className={`like-btn ${liked ? "liked" : ""}`}
+              className={`like-btn ${liked ? "selected" : ""}`}
               onClick={likePost}
             >
               <span className="material-symbols-rounded">thumb_up</span>
@@ -189,7 +191,7 @@ export default function PostPage() {
               <span className="material-symbols-rounded">chat_bubble</span>
               {numberOfComments}
             </div>
-            <div className="bookmark-btn">
+            <div className={`bookmark-btn ${isBookmarked ? "selected" : ""}`}>
               <span className="material-symbols-rounded">
                 bookmark
               </span>
