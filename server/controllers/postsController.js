@@ -39,11 +39,17 @@ const createNewPost = async (req, res) => {
 const getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    const user = await User.findOne({ _id: post.userId });
+    const author = await User.findOne({ _id: post.userId });
+
+    // get current user
+    const cookies = req.cookies;
+    const refreshToken = cookies.jwt;
+    const currUser = await User.findOne({ refreshToken });
+    if (!currUser) return res.status(403).json({ message: "Forbidden" });
 
     let profilePicture;
-    if (user.img.data) {
-      const buffer = Buffer.from(user.img.data);
+    if (author.img.data) {
+      const buffer = Buffer.from(author.img.data);
       const b64String = buffer.toString("base64");
       profilePicture = `data:image/png;base64,${b64String}`;
     } else {
@@ -80,10 +86,11 @@ const getPostById = async (req, res) => {
 
     const postData = {
       ...post.toJSON(),
-      fullname: user.fullname,
-      username: user.username,
+      fullname: author.fullname,
+      username: author.username,
       profilePicture: profilePicture,
       comments: comments,
+      isBookmarked: currUser.bookmarks.includes(post._id)
     };
 
     res.status(200).json(postData);
