@@ -125,6 +125,17 @@ export default function PostPage() {
     setNumberOfComments(updatedPost.comments.length);
   };
 
+  const bookmarkPost = async () => {
+    try {
+      const response = await axiosPrivate.put(`/api/posts/${postId}/bookmark`, {
+        userId: currentUser._id,
+      });
+      setIsBookmarked((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div className="post-page">
       <div className="post-top">
@@ -191,7 +202,7 @@ export default function PostPage() {
               <span className="material-symbols-rounded">chat_bubble</span>
               {numberOfComments}
             </div>
-            <div className={`bookmark-btn ${isBookmarked ? "selected" : ""}`}>
+            <div className={`bookmark-btn ${isBookmarked ? "selected" : ""}`} onClick={bookmarkPost}>
               <span className="material-symbols-rounded">
                 bookmark
               </span>
