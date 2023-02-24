@@ -34,6 +34,15 @@ export default function NavSideBar() {
           </li>
           <li>
             <Link
+              className={location.pathname === "/bookmarks" ? "selected" : ""}
+              to="/bookmarks"
+            >
+              <span className="material-symbols-rounded">bookmark</span>
+              <p className="link-txt">Bookmarks</p>
+            </Link>
+          </li>
+          <li>
+            <Link
               className={
                 location.pathname === `/${currentUser.username}`
                   ? "selected"
