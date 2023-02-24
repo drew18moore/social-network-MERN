@@ -1,0 +1,21 @@
+.bookmarks-page {
+  display: grid;
+  gap: 25px;
+}
+
+.bookmarks-top {
+  background-color: var(--background-color-primary);
+  color: var(--text-color-primary);
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
+}
+
+.bookmarks-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
