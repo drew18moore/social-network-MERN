@@ -286,9 +286,13 @@ const deleteUser = async (req, res) => {
 
 const getBookmarkedPosts = async (req, res) => {
   try {
+    const page = req.query.page - 1 || 0;
+    const limit = req.query.limit || 0;
     const { bookmarks } = await User.findById(req.params.id);
     const bookmarkedPosts = await Post.find(
-      { _id: { $in: [...bookmarks] } }
+      { _id: { $in: [...bookmarks] } },
+      null,
+      { skip: page * limit, limit: limit }
     ).sort({ createdAt: -1 });
     const posts = await Promise.all(
       bookmarkedPosts.map(async (post) => {
@@ -311,7 +315,7 @@ const getBookmarkedPosts = async (req, res) => {
         };
       })
     );
-    res.status(200).json({ posts: posts });
+    res.status(200).json({ numFound: posts.length, posts: posts });
   } catch (err) {
     res.status(500).json(err);
   }
