@@ -289,7 +289,7 @@ const getBookmarkedPosts = async (req, res) => {
     const { bookmarks } = await User.findById(req.params.id);
     const bookmarkedPosts = await Post.find(
       { _id: { $in: [...bookmarks] } }
-    );
+    ).sort({ createdAt: -1 });
     const posts = await Promise.all(
       bookmarkedPosts.map(async (post) => {
         const postUser = await User.findById(post.userId);
