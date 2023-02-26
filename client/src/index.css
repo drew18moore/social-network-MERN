@@ -116,10 +116,22 @@ label {
 }
 
 .no-posts {
+  display: grid;
+  gap: 5px;
+  text-align: center;
   margin: 0 auto;
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
   width: fit-content;
   padding: 0.5rem 1rem;
   border-radius: 8px;
+}
+
+.no-posts button {
+  background-color: var(--background-color-secondary);
+  color: var(--accent-color-primary);
+  height: fit-content;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  margin: 0 auto;
 }

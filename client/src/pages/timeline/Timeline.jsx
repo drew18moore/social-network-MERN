@@ -5,7 +5,7 @@ import NewPost from "../../components/newPost/NewPost";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./timeline.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 export default function Timeline() {
   const [posts, setPosts] = useState([]);
@@ -77,7 +77,7 @@ export default function Timeline() {
     <div className="timeline">
       <NewPost addPost={addPost} />
       <div className="posts">
-        {posts.length === 0 && <p className="no-posts">No Posts</p>}
+        {posts.length === 0 && <p className="no-posts">No Posts<button onClick={() => navigate("/connect")}>Follow People</button></p>}
         {posts.map((post, index) => {
           if (posts.length - 1 === index) {
             return (
