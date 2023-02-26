@@ -286,27 +286,15 @@ const deleteUser = async (req, res) => {
 
 const getBookmarkedPosts = async (req, res) => {
   try {
-    const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 0;
+    const page = Number(req.query.page) - 1 || 0;
+    const limit = Number(req.query.limit) || 0;
     const { bookmarks } = await User.findById(req.params.id);
-    console.log("BOOKMARKS", bookmarks);
-    // const bookmarkedPosts = await Post.find(
-    //   { _id: { $in: [...bookmarks] } },
-    //   null,
-    //   { skip: page * limit, limit: limit }
-    // ).sort({ createdAt: -1 });
     const bookmarksReversed = bookmarks.reverse();
     const postIds = bookmarksReversed.slice(page * limit, page * limit + limit);
-    console.log("POST_IDS", postIds);
+
     const bookmarkedPosts = await Promise.all(
       postIds.map(async (postId) => {
         const post = await Post.findById(postId);
-        return post;
-      })
-    );
-    // console.log("BOOKMARKED POSTS", bookmarkedPosts);
-    const posts = await Promise.all(
-      bookmarkedPosts.map(async (post) => {
         const postUser = await User.findById(post.userId);
 
         let profilePicture;
@@ -326,7 +314,8 @@ const getBookmarkedPosts = async (req, res) => {
         };
       })
     );
-    res.status(200).json({ numFound: posts.length, posts: posts });
+    
+    res.status(200).json({ numFound: bookmarkedPosts.length, posts: bookmarkedPosts });
   } catch (err) {
     res.status(500).json(err);
   }
