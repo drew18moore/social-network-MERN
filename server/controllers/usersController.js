@@ -289,11 +289,22 @@ const getBookmarkedPosts = async (req, res) => {
     const page = req.query.page - 1 || 0;
     const limit = req.query.limit || 0;
     const { bookmarks } = await User.findById(req.params.id);
-    const bookmarkedPosts = await Post.find(
-      { _id: { $in: [...bookmarks] } },
-      null,
-      { skip: page * limit, limit: limit }
-    ).sort({ createdAt: -1 });
+    console.log("BOOKMARKS", bookmarks);
+    // const bookmarkedPosts = await Post.find(
+    //   { _id: { $in: [...bookmarks] } },
+    //   null,
+    //   { skip: page * limit, limit: limit }
+    // ).sort({ createdAt: -1 });
+    const bookmarksReversed = bookmarks.reverse();
+    const postIds = bookmarksReversed.slice(page * limit, page * limit + limit);
+    console.log("POST_IDS", postIds);
+    const bookmarkedPosts = await Promise.all(
+      postIds.map(async (postId) => {
+        const post = await Post.findById(postId);
+        return post;
+      })
+    );
+    // console.log("BOOKMARKED POSTS", bookmarkedPosts);
     const posts = await Promise.all(
       bookmarkedPosts.map(async (post) => {
         const postUser = await User.findById(post.userId);
@@ -319,7 +330,7 @@ const getBookmarkedPosts = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-}
+};
 
 module.exports = {
   changeProfilePicture,
@@ -330,5 +341,5 @@ module.exports = {
   getFollowedUsers,
   getFollowers,
   deleteUser,
-  getBookmarkedPosts
+  getBookmarkedPosts,
 };
