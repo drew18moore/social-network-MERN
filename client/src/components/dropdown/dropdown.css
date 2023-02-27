@@ -23,7 +23,8 @@
   list-style: none;
   background-color: var(--background-color-primary);
   border-radius: 8px;
-  box-shadow: var(--box-shadow-color-1) 0px 0px 15px, var(--box-shadow-color-2) 0px 0px 3px 1px;
+  box-shadow: var(--box-shadow-color-1) 0px 0px 15px,
+    var(--box-shadow-color-2) 0px 0px 3px 1px;
 }
 
 .post-dropdown li {
@@ -54,6 +55,8 @@
   transition: 0.1s;
 }
 
-.dropdown li:hover {
-  background-color: var(--hover-color);
+@media (hover: hover) and (pointer: fine) {
+  .dropdown li:hover {
+    background-color: var(--hover-color);
+  }
 }

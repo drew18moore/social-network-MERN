@@ -13,12 +13,14 @@
   border-radius: 50%;
   object-fit: cover;
   vertical-align: middle;
-  transition: .1s;
+  transition: 0.1s;
   cursor: pointer;
 }
 
-.user img:hover {
-  filter: brightness(90%);
+@media (hover: hover) and (pointer: fine) {
+  .user img:hover {
+    filter: brightness(90%);
+  }
 }
 
 .user .user-info {
@@ -54,8 +56,10 @@
   width: 95px;
 }
 
-.unfollow-user-btn:hover {
-  color: var(--text-color-warning);
-  background-color: var(--background-color-warning);
-  border: 1px solid var(--border-color-warning);
+@media (hover: hover) and (pointer: fine) {
+  .unfollow-user-btn:hover {
+    color: var(--text-color-warning);
+    background-color: var(--background-color-warning);
+    border: 1px solid var(--border-color-warning);
+  }
 }

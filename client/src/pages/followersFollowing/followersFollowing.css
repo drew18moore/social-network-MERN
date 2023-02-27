@@ -35,16 +35,19 @@
 }
 
 .back-btn {
+  user-select: none;
   color: var(--text-color-primary);
   cursor: pointer;
   border-radius: 50%;
   padding: 8px;
-  transition: .1s;
+  transition: 0.1s;
 }
 
-.back-btn:hover {
-  color: #1d9bf0;
-  background-color: rgba(29,155,240,0.1);
+@media (hover: hover) and (pointer: fine) {
+  .back-btn:hover {
+    color: #1d9bf0;
+    background-color: rgba(29, 155, 240, 0.1);
+  }
 }
 
 .header h3 {
@@ -63,7 +66,8 @@
   gap: 15px;
 }
 
-.followers-link, .following-link {
+.followers-link,
+.following-link {
   cursor: pointer;
   border-radius: 8px;
   padding: 1rem;
@@ -71,9 +75,12 @@
   font-weight: bold;
 }
 
-.followers-link:hover, .following-link:hover {
-  color: #1d9bf0;
-  background-color: rgba(29,155,240,0.1);
+@media (hover: hover) and (pointer: fine) {
+  .followers-link:hover,
+  .following-link:hover {
+    color: #1d9bf0;
+    background-color: rgba(29, 155, 240, 0.1);
+  }
 }
 
 .active-link {
@@ -81,7 +88,7 @@
 }
 
 .active-link::after {
-  content: '';
+  content: "";
   background-color: #1d9bf0;
   height: 2px;
   display: block;

@@ -52,8 +52,10 @@
   transition: 0.1s;
 }
 
-.change-profile-picture-btn:hover {
-  filter: brightness(90%);
+@media (hover: hover) and (pointer: fine) {
+  .change-profile-picture-btn:hover {
+    filter: brightness(90%);
+  }
 }
 
 .change-profile-picture-btn .material-symbols-rounded {
@@ -112,10 +114,12 @@
   width: 95px;
 }
 
-.unfollow-profile-btn:hover {
-  color: var(--text-color-warning);
-  background-color: var(--background-color-warning);
-  border: 1px solid var(--border-color-warning);
+@media (hover: hover) and (pointer: fine) {
+  .unfollow-profile-btn:hover {
+    color: var(--text-color-warning);
+    background-color: var(--background-color-warning);
+    border: 1px solid var(--border-color-warning);
+  }
 }
 
 .profile-card .bottom {
@@ -123,7 +127,8 @@
   gap: 25px;
 }
 
-.following, .followers {
+.following,
+.followers {
   color: var(--text-color-secondary);
   cursor: pointer;
 }
@@ -133,7 +138,8 @@
   font-weight: bold;
 }
 
-.following:hover, .followers:hover {
+.following:hover,
+.followers:hover {
   text-decoration: underline;
   text-decoration-color: var(--text-color-primary);
 }

@@ -58,8 +58,10 @@
   top: 8px;
 }
 
-.close-modal-btn:hover {
-  filter: brightness(90%);
+@media (hover: hover) and (pointer: fine) {
+  .close-modal-btn:hover {
+    filter: brightness(90%);
+  }
 }
 
 .material-symbols-outlined {
@@ -105,11 +107,11 @@
 .cancel-btn {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
-  border: 1px solid #B9B9B9;
+  border: 1px solid #b9b9b9;
 }
 
 .delete-btn {
-  background-color: #F4212E;
+  background-color: #f4212e;
   font-weight: bold;
   background-color: var(--background-color-warning);
   color: var(--text-color-warning);
@@ -164,13 +166,14 @@
   color: var(--text-color-primary);
 }
 
-.modal-post-username, .modal-post-date {
+.modal-post-username,
+.modal-post-date {
   color: var(--text-color-secondary);
 }
 
 .modal-post-dot {
   color: var(--text-color-secondary);
-  font-size: .5rem;
+  font-size: 0.5rem;
 }
 
 .modal-post-body {
@@ -185,7 +188,7 @@
   border: none;
   height: 3rem;
   margin-left: 24px;
-  background-color:var(--hr-color);
+  background-color: var(--hr-color);
   /* background-color: #cfd9de; */
 }
 

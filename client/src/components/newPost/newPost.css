@@ -21,8 +21,10 @@
   transition: 0.1s;
 }
 
-.input-area img:hover {
-  filter: brightness(90%);
+@media (hover: hover) and (pointer: fine) {
+  .input-area img:hover {
+    filter: brightness(90%);
+  }
 }
 
 .post-body-input {

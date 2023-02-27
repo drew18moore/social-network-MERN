@@ -26,9 +26,11 @@
   transition: 0.1s;
 }
 
-.meatball-btn:hover {
-  color: #1d9bf0;
-  background-color: rgba(29,155,240,0.1);
+@media (hover: hover) and (pointer: fine) {
+  .meatball-btn:hover {
+    color: #1d9bf0;
+    background-color: rgba(29, 155, 240, 0.1);
+  }
 }
 
 .post-main {
@@ -66,8 +68,10 @@
   cursor: pointer;
 }
 
-.post-pfp-btn:hover {
-  filter: brightness(90%);
+@media (hover: hover) and (pointer: fine) {
+  .post-pfp-btn:hover {
+    filter: brightness(90%);
+  }
 }
 
 .post-pfp-btn img {
@@ -106,7 +110,7 @@
 
 .post-dot {
   color: var(--text-color-secondary);
-  font-size: .5rem;
+  font-size: 0.5rem;
 }
 
 .post-main hr {
@@ -121,7 +125,7 @@
   margin-bottom: 3px;
   display: flex;
   justify-content: space-around;
-  color: var(--text-color-secondary)
+  color: var(--text-color-secondary);
 }
 
 .like-comment-share-btns .material-symbols-rounded {
@@ -133,12 +137,16 @@
   transition: 0.1s;
 }
 
-.like-comment-share-btns .material-symbols-rounded:hover {
-  color: #1d9bf0;
-  background-color: rgba(29,155,240,0.1);
+@media (hover: hover) and (pointer: fine) {
+  .like-comment-share-btns .material-symbols-rounded:hover {
+    color: #1d9bf0;
+    background-color: rgba(29, 155, 240, 0.1);
+  }
 }
 
-.like-btn, .comment-btn, .share-btn {
+.like-btn,
+.comment-btn,
+.share-btn {
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -147,8 +155,7 @@
 
 .post-page .selected .material-symbols-rounded {
   color: #1d9bf0;
-  font-variation-settings:
-  'FILL' 1
+  font-variation-settings: "FILL" 1;
 }
 
 .comment-section h2 {
