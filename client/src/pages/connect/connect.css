@@ -1,4 +1,5 @@
 .connect-page {
+  padding-bottom: 50%;
   display: grid;
   gap: 25px;
 }
