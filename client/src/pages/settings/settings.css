@@ -130,5 +130,10 @@
   padding: 10px;
   display: flex;
   align-items: center;
+}
+
+.logout a {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
 }

@@ -1,15 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./settings.css";
 import Modal from "../../components/modal/Modal";
 import DeleteAccount from "../../components/modal/DeleteAccount";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { axiosPrivate } from "../../api/api";
 
 const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { setCurrentUser } = useAuth();
 
   const navigate = useNavigate();
+
+  const logout = async () => {
+    setCurrentUser({});
+    try {
+      await axiosPrivate.get("/api/logout");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="settings-page">
       <div className="settings-top">
@@ -52,7 +65,11 @@ const Settings = () => {
           <h2>Account</h2>
           <hr />
           <div className="logout">
-            <button className=""><span className="material-symbols-rounded">logout</span>Logout</button>
+            <button onClick={logout}>
+              <Link to="/login">
+                <span className="material-symbols-rounded">logout</span>Logout
+              </Link>
+            </button>
           </div>
           <div className="delete-account">
             <button onClick={() => setShowModal(true)}>
