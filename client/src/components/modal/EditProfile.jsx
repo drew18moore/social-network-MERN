@@ -45,7 +45,7 @@ export default function EditProfile({ setUser, setShowModal }) {
           type="text"
           name="fullname"
           id="input-fullname"
-          placeholder="Full Name"
+          placeholder="Display Name"
         />
         <input
           ref={usernameRef}

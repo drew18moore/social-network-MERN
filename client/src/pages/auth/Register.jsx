@@ -56,7 +56,7 @@ export default function Register() {
             type="text"
             name="fullname"
             id="input-fullname"
-            placeholder="Full Name"
+            placeholder="Display Name"
             required
           />
 
