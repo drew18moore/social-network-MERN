@@ -109,7 +109,7 @@
 
 /* Delete Account */
 
-.delete-account h2 {
+.settings-page .warning {
   color: rgb(244, 33, 46);
 }
 
@@ -120,4 +120,15 @@
   color: rgb(244, 33, 46);
   background-color: rgba(244, 33, 46, 0.1);
   border: 1px solid rgb(253, 201, 206);
+}
+
+.logout button {
+  align-self: flex-end;
+  background-color: var(--btn-background-color-secondary);
+  color: var(--text-color-primary);
+  font-weight: bold;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

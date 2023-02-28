@@ -48,16 +48,17 @@ const Settings = () => {
             </div>
           </div>
         </div>
-        <div className="delete-account">
-          <h2>Delete Account</h2>
+        <div className="account">
+          <h2>Account</h2>
           <hr />
-          <p>
-            Once you delete your account, there is no going back. Please be
-            certain.
-          </p>
-          <button onClick={() => setShowModal(true)}>
-            Delete your account
-          </button>
+          <div className="logout">
+            <button className=""><span className="material-symbols-rounded">logout</span>Logout</button>
+          </div>
+          <div className="delete-account">
+            <button onClick={() => setShowModal(true)}>
+              Delete your account
+            </button>
+          </div>
         </div>
       </div>
       {showModal && (
