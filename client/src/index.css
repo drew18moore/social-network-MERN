@@ -117,6 +117,25 @@ label {
   border-radius: 17px;
 }
 
+.persist-loading-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  gap: 15px;
+  background-color: var(--background-color-secondary);
+  width: fit-content;
+  text-align: center;
+  font-size: 1rem;
+  padding: 1rem 1rem;
+  border-radius: 17px;
+}
+
+.persist-loading-background p {
+  color: var(--text-color-primary);
+}
+
 .no-posts {
   display: grid;
   gap: 5px;

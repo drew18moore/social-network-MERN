@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import api from "../api/api";
+import LoadingAnimation from "./loading/LoadingAnimation";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,19 +12,30 @@ const PersistLogin = () => {
     const verifyRefreshToken = async () => {
       try {
         const response = await api.get("/api/auth/login/persist", {
-          withCredentials: true
-        })
+          withCredentials: true,
+        });
         setCurrentUser(response.data);
       } catch (err) {
         console.error(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     !currentUser?.accessToken ? verifyRefreshToken() : setIsLoading(false);
   }, []);
 
-  return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
+  return (
+    <>
+      {isLoading ? (
+        <div className="persist-loading-background">
+          <p>Please wait for the server to load.</p>
+          <LoadingAnimation />
+        </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
+  );
 };
 
 export default PersistLogin;
