@@ -18,7 +18,7 @@ const PersistLogin = () => {
       } catch (err) {
         console.error(err);
       } finally {
-        // setIsLoading(false);
+        setIsLoading(false);
       }
     };
     !currentUser?.accessToken ? verifyRefreshToken() : setIsLoading(false);
