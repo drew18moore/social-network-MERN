@@ -47,7 +47,7 @@ export default function NewPost({ addPost }) {
         {error && <p className="error-message">{error}</p>}
         <div className="input-area">
           <Link className="input-pfp" to={`/${currentUser.username}`}>
-            <img src={currentUser.img || "/default-pfp.jpg"} alt="" />
+            <img src={currentUser.img || "/default-pfp.jpg"} alt="Current User Profile Picture" />
           </Link>
           <textarea
             name="post body input"

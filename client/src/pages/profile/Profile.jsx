@@ -109,7 +109,7 @@ export default function Profile() {
               <img
                 className="profile-picture"
                 src={user.img || "default-pfp.jpg"}
-                alt="profile picture"
+                alt="Profile Picture"
               />
               {user._id === currentUser._id && (
                 <div

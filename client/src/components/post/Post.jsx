@@ -100,7 +100,7 @@ const Post = forwardRef(
         <div className="post-content">
           <div className="post-picture">
             <div className="post-picture-btn" onClick={gotoProfilePage}>
-              <img src={profilePicture} alt="" />
+              <img src={profilePicture} alt="Profile Picture" />
             </div>
           </div>
           <div className="post-text">

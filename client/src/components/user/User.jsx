@@ -33,7 +33,7 @@ const User = forwardRef(({ user }, ref) => {
       <div className="user-info">
         <img
           src={user.img}
-          alt="user profile picture"
+          alt="User Profile Picture"
           onClick={() => navigate(`/${user.username}`)}
         />
         <div className="info">

@@ -23,7 +23,7 @@ export default function Comment({
   return (
     <div className="comment">
       <div className="comment-pfp">
-        <img src={profilePicture} alt="" />
+        <img src={profilePicture} alt="Profile Picture" />
       </div>
       <div className="comment-text">
         <div className="comment-top">

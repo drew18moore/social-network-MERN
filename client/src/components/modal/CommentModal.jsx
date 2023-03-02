@@ -51,7 +51,7 @@ export default function CommentModal({
       <div className="comment-modal-main">
         <div className="modal-post">
           <div className="modal-post-picture">
-            <img src={profilePicture} alt="" />
+            <img src={profilePicture} alt="Profile Picture" />
             <div className="modal-post-spacer">
               <div className="vertical-line"></div>
             </div>
@@ -72,7 +72,7 @@ export default function CommentModal({
         <form onSubmit={handleSubmit} className="modal-comment-form">
           <div className="input-area">
             <div className="modal-comment-picture">
-              <img src={currentUser.img} alt="" />
+              <img src={currentUser.img || "/default-pfp.jpg" } alt="Current User Profile Picture" />
             </div>
             <textarea
               className="post-body-input"

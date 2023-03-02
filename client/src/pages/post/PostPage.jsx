@@ -151,7 +151,7 @@ export default function PostPage() {
               className="post-pfp-btn"
               onClick={() => navigate(`/${username}`)}
             >
-              <img src={post.profilePicture} alt="profile picture" />
+              <img src={post.profilePicture} alt="Profile Picture" />
             </div>
             <div className="post-fullname-username">
               <div

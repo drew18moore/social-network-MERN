@@ -70,7 +70,7 @@ export default function NavSideBar() {
           className="curr-user account-dropdown-btn"
           onClick={() => setShowDropdown((prev) => !prev)}
         >
-          <img src={currentUser.img || "/default-pfp.jpg"} />
+          <img src={currentUser.img || "/default-pfp.jpg"} alt="Current User Profile Picture" />
           <div className="curr-user-info">
             <p className="fullname">{currentUser.fullname}</p>
             <p className="username">@{currentUser.username}</p>
