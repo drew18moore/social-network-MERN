@@ -4,6 +4,14 @@ const jwt = require("jsonwebtoken");
 
 const handleRegister = async (req, res) => {
   try {
+    if (!req.body.fullname || !req.body.username || !req.body.password) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Missing required data. Fullname, username, and password are required.",
+        });
+    }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       fullname: req.body.fullname,
@@ -52,6 +60,14 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
   try {
+    if (!req.body.fullname || !req.body.username || !req.body.password) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Missing required data. Fullname, username, and password are required.",
+        });
+    }
     const user = await User.findOne({
       username: req.body.username,
     });
