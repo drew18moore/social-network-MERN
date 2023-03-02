@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  bio: {
+    type: String,
+    default: "",
+  },
   img: {
     data: Buffer,
     contentType: String,
@@ -32,7 +36,7 @@ const UserSchema = new mongoose.Schema({
   bookmarks: {
     type: Array,
     default: [],
-  }
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);
