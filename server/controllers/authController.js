@@ -60,7 +60,7 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
   try {
-    if (!req.body.fullname || !req.body.username || !req.body.password) {
+    if (!req.body.username || !req.body.password) {
       return res
         .status(400)
         .json({
