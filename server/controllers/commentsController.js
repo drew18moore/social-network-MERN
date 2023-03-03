@@ -29,25 +29,11 @@ const editComment = async (req, res) => {
     if (comment.userId !== req.body.userId) {
       return res.status(403).json("You can only update your own comments");
     }
-
-    const updates = {
-      commentBody: req.body.postBody,
-    };
-
-    Comment.findByIdAndUpdate(
-      req.params.id,
-      updates,
-      { new: true },
-      (err, result) => {
-        if (err) {
-          return res.status(500).json({ message: err });
-        } else {
-          return res.status(200).json(result);
-        }
-      }
-    );
+    comment.commentBody = req.body.postBody;
+    comment.save();
+    return res.status(200).json(comment);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err });
   }
 }
 
