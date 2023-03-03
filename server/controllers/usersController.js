@@ -49,31 +49,19 @@ const editUser = async (req, res) => {
     return res.status(400).json({ message: "Incorrect password" });
   }
 
-  const updates = {
-    fullname: req.body.fullname,
-    username: req.body.username,
-  };
+  user.fullname = req.body.fullname;
+  user.username = req.body.username;
+  user.save();
 
-  User.findByIdAndUpdate(
-    req.body.userId,
-    updates,
-    { new: true },
-    (err, result) => {
-      if (err) {
-        return res.status(500).json({ message: err });
-      } else {
-        let profilePicture;
-        const buffer = Buffer.from(result.img.data);
-        const b64String = buffer.toString("base64");
-        profilePicture = `data:image/png;base64,${b64String}`;
-        const user = {
-          ...result.toJSON(),
-          img: profilePicture,
-        };
-        return res.status(200).json(user);
-      }
-    }
-  );
+  let profilePicture;
+  const buffer = Buffer.from(user.img.data);
+  const b64String = buffer.toString("base64");
+  profilePicture = `data:image/png;base64,${b64String}`;
+  const updatedUser = {
+    ...user.toJSON(),
+    img: profilePicture,
+  };
+  return res.status(200).json(updatedUser);
 };
 
 const getUserByUsername = async (req, res) => {
@@ -314,8 +302,10 @@ const getBookmarkedPosts = async (req, res) => {
         };
       })
     );
-    
-    res.status(200).json({ numFound: bookmarkedPosts.length, posts: bookmarkedPosts });
+
+    res
+      .status(200)
+      .json({ numFound: bookmarkedPosts.length, posts: bookmarkedPosts });
   } catch (err) {
     res.status(500).json(err);
   }
