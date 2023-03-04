@@ -88,7 +88,11 @@
 .profile-name-username .username {
   font-size: 1rem;
   color: var(--text-color-secondary);
-  font-weight: normal;
+}
+
+.middle .bio {
+  font-size: 1rem;
+  color: var(--text-color-primary);
 }
 
 .edit-profile-btn {

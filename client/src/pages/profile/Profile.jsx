@@ -148,6 +148,9 @@ export default function Profile() {
             </button>
           )}
         </div>
+        <div className="middle">
+        <h3 className="bio">{user.bio}</h3>
+        </div>
         <div className="bottom">
           <span className="following" onClick={() => navigate(`following`)}>
             <span className="count">
