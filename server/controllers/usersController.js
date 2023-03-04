@@ -53,15 +53,11 @@ const editUser = async (req, res) => {
   user.username = req.body.username;
   user.save();
 
-  let profilePicture;
-  const buffer = Buffer.from(user.img.data);
-  const b64String = buffer.toString("base64");
-  profilePicture = `data:image/png;base64,${b64String}`;
-  const updatedUser = {
-    ...user.toJSON(),
-    img: profilePicture,
+  const updatedUserData = {
+    fullname: user.fullname,
+    username: user.username,
   };
-  return res.status(200).json(updatedUser);
+  return res.status(200).json(updatedUserData);
 };
 
 const getUserByUsername = async (req, res) => {

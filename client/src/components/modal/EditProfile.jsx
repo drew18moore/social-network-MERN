@@ -22,8 +22,9 @@ export default function EditProfile({ setUser, setShowModal }) {
         username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
         password: password,
       });
-      setCurrentUser(response.data);
-      setUser(response.data);
+      const { fullname, username } = response.data;
+      setCurrentUser(prev => ({ ...prev, fullname, username }));
+      setUser(prev => ({ ...prev, fullname, username }));
       setShowModal(false);
     } catch (err) {
       console.error(err);
