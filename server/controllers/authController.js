@@ -20,13 +20,13 @@ const handleRegister = async (req, res) => {
     });
 
     const accessToken = jwt.sign(
-      { username: user.username },
+      { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: 900000 } // 15 mins
     );
 
     const refreshToken = jwt.sign(
-      { username: user.username },
+      { userId: user._id },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
@@ -78,13 +78,13 @@ const handleLogin = async (req, res) => {
     }
 
     const accessToken = jwt.sign(
-      { username: user.username },
+      { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: 900000 }
     );
 
     const refreshToken = jwt.sign(
-      { username: user.username },
+      { userId: user._id },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
@@ -135,10 +135,10 @@ const handlePersistentLogin = async (req, res) => {
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
-        if (err || user.username !== decoded.username)
+        if (err || user._id.toString() !== decoded.userId)
           return res.status(403).json({ message: "Forbidden" });
         const accessToken = jwt.sign(
-          { username: decoded.username },
+          { userId: decoded.userId },
           process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: 900000 } // 15 mins
         );

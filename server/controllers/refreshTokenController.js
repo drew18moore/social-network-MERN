@@ -14,10 +14,10 @@ const handleRefreshToken = async (req, res) => {
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
-        if (err || user.username !== decoded.username)
+        if (err || user._id.toString() !== decoded.userId)
           return res.status(403).json({ message: "Forbidden" });
         const accessToken = jwt.sign(
-          { username: decoded.username },
+          { userId: decoded.userId },
           process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: 900000 } // 15 mins
         );
