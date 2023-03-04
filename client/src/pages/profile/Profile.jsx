@@ -28,6 +28,9 @@ export default function Profile() {
   const [isNextPage, setIsNextPage] = useState(true);
 
   useEffect(() => {
+    console.log(user);
+  }, [user])
+  useEffect(() => {
     setPage(1);
     setIsNextPage(true);
     const fetchData = async () => {

@@ -51,11 +51,13 @@ const editUser = async (req, res) => {
 
   user.fullname = req.body.fullname;
   user.username = req.body.username;
+  user.bio = req.body.bio;
   user.save();
 
   const updatedUserData = {
     fullname: user.fullname,
     username: user.username,
+    bio: user.bio,
   };
   return res.status(200).json(updatedUserData);
 };
@@ -82,6 +84,7 @@ const getUserByUsername = async (req, res) => {
       numFollowers: user.followers.length,
       isFollowing: user.followers.includes(authUserId),
       img: profilePicture,
+      bio: user.bio,
     };
 
     res.status(200).json(mainUser);
