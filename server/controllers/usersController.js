@@ -74,7 +74,11 @@ const getUserByUsername = async (req, res) => {
     }
 
     const mainUser = {
-      ...user.toJSON(),
+      _id: user._id,
+      fullname: user.fullname,
+      username: user.username,
+      following: user.following,
+      followers: user.followers,
       img: profilePicture,
     };
 
