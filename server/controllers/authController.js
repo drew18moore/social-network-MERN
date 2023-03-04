@@ -41,6 +41,7 @@ const handleRegister = async (req, res) => {
       following: savedUser.following,
       followers: savedUser.followers,
       accessToken,
+      bio: savedUser.bio,
     };
 
     res.cookie("jwt", refreshToken, {
@@ -109,6 +110,7 @@ const handleLogin = async (req, res) => {
       followers: user.followers,
       img: profilePicture,
       accessToken,
+      bio: user.bio,
     };
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
@@ -160,6 +162,7 @@ const handlePersistentLogin = async (req, res) => {
           followers: user.followers,
           img: profilePicture,
           accessToken,
+          bio: user.bio,
         };
         res.status(200).json(newUser);
       }

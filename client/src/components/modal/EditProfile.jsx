@@ -5,6 +5,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
   const usernameRef = useRef(null);
+  const bioRef = useRef(null);
   const [password, setPassword ] = useState("");
 
   const [error, setError] = useState("");
@@ -20,11 +21,12 @@ export default function EditProfile({ setUser, setShowModal }) {
         userId: currentUser._id,
         fullname: fullnameRef.current.value.trim() || currentUser.fullname,
         username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
+        bio: bioRef.current.value.trim() || currentUser.bio,
         password: password,
       });
-      const { fullname, username } = response.data;
-      setCurrentUser(prev => ({ ...prev, fullname, username }));
-      setUser(prev => ({ ...prev, fullname, username }));
+      const { fullname, username, bio } = response.data;
+      setCurrentUser(prev => ({ ...prev, fullname, username, bio }));
+      setUser(prev => ({ ...prev, fullname, username, bio }));
       setShowModal(false);
     } catch (err) {
       console.error(err);
@@ -54,6 +56,13 @@ export default function EditProfile({ setUser, setShowModal }) {
           name="username"
           id="input-username"
           placeholder="Username"
+        />
+        <input
+          ref={bioRef}
+          type="text"
+          name="bio"
+          id="input-bio"
+          placeholder="Bio"
         />
         <input
           onChange={(e) => setPassword(e.target.value)}
