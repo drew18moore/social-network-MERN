@@ -62,6 +62,7 @@ const editUser = async (req, res) => {
 
 const getUserByUsername = async (req, res) => {
   try {
+    const authUserId = req.userId;
     const user = await User.findOne({ username: req.params.username });
 
     let profilePicture;
@@ -77,8 +78,9 @@ const getUserByUsername = async (req, res) => {
       _id: user._id,
       fullname: user.fullname,
       username: user.username,
-      following: user.following,
-      followers: user.followers,
+      numFollowing: user.following.length,
+      numFollowers: user.followers.length,
+      isFollowing: user.followers.includes(authUserId),
       img: profilePicture,
     };
 

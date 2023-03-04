@@ -40,9 +40,7 @@ export default function Profile() {
           ? setIsNextPage(false)
           : setIsNextPage(true);
         setUser(responseUser.data);
-        setIsFollowing(() =>
-          responseUser.data.followers.includes(currentUser._id)
-        );
+        setIsFollowing(responseUser.data.isFollowing);
         setPosts(responsePosts.data.posts);
       } catch (err) {
         console.error(err);
@@ -150,13 +148,13 @@ export default function Profile() {
         <div className="bottom">
           <span className="following" onClick={() => navigate(`following`)}>
             <span className="count">
-              {user.following && user.following.length}
+              {user.numFollowing}
             </span>{" "}
             Following
           </span>
           <span className="followers" onClick={() => navigate("followers")}>
             <span className="count">
-              {user.followers && user.followers.length}
+              {user.numFollowers}
             </span>{" "}
             Followers
           </span>
