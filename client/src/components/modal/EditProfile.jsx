@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
@@ -12,6 +13,7 @@ export default function EditProfile({ setUser, setShowModal }) {
 
   const { currentUser, setCurrentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ export default function EditProfile({ setUser, setShowModal }) {
       setCurrentUser(prev => ({ ...prev, fullname, username, bio }));
       setUser(prev => ({ ...prev, fullname, username, bio }));
       setShowModal(false);
+      navigate(`/${username}`, { replace: true })
     } catch (err) {
       console.error(err);
       setError(err.response.data.message || err.message);
