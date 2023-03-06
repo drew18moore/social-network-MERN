@@ -10,8 +10,8 @@ router.route("/:id")
   // Edit comment
   .put(verifyJWT, commentsController.editComment)
   // Delete comment
-  .delete(verifyJWT, commentsController.deleteComment)
+  .delete(verifyJWT, commentsController.deleteComment);
   // Like comment
-  .put("/like", verifyJWT, commentsController.likeComment);
+router.put("/:id/like", verifyJWT, commentsController.likeComment);
 
 module.exports = router;
