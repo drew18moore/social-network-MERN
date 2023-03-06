@@ -21,7 +21,7 @@ const newComment = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err });
   }
-}
+};
 
 const editComment = async (req, res) => {
   try {
@@ -35,7 +35,7 @@ const editComment = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err });
   }
-}
+};
 
 const deleteComment = async (req, res) => {
   try {
@@ -55,6 +55,26 @@ const deleteComment = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err });
   }
-}
+};
 
-module.exports = { newComment, editComment, deleteComment }
+const likeComment = async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.id);
+    const numLikes = comment.likes.length;
+    if (!comment.likes.includes(req.body.userId)) {
+      await comment.updateOne({ $push: { likes: req.body.userId } });
+      res
+        .status(200)
+        .json({ message: "Post has been liked", numLikes: numLikes + 1 });
+    } else {
+      await comment.updateOne({ $pull: { likes: req.body.userId } });
+      res
+        .status(200)
+        .json({ message: "Post has been unliked", numLikes: numLikes - 1 });
+    }
+  } catch {
+    res.status(500).json({ message: err });
+  }
+};
+
+module.exports = { newComment, editComment, deleteComment, likeComment };
