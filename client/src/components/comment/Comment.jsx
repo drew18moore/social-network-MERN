@@ -17,11 +17,12 @@ export default function Comment({
   commentBody,
   editComment,
   deleteCommentById,
-  isLiked
+  liked
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+  const [isLiked, setIsLiked] = useState(liked);
   const { currentUser } = useAuth();
 
   const likeComment = async () => {
@@ -30,6 +31,7 @@ export default function Comment({
         userId: currentUser._id
       });
       console.log(response.data);
+      setIsLiked(prev => !prev);
     } catch (err) {
       console.error(err);
     }

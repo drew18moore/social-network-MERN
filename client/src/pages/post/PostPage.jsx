@@ -268,7 +268,7 @@ export default function PostPage() {
                   commentBody={comment.commentBody}
                   editComment={editComment}
                   deleteCommentById={deleteCommentById}
-                  isLiked={comment.isLiked}
+                  liked={comment.isLiked}
                 />
               );
             })}
