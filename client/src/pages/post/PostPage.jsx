@@ -49,6 +49,7 @@ export default function PostPage() {
     const fetchPost = async () => {
       try {
         const response = await axiosPrivate.get(`/api/posts/${postId}`);
+        console.log(response.data);
         setPost(response.data);
         setLiked(response.data.likes.includes(currentUser._id));
         setNumberOfLikes(response.data.likes.length);
@@ -267,6 +268,7 @@ export default function PostPage() {
                   commentBody={comment.commentBody}
                   editComment={editComment}
                   deleteCommentById={deleteCommentById}
+                  isLiked={comment.isLiked}
                 />
               );
             })}

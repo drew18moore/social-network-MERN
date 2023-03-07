@@ -17,6 +17,7 @@ export default function Comment({
   commentBody,
   editComment,
   deleteCommentById,
+  isLiked
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -60,7 +61,7 @@ export default function Comment({
         </div>
 
         <p className="comment-body">{commentBody}</p>
-        <button className="like-btn" onClick={likeComment}>
+        <button className={`like-btn ${isLiked ? "liked" : ""}`} onClick={likeComment}>
           Like
         </button>
       </div>

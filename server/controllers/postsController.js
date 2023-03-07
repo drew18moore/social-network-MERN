@@ -77,6 +77,7 @@ const getPostById = async (req, res) => {
           fullname: commentUser.fullname,
           username: commentUser.username,
           profilePicture: commentProfilePicture,
+          isLiked: comment.likes.includes(currUser._id)
         };
         return commentWithUserData;
       })

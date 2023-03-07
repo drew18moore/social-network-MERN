@@ -67,3 +67,7 @@
   bottom: 0;
   transform: translateY(100%);
 }
+
+.comment .liked {
+  color: #1d9bf0;
+}
