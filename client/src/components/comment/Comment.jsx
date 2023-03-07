@@ -5,6 +5,8 @@ import Modal from "../modal/Modal";
 import EditPost from "../modal/EditPost";
 import DeletePost from "../modal/DeletePost";
 import "./comment.css";
+import { axiosPrivate } from "../../api/api";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Comment({
   commentId,
@@ -19,6 +21,18 @@ export default function Comment({
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+  const { currentUser } = useAuth();
+
+  const likeComment = async () => {
+    try {
+      const response = await axiosPrivate.put(`/api/comments/${commentId}/like`, {
+        userId: currentUser._id
+      });
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="comment">
@@ -46,7 +60,7 @@ export default function Comment({
         </div>
 
         <p className="comment-body">{commentBody}</p>
-        <button className="like-btn">
+        <button className="like-btn" onClick={likeComment}>
           Like
         </button>
       </div>
