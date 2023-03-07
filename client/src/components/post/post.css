@@ -145,7 +145,7 @@
   border-bottom: none;
 }
 
-.like-btn,
+.post .like-btn,
 .comment-btn,
 .share-btn {
   border-radius: 50%;

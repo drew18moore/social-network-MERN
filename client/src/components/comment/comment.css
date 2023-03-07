@@ -22,6 +22,7 @@
   padding: 3px 10px 10px 10px;
   background-color: var(--background-color-primary);
   border-radius: 8px;
+  position: relative;
 }
 
 .comment-top {
@@ -54,4 +55,15 @@
 
 .comment-text .comment-body {
   color: var(--text-color-primary);
+}
+
+.comment .like-btn {
+  position: absolute;
+  padding: .25rem;
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+  border-radius: 8px !important;
+  bottom: 0;
+  transform: translateY(100%);
 }

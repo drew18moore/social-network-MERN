@@ -14,7 +14,7 @@ export default function Comment({
   profilePicture,
   commentBody,
   editComment,
-  deleteCommentById
+  deleteCommentById,
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -46,6 +46,9 @@ export default function Comment({
         </div>
 
         <p className="comment-body">{commentBody}</p>
+        <button className="like-btn">
+          Like
+        </button>
       </div>
       {showEditPostModal && (
         <Modal setShowModal={setShowEditPostModal}>
