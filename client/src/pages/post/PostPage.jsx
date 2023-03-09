@@ -269,6 +269,7 @@ export default function PostPage() {
                   editComment={editComment}
                   deleteCommentById={deleteCommentById}
                   liked={comment.isLiked}
+                  numberOfLikes={comment.numLikes}
                 />
               );
             })}

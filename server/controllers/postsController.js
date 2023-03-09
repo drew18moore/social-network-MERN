@@ -73,11 +73,14 @@ const getPostById = async (req, res) => {
         }
 
         const commentWithUserData = {
-          ...comment.toJSON(),
+          commentBody: comment.commentBody,
+          _id: comment._id,
+          parentId: comment.parentId,
           fullname: commentUser.fullname,
           username: commentUser.username,
           profilePicture: commentProfilePicture,
-          isLiked: comment.likes.includes(currUser._id)
+          isLiked: comment.likes.includes(currUser._id),
+          numLikes: comment.likes.length,
         };
         return commentWithUserData;
       })

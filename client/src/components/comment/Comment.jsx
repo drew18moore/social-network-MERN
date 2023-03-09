@@ -18,11 +18,13 @@ export default function Comment({
   editComment,
   deleteCommentById,
   liked,
+  numberOfLikes
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [isLiked, setIsLiked] = useState(liked);
+  const [numLikes, setNumLikes] = useState(numberOfLikes);
   const { currentUser } = useAuth();
 
   const likeComment = async () => {
@@ -35,6 +37,7 @@ export default function Comment({
       );
       console.log(response.data);
       setIsLiked((prev) => !prev);
+      setNumLikes(response.data.numLikes);
     } catch (err) {
       console.error(err);
     }
@@ -74,7 +77,7 @@ export default function Comment({
             Like
           </button>
           <span className="dot">&#8226;</span>
-          <span className="like-count">4</span>
+          <span className="like-count">{numLikes}</span>
         </div>
       </div>
       {showEditPostModal && (
