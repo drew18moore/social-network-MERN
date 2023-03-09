@@ -97,6 +97,7 @@ export default function PostPage() {
       fullname: currentUser.fullname,
       username: currentUser.username,
       profilePicture: currentUser.img,
+      numLikes: 0
     });
     let updatedPost = {
       ...post,
