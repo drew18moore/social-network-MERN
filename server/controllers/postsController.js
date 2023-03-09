@@ -89,9 +89,14 @@ const getPostById = async (req, res) => {
     });
 
     const postData = {
-      ...post.toJSON(),
+      createdAt: post.createdAt,
       fullname: author.fullname,
       username: author.username,
+      numLikes: post.likes.length,
+      isLiked: post.likes.includes(currUser._id),
+      postBody: post.postBody,
+      userId: post.userId,
+      _id: post._id,
       profilePicture: profilePicture,
       comments: comments,
       isBookmarked: currUser.bookmarks.includes(post._id)

@@ -49,10 +49,9 @@ export default function PostPage() {
     const fetchPost = async () => {
       try {
         const response = await axiosPrivate.get(`/api/posts/${postId}`);
-        console.log(response.data);
         setPost(response.data);
-        setLiked(response.data.likes.includes(currentUser._id));
-        setNumberOfLikes(response.data.likes.length);
+        setLiked(response.data.isLiked);
+        setNumberOfLikes(response.data.numLikes);
         setNumberOfComments(response.data.comments.length);
         setIsBookmarked(response.data.isBookmarked);
       } catch (err) {
