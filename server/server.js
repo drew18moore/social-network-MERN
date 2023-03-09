@@ -1,21 +1,5 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const app = express();
-const port = 3000;
-const cors = require("cors");
-const authRouter = require("./routes/auth");
-const refreshRouter = require("./routes/refresh")
-const logoutRouter = require("./routes/logout")
-const postsRouter = require("./routes/posts");
-const usersRouter = require("./routes/users");
-const commentsRouter = require("./routes/comments");
-const cookieParser = require("cookie-parser");
-const corsOptions = require("./config/corsOptions");
-const credentials = require("./middleware/credentials");
-
-app.use(credentials)
-app.use(cors(corsOptions));
+const mongoose = require("mongoose")
+const app = require("./app")
 
 // Connect to MongoDB database
 mongoose.connect(process.env.DATABASE_URL);
@@ -27,16 +11,7 @@ db.once("open", () => {
   console.log("Connected to DB");
 });
 
-// Routing
-app.use(express.json());
-app.use(cookieParser());
-app.use("/api/auth", authRouter);
-app.use("/api/refresh", refreshRouter);
-app.use("/api/logout", logoutRouter);
-app.use("/api/posts", postsRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/comments", commentsRouter);
-
-app.listen(port, () => {
-  console.log(`Node server listening on port ${port}`);
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Node server listening on port ${PORT}`);
 });
