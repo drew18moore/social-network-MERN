@@ -17,7 +17,7 @@ export default function Comment({
   commentBody,
   editComment,
   deleteCommentById,
-  liked
+  liked,
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -27,15 +27,18 @@ export default function Comment({
 
   const likeComment = async () => {
     try {
-      const response = await axiosPrivate.put(`/api/comments/${commentId}/like`, {
-        userId: currentUser._id
-      });
+      const response = await axiosPrivate.put(
+        `/api/comments/${commentId}/like`,
+        {
+          userId: currentUser._id,
+        }
+      );
       console.log(response.data);
-      setIsLiked(prev => !prev);
+      setIsLiked((prev) => !prev);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <div className="comment">
@@ -63,9 +66,16 @@ export default function Comment({
         </div>
 
         <p className="comment-body">{commentBody}</p>
-        <button className={`like-btn ${isLiked ? "liked" : ""}`} onClick={likeComment}>
-          Like
-        </button>
+        <div className="like-section">
+          <button
+            className={`like-btn ${isLiked ? "liked" : ""}`}
+            onClick={likeComment}
+          >
+            Like
+          </button>
+          <span className="dot">&#8226;</span>
+          <span className="like-count">4</span>
+        </div>
       </div>
       {showEditPostModal && (
         <Modal setShowModal={setShowEditPostModal}>

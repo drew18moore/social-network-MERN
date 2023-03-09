@@ -57,15 +57,27 @@
   color: var(--text-color-primary);
 }
 
-.comment .like-btn {
+.like-section {
   position: absolute;
+  bottom: 0;
+  height: fit-content;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  transform: translateY(100%);
+  color: var(--text-color-primary);
+}
+
+.like-section .dot {
+  padding-right: 0.25rem;
+}
+
+.comment .like-btn {
   padding: .25rem;
   width: fit-content;
   height: fit-content;
   background-color: transparent;
   border-radius: 8px !important;
-  bottom: 0;
-  transform: translateY(100%);
 }
 
 .comment .liked {
