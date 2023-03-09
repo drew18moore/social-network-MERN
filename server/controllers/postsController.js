@@ -134,6 +134,8 @@ const deletePost = async (req, res) => {
     if (post.comments.length) {
       await Comment.deleteMany({ _id: { $in: post.comments } });
     }
+    // Remove postId from bookmarks
+    await User.updateMany({ bookmarks: post._id.toString() }, { $pull: { bookmarks: post._id.toString() } });
     const response = await post.deleteOne();
     res.status(200).json(response);
   } catch (err) {

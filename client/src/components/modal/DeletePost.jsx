@@ -13,9 +13,9 @@ export default function DeletePost({
   const axiosPrivate = useAxiosPrivate();
   const endpoint =
     type === "POST"
-      ? "/api/posts/"
+      ? "/api/posts"
       : type === "COMMENT"
-      ? "api/comments/"
+      ? "api/comments"
       : undefined;
 
   const deletePost = async (postId) => {
