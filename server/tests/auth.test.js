@@ -2,12 +2,12 @@ const request = require("supertest");
 const app = require("../app");
 const { connect, disconnect } = require("./config/database");
 
-beforeEach(() => {
-  connect();
+beforeEach(async () => {
+  await connect();
 });
 
-afterEach(() => {
-  disconnect();
+afterEach(async () => {
+  await disconnect();
 });
 
 describe("POST /register", () => {
@@ -19,6 +19,22 @@ describe("POST /register", () => {
         password: "test password",
       });
       expect(response.statusCode).toBe(200);
+    });
+
+    test("If username already exists, respond with a 403 status code", async () => {
+      const response = await request(app).post("/api/auth/register").send({
+        fullname: "fullname",
+        username: "username",
+        password: "password",
+      });
+      expect(response.statusCode).toBe(200);
+
+      const response2 = await request(app).post("/api/auth/register").send({
+        fullname: "fullname",
+        username: "username",
+        password: "password",
+      });
+      expect(response2.statusCode).toBe(403);
     });
   });
 });
