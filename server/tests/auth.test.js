@@ -81,7 +81,6 @@ describe("POST /register", () => {
         bio: ""
       }
       Object.keys(correctResponse).forEach(field => {
-        console.log(field, JSON.stringify(response.body[field]), correctResponse[field], typeof response.body[field]);
         if (typeof response.body[field] === "string") {
           expect(response.body[field]).toMatch(correctResponse[field]);
         } else {
@@ -90,4 +89,67 @@ describe("POST /register", () => {
       })
     })
   });
+
+  test("If the fullname is an empty string in the request, respond with a 400 status code", async () => {
+    const userData = {
+      fullname: "",
+      username: "testusername",
+      password: "password123",
+    }
+
+    const response = await request(app).post("/api/auth/register").send(userData);
+    expect(response.statusCode).toBe(400);
+  })
+
+  test("If the fullname is missing in the request, respond with a 400 status code", async () => {
+    const userData = {
+      username: "testusername",
+      password: "password123",
+    }
+
+    const response = await request(app).post("/api/auth/register").send(userData);
+    expect(response.statusCode).toBe(400);
+  })
+
+  test("If the username is an empty string in the request, respond with a 400 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "",
+      password: "password123",
+    }
+
+    const response = await request(app).post("/api/auth/register").send(userData);
+    expect(response.statusCode).toBe(400);
+  })
+
+  test("If the username is missing in the request, respond with a 400 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      password: "password123",
+    }
+
+    const response = await request(app).post("/api/auth/register").send(userData);
+    expect(response.statusCode).toBe(400);
+  })
+
+  test("If the password is an empty string in the request, respond with a 400 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "",
+    }
+
+    const response = await request(app).post("/api/auth/register").send(userData);
+    expect(response.statusCode).toBe(400);
+  })
+  
+  test("If the password is missing in the request, respond with a 400 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+    }
+
+    const response = await request(app).post("/api/auth/register").send(userData);
+    expect(response.statusCode).toBe(400);
+  })
 });
