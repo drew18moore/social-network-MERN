@@ -66,7 +66,7 @@ const handleLogin = async (req, res) => {
         .status(400)
         .json({
           message:
-            "Missing required data. Fullname, username, and password are required.",
+            "Missing required data. Username and password are required.",
         });
     }
     const user = await User.findOne({

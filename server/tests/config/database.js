@@ -1,5 +1,6 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
+const User = require("../../models/User");
 
 let mongoServer;
 
@@ -14,4 +15,8 @@ const disconnect = async () => {
   await mongoServer.stop();
 }
 
-module.exports = { connect, disconnect };
+const reset = async () => {
+  await User.deleteMany({})
+}
+
+module.exports = { connect, disconnect, reset };
