@@ -309,17 +309,42 @@ describe("POST /auth/login", () => {
 });
 
 describe("POST /auth/login/persist", () => {
-  test("On success, respond with 200 status code", async () => {
-    const response = await request(app).post("/api/auth/register").send({
+  test("On success, respond with 200 status code and correct user data", async () => {
+    const userData = {
       fullname: "test fullname",
       username: "testusername",
       password: "password123",
-    });
+    };
+    const response = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
     expect(response.statusCode).toBe(200);
-    const cookie = response.headers["set-cookie"]
+    const cookie = response.headers["set-cookie"];
 
-    const response2 = await request(app).get("/api/auth/login/persist").set("Cookie", [cookie])
-    expect(response2.statusCode).toBe(200)
-    console.log(response2.headers)
-  })
+    const response2 = await request(app)
+      .get("/api/auth/login/persist")
+      .set("Cookie", [cookie]);
+    expect(response2.statusCode).toBe(200);
+
+    const correctResponse = {
+      _id: /^[a-z0-9]+$/i,
+      fullname: userData.fullname,
+      username: userData.username,
+      following: /^\[.*\]$/,
+      followers: /^\[.*\]$/,
+      img: /^.*$/,
+      accessToken: /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]*$/,
+      bio: /^.*$/,
+    };
+    Object.keys(correctResponse).forEach((field) => {
+      if (typeof response2.body[field] === "string") {
+        expect(response2.body[field]).toMatch(correctResponse[field]);
+      } else {
+        expect(JSON.stringify(response2.body[field])).toMatch(
+          correctResponse[field]
+        );
+      }
+    });
+  });
+  
 });
