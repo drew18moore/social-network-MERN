@@ -307,3 +307,19 @@ describe("POST /auth/login", () => {
     });
   });
 });
+
+describe("POST /auth/login/persist", () => {
+  test("On success, respond with 200 status code", async () => {
+    const response = await request(app).post("/api/auth/register").send({
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    });
+    expect(response.statusCode).toBe(200);
+    const cookie = response.headers["set-cookie"]
+
+    const response2 = await request(app).get("/api/auth/login/persist").set("Cookie", [cookie])
+    expect(response2.statusCode).toBe(200)
+    console.log(response2.headers)
+  })
+});
