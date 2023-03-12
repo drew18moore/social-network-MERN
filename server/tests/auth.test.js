@@ -3,6 +3,7 @@ const app = require("../app");
 const { connect, disconnect, reset } = require("./config/database");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 beforeAll(async () => {
   await connect();
@@ -356,5 +357,30 @@ describe("POST /auth/login/persist", () => {
       .get("/api/auth/login/persist")
       .set("Cookie", [cookie]);
     expect(response.statusCode).toBe(403);
+  });
+
+  test("If a user is found from the refresh token, but the jwt's decoded userId doesn't match the found user's _id, respond with a 403 status code", async () => {
+    // Register new user
+    const response = await request(app).post("/api/auth/register").send({
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    });
+    expect(response.statusCode).toBe(200);
+    // Get new user from db and manually change their refresh token
+    const user = await User.findById(response.body._id);
+    const newRefreshToken = jwt.sign(
+      { userId: "640e3338a1753d0168586gj8" },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+    user.refreshToken = newRefreshToken;
+    await user.save();
+    // Send custom cookie with newRefreshToken
+    const cookieStr = `jwt=${newRefreshToken}; Max-Age=604800; Path=/; Expires=Sun, 19 Mar 2023 20:09:04 GMT; HttpOnly; Secure; SameSite=None`;
+    const response2 = await request(app)
+      .get("/api/auth/login/persist")
+      .set("Cookie", cookieStr);
+    expect(response2.statusCode).toBe(403);
   });
 });
