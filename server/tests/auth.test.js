@@ -19,15 +19,6 @@ afterAll(async () => {
 
 describe("POST /auth/register", () => {
   describe("Given a fullname, username, and password", () => {
-    test("if successfull, should respond with a 200 status code", async () => {
-      const response = await request(app).post("/api/auth/register").send({
-        fullname: "test fullname",
-        username: "testusername",
-        password: "password123",
-      });
-      expect(response.statusCode).toBe(200);
-    });
-
     test("If username already exists, respond with a 403 status code", async () => {
       const response = await request(app).post("/api/auth/register").send({
         fullname: "test fullname",
@@ -66,7 +57,7 @@ describe("POST /auth/register", () => {
       expect(user.refreshToken).toBeTruthy();
     });
 
-    test("If successfull, the correct data is sent as a response", async () => {
+    test("If successfull, a 200 status code and correct data are sent as a response", async () => {
       const userData = {
         fullname: "test fullname",
         username: "testusername",
@@ -177,21 +168,6 @@ describe("POST /auth/register", () => {
 
 describe("POST /auth/login", () => {
   describe("Given a username, and password", () => {
-    test("if successfull, should respond with a 200 status code", async () => {
-      const response = await request(app).post("/api/auth/register").send({
-        fullname: "test fullname",
-        username: "testusername",
-        password: "password123",
-      });
-      expect(response.statusCode).toBe(200);
-
-      const response2 = await request(app).post("/api/auth/login").send({
-        username: "testusername",
-        password: "password123",
-      });
-      expect(response2.statusCode).toBe(200);
-    });
-
     test("If username doesn't exists, respond with a 404 status code", async () => {
       const response = await request(app).post("/api/auth/login").send({
         username: "testusername",
@@ -215,7 +191,7 @@ describe("POST /auth/login", () => {
       expect(response2.statusCode).toBe(400);
     });
 
-    test("If successfull login, the correct data is sent as a response", async () => {
+    test("If successfull login, a 200 status code and correct data are sent as a response", async () => {
       // Register new user
       const userData = {
         fullname: "test fullname",
