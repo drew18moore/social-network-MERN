@@ -346,5 +346,15 @@ describe("POST /auth/login/persist", () => {
       }
     });
   });
-  
+
+  test("If no user is found from the refresh token, respond with a 403 status code", async () => {
+    const cookie = [
+      "jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDBlMzE2MDVmNDZmYzdlODVmNWMyZTgiLCJpYXQiOjEGHT89NTE3NDQsImV4cCI6MTY3OTI1NjU0NH0.BykCN_LU2noWEg7OznBiYpXD4Q-k168NGHZRvi9UDx8; Max-Age=604800; Path=/; Expires=Sun, 19 Mar 2023 20:09:04 GMT; HttpOnly; Secure; SameSite=None",
+    ];
+
+    const response = await request(app)
+      .get("/api/auth/login/persist")
+      .set("Cookie", [cookie]);
+    expect(response.statusCode).toBe(403);
+  });
 });
