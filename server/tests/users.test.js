@@ -38,6 +38,12 @@ describe("PUT /users/:id", () => {
         .send(updates)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(updatedUser.statusCode).toBe(200);
+      const expectedResponseBody = {
+        fullname: updates.fullname,
+        username: updates.username,
+        bio: updates.bio,
+      }
+      expect(updatedUser.body).toEqual(expectedResponseBody)
     })
   })
 })
