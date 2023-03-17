@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const request = require("supertest");
 const app = require("../app");
 const User = require("../models/User");
@@ -49,4 +50,50 @@ describe("PUT /users/:id", () => {
     expect(user.username).toEqual(updates.username);
     expect(user.bio).toEqual(updates.bio);
   });
+
+  test("If userId in req.body doesn't match id in params, return 403 status code", async () => {
+    const updates = {
+      userId: "987654321",
+      fullname: "new fullname",
+      username: "newusername",
+      bio: "new bio",
+      password: "password123",
+    };
+    // Create access token so the middleware passes
+    const accessToken = jwt.sign(
+      { userId: updates.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    const updatedUser = await request(app)
+      .put(`/api/users/123456789`)
+      .send(updates)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(updatedUser.statusCode).toBe(403);
+  });
+
+  test("If password is incorrect, return 400 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const updates = {
+      userId: registeredUser.body._id,
+      fullname: "new fullname",
+      username: "newusername",
+      bio: "new bio",
+      password: "wrongpassword",
+    };
+    const updatedUser = await request(app)
+      .put(`/api/users/${registeredUser.body._id}`)
+      .send(updates)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(updatedUser.statusCode).toBe(400);
+  })
 });
