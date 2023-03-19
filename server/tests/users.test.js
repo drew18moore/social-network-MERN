@@ -240,3 +240,7 @@ describe("PUT /users/follow/:username", () => {
     expect(response.statusCode).toBe(500);
   })
 });
+
+describe("GET /users/all-unfollowed/:id", () => {
+  
+})

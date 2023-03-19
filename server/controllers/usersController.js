@@ -138,7 +138,9 @@ const getUnfollowedUsers = async (req, res) => {
       }
 
       return {
-        ...user.toJSON(),
+        _id: user._id,
+        fullname: user.fullname,
+        username: user.username,
         img: profilePicture,
       };
     });
