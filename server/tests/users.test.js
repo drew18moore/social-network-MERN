@@ -122,7 +122,7 @@ describe("GET /users/:username", () => {
       isFollowing: /^(true|false)$/,
       img: /^.*$/,
       bio: /^.*$/,
-    }
+    };
     Object.keys(expectedData).forEach((field) => {
       if (typeof response.body[field] === "string") {
         expect(response.body[field]).toMatch(expectedData[field]);
@@ -147,7 +147,7 @@ describe("GET /users/:username", () => {
       .get(`/api/users/user123`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(500);
-  })
+  });
 });
 
 describe("PUT /users/follow/:username", () => {
@@ -172,21 +172,71 @@ describe("PUT /users/follow/:username", () => {
     expect(registeredUser2.statusCode).toBe(200);
     // Follow user
     const response = await request(app)
-      .put(`/api/users/follow/${userData2.username}`).send({ currUsername: userData1.username })
+      .put(`/api/users/follow/${userData2.username}`)
+      .send({ currUsername: userData1.username })
       .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
     expect(response.statusCode).toBe(200);
-    let user1 = await User.findById(registeredUser1.body._id)
-    let user2 = await User.findById(registeredUser2.body._id)
+    let user1 = await User.findById(registeredUser1.body._id);
+    let user2 = await User.findById(registeredUser2.body._id);
     expect(user1.following).toContain(user2._id.toString());
     expect(user2.followers).toContain(user1._id.toString());
     // Unfollow user
     const response2 = await request(app)
-      .put(`/api/users/follow/${userData2.username}`).send({ currUsername: userData1.username })
+      .put(`/api/users/follow/${userData2.username}`)
+      .send({ currUsername: userData1.username })
       .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
     expect(response2.statusCode).toBe(200);
-    user1 = await User.findById(registeredUser1.body._id)
-    user2 = await User.findById(registeredUser2.body._id)
+    user1 = await User.findById(registeredUser1.body._id);
+    user2 = await User.findById(registeredUser2.body._id);
     expect(user1.following).not.toContain(user2._id.toString());
     expect(user2.followers).not.toContain(user1._id.toString());
+  });
+  test("If username in req.params and req.body match, return 403 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .put(`/api/users/follow/${userData.username}`)
+      .send({ currUsername: userData.username })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(403);
+  });
+  test("If username in req.params doesn't exist, return 500 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .put(`/api/users/follow/fakeusername`)
+      .send({ currUsername: userData.username })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(500);
   })
-})
+  test("If username in req.body doesn't exist, return 500 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .put(`/api/users/follow/${userData.username}`)
+      .send({ currUsername: "fakeusername" })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(500);
+  })
+});
