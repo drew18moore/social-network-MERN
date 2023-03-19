@@ -222,7 +222,7 @@ describe("PUT /users/follow/:username", () => {
       .send({ currUsername: userData.username })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(500);
-  })
+  });
   test("If username in req.body doesn't exist, return 500 status code", async () => {
     const userData = {
       fullname: "test fullname",
@@ -238,9 +238,30 @@ describe("PUT /users/follow/:username", () => {
       .send({ currUsername: "fakeusername" })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(500);
-  })
+  });
 });
 
 describe("GET /users/all-unfollowed/:id", () => {
-  
-})
+  test("On success, return 200 status code. Should respond with correct json data.", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .get(`/api/users/all-unfollowed/${registeredUser.body._id}`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(200);
+    expectedData = {
+      numFound: 0,
+      unfollowedUsers: [],
+    };
+    Object.keys(expectedData).forEach((field) => {
+      expect(JSON.stringify(response.body[field])).toMatch(JSON.stringify(expectedData[field]));
+    });
+  });
+});
