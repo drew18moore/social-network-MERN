@@ -133,4 +133,19 @@ describe("GET /:username", () => {
       }
     });
   });
+  test("If user doesn't exist, respond with a 500 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .get(`/api/users/user123`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(500);
+  })
 });
