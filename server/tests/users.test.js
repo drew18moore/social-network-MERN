@@ -98,7 +98,7 @@ describe("PUT /users/:id", () => {
   });
 });
 
-describe("GET /:username", () => {
+describe("GET /users/:username", () => {
   test("On success, 200 status code is returned and correct json data is sent", async () => {
     const userData = {
       fullname: "test fullname",
@@ -149,3 +149,44 @@ describe("GET /:username", () => {
     expect(response.statusCode).toBe(500);
   })
 });
+
+describe("PUT /users/follow/:username", () => {
+  test("On success, respond with 200 status code and update the db", async () => {
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser1 = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser1.statusCode).toBe(200);
+    const userData2 = {
+      fullname: "test fullname2",
+      username: "testusername2",
+      password: "password123",
+    };
+    const registeredUser2 = await request(app)
+      .post("/api/auth/register")
+      .send(userData2);
+    expect(registeredUser2.statusCode).toBe(200);
+    // Follow user
+    const response = await request(app)
+      .put(`/api/users/follow/${userData2.username}`).send({ currUsername: userData1.username })
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(response.statusCode).toBe(200);
+    let user1 = await User.findById(registeredUser1.body._id)
+    let user2 = await User.findById(registeredUser2.body._id)
+    expect(user1.following).toContain(user2._id.toString());
+    expect(user2.followers).toContain(user1._id.toString());
+    // Unfollow user
+    const response2 = await request(app)
+      .put(`/api/users/follow/${userData2.username}`).send({ currUsername: userData1.username })
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(response2.statusCode).toBe(200);
+    user1 = await User.findById(registeredUser1.body._id)
+    user2 = await User.findById(registeredUser2.body._id)
+    expect(user1.following).not.toContain(user2._id.toString());
+    expect(user2.followers).not.toContain(user1._id.toString());
+  })
+})
