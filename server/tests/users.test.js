@@ -95,5 +95,42 @@ describe("PUT /users/:id", () => {
       .send(updates)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(updatedUser.statusCode).toBe(400);
-  })
+  });
+});
+
+describe("GET /:username", () => {
+  test("On success, 200 status code is returned and correct json data is sent", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .get(`/api/users/${userData.username}`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(200);
+    const expectedData = {
+      _id: registeredUser.body._id,
+      fullname: registeredUser.body.fullname,
+      username: registeredUser.body.username,
+      numFollowing: /^-?\d+$/,
+      numFollowers: /^-?\d+$/,
+      isFollowing: /^(true|false)$/,
+      img: /^.*$/,
+      bio: /^.*$/,
+    }
+    Object.keys(expectedData).forEach((field) => {
+      if (typeof response.body[field] === "string") {
+        expect(response.body[field]).toMatch(expectedData[field]);
+      } else {
+        expect(JSON.stringify(response.body[field])).toMatch(
+          expectedData[field]
+        );
+      }
+    });
+  });
 });
