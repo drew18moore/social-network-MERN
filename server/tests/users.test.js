@@ -264,4 +264,19 @@ describe("GET /users/all-unfollowed/:id", () => {
       expect(JSON.stringify(response.body[field])).toMatch(JSON.stringify(expectedData[field]));
     });
   });
+  test("if user from req.params.id doesn't exist, return 500 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .get(`/api/users/all-unfollowed/fakeuserid`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(500);
+  })
 });
