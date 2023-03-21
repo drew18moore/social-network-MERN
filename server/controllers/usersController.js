@@ -158,12 +158,12 @@ const getFollowedUsers = async (req, res) => {
   try {
     const page = req.query.page - 1 || 0;
     const limit = req.query.limit || 0;
-    const user = await User.findOne({
+    const currUser = await User.findOne({
       username: req.params.username,
     });
     const users = await User.find(
       {
-        followers: user._id.toString(),
+        followers: currUser._id.toString(),
       },
       null,
       { skip: page * limit, limit: limit }
@@ -180,15 +180,18 @@ const getFollowedUsers = async (req, res) => {
       }
 
       return {
-        ...user.toJSON(),
+        _id: user._id,
+        fullname: user.fullname,
+        username: user.username,
         img: profilePicture,
+        isFollowing: user.followers.includes(currUser._id.toString())
       };
     });
 
     res.status(200).json({
       user: {
-        fullname: user.fullname,
-        username: user.username,
+        fullname: currUser.fullname,
+        username: currUser.username,
       },
       numFound: following.length,
       following: following,
@@ -202,12 +205,12 @@ const getFollowers = async (req, res) => {
   try {
     const page = req.query.page - 1 || 0;
     const limit = req.query.limit || 0;
-    const user = await User.findOne({
+    const currUser = await User.findOne({
       username: req.params.username,
     });
     const users = await User.find(
       {
-        following: user._id.toString(),
+        following: currUser._id.toString(),
       },
       null,
       { skip: page * limit, limit: limit }
@@ -224,15 +227,18 @@ const getFollowers = async (req, res) => {
       }
 
       return {
-        ...user.toJSON(),
+        _id: user._id,
+        fullname: user.fullname,
+        username: user.username,
         img: profilePicture,
+        isFollowing: user.followers.includes(currUser._id.toString())
       };
     });
 
     res.status(200).json({
       user: {
-        fullname: user.fullname,
-        username: user.username,
+        fullname: currUser.fullname,
+        username: currUser.username,
       },
       numFound: followers.length,
       followers: followers,

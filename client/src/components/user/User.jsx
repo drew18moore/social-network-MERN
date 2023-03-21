@@ -13,7 +13,7 @@ const User = forwardRef(({ user }, ref) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const following = user?.followers?.includes(currentUser._id);
+    const following = user?.isFollowing;
     setIsFollowing(following);
   }, []);
 
