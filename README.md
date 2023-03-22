@@ -10,6 +10,7 @@ A social media app built using the MERN stack
 * ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 * ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 * ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+* ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ## Try it out
 [https://social-network-mern.vercel.app/](https://social-network-mern.vercel.app/)
 - Login using your username and password or create a new account
@@ -24,6 +25,8 @@ A social media app built using the MERN stack
 - Follow other users
 - Like posts
 - Create, edit, or delete your own comments on posts
+- Like comments
+- Bookmark posts
 - Dark mode toggle
 
 ## Getting Started
