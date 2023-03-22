@@ -610,6 +610,27 @@ describe("DELETE /users/delete/:userId", () => {
   describe("On success...", () => {
     test("...return 200 status code and remove user from database", async () => {
       // Register main user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // Expect user to exists
+      let user = await User.findById(registeredUser.body._id)
+      expect(user).toBeTruthy()
+      // Call DELETE endpoint
+      const deleteUser = await request(app)
+        .delete(`/api/users/delete/${registeredUser.body._id}`)
+        .send({ password: userData.password })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(deleteUser.statusCode).toBe(200);
+      // Expect user to not exist
+      user = await User.findById(registeredUser.body._id)
+      expect(user).not.toBeTruthy()
     });
     test("...return 200 status code and remove user's own posts from database", async () => {
       // Register main user
