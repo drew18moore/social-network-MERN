@@ -471,7 +471,7 @@ describe("GET /users/:username/following", () => {
       });
     });
   });
-  test("if user from req.params.id doesn't exist, return 500 status code", async () => {
+  test("if user from req.params.username doesn't exist, return 500 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -482,8 +482,126 @@ describe("GET /users/:username/following", () => {
       .send(userData);
     expect(registeredUser.statusCode).toBe(200);
     const response = await request(app)
-      .get(`/api/users/fakeuserid/following`)
+      .get(`/api/users/fakeusername/following`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(500);
   });
 });
+
+describe("GET /users/:username/followers", () => {
+  describe("On success, return 200 status and correct json data", () => {
+    test("If user has NO followers return correct json data", async () => {
+      // Register main user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
+      // Register second user
+      const userData2 = {
+        fullname: "test fullname",
+        username: "testusername2",
+        password: "password123",
+      };
+      const registeredUser2 = await request(app)
+        .post("/api/auth/register")
+        .send(userData2);
+      expect(registeredUser2.statusCode).toBe(200);
+      // Get followers
+      const response = await request(app)
+        .get(`/api/users/${registeredUser1.body.username}/followers`)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(response.statusCode).toBe(200);
+      expectedData = {
+        user: {
+          fullname: registeredUser1.body.fullname,
+          username: registeredUser1.body.username,
+        },
+        numFound: 0,
+        followers: [],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(JSON.stringify(response.body[field])).toMatch(
+          JSON.stringify(expectedData[field])
+        );
+      });
+    });
+    test("If user has followers return correct json data", async () => {
+      // Register main user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
+      // Register user to follow
+      const userData2 = {
+        fullname: "test fullname",
+        username: "testusername2",
+        password: "password123",
+      };
+      const registeredUser2 = await request(app)
+        .post("/api/auth/register")
+        .send(userData2);
+      expect(registeredUser2.statusCode).toBe(200);
+      // Follow user
+      const followUserResponse = await request(app)
+        .put(`/api/users/follow/${userData1.username}`)
+        .send({ currUsername: userData2.username })
+        .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
+      expect(followUserResponse.statusCode).toBe(200);
+      let user1 = await User.findById(registeredUser1.body._id);
+      let user2 = await User.findById(registeredUser2.body._id);
+      expect(user1.followers).toContain(user2._id.toString());
+      expect(user2.following).toContain(user1._id.toString());
+      // Get followed users
+      const response = await request(app)
+        .get(`/api/users/${registeredUser1.body.username}/followers`)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(response.statusCode).toBe(200);
+      expectedData = {
+        user: {
+          fullname: registeredUser1.body.fullname,
+          username: registeredUser1.body.username,
+        },
+        numFound: 1,
+        followers: [
+          {
+            _id: registeredUser2.body._id,
+            fullname: registeredUser2.body.fullname,
+            username: registeredUser2.body.username,
+            img: registeredUser2.body.img || "/default-pfp.jpg",
+            isFollowing: false
+          }
+        ],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(JSON.stringify(response.body[field])).toMatch(
+          JSON.stringify(expectedData[field])
+        );
+      });
+    });
+  })
+  test("if user from req.params.username doesn't exist, return 500 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const response = await request(app)
+      .get(`/api/users/fakeusername/followers`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(response.statusCode).toBe(500);
+  });
+})
