@@ -460,8 +460,8 @@ describe("GET /users/:username/following", () => {
             fullname: registeredUser2.body.fullname,
             username: registeredUser2.body.username,
             img: registeredUser2.body.img || "/default-pfp.jpg",
-            isFollowing: true
-          }
+            isFollowing: true,
+          },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
@@ -578,8 +578,8 @@ describe("GET /users/:username/followers", () => {
             fullname: registeredUser2.body.fullname,
             username: registeredUser2.body.username,
             img: registeredUser2.body.img || "/default-pfp.jpg",
-            isFollowing: false
-          }
+            isFollowing: false,
+          },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
@@ -588,7 +588,7 @@ describe("GET /users/:username/followers", () => {
         );
       });
     });
-  })
+  });
   test("if user from req.params.username doesn't exist, return 500 status code", async () => {
     const userData = {
       fullname: "test fullname",
@@ -604,4 +604,58 @@ describe("GET /users/:username/followers", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(500);
   });
-})
+});
+
+describe("DELETE /users/delete/:userId", () => {
+  describe("On success...", () => {
+    test("...return 200 status code and remove user from database", async () => {
+      // Register main user
+    });
+    test("...return 200 status code and remove user's own posts from database", async () => {
+      // Register main user
+      // Have main user create some posts
+    });
+    test("...return 200 status code and remove user's own comments from database", async () => {
+      // Register main user
+      // Register second user
+      // Have second user create some posts
+      // Have main user comment on second user's posts
+    });
+    test("...return 200 status code and remove comments on user's own posts from database", async () => {
+      // Register main user
+      // Register second user
+      // Have main user create some posts
+      // Have main user comment on their own posts
+      // Have second user comment on main user's posts
+    });
+    test("...return 200 status code and remove user's id from other users' followers list", async () => {
+      // Register main user
+      // Register second user
+      // Have main user follow second user
+    });
+    test("...return 200 status code and remove user's id from other users' following list", async () => {
+      // Register main user
+      // Register second user
+      // Have second user follow main user
+    });
+    test("...return 200 status code and remove user's post ids from other users' bookmarks list", async () => {
+      // Register main user
+      // Register second user
+      // Have main user create some posts
+      // Have second user bookmark posts
+    });
+    test("...return 200 status code and remove user's id from other users' post likes list", async () => {
+      // Register main user
+      // Register second user
+      // Have second user create some posts
+      // Have main user like posts
+    });
+    test("...return 200 status code and remove user's id from other users' comment likes list", async () => {
+      // Register main user
+      // Register second user
+      // Have second user create some posts
+      // Have second user comment on their own posts
+      // Have main user like comments
+    });
+  });
+});
