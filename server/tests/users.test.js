@@ -3,7 +3,7 @@ const request = require("supertest");
 const app = require("../app");
 const Post = require("../models/Post");
 const User = require("../models/User");
-const Comment = require("../models/Comment")
+const Comment = require("../models/Comment");
 const { connect, disconnect, reset } = require("./config/database");
 
 beforeAll(async () => {
@@ -674,10 +674,10 @@ describe("DELETE /users/delete/:userId", () => {
         .send({ password: userData.password })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(deleteUser.statusCode).toBe(200);
-      post1 = await Post.findById(newPost1.body._id)
-      expect(post1).not.toBeTruthy()
-      post2 = await Post.findById(newPost2.body._id)
-      expect(post2).not.toBeTruthy()
+      post1 = await Post.findById(newPost1.body._id);
+      expect(post1).not.toBeTruthy();
+      post2 = await Post.findById(newPost2.body._id);
+      expect(post2).not.toBeTruthy();
     });
     test("...return 200 status code and remove user's own comments from database", async () => {
       // Register main user
@@ -718,27 +718,27 @@ describe("DELETE /users/delete/:userId", () => {
         userId: registeredUser1.body._id,
         parentId: newPost.body._id,
         commentBody: "Comment 1",
-      }
+      };
       const newComment1 = await request(app)
         .post("/api/comments/new")
         .send(commentData1)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(newComment1.statusCode).toBe(200);
       let comment1 = await Comment.findById(newComment1.body._id);
-      expect(comment1).toBeTruthy()
+      expect(comment1).toBeTruthy();
       // Create comment2
       const commentData2 = {
         userId: registeredUser1.body._id,
         parentId: newPost.body._id,
         commentBody: "Comment 1",
-      }
+      };
       const newComment2 = await request(app)
         .post("/api/comments/new")
         .send(commentData2)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(newComment2.statusCode).toBe(200);
       let comment2 = await Comment.findById(newComment2.body._id);
-      expect(comment2).toBeTruthy()
+      expect(comment2).toBeTruthy();
       const deleteUser = await request(app)
         .delete(`/api/users/delete/${registeredUser1.body._id}`)
         .send({ password: userData1.password })
@@ -746,15 +746,77 @@ describe("DELETE /users/delete/:userId", () => {
       expect(deleteUser.statusCode).toBe(200);
       comment1 = await Comment.findById(newComment1.body._id);
       comment2 = await Comment.findById(newComment2.body._id);
-      expect(comment1).not.toBeTruthy()
-      expect(comment2).not.toBeTruthy()
+      expect(comment1).not.toBeTruthy();
+      expect(comment2).not.toBeTruthy();
     });
     test("...return 200 status code and remove comments on user's own posts from database", async () => {
       // Register main user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
       // Register second user
-      // Have main user create some posts
+      const userData2 = {
+        fullname: "test fullname",
+        username: "testusername2",
+        password: "password123",
+      };
+      const registeredUser2 = await request(app)
+        .post("/api/auth/register")
+        .send(userData2);
+      expect(registeredUser2.statusCode).toBe(200);
+      // Have main user create a post
+      const postData = {
+        userId: registeredUser1.body._id,
+        postBody: "Post 1",
+      };
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send(postData)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      let post = await Post.findById(newPost.body._id);
+      expect(post).toBeTruthy();
       // Have main user comment on their own posts
+      const mainUserCommentData = {
+        userId: registeredUser1.body._id,
+        parentId: newPost.body._id,
+        commentBody: "Comment 1",
+      };
+      const mainUserComment = await request(app)
+        .post("/api/comments/new")
+        .send(mainUserCommentData)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(mainUserComment.statusCode).toBe(200);
+      let comment1 = await Comment.findById(mainUserComment.body._id);
+      expect(comment1).toBeTruthy();
       // Have second user comment on main user's posts
+      const secondUserCommentData = {
+        userId: registeredUser1.body._id,
+        parentId: newPost.body._id,
+        commentBody: "Comment 1",
+      };
+      const secondUserComment = await request(app)
+        .post("/api/comments/new")
+        .send(secondUserCommentData)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(secondUserComment.statusCode).toBe(200);
+      let comment2 = await Comment.findById(secondUserComment.body._id);
+      expect(comment2).toBeTruthy();
+      const deleteUser = await request(app)
+        .delete(`/api/users/delete/${registeredUser1.body._id}`)
+        .send({ password: userData1.password })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(deleteUser.statusCode).toBe(200);
+      comment1 = await Comment.findById(mainUserComment.body._id);
+      comment2 = await Comment.findById(secondUserComment.body._id);
+      expect(comment1).not.toBeTruthy();
+      expect(comment2).not.toBeTruthy();
     });
     test("...return 200 status code and remove user's id from other users' followers list", async () => {
       // Register main user
