@@ -1037,4 +1037,32 @@ describe("DELETE /users/delete/:userId", () => {
       expect(comment.likes).not.toContain(registeredUser1.body._id);
     });
   });
+  test("If user doesn't exist, return 500 status code", async () => {
+    const tempAccessToken = jwt.sign(
+      { userId: "1234567890" },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 900000 }
+    );
+    const deleteUser = await request(app)
+      .delete(`/api/users/delete/1234567890`)
+      .send({ password: "password123" })
+      .set("Authorization", `Bearer ${tempAccessToken}`);
+    expect(deleteUser.statusCode).toBe(500);
+  });
+  test("If password is incorrect, return 400 status code", async () => {
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser1 = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser1.statusCode).toBe(200);
+    const deleteUser = await request(app)
+      .delete(`/api/users/delete/${registeredUser1.body._id}`)
+      .send({ password: "wrongpassword" })
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(deleteUser.statusCode).toBe(400);
+  })
 });
