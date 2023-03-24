@@ -940,9 +940,47 @@ describe("DELETE /users/delete/:userId", () => {
     });
     test("...return 200 status code and remove user's id from other users' post likes list", async () => {
       // Register main user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
       // Register second user
-      // Have second user create some posts
+      const userData2 = {
+        fullname: "test fullname",
+        username: "testusername2",
+        password: "password123",
+      };
+      const registeredUser2 = await request(app)
+        .post("/api/auth/register")
+        .send(userData2);
+      expect(registeredUser2.statusCode).toBe(200);
+      // Have second user create a post
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ userId: registeredUser2.body._id, postBody: "Post 1" })
+        .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`)
+      expect(newPost.statusCode).toBe(200)
       // Have main user like posts
+      const likePost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/like`)
+        .send({ userId: registeredUser1.body._id })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`)
+      expect(likePost.statusCode).toBe(200);
+      let post = await Post.findById(newPost.body._id)
+      expect(post.likes).toContain(registeredUser1.body._id)
+      // Delete main user
+      const deleteUser = await request(app)
+        .delete(`/api/users/delete/${registeredUser1.body._id}`)
+        .send({ password: userData1.password })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`)
+      expect(deleteUser.statusCode).toBe(200)
+      post = await Post.findById(newPost.body._id)
+      expect(post.likes).not.toContain(registeredUser1.body._id)
     });
     test("...return 200 status code and remove user's id from other users' comment likes list", async () => {
       // Register main user
