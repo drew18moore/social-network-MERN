@@ -820,8 +820,42 @@ describe("DELETE /users/delete/:userId", () => {
     });
     test("...return 200 status code and remove user's id from other users' followers list", async () => {
       // Register main user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
       // Register second user
+      const userData2 = {
+        fullname: "test fullname",
+        username: "testusername2",
+        password: "password123",
+      };
+      const registeredUser2 = await request(app)
+        .post("/api/auth/register")
+        .send(userData2);
+      expect(registeredUser2.statusCode).toBe(200);
       // Have main user follow second user
+      const followSecondUser = await request(app)
+        .put(`/api/users/follow/${userData2.username}`)
+        .send({ currUsername: userData1.username })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`)
+      expect(followSecondUser.statusCode).toBe(200);
+      let secondUser = await User.findById(registeredUser2.body._id)
+      console.log("1", secondUser);
+      expect(secondUser.followers).toContain(registeredUser1.body._id)
+      // Delete user
+      const deleteUser = await request(app)
+        .delete(`/api/users/delete/${registeredUser1.body._id}`)
+        .send({ password: userData1.password })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`)
+      expect(deleteUser.statusCode).toBe(200);
+      secondUser = await User.findById(registeredUser2.body._id)
+      expect(secondUser.followers).not.toContain(registeredUser1.body._id)
     });
     test("...return 200 status code and remove user's id from other users' following list", async () => {
       // Register main user
