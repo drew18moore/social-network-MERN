@@ -1149,4 +1149,21 @@ describe("GET /users/:id/bookmarks", () => {
       });
     });
   });
+  test("If user doesn't exist, return 500 status code", async () => {
+    // Register user
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser1 = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser1.statusCode).toBe(200);
+    // Get bookmarks
+    const bookmarks = await request(app)
+        .get(`/api/users/fakeuserid/bookmarks?page=1&limit=5`)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(bookmarks.statusCode).toBe(500);
+  })
 });
