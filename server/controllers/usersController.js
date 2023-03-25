@@ -308,7 +308,12 @@ const getBookmarkedPosts = async (req, res) => {
         }
 
         return {
-          ...post.toJSON(),
+          _id: post._id,
+          userId: post.userId,
+          postBody: post.postBody,
+          likes: post.likes,
+          comments: post.comments,
+          createdAt: post.createdAt,
           fullname: postUser.fullname,
           username: postUser.username,
           profilePicture: profilePicture,

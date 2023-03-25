@@ -1064,5 +1064,89 @@ describe("DELETE /users/delete/:userId", () => {
       .send({ password: "wrongpassword" })
       .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
     expect(deleteUser.statusCode).toBe(400);
-  })
+  });
+});
+
+describe("GET /users/:id/bookmarks", () => {
+  describe("On success...", () => {
+    test("If user has NO bookmarks, return 200 status code and correct json data", async () => {
+      // Register user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
+      // Get bookmarks
+      const bookmarks = await request(app)
+        .get(`/api/users/${registeredUser1.body._id}/bookmarks`)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(bookmarks.statusCode).toBe(200);
+      const expectedData = {
+        numFound: 0,
+        posts: [],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(JSON.stringify(bookmarks.body[field])).toMatch(
+          JSON.stringify(expectedData[field])
+        );
+      });
+    });
+    test("If user has bookmarks, return 200 status code and correct json data", async () => {
+      // Register user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser1 = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser1.statusCode).toBe(200);
+      // Create post
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({
+          userId: registeredUser1.body._id,
+          postBody: "Post 1",
+        })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // Bookmark post
+      const bookmarkPost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/bookmark`)
+        .send({ userId: registeredUser1.body._id })
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(bookmarkPost.statusCode).toBe(200);
+      // Get bookmarks
+      const bookmarks = await request(app)
+        .get(`/api/users/${registeredUser1.body._id}/bookmarks?page=1&limit=5`)
+        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+      expect(bookmarks.statusCode).toBe(200);
+      const expectedData = {
+        numFound: 1,
+        posts: [
+          {
+            _id: newPost.body._id,
+            userId: registeredUser1.body._id,
+            postBody: newPost.body.postBody,
+            likes: [],
+            comments: [],
+            createdAt: newPost.body.createdAt,
+            fullname: registeredUser1.body.fullname,
+            username: registeredUser1.body.username,
+            profilePicture: "/default-pfp.jpg"
+          }
+        ],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(JSON.stringify(bookmarks.body[field])).toMatch(
+          JSON.stringify(expectedData[field])
+        );
+      });
+    });
+  });
 });
