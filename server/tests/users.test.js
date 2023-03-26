@@ -30,7 +30,6 @@ describe("PUT /users/:id", () => {
       .send(userData);
     expect(registeredUser.statusCode).toBe(200);
     const updates = {
-      userId: registeredUser.body._id,
       fullname: "new fullname",
       username: "newusername",
       bio: "new bio",
@@ -53,7 +52,16 @@ describe("PUT /users/:id", () => {
     expect(user.bio).toEqual(updates.bio);
   });
 
-  test("If userId in req.body doesn't match id in params, return 403 status code", async () => {
+  test("If userId in req.userId doesn't match id in params, return 403 status code", async () => {
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
     const updates = {
       userId: "987654321",
       fullname: "new fullname",
@@ -61,17 +69,10 @@ describe("PUT /users/:id", () => {
       bio: "new bio",
       password: "password123",
     };
-    // Create access token so the middleware passes
-    const accessToken = jwt.sign(
-      { userId: updates.userId },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "7d" }
-    );
-
     const updatedUser = await request(app)
       .put(`/api/users/123456789`)
       .send(updates)
-      .set("Authorization", `Bearer ${accessToken}`);
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(updatedUser.statusCode).toBe(403);
   });
 
@@ -86,7 +87,6 @@ describe("PUT /users/:id", () => {
       .send(userData);
     expect(registeredUser.statusCode).toBe(200);
     const updates = {
-      userId: registeredUser.body._id,
       fullname: "new fullname",
       username: "newusername",
       bio: "new bio",
@@ -175,7 +175,6 @@ describe("PUT /users/follow/:username", () => {
     // Follow user
     const response = await request(app)
       .put(`/api/users/follow/${userData2.username}`)
-      .send({ currUsername: userData1.username })
       .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
     expect(response.statusCode).toBe(200);
     let user1 = await User.findById(registeredUser1.body._id);
@@ -185,7 +184,6 @@ describe("PUT /users/follow/:username", () => {
     // Unfollow user
     const response2 = await request(app)
       .put(`/api/users/follow/${userData2.username}`)
-      .send({ currUsername: userData1.username })
       .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
     expect(response2.statusCode).toBe(200);
     user1 = await User.findById(registeredUser1.body._id);
@@ -193,7 +191,7 @@ describe("PUT /users/follow/:username", () => {
     expect(user1.following).not.toContain(user2._id.toString());
     expect(user2.followers).not.toContain(user1._id.toString());
   });
-  test("If username in req.params and req.body match, return 403 status code", async () => {
+  test("If username in req.params and username from req.userId match, return 403 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -205,7 +203,6 @@ describe("PUT /users/follow/:username", () => {
     expect(registeredUser.statusCode).toBe(200);
     const response = await request(app)
       .put(`/api/users/follow/${userData.username}`)
-      .send({ currUsername: userData.username })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(403);
   });
@@ -221,23 +218,6 @@ describe("PUT /users/follow/:username", () => {
     expect(registeredUser.statusCode).toBe(200);
     const response = await request(app)
       .put(`/api/users/follow/fakeusername`)
-      .send({ currUsername: userData.username })
-      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(response.statusCode).toBe(500);
-  });
-  test("If username in req.body doesn't exist, return 500 status code", async () => {
-    const userData = {
-      fullname: "test fullname",
-      username: "testusername",
-      password: "password123",
-    };
-    const registeredUser = await request(app)
-      .post("/api/auth/register")
-      .send(userData);
-    expect(registeredUser.statusCode).toBe(200);
-    const response = await request(app)
-      .put(`/api/users/follow/${userData.username}`)
-      .send({ currUsername: "fakeusername" })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(500);
   });
@@ -269,7 +249,6 @@ describe("GET /users/all-unfollowed/:id", () => {
       // Follow user
       const followUserResponse = await request(app)
         .put(`/api/users/follow/${userData2.username}`)
-        .send({ currUsername: userData1.username })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
@@ -325,7 +304,6 @@ describe("GET /users/all-unfollowed/:id", () => {
       // Follow user
       const followUserResponse = await request(app)
         .put(`/api/users/follow/${userData2.username}`)
-        .send({ currUsername: userData1.username })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
@@ -438,7 +416,6 @@ describe("GET /users/:username/following", () => {
       // Follow user
       const followUserResponse = await request(app)
         .put(`/api/users/follow/${userData2.username}`)
-        .send({ currUsername: userData1.username })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
@@ -556,7 +533,6 @@ describe("GET /users/:username/followers", () => {
       // Follow user
       const followUserResponse = await request(app)
         .put(`/api/users/follow/${userData1.username}`)
-        .send({ currUsername: userData2.username })
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
@@ -842,7 +818,6 @@ describe("DELETE /users/delete/:userId", () => {
       // Have main user follow second user
       const followSecondUser = await request(app)
         .put(`/api/users/follow/${userData2.username}`)
-        .send({ currUsername: userData1.username })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(followSecondUser.statusCode).toBe(200);
       let secondUser = await User.findById(registeredUser2.body._id);
@@ -880,7 +855,6 @@ describe("DELETE /users/delete/:userId", () => {
       // Have second user follow main user
       const followMainUser = await request(app)
         .put(`/api/users/follow/${userData1.username}`)
-        .send({ currUsername: userData2.username })
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(followMainUser.statusCode).toBe(200);
       let secondUser = await User.findById(registeredUser2.body._id);

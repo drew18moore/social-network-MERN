@@ -37,7 +37,7 @@ const changeProfilePicture = async (req, res) => {
 };
 
 const editUser = async (req, res) => {
-  if (req.body.userId !== req.params.id) {
+  if (req.userId !== req.params.id) {
     return res
       .status(403)
       .json({ message: "You can only update your own account" });
@@ -94,19 +94,19 @@ const getUserByUsername = async (req, res) => {
 };
 
 const followUser = async (req, res) => {
-  if (req.params.username === req.body.currUsername) {
-    return res.status(403).json({ message: "You cannot follow yourself" });
-  }
   try {
+    const authUser = await User.findById(req.userId)
+    if (req.params.username === authUser.username) {
+      return res.status(403).json({ message: "You cannot follow yourself" });
+    }
     const user = await User.findOne({ username: req.params.username });
-    const currUser = await User.findOne({ username: req.body.currUsername });
-    if (!user.followers.includes(currUser._id)) {
-      await user.updateOne({ $push: { followers: currUser._id.toString() } });
-      await currUser.updateOne({ $push: { following: user._id.toString() } });
+    if (!user.followers.includes(authUser._id)) {
+      await user.updateOne({ $push: { followers: authUser._id.toString() } });
+      await authUser.updateOne({ $push: { following: user._id.toString() } });
       res.status(200).json("User has been followed");
     } else {
-      await user.updateOne({ $pull: { followers: currUser._id.toString() } });
-      await currUser.updateOne({ $pull: { following: user._id.toString() } });
+      await user.updateOne({ $pull: { followers: authUser._id.toString() } });
+      await authUser.updateOne({ $pull: { following: user._id.toString() } });
       res.status(200).json("User has been unfollowed");
     }
   } catch (err) {
@@ -184,7 +184,7 @@ const getFollowedUsers = async (req, res) => {
         fullname: user.fullname,
         username: user.username,
         img: profilePicture,
-        isFollowing: user.followers.includes(currUser._id.toString())
+        isFollowing: user.followers.includes(currUser._id.toString()),
       };
     });
 
@@ -231,7 +231,7 @@ const getFollowers = async (req, res) => {
         fullname: user.fullname,
         username: user.username,
         img: profilePicture,
-        isFollowing: user.followers.includes(currUser._id.toString())
+        isFollowing: user.followers.includes(currUser._id.toString()),
       };
     });
 
@@ -250,6 +250,9 @@ const getFollowers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
+    if (req.userId !== req.params.userId) {
+      return res.status(403).json({ message: "You can only delete your own account" })
+    }
     const user = await User.findById(req.params.userId);
 
     if (!(await bcrypt.compare(req.body.password, user.password))) {
