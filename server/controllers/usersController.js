@@ -277,16 +277,16 @@ const deleteUser = async (req, res) => {
       ),
       Comment.deleteMany({ userId: req.params.userId }),
     ]);
-    // Delete comments on user's posts and delete user's posts
+    // Delete comments on user's posts, delete user's posts, and remove user's post ids from other users' bookmarks
     await Promise.all([
       Comment.deleteMany({ parentId: { $in: postIds } }),
       Post.deleteMany({ _id: { $in: postIds } }),
       User.updateMany(
         { bookmarks: { $in: postIds } },
         { $pull: { bookmarks: { $in: postIds } } }
-      )
+      ),
     ]);
-    // Remove userId from other users' followers and following list
+    // Remove userId from other users' followers, following, post likes, and comment likes lists
     await Promise.all([
       User.updateMany(
         { followers: req.userId },
@@ -296,6 +296,14 @@ const deleteUser = async (req, res) => {
         { following: req.userId },
         { $pull: { following: req.userId } }
       ),
+      Post.updateMany(
+        { likes: req.userId },
+        { $pull: { likes: req.userId }}
+      ),
+      Comment.updateMany(
+        { likes: req.userId },
+        { $pull: { likes: req.userId }}
+      )
     ]);
     // DELETE user
     await user.deleteOne();
