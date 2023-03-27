@@ -95,7 +95,7 @@ const getUserByUsername = async (req, res) => {
 
 const followUser = async (req, res) => {
   try {
-    const authUser = await User.findById(req.userId)
+    const authUser = await User.findById(req.userId);
     if (req.params.username === authUser.username) {
       return res.status(403).json({ message: "You cannot follow yourself" });
     }
@@ -251,7 +251,9 @@ const getFollowers = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     if (req.userId !== req.params.userId) {
-      return res.status(403).json({ message: "You can only delete your own account" })
+      return res
+        .status(403)
+        .json({ message: "You can only delete your own account" });
     }
     const user = await User.findById(req.params.userId);
 
@@ -279,6 +281,17 @@ const deleteUser = async (req, res) => {
     await Promise.all([
       Comment.deleteMany({ parentId: { $in: postIds } }),
       Post.deleteMany({ _id: { $in: postIds } }),
+    ]);
+    // Remove userId from other users' followers and following list
+    await Promise.all([
+      User.updateMany(
+        { followers: req.userId },
+        { $pull: { followers: req.userId } }
+      ),
+      User.updateMany(
+        { following: req.userId },
+        { $pull: { following: req.userId } }
+      ),
     ]);
     // DELETE user
     await user.deleteOne();
