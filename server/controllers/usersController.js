@@ -281,6 +281,10 @@ const deleteUser = async (req, res) => {
     await Promise.all([
       Comment.deleteMany({ parentId: { $in: postIds } }),
       Post.deleteMany({ _id: { $in: postIds } }),
+      User.updateMany(
+        { bookmarks: { $in: postIds } },
+        { $pull: { bookmarks: { $in: postIds } } }
+      )
     ]);
     // Remove userId from other users' followers and following list
     await Promise.all([
