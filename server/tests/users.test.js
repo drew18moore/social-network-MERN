@@ -622,25 +622,19 @@ describe("DELETE /users/delete/:userId", () => {
         .send(userData);
       expect(registeredUser.statusCode).toBe(200);
       // Create first post
-      const postData1 = {
-        userId: registeredUser.body._id,
-        postBody: "Post 1",
-      };
+      const postBody = "Post 1";
       const newPost1 = await request(app)
         .post("/api/posts/new")
-        .send(postData1)
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost1.statusCode).toBe(200);
       let post1 = await Post.findById(newPost1.body._id);
       expect(post1).toBeTruthy();
       // Create second post
-      const postData2 = {
-        userId: registeredUser.body._id,
-        postBody: "Post 1",
-      };
+      const postBody2 = "Post 2";
       const newPost2 = await request(app)
         .post("/api/posts/new")
-        .send(postData2)
+        .send({ postBody: postBody2 })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost2.statusCode).toBe(200);
       let post2 = await Post.findById(newPost2.body._id);
@@ -677,13 +671,10 @@ describe("DELETE /users/delete/:userId", () => {
         .send(userData2);
       expect(registeredUser2.statusCode).toBe(200);
       // Have second user create a post
-      const postData = {
-        userId: registeredUser2.body._id,
-        postBody: "Post 1",
-      };
+      const postBody = "Post 1";
       const newPost = await request(app)
         .post("/api/posts/new")
-        .send(postData)
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       let post1 = await Post.findById(newPost.body._id);
@@ -747,13 +738,10 @@ describe("DELETE /users/delete/:userId", () => {
         .send(userData2);
       expect(registeredUser2.statusCode).toBe(200);
       // Have main user create a post
-      const postData = {
-        userId: registeredUser1.body._id,
-        postBody: "Post 1",
-      };
+      const postBody = "Post 1";
       const newPost = await request(app)
         .post("/api/posts/new")
-        .send(postData)
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       let post = await Post.findById(newPost.body._id);
@@ -890,9 +878,10 @@ describe("DELETE /users/delete/:userId", () => {
         .send(userData2);
       expect(registeredUser2.statusCode).toBe(200);
       // Have main user create a post
+      const postBody = "Post 1";
       const newPost = await request(app)
         .post("/api/posts/new")
-        .send({ userId: registeredUser1.body._id, postBody: "Post 1" })
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       // Have second user bookmark post
@@ -934,9 +923,10 @@ describe("DELETE /users/delete/:userId", () => {
         .send(userData2);
       expect(registeredUser2.statusCode).toBe(200);
       // Have second user create a post
+      const postBody = "Post 1";
       const newPost = await request(app)
         .post("/api/posts/new")
-        .send({ userId: registeredUser2.body._id, postBody: "Post 1" })
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       // Have main user like posts
@@ -978,9 +968,10 @@ describe("DELETE /users/delete/:userId", () => {
         .send(userData2);
       expect(registeredUser2.statusCode).toBe(200);
       // Have second user create a post
+      const postBody = "Post 1";
       const newPost = await request(app)
         .post("/api/posts/new")
-        .send({ userId: registeredUser2.body._id, postBody: "Post 1" })
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       // Have second user comment on their own post
@@ -1081,12 +1072,10 @@ describe("GET /users/:id/bookmarks", () => {
         .send(userData1);
       expect(registeredUser1.statusCode).toBe(200);
       // Create post
+      const postBody = "Post 1";
       const newPost = await request(app)
         .post("/api/posts/new")
-        .send({
-          userId: registeredUser1.body._id,
-          postBody: "Post 1",
-        })
+        .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       // Bookmark post
@@ -1112,8 +1101,8 @@ describe("GET /users/:id/bookmarks", () => {
             createdAt: newPost.body.createdAt,
             fullname: registeredUser1.body.fullname,
             username: registeredUser1.body.username,
-            profilePicture: "/default-pfp.jpg"
-          }
+            profilePicture: "/default-pfp.jpg",
+          },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
@@ -1136,8 +1125,8 @@ describe("GET /users/:id/bookmarks", () => {
     expect(registeredUser1.statusCode).toBe(200);
     // Get bookmarks
     const bookmarks = await request(app)
-        .get(`/api/users/fakeuserid/bookmarks?page=1&limit=5`)
-        .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
-      expect(bookmarks.statusCode).toBe(500);
-  })
+      .get(`/api/users/fakeuserid/bookmarks?page=1&limit=5`)
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(bookmarks.statusCode).toBe(500);
+  });
 });

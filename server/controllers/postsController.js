@@ -8,7 +8,7 @@ const createNewPost = async (req, res) => {
   }
 
   const post = new Post({
-    userId: req.body.userId,
+    userId: req.userId,
     postBody: req.body.postBody,
   });
 
