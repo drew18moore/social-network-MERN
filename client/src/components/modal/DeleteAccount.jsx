@@ -49,7 +49,7 @@ const DeleteAccount = () => {
         action <strong>cannot be undone</strong>.
       </p>
       {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <label>
           <p>
             Type <i>delete my account</i> to confirm:
@@ -58,6 +58,7 @@ const DeleteAccount = () => {
             type="text"
             onChange={(e) => setConfirmationPhrase(e.target.value)}
             required
+            autoComplete="new-password"
           />
         </label>
 
@@ -68,6 +69,7 @@ const DeleteAccount = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Password"
             required
+            autoComplete="new-password"
           />
         </label>
         <button disabled={!validate()}>Delete this account</button>
