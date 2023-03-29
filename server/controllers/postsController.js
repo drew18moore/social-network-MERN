@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Comment = require("../models/Comment");
 
 const createNewPost = async (req, res) => {
-  if (req.body.postBody === "") {
+  if (!req.body.postBody || req.body.postBody === "") {
     return res.status(412).json({ message: "You must type a message." });
   }
 

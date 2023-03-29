@@ -73,10 +73,8 @@ describe("POST /posts/new", () => {
       }
       Object.keys(expectedData).forEach((field) => {
         if (typeof newPost.body[field] === "string") {
-          console.log(newPost.body[field], expectedData[field]);
           expect(newPost.body[field]).toMatch(expectedData[field]);
         } else {
-          console.log(newPost.body[field], expectedData[field]);
           expect(JSON.stringify(newPost.body[field])).toMatch(
             JSON.stringify(expectedData[field])
           );
@@ -84,4 +82,21 @@ describe("POST /posts/new", () => {
       });
     })
   });
+  test("Should return 412 if user forgets to include postBody in request", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // New Post
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newPost.statusCode).toBe(412);
+  })
 });
