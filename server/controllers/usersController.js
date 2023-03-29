@@ -101,6 +101,8 @@ const followUser = async (req, res) => {
       return res.status(403).json({ message: "You cannot follow yourself" });
     }
     const user = await User.findOne({ username: req.params.username });
+    if (!user) return res.status(404).json({ message: "User not found" })
+
     if (!user.followers.includes(authUser._id)) {
       await user.updateOne({ $push: { followers: authUser._id.toString() } });
       await authUser.updateOne({ $push: { following: user._id.toString() } });

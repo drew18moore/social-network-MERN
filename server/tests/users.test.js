@@ -219,7 +219,7 @@ describe("PUT /users/follow/:username", () => {
     const response = await request(app)
       .put(`/api/users/follow/fakeusername`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(404);
   });
 });
 
