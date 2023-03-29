@@ -214,6 +214,7 @@ const getFollowers = async (req, res) => {
     const currUser = await User.findOne({
       username: req.params.username,
     });
+    if (!currUser) return res.status(404).json({ message: "User not found" })
     const users = await User.find(
       {
         following: currUser._id.toString(),

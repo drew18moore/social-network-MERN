@@ -567,7 +567,7 @@ describe("GET /users/:username/followers", () => {
       });
     });
   });
-  test("if user from req.params.username doesn't exist, return 500 status code", async () => {
+  test("if user from req.params.username doesn't exist, return 404 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -580,7 +580,7 @@ describe("GET /users/:username/followers", () => {
     const response = await request(app)
       .get(`/api/users/fakeusername/followers`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(404);
   });
 });
 
