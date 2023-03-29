@@ -99,4 +99,23 @@ describe("POST /posts/new", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newPost.statusCode).toBe(412);
   })
+  test("Should return 412 if user sends an empty string as the postBody", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // New Post
+    const postBody = "";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newPost.statusCode).toBe(412);
+  })
 });
