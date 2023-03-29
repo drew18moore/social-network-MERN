@@ -135,7 +135,7 @@ describe("GET /users/:username", () => {
       }
     });
   });
-  test("If user doesn't exist, respond with a 500 status code", async () => {
+  test("If user doesn't exist, respond with a 404 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -206,7 +206,7 @@ describe("PUT /users/follow/:username", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(response.statusCode).toBe(403);
   });
-  test("If username in req.params doesn't exist, return 500 status code", async () => {
+  test("If username in req.params doesn't exist, return 404 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -333,7 +333,7 @@ describe("GET /users/all-unfollowed/:id", () => {
       });
     });
   });
-  test("if user from req.params.id doesn't exist, return 500 status code", async () => {
+  test("if user from req.params.id doesn't exist, return 404 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -450,7 +450,7 @@ describe("GET /users/:username/following", () => {
       });
     });
   });
-  test("if user from req.params.username doesn't exist, return 500 status code", async () => {
+  test("if user from req.params.username doesn't exist, return 404 status code", async () => {
     const userData = {
       fullname: "test fullname",
       username: "testusername",
@@ -463,7 +463,7 @@ describe("GET /users/:username/following", () => {
     const response = await request(app)
       .get(`/api/users/fakeusername/following`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(404);
   });
 });
 
