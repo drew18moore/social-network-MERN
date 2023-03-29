@@ -167,7 +167,7 @@ describe("GET /posts/:id", () => {
       }
     });
   })
-  test("Should respond with 500 status code if provided postId doesn't exist", async () => {
+  test("Should respond with 404 status code if provided postId doesn't exist", async () => {
     // Register user
     const userData = {
       fullname: "test fullname",

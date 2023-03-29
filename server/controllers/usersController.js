@@ -66,6 +66,7 @@ const getUserByUsername = async (req, res) => {
   try {
     const authUserId = req.userId;
     const user = await User.findOne({ username: req.params.username });
+    if (!user) return res.status(404).json({ message: "User not found" })
 
     let profilePicture;
     if (user.img.data) {

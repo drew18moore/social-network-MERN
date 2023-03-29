@@ -148,7 +148,7 @@ describe("GET /users/:username", () => {
     const response = await request(app)
       .get(`/api/users/user123`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(404);
   });
 });
 
