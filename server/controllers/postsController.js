@@ -25,7 +25,12 @@ const createNewPost = async (req, res) => {
       profilePicture = "/default-pfp.jpg";
     }
     const response = {
-      ...newPost.toJSON(),
+      userId: newPost.userId,
+      postBody: newPost.postBody,
+      likes: [],
+      comments: [],
+      _id: newPost._id,
+      createdAt: newPost.createdAt,
       fullname: newPostUser.fullname,
       username: newPostUser.username,
       profilePicture: profilePicture,
