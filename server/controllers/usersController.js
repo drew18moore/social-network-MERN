@@ -325,8 +325,9 @@ const getBookmarkedPosts = async (req, res) => {
   try {
     const page = Number(req.query.page) - 1 || 0;
     const limit = Number(req.query.limit) || 0;
-    const { bookmarks } = await User.findById(req.params.id);
-    const bookmarksReversed = bookmarks.reverse();
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" })
+    const bookmarksReversed = user.bookmarks.reverse();
     const postIds = bookmarksReversed.slice(page * limit, page * limit + limit);
 
     const bookmarkedPosts = await Promise.all(

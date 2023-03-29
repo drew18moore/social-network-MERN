@@ -1112,21 +1112,16 @@ describe("GET /users/:id/bookmarks", () => {
       });
     });
   });
-  test("If user doesn't exist, return 500 status code", async () => {
-    // Register user
-    const userData1 = {
-      fullname: "test fullname",
-      username: "testusername",
-      password: "password123",
-    };
-    const registeredUser1 = await request(app)
-      .post("/api/auth/register")
-      .send(userData1);
-    expect(registeredUser1.statusCode).toBe(200);
+  test("If user doesn't exist, return 404 status code", async () => {
+    const tempAccessToken = jwt.sign(
+      { userId: "5509f07f227cde6d205a0962" },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 900000 }
+    );
     // Get bookmarks
     const bookmarks = await request(app)
-      .get(`/api/users/fakeuserid/bookmarks?page=1&limit=5`)
-      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
-    expect(bookmarks.statusCode).toBe(500);
+      .get(`/api/users/5509f07f227cde6d205a0962/bookmarks?page=1&limit=5`)
+      .set("Authorization", `Bearer ${tempAccessToken}`);
+    expect(bookmarks.statusCode).toBe(404);
   });
 });
