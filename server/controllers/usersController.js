@@ -263,6 +263,7 @@ const deleteUser = async (req, res) => {
         .json({ message: "You can only delete your own account" });
     }
     const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ message: "User not found" })
 
     if (!(await bcrypt.compare(req.body.password, user.password))) {
       return res.status(400).json({ message: "Incorrect password" });

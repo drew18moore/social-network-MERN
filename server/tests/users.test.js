@@ -1002,17 +1002,17 @@ describe("DELETE /users/delete/:userId", () => {
       expect(comment.likes).not.toContain(registeredUser1.body._id);
     });
   });
-  test("If user doesn't exist, return 500 status code", async () => {
+  test("If user doesn't exist, return 404 status code", async () => {
     const tempAccessToken = jwt.sign(
-      { userId: "1234567890" },
+      { userId: "5509f07f227cde6d205a0962" },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: 900000 }
     );
     const deleteUser = await request(app)
-      .delete(`/api/users/delete/1234567890`)
+      .delete(`/api/users/delete/5509f07f227cde6d205a0962`)
       .send({ password: "password123" })
       .set("Authorization", `Bearer ${tempAccessToken}`);
-    expect(deleteUser.statusCode).toBe(500);
+    expect(deleteUser.statusCode).toBe(404);
   });
   test("If password is incorrect, return 400 status code", async () => {
     const userData1 = {
