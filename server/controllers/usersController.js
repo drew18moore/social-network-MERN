@@ -121,6 +121,8 @@ const getUnfollowedUsers = async (req, res) => {
   try {
     const page = req.query.page - 1 || 0;
     const limit = req.query.limit || 0;
+    const user = await User.findById(req.params.id)
+    if (!user) return res.status(404).json({ message: "User not found" })
     const users = await User.find(
       {
         followers: { $nin: req.params.id },

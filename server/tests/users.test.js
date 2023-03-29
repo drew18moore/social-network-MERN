@@ -344,9 +344,9 @@ describe("GET /users/all-unfollowed/:id", () => {
       .send(userData);
     expect(registeredUser.statusCode).toBe(200);
     const response = await request(app)
-      .get(`/api/users/all-unfollowed/fakeuserid`)
+      .get(`/api/users/all-unfollowed/5509f07f227cde6d205a0962`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(404);
   });
 });
 
