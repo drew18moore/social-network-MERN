@@ -47,9 +47,7 @@ const getPostById = async (req, res) => {
     const author = await User.findOne({ _id: post.userId });
 
     // get current user
-    const cookies = req.cookies;
-    const refreshToken = cookies.jwt;
-    const currUser = await User.findOne({ refreshToken });
+    const currUser = await User.findById(req.userId);
     if (!currUser) return res.status(403).json({ message: "Forbidden" });
 
     let profilePicture;
