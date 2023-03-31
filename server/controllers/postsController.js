@@ -122,7 +122,12 @@ const editPost = async (req, res) => {
 
     post.postBody = req.body.postBody;
     post.save();
-    return res.status(200).json(post);
+
+    const postData = {
+      _id: post._id,
+      postBody: post.postBody,
+    }
+    return res.status(200).json(postData);
   } catch (err) {
     res.status(500).json({ message: err });
   }

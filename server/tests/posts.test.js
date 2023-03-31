@@ -206,16 +206,48 @@ describe("PUT /posts/:id", () => {
         .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
-      let post = await Post.findById(newPost.body._id)
-      expect(post.postBody).toBe(postBody)
-      const updatedPostBody = "Updated post"
+      let post = await Post.findById(newPost.body._id);
+      expect(post.postBody).toBe(postBody);
+      const updatedPostBody = "Updated post";
       const updatedPost = await request(app)
         .put(`/api/posts/${newPost.body._id}`)
         .send({ postBody: updatedPostBody })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(updatedPost.statusCode).toBe(200)
-      post = await Post.findById(newPost.body._id)
-      expect(post.postBody).toBe(updatedPostBody)
+      expect(updatedPost.statusCode).toBe(200);
+      post = await Post.findById(newPost.body._id);
+      expect(post.postBody).toBe(updatedPostBody);
+    });
+    test("Should return correct json data", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New Post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      const updatedPostBody = "Updated post";
+      const updatedPost = await request(app)
+        .put(`/api/posts/${newPost.body._id}`)
+        .send({ postBody: updatedPostBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(updatedPost.statusCode).toBe(200);
+      const expectedData = {
+        _id: newPost.body._id,
+        postBody: updatedPostBody,
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(updatedPost.body[field]).toMatch(expectedData[field]);
+      });
     });
   });
 });
