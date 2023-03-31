@@ -268,4 +268,39 @@ describe("PUT /posts/:id", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(updatedPost.statusCode).toBe(404);
   });
+  test("Should respond with 403 if user tries to edit someone elses post", async () => {
+    // Register main user
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser1 = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser1.statusCode).toBe(200);
+    // Register second user
+    const userData2 = {
+      fullname: "test fullname",
+      username: "testusername2",
+      password: "password123",
+    };
+    const registeredUser2 = await request(app)
+      .post("/api/auth/register")
+      .send(userData2);
+    expect(registeredUser2.statusCode).toBe(200);
+    // New Post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    const updatedPostBody = "Updated post";
+    const updatedPost = await request(app)
+      .put(`/api/posts/${newPost.body._id}`)
+      .send({ postBody: updatedPostBody })
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(updatedPost.statusCode).toBe(403);
+  })
 });
