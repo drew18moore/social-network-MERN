@@ -887,7 +887,6 @@ describe("DELETE /users/delete/:userId", () => {
       // Have second user bookmark post
       const bookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
-        .send({ userId: registeredUser2.body._id })
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(bookmarkPost.statusCode).toBe(200);
       let secondUser = await User.findById(registeredUser2.body._id);
@@ -1081,7 +1080,6 @@ describe("GET /users/:id/bookmarks", () => {
       // Bookmark post
       const bookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
-        .send({ userId: registeredUser1.body._id })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(bookmarkPost.statusCode).toBe(200);
       // Get bookmarks
