@@ -136,7 +136,7 @@ const editPost = async (req, res) => {
 const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.userId !== req.body.userId) {
+    if (post.userId !== req.userId) {
       return res
         .status(412)
         .json({ message: "You can only delete your own posts" });
