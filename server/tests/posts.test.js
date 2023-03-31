@@ -250,4 +250,22 @@ describe("PUT /posts/:id", () => {
       });
     });
   });
+  test("Should respond with 404 status code if post doesn't exist", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    const updatedPostBody = "Updated post";
+    const updatedPost = await request(app)
+      .put(`/api/posts/5509f07f227cde6d205a0962`)
+      .send({ postBody: updatedPostBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(updatedPost.statusCode).toBe(404);
+  });
 });
