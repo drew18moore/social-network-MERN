@@ -931,7 +931,6 @@ describe("DELETE /users/delete/:userId", () => {
       // Have main user like posts
       const likePost = await request(app)
         .put(`/api/posts/${newPost.body._id}/like`)
-        .send({ userId: registeredUser1.body._id })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(likePost.statusCode).toBe(200);
       let post = await Post.findById(newPost.body._id);
@@ -986,7 +985,6 @@ describe("DELETE /users/delete/:userId", () => {
       // Have main user like comments
       const likeComment = await request(app)
         .put(`/api/comments/${newComment.body._id}/like`)
-        .send({ userId: registeredUser1.body._id })
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(likeComment.statusCode).toBe(200);
       let comment = await Comment.findById(newComment.body._id);
