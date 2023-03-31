@@ -69,8 +69,8 @@ describe("POST /posts/new", () => {
         createdAt: /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/,
         fullname: userData.fullname,
         username: userData.username,
-        profilePicture: "/default-pfp.jpg"
-      }
+        profilePicture: "/default-pfp.jpg",
+      };
       Object.keys(expectedData).forEach((field) => {
         if (typeof newPost.body[field] === "string") {
           expect(newPost.body[field]).toMatch(expectedData[field]);
@@ -80,7 +80,7 @@ describe("POST /posts/new", () => {
           );
         }
       });
-    })
+    });
   });
   test("Should return 412 if user forgets to include postBody in request", async () => {
     // Register user
@@ -98,7 +98,7 @@ describe("POST /posts/new", () => {
       .post("/api/posts/new")
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newPost.statusCode).toBe(412);
-  })
+  });
   test("Should return 412 if user sends an empty string as the postBody", async () => {
     // Register user
     const userData = {
@@ -117,7 +117,7 @@ describe("POST /posts/new", () => {
       .send({ postBody: postBody })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newPost.statusCode).toBe(412);
-  })
+  });
 });
 
 describe("GET /posts/:id", () => {
@@ -143,7 +143,7 @@ describe("GET /posts/:id", () => {
     const getPostById = await request(app)
       .get(`/api/posts/${newPost.body._id}`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(getPostById.statusCode).toBe(200)
+    expect(getPostById.statusCode).toBe(200);
     const expectedData = {
       createdAt: /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/,
       fullname: userData.fullname,
@@ -155,7 +155,7 @@ describe("GET /posts/:id", () => {
       _id: /^[a-z0-9]+$/i,
       profilePicture: "/default-pfp",
       comments: [],
-      isBookmarked: false
+      isBookmarked: false,
     };
     Object.keys(expectedData).forEach((field) => {
       if (typeof getPostById.body[field] === "string") {
@@ -166,7 +166,7 @@ describe("GET /posts/:id", () => {
         );
       }
     });
-  })
+  });
   test("Should respond with 404 status code if provided postId doesn't exist", async () => {
     // Register user
     const userData = {
@@ -182,6 +182,40 @@ describe("GET /posts/:id", () => {
     const getPostById = await request(app)
       .get(`/api/posts/5509f07f227cde6d205a0962`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(getPostById.statusCode).toBe(404)
-  })
-})
+    expect(getPostById.statusCode).toBe(404);
+  });
+});
+
+describe("PUT /posts/:id", () => {
+  describe("On success, return 200 status code and...", () => {
+    test("Should save updated post in db", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New Post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      let post = await Post.findById(newPost.body._id)
+      expect(post.postBody).toBe(postBody)
+      const updatedPostBody = "Updated post"
+      const updatedPost = await request(app)
+        .put(`/api/posts/${newPost.body._id}`)
+        .send({ postBody: updatedPostBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(updatedPost.statusCode).toBe(200)
+      post = await Post.findById(newPost.body._id)
+      expect(post.postBody).toBe(updatedPostBody)
+    });
+  });
+});

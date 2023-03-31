@@ -115,7 +115,8 @@ const getPostById = async (req, res) => {
 const editPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.userId !== req.body.userId) {
+    if (!post) return res.status(404).json({ message: "post not found" })
+    if (post.userId !== req.userId) {
       return res.status(403).json("You can only update your own posts");
     }
 
