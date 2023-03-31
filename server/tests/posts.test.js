@@ -335,5 +335,38 @@ describe("DELETE /posts/:id", () => {
       post = await Post.findById(newPost.body._id)
       expect(post).not.toBeTruthy()
     })
+    test("Should remove postId from other users' bookmarks list", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // Bookmark post
+      const bookmarkPost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/bookmark`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(bookmarkPost.statusCode).toBe(200)
+      let user = await User.findById(registeredUser.body._id)
+      expect(user.bookmarks).toContain(newPost.body._id)
+      // Delete post
+      const deletePost = await request(app)
+        .delete(`/api/posts/${newPost.body._id}`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(deletePost.statusCode).toBe(200)
+      user = await User.findById(registeredUser.body._id)
+      expect(user.bookmarks).not.toContain(newPost.body._id)
+    })
   })
 })

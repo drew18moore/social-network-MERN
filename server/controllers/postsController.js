@@ -248,7 +248,7 @@ const getPostsByUsername = async (req, res) => {
 
 const bookmarkPost = async (req, res) => {
   try {
-    const user = await User.findById(req.body.userId);
+    const user = await User.findById(req.userId);
     if (!user.bookmarks.includes(req.params.id)) {
       await user.updateOne({ $push: { bookmarks: req.params.id } });
       res.status(200).json({ message: "Post has been bookmarked" });
