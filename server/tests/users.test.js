@@ -976,7 +976,6 @@ describe("DELETE /users/delete/:userId", () => {
       const newComment = await request(app)
         .post("/api/comments/new")
         .send({
-          userId: registeredUser2.body._id,
           parentId: newPost.body._id,
           commentBody: "Comment 1",
         })

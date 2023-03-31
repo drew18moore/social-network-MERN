@@ -7,7 +7,7 @@ const newComment = async (req, res) => {
   }
 
   const comment = new Comment({
-    userId: req.body.userId,
+    userId: req.userId,
     parentId: req.body.parentId,
     commentBody: req.body.commentBody,
   });
@@ -61,13 +61,13 @@ const likeComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
     const numLikes = comment.likes.length;
-    if (!comment.likes.includes(req.body.userId)) {
-      await comment.updateOne({ $push: { likes: req.body.userId } });
+    if (!comment.likes.includes(req.userId)) {
+      await comment.updateOne({ $push: { likes: req.userId } });
       res
         .status(200)
         .json({ message: "Post has been liked", numLikes: numLikes + 1 });
     } else {
-      await comment.updateOne({ $pull: { likes: req.body.userId } });
+      await comment.updateOne({ $pull: { likes: req.userId } });
       res
         .status(200)
         .json({ message: "Post has been unliked", numLikes: numLikes - 1 });
