@@ -405,4 +405,37 @@ describe("DELETE /posts/:id", () => {
       expect(comment).not.toBeTruthy();
     });
   });
+  test("Should return 412 if post's userId doen't match auth user's id", async () => {
+    // Register main user
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser1 = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser1.statusCode).toBe(200);
+    // Register second user
+    const userData2 = {
+      fullname: "test fullname",
+      username: "testusername2",
+      password: "password123",
+    };
+    const registeredUser2 = await request(app)
+      .post("/api/auth/register")
+      .send(userData2);
+    expect(registeredUser2.statusCode).toBe(200);
+    // New post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    const deletePost = await request(app)
+      .delete(`/api/posts/${newPost.body._id}`)
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(deletePost.statusCode).toBe(412);
+  });
 });
