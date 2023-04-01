@@ -438,4 +438,20 @@ describe("DELETE /posts/:id", () => {
       .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
     expect(deletePost.statusCode).toBe(412);
   });
+  test("Should return 404 if post isn't found", async () => {
+    // Register user
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser.statusCode).toBe(200);
+    const deletePost = await request(app)
+      .delete(`/api/posts/5509f07f227cde6d205a0962`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(deletePost.statusCode).toBe(404);
+  })
 });
