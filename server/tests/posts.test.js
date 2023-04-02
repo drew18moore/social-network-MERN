@@ -476,14 +476,14 @@ describe("PUT /posts/:id/like", () => {
         .send({ postBody: postBody })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
-      let post = await Post.findById(newPost.body._id)
-      expect(post.likes).not.toContain(registeredUser.body._id)
+      let post = await Post.findById(newPost.body._id);
+      expect(post.likes).not.toContain(registeredUser.body._id);
       const likePost = await request(app)
         .put(`/api/posts/${newPost.body._id}/like`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(likePost.statusCode).toBe(200)
-      post = await Post.findById(newPost.body._id)
-      expect(post.likes).toContain(registeredUser.body._id)
+      expect(likePost.statusCode).toBe(200);
+      post = await Post.findById(newPost.body._id);
+      expect(post.likes).toContain(registeredUser.body._id);
     });
     test("Should REMOVE user's id to post's likes if previously liked", async () => {
       // Register user
@@ -507,16 +507,82 @@ describe("PUT /posts/:id/like", () => {
       const likePost = await request(app)
         .put(`/api/posts/${newPost.body._id}/like`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(likePost.statusCode).toBe(200)
-      let post = await Post.findById(newPost.body._id)
-      expect(post.likes).toContain(registeredUser.body._id)
+      expect(likePost.statusCode).toBe(200);
+      let post = await Post.findById(newPost.body._id);
+      expect(post.likes).toContain(registeredUser.body._id);
       // Unlike post
       const unlikePost = await request(app)
         .put(`/api/posts/${newPost.body._id}/like`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(unlikePost.statusCode).toBe(200)
-      post = await Post.findById(newPost.body._id)
-      expect(post.likes).not.toContain(registeredUser.body._id)
+      expect(unlikePost.statusCode).toBe(200);
+      post = await Post.findById(newPost.body._id);
+      expect(post.likes).not.toContain(registeredUser.body._id);
+    });
+    test("Should return correct json data if post is liked", async () => {
+      // Register user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser.statusCode).toBe(200);
+      // New post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // Like post
+      const likePost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/like`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(likePost.statusCode).toBe(200);
+      const expectedData = {
+        message: "Post has been liked",
+        numLikes: 1,
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(JSON.stringify(likePost.body[field])).toMatch(JSON.stringify(expectedData[field]));
+      });
+    });
+    test("Should return correct json data if post is liked", async () => {
+      // Register user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser.statusCode).toBe(200);
+      // New post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // Like post
+      const likePost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/like`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(likePost.statusCode).toBe(200);
+      const unlikePost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/like`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(unlikePost.statusCode).toBe(200);
+      const expectedData = {
+        message: "Post has been unliked",
+        numLikes: 0,
+      };
+      Object.keys(expectedData).forEach((field) => {
+        expect(JSON.stringify(unlikePost.body[field])).toMatch(JSON.stringify(expectedData[field]));
+      });
     });
   });
 });
