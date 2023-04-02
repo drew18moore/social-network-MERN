@@ -453,5 +453,37 @@ describe("DELETE /posts/:id", () => {
       .delete(`/api/posts/5509f07f227cde6d205a0962`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(deletePost.statusCode).toBe(404);
-  })
+  });
+});
+
+describe("PUT /posts/:id/like", () => {
+  describe("On success return 200 status code and...", () => {
+    test("Should like post if previously unliked", async () => {
+      // Register user
+      const userData1 = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData1);
+      expect(registeredUser.statusCode).toBe(200);
+      // New post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      let post = await Post.findById(newPost.body._id)
+      expect(post.likes).not.toContain(registeredUser.body._id)
+      const likePost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/like`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(likePost.statusCode).toBe(200)
+      post = await Post.findById(newPost.body._id)
+      expect(post.likes).toContain(registeredUser.body._id)
+    });
+  });
 });
