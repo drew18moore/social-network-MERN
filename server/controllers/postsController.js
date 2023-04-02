@@ -44,7 +44,7 @@ const createNewPost = async (req, res) => {
 const getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: "Post not found" })
+    if (!post) return res.status(404).json({ message: "Post not found" });
     const author = await User.findOne({ _id: post.userId });
 
     // get current user
@@ -103,7 +103,7 @@ const getPostById = async (req, res) => {
       _id: post._id,
       profilePicture: profilePicture,
       comments: comments,
-      isBookmarked: currUser.bookmarks.includes(post._id)
+      isBookmarked: currUser.bookmarks.includes(post._id),
     };
 
     res.status(200).json(postData);
@@ -115,7 +115,7 @@ const getPostById = async (req, res) => {
 const editPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: "post not found" })
+    if (!post) return res.status(404).json({ message: "post not found" });
     if (post.userId !== req.userId) {
       return res.status(403).json("You can only update your own posts");
     }
@@ -126,7 +126,7 @@ const editPost = async (req, res) => {
     const postData = {
       _id: post._id,
       postBody: post.postBody,
-    }
+    };
     return res.status(200).json(postData);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -136,7 +136,7 @@ const editPost = async (req, res) => {
 const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: "Post not found" })
+    if (!post) return res.status(404).json({ message: "Post not found" });
     if (post.userId !== req.userId) {
       return res
         .status(412)
@@ -146,7 +146,10 @@ const deletePost = async (req, res) => {
       await Comment.deleteMany({ _id: { $in: post.comments } });
     }
     // Remove postId from bookmarks
-    await User.updateMany({ bookmarks: post._id.toString() }, { $pull: { bookmarks: post._id.toString() } });
+    await User.updateMany(
+      { bookmarks: post._id.toString() },
+      { $pull: { bookmarks: post._id.toString() } }
+    );
     const response = await post.deleteOne();
     res.status(200).json(response);
   } catch (err) {
@@ -157,6 +160,7 @@ const deletePost = async (req, res) => {
 const likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
     const numLikes = post.likes.length;
     if (!post.likes.includes(req.userId)) {
       await post.updateOne({ $push: { likes: req.userId } });
@@ -260,7 +264,7 @@ const bookmarkPost = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-}
+};
 
 module.exports = {
   createNewPost,
@@ -270,5 +274,5 @@ module.exports = {
   getTimelinePosts,
   getPostsByUsername,
   getPostById,
-  bookmarkPost
+  bookmarkPost,
 };
