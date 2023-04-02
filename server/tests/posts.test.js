@@ -612,14 +612,14 @@ describe("PUT /posts/:id/bookmark", () => {
   describe("On success return 200 status code and...", () => {
     test("Should ADD post's id to user's bookmarks if previously unbookmarked", async () => {
       // Register user
-      const userData1 = {
+      const userData = {
         fullname: "test fullname",
         username: "testusername1",
         password: "password123",
       };
       const registeredUser = await request(app)
         .post("/api/auth/register")
-        .send(userData1);
+        .send(userData);
       expect(registeredUser.statusCode).toBe(200);
       // New post
       const postBody = "Post 1";
@@ -637,6 +637,39 @@ describe("PUT /posts/:id/bookmark", () => {
       expect(bookmarkPost.statusCode).toBe(200)
       user = await User.findById(registeredUser.body._id);
       expect(user.bookmarks).toContain(newPost.body._id);
+    });
+    test("Should REMOVE post's id to user's bookmarks if previously bookmarked", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // Bookmark post
+      const bookmarkPost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/bookmark`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(bookmarkPost.statusCode).toBe(200)
+      let user = await User.findById(registeredUser.body._id);
+      expect(user.bookmarks).toContain(newPost.body._id);
+      // Unbookmark post
+      const unbookmarkPost = await request(app)
+        .put(`/api/posts/${newPost.body._id}/bookmark`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(unbookmarkPost.statusCode).toBe(200)
+      user = await User.findById(registeredUser.body._id);
+      expect(user.bookmarks).not.toContain(newPost.body._id);
     });
   });
 });
