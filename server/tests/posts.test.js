@@ -549,7 +549,7 @@ describe("PUT /posts/:id/like", () => {
         expect(JSON.stringify(likePost.body[field])).toMatch(JSON.stringify(expectedData[field]));
       });
     });
-    test("Should return correct json data if post is liked", async () => {
+    test("Should return correct json data if post is unliked", async () => {
       // Register user
       const userData1 = {
         fullname: "test fullname",
@@ -585,4 +585,21 @@ describe("PUT /posts/:id/like", () => {
       });
     });
   });
+  test("Should respond with a 404 status code if the post is not found", async () => {
+    // Register user
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser.statusCode).toBe(200);
+    // Like post
+    const likePost = await request(app)
+    .put(`/api/posts/5509f07f227cde6d205a0962/like`)
+    .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+  expect(likePost.statusCode).toBe(404);
+  })
 });
