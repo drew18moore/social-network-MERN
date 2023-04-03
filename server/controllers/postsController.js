@@ -224,6 +224,7 @@ const getPostsByUsername = async (req, res) => {
     const page = req.query.page - 1 || 0;
     const limit = req.query.limit || 0;
     const user = await User.findOne({ username: req.params.username });
+    if (!user) return res.status(404).json({ message: "User not found" });
     const userPosts = await Post.find({ userId: user._id }, null, {
       skip: page * limit,
       limit: limit,
@@ -264,8 +265,8 @@ const getPostsByUsername = async (req, res) => {
 const bookmarkPost = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
-    const post = await Post.findById(req.params.id)
-    if (!post) return res.status(404).json({ message: "Post not found" })
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
     if (!user.bookmarks.includes(req.params.id)) {
       await user.updateOne({ $push: { bookmarks: req.params.id } });
       res.status(200).json({ message: "Post has been bookmarked" });

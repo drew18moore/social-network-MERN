@@ -4,6 +4,7 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 const { connect, disconnect, reset } = require("./config/database");
 const Comment = require("../models/Comment");
+const jwt = require("jsonwebtoken")
 
 beforeAll(async () => {
   await connect();
@@ -893,4 +894,16 @@ describe("GET /posts/:username/all", () => {
       });
     });
   });
+  test("Should return 404 if user isn't found", async () => {
+    const tempAccessToken = jwt.sign(
+      { userId: "5509f07f227cde6d205a0962" },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 900000 } // 15 mins
+    );
+    // Get user posts
+    const userPosts = await request(app)
+        .get(`/api/posts/fakeuser/all`)
+        .set("Authorization", `Bearer ${tempAccessToken}`);
+      expect(userPosts.statusCode).toBe(404);
+  })
 });
