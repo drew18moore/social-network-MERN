@@ -672,4 +672,21 @@ describe("PUT /posts/:id/bookmark", () => {
       expect(user.bookmarks).not.toContain(newPost.body._id);
     });
   });
+  test("Should return 404 if post isn't found", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // Bookmark post
+    const bookmarkPost = await request(app)
+      .put(`/api/posts/5509f07f227cde6d205a0962/bookmark`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(bookmarkPost.statusCode).toBe(404)
+  })
 });
