@@ -26,7 +26,7 @@ const newComment = async (req, res) => {
 const editComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
-    if (comment.userId !== req.body.userId) {
+    if (comment.userId !== req.userId) {
       return res.status(403).json("You can only update your own comments");
     }
     comment.commentBody = req.body.postBody;
@@ -42,7 +42,7 @@ const deleteComment = async (req, res) => {
     const comment = await Comment.findById(req.params.id);
     const parentPost = await Post.findById(req.body.parentId);
 
-    if (comment.userId !== req.body.userId) {
+    if (comment.userId !== req.userId) {
       return res
         .status(412)
         .json({ message: "You can only delete your own comments" });
