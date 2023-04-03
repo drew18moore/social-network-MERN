@@ -752,7 +752,6 @@ describe("GET /posts/timeline/:userId", () => {
       const timelinePosts = await request(app)
         .get(`/api/posts/timeline/${registeredUser.body._id}`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      console.log(timelinePosts.body);
       expect(timelinePosts.statusCode).toBe(200);
       const expectedData = {
         numFound: 2,
@@ -779,8 +778,8 @@ describe("GET /posts/timeline/:userId", () => {
             username: registeredUser.body.username,
             profilePicture: "/default-pfp.jpg",
           },
-        ]
-      }
+        ],
+      };
       Object.keys(expectedData).forEach((field) => {
         if (typeof timelinePosts.body[field] === "string") {
           expect(timelinePosts.body[field]).toMatch(expectedData[field]);
@@ -790,6 +789,41 @@ describe("GET /posts/timeline/:userId", () => {
           );
         }
       });
-    })
+    });
+  });
+});
+
+describe("GET /posts/:username/all", () => {
+  describe("On success, return 200 status code and...", () => {
+    test("Should return correct json data given there are NO posts", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // Get user's posts
+      const userPosts = await request(app)
+        .get(`/api/posts/${registeredUser.body.username}/all`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(userPosts.statusCode).toBe(200);
+      const expectedData = {
+        numFound: 0,
+        posts: [],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        if (typeof userPosts.body[field] === "string") {
+          expect(userPosts.body[field]).toMatch(expectedData[field]);
+        } else {
+          expect(JSON.stringify(userPosts.body[field])).toMatch(
+            JSON.stringify(expectedData[field])
+          );
+        }
+      });
+    });
   });
 });
