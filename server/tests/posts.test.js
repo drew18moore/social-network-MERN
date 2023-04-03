@@ -693,7 +693,7 @@ describe("PUT /posts/:id/bookmark", () => {
 
 describe("GET /posts/timeline/:userId", () => {
   describe("On success return 200 status code and...", () => {
-    test("Should return correct json data given that there are no posts", async () => {
+    test("Should return correct json data given that there are NO posts", async () => {
       // Register user
       const userData = {
         fullname: "test fullname",
@@ -708,7 +708,6 @@ describe("GET /posts/timeline/:userId", () => {
       const timelinePosts = await request(app)
         .get(`/api/posts/timeline/${registeredUser.body._id}`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      console.log(timelinePosts.body);
       expect(timelinePosts.statusCode).toBe(200);
       const expectedData = {
         numFound: 0,
@@ -724,5 +723,73 @@ describe("GET /posts/timeline/:userId", () => {
         }
       });
     });
+    test("Should return correct json data given that there ARE posts", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // First post
+      const postBody1 = "Post 1";
+      const newPost1 = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody1 })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost1.statusCode).toBe(200);
+      // Second post
+      const postBody2 = "Post 2";
+      const newPost2 = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody2 })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost2.statusCode).toBe(200);
+      // Get timeline posts
+      const timelinePosts = await request(app)
+        .get(`/api/posts/timeline/${registeredUser.body._id}`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      console.log(timelinePosts.body);
+      expect(timelinePosts.statusCode).toBe(200);
+      const expectedData = {
+        numFound: 2,
+        posts: [
+          {
+            _id: newPost2.body._id,
+            userId: newPost2.body.userId,
+            postBody: postBody2,
+            likes: [],
+            comments: [],
+            createdAt: newPost2.body.createdAt,
+            fullname: registeredUser.body.fullname,
+            username: registeredUser.body.username,
+            profilePicture: "/default-pfp.jpg",
+          },
+          {
+            _id: newPost1.body._id,
+            userId: newPost1.body.userId,
+            postBody: postBody1,
+            likes: [],
+            comments: [],
+            createdAt: newPost1.body.createdAt,
+            fullname: registeredUser.body.fullname,
+            username: registeredUser.body.username,
+            profilePicture: "/default-pfp.jpg",
+          },
+        ]
+      }
+      Object.keys(expectedData).forEach((field) => {
+        if (typeof timelinePosts.body[field] === "string") {
+          expect(timelinePosts.body[field]).toMatch(expectedData[field]);
+        } else {
+          expect(JSON.stringify(timelinePosts.body[field])).toMatch(
+            JSON.stringify(expectedData[field])
+          );
+        }
+      });
+    })
   });
 });
