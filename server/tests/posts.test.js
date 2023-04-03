@@ -634,7 +634,7 @@ describe("PUT /posts/:id/bookmark", () => {
       const bookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(bookmarkPost.statusCode).toBe(200)
+      expect(bookmarkPost.statusCode).toBe(200);
       user = await User.findById(registeredUser.body._id);
       expect(user.bookmarks).toContain(newPost.body._id);
     });
@@ -660,14 +660,14 @@ describe("PUT /posts/:id/bookmark", () => {
       const bookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(bookmarkPost.statusCode).toBe(200)
+      expect(bookmarkPost.statusCode).toBe(200);
       let user = await User.findById(registeredUser.body._id);
       expect(user.bookmarks).toContain(newPost.body._id);
       // Unbookmark post
       const unbookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(unbookmarkPost.statusCode).toBe(200)
+      expect(unbookmarkPost.statusCode).toBe(200);
       user = await User.findById(registeredUser.body._id);
       expect(user.bookmarks).not.toContain(newPost.body._id);
     });
@@ -687,6 +687,42 @@ describe("PUT /posts/:id/bookmark", () => {
     const bookmarkPost = await request(app)
       .put(`/api/posts/5509f07f227cde6d205a0962/bookmark`)
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-    expect(bookmarkPost.statusCode).toBe(404)
-  })
+    expect(bookmarkPost.statusCode).toBe(404);
+  });
+});
+
+describe("GET /posts/timeline/:userId", () => {
+  describe("On success return 200 status code and...", () => {
+    test("Should return correct json data given that there are no posts", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // Get timeline posts
+      const timelinePosts = await request(app)
+        .get(`/api/posts/timeline/${registeredUser.body._id}`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      console.log(timelinePosts.body);
+      expect(timelinePosts.statusCode).toBe(200);
+      const expectedData = {
+        numFound: 0,
+        posts: [],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        if (typeof timelinePosts.body[field] === "string") {
+          expect(timelinePosts.body[field]).toMatch(expectedData[field]);
+        } else {
+          expect(JSON.stringify(timelinePosts.body[field])).toMatch(
+            JSON.stringify(expectedData[field])
+          );
+        }
+      });
+    });
+  });
 });

@@ -181,9 +181,9 @@ const likePost = async (req, res) => {
 const getTimelinePosts = async (req, res) => {
   try {
     const page = req.query.page - 1;
-    const { following } = await User.findById(req.params.userId);
+    const { following } = await User.findById(req.userId);
     const allPosts = await Post.find(
-      { userId: { $in: [req.params.userId, ...following] } },
+      { userId: { $in: [req.userId, ...following] } },
       null,
       { skip: page * req.query.limit, limit: req.query.limit }
     ).sort({ createdAt: -1 });
