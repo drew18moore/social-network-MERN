@@ -243,7 +243,12 @@ const getPostsByUsername = async (req, res) => {
         }
 
         return {
-          ...post.toJSON(),
+          _id: post._id,
+          userId: post.userId,
+          postBody: post.postBody,
+          likes: [],
+          comments: [],
+          createdAt: post.createdAt,
           fullname: user.fullname,
           username: user.username,
           profilePicture: profilePicture,

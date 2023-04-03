@@ -825,5 +825,72 @@ describe("GET /posts/:username/all", () => {
         }
       });
     });
+    test("Should return correct json data given there are TWO posts", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername1",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // First post
+      const postBody1 = "Post 1";
+      const newPost1 = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody1 })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost1.statusCode).toBe(200);
+      // Second post
+      const postBody2 = "Post 2";
+      const newPost2 = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody2 })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost2.statusCode).toBe(200);
+      // Get user's posts
+      const userPosts = await request(app)
+        .get(`/api/posts/${registeredUser.body.username}/all`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(userPosts.statusCode).toBe(200);
+      const expectedData = {
+        numFound: 2,
+        posts: [
+          {
+            _id: newPost2.body._id,
+            userId: newPost2.body.userId,
+            postBody: postBody2,
+            likes: [],
+            comments: [],
+            createdAt: newPost2.body.createdAt,
+            fullname: registeredUser.body.fullname,
+            username: registeredUser.body.username,
+            profilePicture: "/default-pfp.jpg",
+          },
+          {
+            _id: newPost1.body._id,
+            userId: newPost1.body.userId,
+            postBody: postBody1,
+            likes: [],
+            comments: [],
+            createdAt: newPost1.body.createdAt,
+            fullname: registeredUser.body.fullname,
+            username: registeredUser.body.username,
+            profilePicture: "/default-pfp.jpg",
+          },
+        ],
+      };
+      Object.keys(expectedData).forEach((field) => {
+        if (typeof userPosts.body[field] === "string") {
+          expect(userPosts.body[field]).toMatch(expectedData[field]);
+        } else {
+          expect(JSON.stringify(userPosts.body[field])).toMatch(
+            JSON.stringify(expectedData[field])
+          );
+        }
+      });
+    });
   });
 });
