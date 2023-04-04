@@ -30,6 +30,7 @@ const newComment = async (req, res) => {
 const editComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
+    if (!comment) return res.status(404).json({ message: "Comment not found" })
     if (comment.userId !== req.userId) {
       return res.status(403).json("You can only update your own comments");
     }

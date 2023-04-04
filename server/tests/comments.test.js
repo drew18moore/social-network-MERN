@@ -274,4 +274,23 @@ describe("PUT /comments/:id", () => {
       });
     });
   });
+  test("Should return 404 status code if comment isn't found", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // Edit comment
+    const updatedCommentBody = "Updated comment";
+    const updatedComment = await request(app)
+      .put(`/api/comments/5509f07f227cde6d205a0962`)
+      .send({ postBody: updatedCommentBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(updatedComment.statusCode).toBe(404);
+  })
 });
