@@ -6,6 +6,9 @@ const newComment = async (req, res) => {
     return res.status(412).json({ message: "You must type a message." });
   }
 
+  const parentPost = await Post.findById(req.body.parentId)
+  if(!parentPost) return res.status(404).json({ message: "Parent post not found" })
+
   const comment = new Comment({
     userId: req.userId,
     parentId: req.body.parentId,
