@@ -137,4 +137,30 @@ describe("POST /comments/new", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newComment.statusCode).toBe(400);
   })
+  test("Should return 400 status code if commentBody is an empty string", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // New Post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    // New comment
+    const commentBody = ""
+    const newComment = await request(app)
+      .post("/api/comments/new")
+      .send({ parentId: newPost.body._id, commentBody: commentBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newComment.statusCode).toBe(400);
+  })
 });
