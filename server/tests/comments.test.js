@@ -136,7 +136,7 @@ describe("POST /comments/new", () => {
       .send({ parentId: newPost.body._id })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newComment.statusCode).toBe(400);
-  })
+  });
   test("Should return 400 status code if commentBody is an empty string", async () => {
     // Register user
     const userData = {
@@ -156,14 +156,14 @@ describe("POST /comments/new", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newPost.statusCode).toBe(200);
     // New comment
-    const commentBody = ""
+    const commentBody = "";
     const newComment = await request(app)
       .post("/api/comments/new")
       .send({ parentId: newPost.body._id, commentBody: commentBody })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newComment.statusCode).toBe(400);
-  })
-  test("Should return 400 status code if commentBody is an empty string", async () => {
+  });
+  test("Should return 400 status code if request is missing parentId", async () => {
     // Register user
     const userData = {
       fullname: "test fullname",
@@ -175,13 +175,13 @@ describe("POST /comments/new", () => {
       .send(userData);
     expect(registeredUser.statusCode).toBe(200);
     // New comment
-    const commentBody = "Comment 1"
+    const commentBody = "Comment 1";
     const newComment = await request(app)
       .post("/api/comments/new")
       .send({ commentBody: commentBody })
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newComment.statusCode).toBe(400);
-  })
+  });
 });
 
 describe("PUT /comments/:id", () => {
@@ -211,16 +211,67 @@ describe("PUT /comments/:id", () => {
         .send({ parentId: newPost.body._id, commentBody: commentBody })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newComment.statusCode).toBe(200);
-      let comment = await Comment.findById(newComment.body._id)
+      let comment = await Comment.findById(newComment.body._id);
       // Edit comment
-      const updatedCommentBody = "Updated comment"
+      const updatedCommentBody = "Updated comment";
       const updatedComment = await request(app)
         .put(`/api/comments/${newComment.body._id}`)
         .send({ postBody: updatedCommentBody })
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
-      expect(updatedComment.statusCode).toBe(200)
-      comment = await Comment.findById(newComment.body._id)
-      expect(comment.commentBody).toEqual(updatedCommentBody)
-    })
-  })
-})
+      expect(updatedComment.statusCode).toBe(200);
+      comment = await Comment.findById(newComment.body._id);
+      expect(comment.commentBody).toEqual(updatedCommentBody);
+    });
+    test("Should return correct json data", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New Post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // New comment
+      const commentBody = "Comment 1";
+      const newComment = await request(app)
+        .post("/api/comments/new")
+        .send({ parentId: newPost.body._id, commentBody: commentBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newComment.statusCode).toBe(200);
+      // Edit comment
+      const updatedCommentBody = "Updated comment";
+      const updatedComment = await request(app)
+        .put(`/api/comments/${newComment.body._id}`)
+        .send({ postBody: updatedCommentBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(updatedComment.statusCode).toBe(200);
+      expectedData = {
+        userId: registeredUser.body._id,
+        parentId: newPost.body._id,
+        commentBody: updatedCommentBody,
+        likes: [],
+        comments: [],
+        _id: /^[a-z0-9]+$/i,
+        createdAt: /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/,
+      };
+      Object.keys(expectedData).forEach((field) => {
+        if (typeof updatedComment.body[field] === "string") {
+          expect(updatedComment.body[field]).toMatch(expectedData[field]);
+        } else {
+          expect(JSON.stringify(updatedComment.body[field])).toMatch(
+            JSON.stringify(expectedData[field])
+          );
+        }
+      });
+    });
+  });
+});
