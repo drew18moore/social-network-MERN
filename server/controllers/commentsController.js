@@ -2,8 +2,8 @@ const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 
 const newComment = async (req, res) => {
-  if (req.body.commentBody === "") {
-    return res.status(412).json({ message: "You must type a message." });
+  if (req.body.commentBody === "" || !req.body.commentBody) {
+    return res.status(400).json({ message: "You must type a message." });
   }
 
   const parentPost = await Post.findById(req.body.parentId)

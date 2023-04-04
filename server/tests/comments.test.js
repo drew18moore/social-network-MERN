@@ -93,7 +93,7 @@ describe("POST /comments/new", () => {
       expect(comment.likes).toEqual([]);
     });
   });
-  test("Should return 404 if parent post isn't found", async () => {
+  test("Should return 404 status code if parent post isn't found", async () => {
     // Register user
     const userData = {
       fullname: "test fullname",
@@ -112,4 +112,29 @@ describe("POST /comments/new", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(newComment.statusCode).toBe(404);
   });
+  test("Should return 400 status code if request is missing commentBody", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // New Post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    // New comment
+    const newComment = await request(app)
+      .post("/api/comments/new")
+      .send({ parentId: newPost.body._id })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newComment.statusCode).toBe(400);
+  })
 });
