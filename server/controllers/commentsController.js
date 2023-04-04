@@ -6,9 +6,13 @@ const newComment = async (req, res) => {
     return res.status(400).json({ message: "You must type a message." });
   }
 
-  if (!req.body.parentId) return res.status(400).json({ message: "Missing parentId in request body" })
-  const parentPost = await Post.findById(req.body.parentId)
-  if(!parentPost) return res.status(404).json({ message: "Parent post not found" })
+  if (!req.body.parentId)
+    return res
+      .status(400)
+      .json({ message: "Missing parentId in request body" });
+  const parentPost = await Post.findById(req.body.parentId);
+  if (!parentPost)
+    return res.status(404).json({ message: "Parent post not found" });
 
   const comment = new Comment({
     userId: req.userId,
@@ -29,8 +33,12 @@ const newComment = async (req, res) => {
 
 const editComment = async (req, res) => {
   try {
+    if (!req.body.postBody || req.body.postBody === "")
+      return res
+        .status(400)
+        .json({ message: "Must provide commentBody in response" });
     const comment = await Comment.findById(req.params.id);
-    if (!comment) return res.status(404).json({ message: "Comment not found" })
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
     if (comment.userId !== req.userId) {
       return res.status(403).json("You can only update your own comments");
     }
