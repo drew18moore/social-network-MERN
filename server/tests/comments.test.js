@@ -183,3 +183,44 @@ describe("POST /comments/new", () => {
     expect(newComment.statusCode).toBe(400);
   })
 });
+
+describe("PUT /comments/:id", () => {
+  describe("On success, return 200 status code and...", () => {
+    test("Should update comment in db", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New Post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // New comment
+      const commentBody = "Comment 1";
+      const newComment = await request(app)
+        .post("/api/comments/new")
+        .send({ parentId: newPost.body._id, commentBody: commentBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newComment.statusCode).toBe(200);
+      let comment = await Comment.findById(newComment.body._id)
+      // Edit comment
+      const updatedCommentBody = "Updated comment"
+      const updatedComment = await request(app)
+        .put(`/api/comments/${newComment.body._id}`)
+        .send({ postBody: updatedCommentBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(updatedComment.statusCode).toBe(200)
+      comment = await Comment.findById(newComment.body._id)
+      expect(comment.commentBody).toEqual(updatedCommentBody)
+    })
+  })
+})
