@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
 const { connect, disconnect, reset } = require("./config/database");
+const Comment = require("../models/Comment");
 
 beforeAll(async () => {
   await connect();
@@ -59,6 +60,37 @@ describe("POST /comments/new", () => {
           );
         }
       });
+    });
+    test("Should save new comment to db", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New Post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // New comment
+      const commentBody = "Comment 1";
+      const newComment = await request(app)
+        .post("/api/comments/new")
+        .send({ parentId: newPost.body._id, commentBody: commentBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newComment.statusCode).toBe(200);
+      const comment = await Comment.findById(newComment.body._id)
+      expect(comment.userId).toEqual(registeredUser.body._id)
+      expect(comment.parentId).toEqual(newPost.body._id)
+      expect(comment.commentBody).toEqual(commentBody)
+      expect(comment.likes).toEqual([])
     });
   });
 });
