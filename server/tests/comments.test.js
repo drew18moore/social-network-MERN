@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 const { connect, disconnect, reset } = require("./config/database");
 const Comment = require("../models/Comment");
+const Post = require("../models/Post")
 
 beforeAll(async () => {
   await connect();
@@ -440,6 +441,42 @@ describe("DELETE /comments/:id", () => {
       expect(deleteComment.statusCode).toBe(200);
       comment = await Comment.findById(newComment.body._id)
       expect(comment).not.toBeTruthy()
+    })
+    test("Should remove comment id from parent's comments list", async () => {
+      // Register user
+      const userData = {
+        fullname: "test fullname",
+        username: "testusername",
+        password: "password123",
+      };
+      const registeredUser = await request(app)
+        .post("/api/auth/register")
+        .send(userData);
+      expect(registeredUser.statusCode).toBe(200);
+      // New Post
+      const postBody = "Post 1";
+      const newPost = await request(app)
+        .post("/api/posts/new")
+        .send({ postBody: postBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newPost.statusCode).toBe(200);
+      // New comment
+      const commentBody = "Comment 1";
+      const newComment = await request(app)
+        .post("/api/comments/new")
+        .send({ parentId: newPost.body._id, commentBody: commentBody })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(newComment.statusCode).toBe(200);
+      let parentPost = await Post.findById(newPost.body._id)
+      expect(parentPost.comments).toContain(newComment.body._id)
+      // Delete comment
+      const deleteComment = await request(app)
+        .delete(`/api/comments/${newComment.body._id}`)
+        .send({ parentId: newPost.body._id })
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(deleteComment.statusCode).toBe(200);
+      parentPost = await Post.findById(newPost.body._id)
+      expect(parentPost.comments).not.toContain(newComment.body._id)
     })
   })
 })
