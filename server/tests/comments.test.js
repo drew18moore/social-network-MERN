@@ -535,4 +535,46 @@ describe("DELETE /comments/:id", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(deleteComment.statusCode).toBe(400);
   })
+  test("Should return 412 if user tries to delete someone elses comment.", async () => {
+    // Register main user
+    const userData1 = {
+      fullname: "test fullname",
+      username: "testusername1",
+      password: "password123",
+    };
+    const registeredUser1 = await request(app)
+      .post("/api/auth/register")
+      .send(userData1);
+    expect(registeredUser1.statusCode).toBe(200);
+    // Register second user
+    const userData2 = {
+      fullname: "test fullname",
+      username: "testusername2",
+      password: "password123",
+    };
+    const registeredUser2 = await request(app)
+      .post("/api/auth/register")
+      .send(userData2);
+    expect(registeredUser2.statusCode).toBe(200);
+    // New Post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    // New comment
+    const commentBody = "Comment 1";
+    const newComment = await request(app)
+      .post("/api/comments/new")
+      .send({ parentId: newPost.body._id, commentBody: commentBody })
+      .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
+    expect(newComment.statusCode).toBe(200);
+    // Delete comment
+    const deleteComment = await request(app)
+      .delete(`/api/comments/${newComment.body._id}`)
+      .send({ parentId: newPost.body._id })
+      .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
+    expect(deleteComment.statusCode).toBe(412);
+  })
 })
