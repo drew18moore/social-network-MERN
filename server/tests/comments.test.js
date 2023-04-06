@@ -479,4 +479,29 @@ describe("DELETE /comments/:id", () => {
       expect(parentPost.comments).not.toContain(newComment.body._id)
     })
   })
+  test("Should return 404 if comment not found", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // New Post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    // Delete comment
+    const deleteComment = await request(app)
+      .delete(`/api/comments/5509f07f227cde6d205a0962`)
+      .send({ parentId: newPost.body._id })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(deleteComment.statusCode).toBe(404)
+  })
 })
