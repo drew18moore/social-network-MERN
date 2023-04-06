@@ -657,4 +657,21 @@ describe("PUT /comments/:id/like", () => {
       expect(comment.likes).not.toContain(registeredUser.body._id)
     })
   })
+  test("Should return 404 if comment not found", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // Like comment
+    const likeComment = await request(app)
+        .put(`/api/comments/5509f07f227cde6d205a0962/like`)
+        .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+      expect(likeComment.statusCode).toBe(404)
+  })
 })

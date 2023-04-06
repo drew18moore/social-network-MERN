@@ -78,6 +78,7 @@ const deleteComment = async (req, res) => {
 const likeComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
     const numLikes = comment.likes.length;
     if (!comment.likes.includes(req.userId)) {
       await comment.updateOne({ $push: { likes: req.userId } });
