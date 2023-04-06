@@ -52,8 +52,12 @@ const editComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
+    if (!req.body.parentId)
+      return res
+        .status(400)
+        .json({ message: "parentId is missing from request body" });
     const comment = await Comment.findById(req.params.id);
-    if (!comment) return res.status(404).json({ message: "Comment not found" })
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
     const parentPost = await Post.findById(req.body.parentId);
 
     if (comment.userId !== req.userId) {

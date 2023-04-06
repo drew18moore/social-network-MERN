@@ -504,4 +504,35 @@ describe("DELETE /comments/:id", () => {
       .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
     expect(deleteComment.statusCode).toBe(404)
   })
+  test("Should return 400 if parentId is missing from request body", async () => {
+    // Register user
+    const userData = {
+      fullname: "test fullname",
+      username: "testusername",
+      password: "password123",
+    };
+    const registeredUser = await request(app)
+      .post("/api/auth/register")
+      .send(userData);
+    expect(registeredUser.statusCode).toBe(200);
+    // New Post
+    const postBody = "Post 1";
+    const newPost = await request(app)
+      .post("/api/posts/new")
+      .send({ postBody: postBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newPost.statusCode).toBe(200);
+    // New comment
+    const commentBody = "Comment 1";
+    const newComment = await request(app)
+      .post("/api/comments/new")
+      .send({ parentId: newPost.body._id, commentBody: commentBody })
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(newComment.statusCode).toBe(200);
+    // Delete comment
+    const deleteComment = await request(app)
+      .delete(`/api/comments/${newComment.body._id}`)
+      .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
+    expect(deleteComment.statusCode).toBe(400);
+  })
 })
