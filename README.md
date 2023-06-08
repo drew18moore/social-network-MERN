@@ -32,6 +32,8 @@ A social media app built using the MERN stack
 ## Getting Started
 ### Prerequisites
 * npm
+
+Go to https://nodejs.org and install node.js
 ```
 npm install npm@latest -g
 ```
@@ -54,6 +56,8 @@ npm install
 3. Inside of the root of the server directory, create a .env file, and write the following:
 ```
 DATABASE_URL = "mongodb://localhost/social"
+ACCESS_TOKEN_SECRET = "<randomstring>"
+REFRESH_TOKEN_SECRET = "<randomstring>"
 ```
 ## Usage
 * To run the application, open two terminal instances and run:
