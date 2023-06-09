@@ -44,7 +44,8 @@
     width: fit-content;
   }
 
-  .nav-sidebar .link-txt, .nav-sidebar .curr-user-info {
+  .nav-sidebar .link-txt,
+  .nav-sidebar .curr-user-info {
     display: none;
   }
 
@@ -107,26 +108,10 @@
     display: none;
   }
 
-  .new-post-form {
-    border-radius: 0 !important;
-  }
-
-  .post-top {
-    border-radius: 0;
-  }
-
-  .post-main {
-    border-radius: 0;
-  }
-
   .main {
     height: 100%;
     background-color: unset;
     overflow: unset;
-  }
-
-  .post {
-    border-radius: 0;
   }
 
   .post-header {
@@ -135,5 +120,19 @@
 
   .post-body {
     font-size: 1.25rem !important;
+  }
+
+  .profile-top,
+  .profile-card,
+  .post,
+  .post-main,
+  .post-top,
+  .new-post-form,
+  .followers-following-page .header,
+  .user,
+  .settings-top,
+  .settings-container .appearance,
+  .settings-container .account {
+    border-radius: 0 !important;
   }
 }
