@@ -42,7 +42,6 @@
 
   .nav-sidebar nav li {
     width: fit-content;
-    /* border-radius: 50%; */
   }
 
   .nav-sidebar .link-txt, .nav-sidebar .curr-user-info {
@@ -108,10 +107,26 @@
     display: none;
   }
 
+  .new-post-form {
+    border-radius: 0 !important;
+  }
+
+  .post-top {
+    border-radius: 0;
+  }
+
+  .post-main {
+    border-radius: 0;
+  }
+
   .main {
     height: 100%;
     background-color: unset;
     overflow: unset;
+  }
+
+  .post {
+    border-radius: 0;
   }
 
   .post-header {
