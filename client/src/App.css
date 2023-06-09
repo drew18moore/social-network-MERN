@@ -42,7 +42,7 @@
 
   .nav-sidebar nav li {
     width: fit-content;
-    border-radius: 50%;
+    /* border-radius: 50%; */
   }
 
   .nav-sidebar .link-txt, .nav-sidebar .curr-user-info {
@@ -93,12 +93,15 @@
   }
 
   .nav-sidebar nav {
+    border-radius: 0;
     padding: 0 !important;
   }
 
   .nav-sidebar .links {
     flex-direction: row !important;
     justify-content: space-around;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   .nav-sidebar .curr-user {
