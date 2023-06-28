@@ -99,7 +99,7 @@ export default function PostPage() {
       fullname: currentUser.fullname,
       username: currentUser.username,
       profilePicture: currentUser.img,
-      numLikes: 0
+      numLikes: 0,
     });
     let updatedPost = {
       ...post,
@@ -137,7 +137,7 @@ export default function PostPage() {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <div className="post-page">
@@ -195,21 +195,32 @@ export default function PostPage() {
               className={`like-btn ${liked ? "selected" : ""}`}
               onClick={likePost}
             >
-              <BiLike className="like-comment-share-icons" />
+              <div className="btn-wrapper">
+                <BiLike className="like-comment-share-icons" />
+              </div>
               {numberOfLikes}
             </div>
             <div
               className="comment-btn"
               onClick={() => setShowCommentModal(true)}
             >
-              <BiComment className="like-comment-share-icons" />
+              <div className="btn-wrapper">
+                <BiComment className="like-comment-share-icons" />
+              </div>
               {numberOfComments}
             </div>
-            <div className={`bookmark-btn ${isBookmarked ? "selected" : ""}`} onClick={bookmarkPost}>
-              <BiBookmark className="like-comment-share-icons" />
+            <div
+              className={`bookmark-btn ${isBookmarked ? "selected" : ""}`}
+              onClick={bookmarkPost}
+            >
+              <div className="btn-wrapper">
+                <BiBookmark className="like-comment-share-icons" />
+              </div>
             </div>
             <div className="share-btn">
-              <BiShareAlt className="like-comment-share-icons" />
+              <div className="btn-wrapper">
+                <BiShareAlt className="like-comment-share-icons" />
+              </div>
             </div>
           </div>
         </div>

@@ -130,7 +130,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .like-comment-share-icons:hover {
+  .post-page .btn-wrapper:hover {
     color: #1d9bf0;
     background-color: rgba(29, 155, 240, 0.1);
   }
@@ -158,4 +158,12 @@
 
 .comments {
   display: grid;
+}
+
+.post-page .btn-wrapper {
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.1s;
 }

@@ -148,15 +148,21 @@ const Post = forwardRef(
             className={`like-btn ${liked ? "liked" : ""}`}
             onClick={likePost}
           >
-            <BiLike className="like-comment-share-icons" />
+            <div className="btn-wrapper">
+              <BiLike className="like-comment-share-icons" />
+            </div>
             {numberOfLikes}
           </div>
           <div className="comment-btn" onClick={openCommentModal}>
-            <BiComment className="like-comment-share-icons" />
+            <div className="btn-wrapper">
+              <BiComment className="like-comment-share-icons" />
+            </div>
             {numberOfComments}
           </div>
           <div className="share-btn">
-            <BiShareAlt className="like-comment-share-icons" />
+            <div className="btn-wrapper">
+              <BiShareAlt className="like-comment-share-icons" />
+            </div>
           </div>
         </div>
         {showDeletePostModal && (
