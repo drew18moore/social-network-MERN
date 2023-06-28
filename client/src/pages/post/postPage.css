@@ -145,7 +145,7 @@
   gap: 5px;
 }
 
-.post-page .selected .like-comment-share-icons {
+.post-page .selected {
   color: #1d9bf0;
   font-variation-settings: "FILL" 1;
 }

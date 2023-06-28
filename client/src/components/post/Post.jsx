@@ -10,7 +10,7 @@ import CommentModal from "../modal/CommentModal";
 import "./post.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { MdMoreHoriz } from "react-icons/md";
-import { BiComment, BiLike, BiShareAlt } from "react-icons/bi";
+import { BiComment, BiLike, BiShareAlt, BiSolidLike } from "react-icons/bi";
 
 const Post = forwardRef(
   (
@@ -149,7 +149,7 @@ const Post = forwardRef(
             onClick={likePost}
           >
             <div className="btn-wrapper">
-              <BiLike className="like-comment-share-icons" />
+              { liked ? <BiSolidLike className="like-comment-share-icons" /> : <BiLike className="like-comment-share-icons" />}
             </div>
             {numberOfLikes}
           </div>

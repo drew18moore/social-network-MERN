@@ -11,7 +11,7 @@ import CommentModal from "../../components/modal/CommentModal";
 import "./postPage.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { MdArrowBack, MdMoreHoriz } from "react-icons/md";
-import { BiBookmark, BiComment, BiLike, BiShareAlt } from "react-icons/bi";
+import { BiBookmark, BiComment, BiLike, BiShareAlt, BiSolidLike } from "react-icons/bi";
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -196,7 +196,7 @@ export default function PostPage() {
               onClick={likePost}
             >
               <div className="btn-wrapper">
-                <BiLike className="like-comment-share-icons" />
+                {liked ? <BiSolidLike className="like-comment-share-icons" /> : <BiLike className="like-comment-share-icons" />}
               </div>
               {numberOfLikes}
             </div>
