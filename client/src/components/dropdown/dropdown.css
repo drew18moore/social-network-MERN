@@ -47,10 +47,6 @@
   text-decoration: none;
 }
 
-.dropdown .material-symbols-rounded {
-  font-size: 25px;
-}
-
 .dropdown li {
   transition: 0.1s;
 }

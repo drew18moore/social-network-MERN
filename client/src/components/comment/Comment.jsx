@@ -7,6 +7,7 @@ import DeletePost from "../modal/DeletePost";
 import "./comment.css";
 import { axiosPrivate } from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
+import { MdMoreHoriz } from "react-icons/md";
 
 export default function Comment({
   commentId,
@@ -53,7 +54,7 @@ export default function Comment({
           <p className="fullname">{fullname}</p>
           <div className="comment-dropdown-wrapper">
             <div className="meatball-btn" onClick={() => setShowDropdown(true)}>
-              <span className="material-symbols-outlined">more_horiz</span>
+              <MdMoreHoriz size="1.4rem" />
             </div>
             {showDropdown && (
               <Dropdown setShowDropdown={setShowDropdown}>

@@ -6,6 +6,7 @@ import Post from "../../components/post/Post";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 import "./bookmarks.css";
+import { MdArrowBack } from "react-icons/md";
 
 const Bookmarks = () => {
   const { currentUser } = useAuth();
@@ -70,7 +71,7 @@ const Bookmarks = () => {
     <div className="bookmarks-page">
       <div className="bookmarks-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <MdArrowBack size="1.5rem" />
         </div>
         <p>Bookmarks</p>
       </div>

@@ -6,6 +6,7 @@ import DeleteAccount from "../../components/modal/DeleteAccount";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { axiosPrivate } from "../../api/api";
+import { MdArrowBack, MdOutlineLogout } from "react-icons/md";
 
 const Settings = () => {
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +28,7 @@ const Settings = () => {
     <div className="settings-page">
       <div className="settings-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <MdArrowBack size="1.5rem" />
         </div>
         <p>Settings</p>
       </div>
@@ -67,7 +68,8 @@ const Settings = () => {
           <div className="logout">
             <button onClick={logout}>
               <Link to="/login">
-                <span className="material-symbols-rounded">logout</span>Logout
+                <MdOutlineLogout size="1.5rem" />
+                Logout
               </Link>
             </button>
           </div>

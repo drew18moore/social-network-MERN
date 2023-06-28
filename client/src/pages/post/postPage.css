@@ -129,17 +129,8 @@
   color: var(--text-color-secondary);
 }
 
-.like-comment-share-btns .material-symbols-rounded {
-  user-select: none;
-  font-size: 20px;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  transition: 0.1s;
-}
-
 @media (hover: hover) and (pointer: fine) {
-  .like-comment-share-btns .material-symbols-rounded:hover {
+  .like-comment-share-icons:hover {
     color: #1d9bf0;
     background-color: rgba(29, 155, 240, 0.1);
   }
@@ -154,7 +145,7 @@
   gap: 5px;
 }
 
-.post-page .selected .material-symbols-rounded {
+.post-page .selected .like-comment-share-icons {
   color: #1d9bf0;
   font-variation-settings: "FILL" 1;
 }

@@ -36,16 +36,13 @@
 }
 
 .comment-top .meatball-btn {
+  display: flex;
   padding: 5px;
   border-radius: 50%;
   color: var(--text-color-secondary);
   cursor: pointer;
   user-select: none;
   transition: 0.1s;
-}
-
-.comment-top .meatball-btn .material-symbols-outlined {
-  font-size: 1.4rem;
 }
 
 .comment-text .fullname {

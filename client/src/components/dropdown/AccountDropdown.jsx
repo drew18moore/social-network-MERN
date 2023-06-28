@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { axiosPrivate } from "../../api/api";
+import { MdOutlineLogout, MdPersonOutline } from "react-icons/md";
 
 export default function AccountDropdown({ setShowDropdown }) {
   const { currentUser, setCurrentUser } = useAuth()
@@ -18,13 +19,13 @@ export default function AccountDropdown({ setShowDropdown }) {
     <ul className="account-dropdown">
       <li onClick={() => setShowDropdown((prev) => !prev)}>
         <Link to={`/${currentUser.username}`}>
-          <span className="material-symbols-rounded">person</span>
+          <MdPersonOutline size="1.5rem" />
           <p>Profile</p>
         </Link>
       </li>
       <li onClick={logout}>
         <Link to="/login">
-          <span className="material-symbols-rounded">logout</span>
+          <MdOutlineLogout size="1.5rem" />
           <p>Log Out</p>
         </Link>
       </li>

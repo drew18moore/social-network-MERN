@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import User from "../../components/user/User";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./followersFollowing.css";
+import { MdArrowBack } from "react-icons/md";
 
 export default function FollowersFollowing({ tab }) {
   const { username } = useParams();
@@ -90,7 +91,7 @@ export default function FollowersFollowing({ tab }) {
       <div className="header">
         <div className="top">
           <div className="back-btn" onClick={() => navigate(-1)}>
-            <span className="material-symbols-outlined">arrow_back</span>
+            <MdArrowBack size="1.5rem" />
           </div>
           <div className="following-user-info">
             <p className="fullname">{user.fullname}</p>

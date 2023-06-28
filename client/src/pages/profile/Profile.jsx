@@ -7,6 +7,7 @@ import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import Post from "../../components/post/Post";
 import "./profile.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { MdArrowBack, MdPhotoCamera } from "react-icons/md";
 
 export default function Profile() {
   const { username } = useParams();
@@ -96,7 +97,7 @@ export default function Profile() {
     <div className="profile">
       <div className="profile-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <MdArrowBack size="1.5rem" />
         </div>
         <p>{user.fullname}</p>
       </div>
@@ -116,7 +117,7 @@ export default function Profile() {
                     setShowChangeProfilePictureModal((prev) => !prev)
                   }
                 >
-                  <span className="material-symbols-rounded">photo_camera</span>
+                  <MdPhotoCamera size="1.5rem" />
                 </div>
               )}
             </div>

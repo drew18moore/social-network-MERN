@@ -9,6 +9,8 @@ import EditPost from "../modal/EditPost";
 import CommentModal from "../modal/CommentModal";
 import "./post.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { MdMoreHoriz } from "react-icons/md";
+import { BiComment, BiLike, BiShareAlt } from "react-icons/bi";
 
 const Post = forwardRef(
   (
@@ -95,6 +97,13 @@ const Post = forwardRef(
       navigate(`/${username}`);
     };
 
+    const btnStyles = {
+      color: "green",
+      "&:hover": {
+        backgroundColor: "black",
+      },
+    };
+
     return (
       <div ref={ref} className="post" onClick={gotoPostPage}>
         <div className="post-content">
@@ -116,7 +125,7 @@ const Post = forwardRef(
               </div>
               <div className="right-post-header">
                 <div className="meatball-btn" onClick={openDropdown}>
-                  <span className="material-symbols-outlined">more_horiz</span>
+                  <MdMoreHoriz size="1.5rem" />
                 </div>
                 {showDropdown && (
                   <Dropdown setShowDropdown={setShowDropdown}>
@@ -139,17 +148,15 @@ const Post = forwardRef(
             className={`like-btn ${liked ? "liked" : ""}`}
             onClick={likePost}
           >
-            <span className="material-symbols-rounded">thumb_up</span>
+            <BiLike className="like-comment-share-icons" />
             {numberOfLikes}
           </div>
           <div className="comment-btn" onClick={openCommentModal}>
-            <span className="material-symbols-rounded">chat_bubble</span>
+            <BiComment className="like-comment-share-icons" />
             {numberOfComments}
           </div>
           <div className="share-btn">
-            <span className="material-symbols-rounded">
-              google_plus_reshare
-            </span>
+            <BiShareAlt className="like-comment-share-icons" />
           </div>
         </div>
         {showDeletePostModal && (

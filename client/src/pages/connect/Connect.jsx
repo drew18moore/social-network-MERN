@@ -5,6 +5,7 @@ import User from "../../components/user/User";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./connect.css";
+import { MdArrowBack } from "react-icons/md";
 
 const Connect = () => {
   const { currentUser } = useAuth();
@@ -58,7 +59,7 @@ const Connect = () => {
     <div className="connect-page">
       <div className="connect-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <MdArrowBack size="1.5rem" />
         </div>
         <p>Connect</p>
       </div>

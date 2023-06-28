@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./modal.css";
+import { MdOutlineClose } from "react-icons/md";
 
 export default function Modal({ children, setShowModal }) {
 
@@ -20,7 +21,7 @@ export default function Modal({ children, setShowModal }) {
     >
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         <button className="close-modal-btn" onClick={() => setShowModal((prev) => !prev)}>
-          <span className="material-symbols-outlined">close</span>
+          <MdOutlineClose size="1.5rem" />
         </button>
         {children}
       </div>

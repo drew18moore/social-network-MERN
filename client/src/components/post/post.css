@@ -79,6 +79,7 @@
 }
 
 .meatball-btn {
+  display: flex;
   padding: 8px;
   border-radius: 50%;
   color: var(--text-color-secondary);
@@ -121,17 +122,17 @@
   color: var(--text-color-secondary);
 }
 
-.like-comment-share-btns .material-symbols-rounded {
-  user-select: none;
-  font-size: 20px;
+.like-comment-share-icons {
+  font-size: 1.25rem;
   border-radius: 50%;
-  padding: 10px;
+  padding: 0.5rem;
   cursor: pointer;
   transition: 0.1s;
+  box-sizing: content-box;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .like-comment-share-btns .material-symbols-rounded:hover {
+  .like-comment-share-icons:hover {
     color: #1d9bf0;
     background-color: rgba(29, 155, 240, 0.1);
   }
@@ -154,7 +155,8 @@
   gap: 5px;
 }
 
-.post .liked .material-symbols-rounded {
+.post .liked .like-comment-share-icons {
   color: #1d9bf0;
+  /* background-color: #1d9bf0; */
   font-variation-settings: "FILL" 1;
 }

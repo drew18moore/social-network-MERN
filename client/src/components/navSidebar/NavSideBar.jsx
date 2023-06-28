@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../dropdown/Dropdown";
 import AccountDropdown from "../dropdown/AccountDropdown";
+import { MdOutlineBookmarkBorder, MdOutlineHome, MdOutlinePeopleAlt, MdOutlineSettings, MdPerson, MdPersonOutline } from "react-icons/md";
 
 export default function NavSideBar() {
   const { currentUser } = useAuth();
@@ -19,7 +20,7 @@ export default function NavSideBar() {
               className={location.pathname === "/" ? "selected" : ""}
               to="/"
             >
-              <span className="material-symbols-rounded">home</span>
+              <MdOutlineHome size="2rem" />
               <p className="link-txt">Home</p>
             </Link>
           </li>
@@ -28,7 +29,7 @@ export default function NavSideBar() {
               className={location.pathname === "/connect" ? "selected" : ""}
               to="/connect"
             >
-              <span className="material-symbols-rounded">group</span>
+              <MdOutlinePeopleAlt size="2rem" />
               <p className="link-txt">Connect</p>
             </Link>
           </li>
@@ -37,7 +38,7 @@ export default function NavSideBar() {
               className={location.pathname === "/bookmarks" ? "selected" : ""}
               to="/bookmarks"
             >
-              <span className="material-symbols-rounded">bookmark</span>
+              <MdOutlineBookmarkBorder size="2rem" />
               <p className="link-txt">Bookmarks</p>
             </Link>
           </li>
@@ -50,7 +51,7 @@ export default function NavSideBar() {
               }
               to={`/${currentUser.username}`}
             >
-              <span className="material-symbols-rounded">person</span>
+              <MdPersonOutline size="2rem" />
               <p className="link-txt">Profile</p>
             </Link>
           </li>
@@ -59,7 +60,7 @@ export default function NavSideBar() {
               className={location.pathname === "/settings" ? "selected" : ""}
               to="/settings"
             >
-              <span className="material-symbols-rounded">settings</span>
+              <MdOutlineSettings size="2rem" />
               <p className="link-txt">Settings</p>
             </Link>
           </li>

@@ -10,6 +10,8 @@ import Comment from "../../components/comment/Comment";
 import CommentModal from "../../components/modal/CommentModal";
 import "./postPage.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { MdArrowBack, MdMoreHoriz } from "react-icons/md";
+import { BiBookmark, BiComment, BiLike, BiShareAlt } from "react-icons/bi";
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -141,7 +143,7 @@ export default function PostPage() {
     <div className="post-page">
       <div className="post-top">
         <div className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <MdArrowBack size="1.5rem" />
         </div>
         <p>Post</p>
       </div>
@@ -166,7 +168,7 @@ export default function PostPage() {
           </div>
           <div className="post-header-right">
             <div className="meatball-btn" onClick={openDropdown}>
-              <span className="material-symbols-outlined">more_horiz</span>
+              <MdMoreHoriz size="1.5rem" />
             </div>
             {showDropdown && (
               <Dropdown setShowDropdown={setShowDropdown}>
@@ -193,25 +195,21 @@ export default function PostPage() {
               className={`like-btn ${liked ? "selected" : ""}`}
               onClick={likePost}
             >
-              <span className="material-symbols-rounded">thumb_up</span>
+              <BiLike className="like-comment-share-icons" />
               {numberOfLikes}
             </div>
             <div
               className="comment-btn"
               onClick={() => setShowCommentModal(true)}
             >
-              <span className="material-symbols-rounded">chat_bubble</span>
+              <BiComment className="like-comment-share-icons" />
               {numberOfComments}
             </div>
             <div className={`bookmark-btn ${isBookmarked ? "selected" : ""}`} onClick={bookmarkPost}>
-              <span className="material-symbols-rounded">
-                bookmark
-              </span>
+              <BiBookmark className="like-comment-share-icons" />
             </div>
             <div className="share-btn">
-              <span className="material-symbols-rounded">
-                google_plus_reshare
-              </span>
+              <BiShareAlt className="like-comment-share-icons" />
             </div>
           </div>
         </div>

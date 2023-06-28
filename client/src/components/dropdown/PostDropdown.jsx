@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { MdOutlineReport, MdOutlineEdit, MdOutlineDeleteForever } from "react-icons/md";
 
 export default function PostDropdown({
   username,
@@ -19,7 +20,7 @@ export default function PostDropdown({
             setShowEditPostModal(true);
           }}
         >
-          <span className="material-symbols-rounded">edit</span>
+          <MdOutlineEdit size="1.5rem" />
           <p>Edit</p>
         </li>
       )}
@@ -31,7 +32,7 @@ export default function PostDropdown({
             setShowDeletePostModal((prev) => !prev);
           }}
         >
-          <span className="material-symbols-rounded">delete</span>
+          <MdOutlineDeleteForever size="1.5rem"/>
           <p>Delete</p>
         </li>
       )}
@@ -41,7 +42,7 @@ export default function PostDropdown({
             e.stopPropagation();
           }}
         >
-          <span className="material-symbols-rounded">report</span>
+          <MdOutlineReport size="1.5rem" />
           <p>Report</p>
         </li>
       )}
