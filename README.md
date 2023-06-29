@@ -65,7 +65,7 @@ REFRESH_TOKEN_SECRET = "<randomstring>"
 Instance #1
 ```
 cd server
-npm run start
+npm run dev
 ```
 Instance #2
 ```
