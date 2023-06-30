@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAuth } from "../../contexts/AuthContext";
+import { toast } from "react-hot-toast";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function ChangeProfilePicture({ setShowModal }) {
   const [file, setFile] = useState(null);
   const { currentUser, setCurrentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const { theme } = useTheme();
 
   const handleFile = (e) => {
     const inputFile = e.target.files[0];
@@ -30,6 +33,12 @@ export default function ChangeProfilePicture({ setShowModal }) {
           img: response.data,
         };
       });
+      toast.success("Profile picture has been updated!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        }
+      })
     } catch (err) {
       console.error(err);
       if (err.response?.status === 403) {
