@@ -45,11 +45,12 @@ export default function ChangeProfilePicture({ setShowModal }) {
       <form onSubmit={(e) => uploadFile(e)}>
         <input
           type="file"
+          accept="image/*"
           name="file"
           className="file-input"
           onChange={(e) => handleFile(e)}
         />
-        <button>Submit</button>
+        <button disabled={!file}>Submit</button>
       </form>
     </div>
   );
