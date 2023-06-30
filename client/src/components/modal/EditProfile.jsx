@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { toast } from "react-hot-toast";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function EditProfile({ setUser, setShowModal }) {
   const fullnameRef = useRef(null);
@@ -14,6 +16,7 @@ export default function EditProfile({ setUser, setShowModal }) {
   const { currentUser, setCurrentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +33,12 @@ export default function EditProfile({ setUser, setShowModal }) {
       setCurrentUser(prev => ({ ...prev, fullname, username, bio }));
       setUser(prev => ({ ...prev, fullname, username, bio }));
       setShowModal(false);
+      toast.success("Profile has been updated!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        }
+      })
       navigate(`/${username}`, { replace: true })
     } catch (err) {
       console.error(err);
