@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MdPhotoCamera } from "react-icons/md";
 import Resizer from "react-image-file-resizer";
+const resizer = Resizer.default || Resizer;
 
 export default function EditProfile({ setUser, setShowModal }) {
   const [profileImgBase64, setProfileImgBase64] = useState(null);
@@ -55,7 +56,7 @@ export default function EditProfile({ setUser, setShowModal }) {
   const handleImgChange = (e) => {
     const file = e.target.files?.[0]
     if (file) {
-      Resizer.imageFileResizer(
+      resizer.imageFileResizer(
         file,
         400,
         400,
