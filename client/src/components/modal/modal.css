@@ -264,3 +264,40 @@
 .delete-account-modal label {
   color: var(--text-color-primary);
 }
+
+.edit-profile .profile-img-wrapper {
+  position: relative;
+  width: 10rem;
+  margin-inline: auto;
+}
+
+.edit-profile .profile-img {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1/1;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.edit-profile .profile-img-wrapper input {
+  display: none;
+}
+
+.edit-profile .profile-img-wrapper label {
+  cursor: pointer;
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  color: var(--text-color-primary);
+  background-color: var(--btn-background-color-secondary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: 0.1s;
+  font-size: 1.5rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .edit-profile .profile-img-wrapper label:hover {
+    filter: brightness(90%);
+  }
+}

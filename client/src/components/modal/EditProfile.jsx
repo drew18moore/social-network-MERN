@@ -1,11 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
+import { MdPhotoCamera } from "react-icons/md";
+import Resizer from "react-image-file-resizer";
 
 export default function EditProfile({ setUser, setShowModal }) {
+  const [profileImgBase64, setProfileImgBase64] = useState(null);
   const fullnameRef = useRef(null);
   const usernameRef = useRef(null);
   const bioRef = useRef(null);
@@ -27,11 +30,12 @@ export default function EditProfile({ setUser, setShowModal }) {
         fullname: fullnameRef.current.value.trim() || currentUser.fullname,
         username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
         bio: bioRef.current.value.trim() || currentUser.bio,
+        profilePicture: profileImgBase64,
         password: password,
       });
-      const { fullname, username, bio } = response.data;
-      setCurrentUser(prev => ({ ...prev, fullname, username, bio }));
-      setUser(prev => ({ ...prev, fullname, username, bio }));
+      const { fullname, username, bio, profilePicture } = response.data;
+      setCurrentUser(prev => ({ ...prev, fullname, username, bio, img: profilePicture }));
+      setUser(prev => ({ ...prev, fullname, username, bio, img: profilePicture }));
       setShowModal(false);
       toast.success("Profile has been updated!", {
         style: {
@@ -49,12 +53,43 @@ export default function EditProfile({ setUser, setShowModal }) {
     }
   };
 
+  const handleImgChange = (e) => {
+    const file = e.target.files?.[0]
+    console.log(file);
+    if (file) {
+      Resizer.imageFileResizer(
+        file,
+        400,
+        400,
+        "JPEG",
+        80,
+        0,
+        (uri) => {
+          setProfileImgBase64(uri);
+        },
+        "base64"
+      );
+    } else {
+      setProfileImgBase64(null);
+    }
+    // setProfileImgBase64(e.target.files?.[0]);
+  }
+
+  useEffect(() => {
+    console.log(profileImgBase64);
+  }, [profileImgBase64])
+
   return (
     <div className="edit-profile">
       <h1 className="modal-centered">Edit Profile</h1>
       <hr />
       <form onSubmit={handleSubmit}>
         {error ? <p className="error-message">{error}</p> : ""}
+        <div className="profile-img-wrapper">
+          <img src={profileImgBase64 || currentUser.img || "default-pfp.jpg"} alt="profile picture" className="profile-img" />
+          <input type="file" accept="image/*" id="file" onChange={handleImgChange} />
+          <label htmlFor="file"><MdPhotoCamera /></label>
+        </div>
         <input
           ref={fullnameRef}
           type="text"
