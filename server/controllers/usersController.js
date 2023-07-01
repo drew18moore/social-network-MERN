@@ -4,38 +4,6 @@ const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const bcrypt = require("bcrypt");
 
-const changeProfilePicture = async (req, res) => {
-  if (req.body.userId !== req.params.id) {
-    return res
-      .status(403)
-      .json({ message: "You can only change your own profile picture" });
-  }
-
-  const updates = {
-    img: {
-      data: fs.readFileSync("images/" + req.file.filename),
-      contentType: "image/png",
-    },
-  };
-
-  User.findByIdAndUpdate(
-    req.body.userId,
-    updates,
-    { new: true },
-    (err, result) => {
-      if (err) {
-        return res.status(500).json({ message: err });
-      } else {
-        let profilePicture;
-        const buffer = Buffer.from(result.img.data);
-        const b64String = buffer.toString("base64");
-        profilePicture = `data:image/png;base64,${b64String}`;
-        return res.status(200).json(profilePicture);
-      }
-    }
-  );
-};
-
 const editUser = async (req, res) => {
   if (req.userId !== req.params.id) {
     return res
@@ -52,12 +20,14 @@ const editUser = async (req, res) => {
   user.fullname = req.body.fullname;
   user.username = req.body.username;
   user.bio = req.body.bio;
+  user.img = req.body.img;
   user.save();
 
   const updatedUserData = {
     fullname: user.fullname,
     username: user.username,
     bio: user.bio,
+    img: user.img,
   };
   return res.status(200).json(updatedUserData);
 };
@@ -68,15 +38,6 @@ const getUserByUsername = async (req, res) => {
     const user = await User.findOne({ username: req.params.username });
     if (!user) return res.status(404).json({ message: "User not found" })
 
-    let profilePicture;
-    if (user.img.data) {
-      const buffer = Buffer.from(user.img.data);
-      const b64String = buffer.toString("base64");
-      profilePicture = `data:image/png;base64,${b64String}`;
-    } else {
-      profilePicture = "/default-pfp.jpg";
-    }
-
     const mainUser = {
       _id: user._id,
       fullname: user.fullname,
@@ -84,7 +45,7 @@ const getUserByUsername = async (req, res) => {
       numFollowing: user.following.length,
       numFollowers: user.followers.length,
       isFollowing: user.followers.includes(authUserId),
-      img: profilePicture,
+      img: user.img,
       bio: user.bio,
     };
 
@@ -133,20 +94,12 @@ const getUnfollowedUsers = async (req, res) => {
     );
 
     const unfollowedUsers = users.map((user) => {
-      let profilePicture;
-      if (user.img.data) {
-        const buffer = Buffer.from(user.img.data);
-        const b64String = buffer.toString("base64");
-        profilePicture = `data:image/png;base64,${b64String}`;
-      } else {
-        profilePicture = "/default-pfp.jpg";
-      }
 
       return {
         _id: user._id,
         fullname: user.fullname,
         username: user.username,
-        img: profilePicture,
+        img: user.img || "default-pfp.jpg",
       };
     });
 
@@ -176,20 +129,12 @@ const getFollowedUsers = async (req, res) => {
     );
 
     const following = users.map((user) => {
-      let profilePicture;
-      if (user.img.data) {
-        const buffer = Buffer.from(user.img.data);
-        const b64String = buffer.toString("base64");
-        profilePicture = `data:image/png;base64,${b64String}`;
-      } else {
-        profilePicture = "/default-pfp.jpg";
-      }
 
       return {
         _id: user._id,
         fullname: user.fullname,
         username: user.username,
-        img: profilePicture,
+        img: user.img || "default-pfp.jpg",
         isFollowing: user.followers.includes(currUser._id.toString()),
       };
     });
@@ -224,20 +169,12 @@ const getFollowers = async (req, res) => {
     );
 
     const followers = users.map((user) => {
-      let profilePicture;
-      if (user.img.data) {
-        const buffer = Buffer.from(user.img.data);
-        const b64String = buffer.toString("base64");
-        profilePicture = `data:image/png;base64,${b64String}`;
-      } else {
-        profilePicture = "/default-pfp.jpg";
-      }
 
       return {
         _id: user._id,
         fullname: user.fullname,
         username: user.username,
-        img: profilePicture,
+        img: user.img || "default-pfp.jpg",
         isFollowing: user.followers.includes(currUser._id.toString()),
       };
     });
@@ -335,15 +272,6 @@ const getBookmarkedPosts = async (req, res) => {
         const post = await Post.findById(postId);
         const postUser = await User.findById(post.userId);
 
-        let profilePicture;
-        if (postUser.img.data) {
-          const buffer = Buffer.from(postUser.img.data);
-          const b64String = buffer.toString("base64");
-          profilePicture = `data:image/png;base64,${b64String}`;
-        } else {
-          profilePicture = "/default-pfp.jpg";
-        }
-
         return {
           _id: post._id,
           userId: post.userId,
@@ -353,7 +281,7 @@ const getBookmarkedPosts = async (req, res) => {
           createdAt: post.createdAt,
           fullname: postUser.fullname,
           username: postUser.username,
-          profilePicture: profilePicture,
+          profilePicture: postUser.img || "default-pfp.jpg",
         };
       })
     );
@@ -367,7 +295,6 @@ const getBookmarkedPosts = async (req, res) => {
 };
 
 module.exports = {
-  changeProfilePicture,
   editUser,
   getUserByUsername,
   followUser,

@@ -26,16 +26,15 @@ export default function EditProfile({ setUser, setShowModal }) {
     setError("");
     try {
       const response = await axiosPrivate.put(`/api/users/${currentUser._id}`, {
-        userId: currentUser._id,
         fullname: fullnameRef.current.value.trim() || currentUser.fullname,
         username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
         bio: bioRef.current.value.trim() || currentUser.bio,
-        profilePicture: profileImgBase64,
+        img: profileImgBase64,
         password: password,
       });
-      const { fullname, username, bio, profilePicture } = response.data;
-      setCurrentUser(prev => ({ ...prev, fullname, username, bio, img: profilePicture }));
-      setUser(prev => ({ ...prev, fullname, username, bio, img: profilePicture }));
+      const { fullname, username, bio, img } = response.data;
+      setCurrentUser(prev => ({ ...prev, fullname, username, bio, img }));
+      setUser(prev => ({ ...prev, fullname, username, bio, img }));
       setShowModal(false);
       toast.success("Profile has been updated!", {
         style: {
@@ -55,7 +54,6 @@ export default function EditProfile({ setUser, setShowModal }) {
 
   const handleImgChange = (e) => {
     const file = e.target.files?.[0]
-    console.log(file);
     if (file) {
       Resizer.imageFileResizer(
         file,
@@ -72,12 +70,7 @@ export default function EditProfile({ setUser, setShowModal }) {
     } else {
       setProfileImgBase64(null);
     }
-    // setProfileImgBase64(e.target.files?.[0]);
   }
-
-  useEffect(() => {
-    console.log(profileImgBase64);
-  }, [profileImgBase64])
 
   return (
     <div className="edit-profile">

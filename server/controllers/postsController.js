@@ -16,14 +16,6 @@ const createNewPost = async (req, res) => {
     const newPost = await post.save();
     const newPostUser = await User.findById(newPost.userId);
 
-    let profilePicture;
-    if (newPostUser.img.data) {
-      const buffer = Buffer.from(newPostUser.img.data);
-      const b64String = buffer.toString("base64");
-      profilePicture = `data:image/png;base64,${b64String}`;
-    } else {
-      profilePicture = "/default-pfp.jpg";
-    }
     const response = {
       userId: newPost.userId,
       postBody: newPost.postBody,
@@ -33,7 +25,7 @@ const createNewPost = async (req, res) => {
       createdAt: newPost.createdAt,
       fullname: newPostUser.fullname,
       username: newPostUser.username,
-      profilePicture: profilePicture,
+      profilePicture: newPostUser.img || "default-pfp.jpg",
     };
     res.status(200).json(response);
   } catch (err) {
@@ -51,15 +43,6 @@ const getPostById = async (req, res) => {
     const currUser = await User.findById(req.userId);
     if (!currUser) return res.status(403).json({ message: "Forbidden" });
 
-    let profilePicture;
-    if (author.img.data) {
-      const buffer = Buffer.from(author.img.data);
-      const b64String = buffer.toString("base64");
-      profilePicture = `data:image/png;base64,${b64String}`;
-    } else {
-      profilePicture = "/default-pfp.jpg";
-    }
-
     // get all comments by id
     let comments;
     await Promise.all(
@@ -67,22 +50,13 @@ const getPostById = async (req, res) => {
         const comment = await Comment.findById(commentId);
         const commentUser = await User.findById(comment.userId);
 
-        let commentProfilePicture;
-        if (commentUser.img.data) {
-          const buffer = Buffer.from(commentUser.img.data);
-          const b64String = buffer.toString("base64");
-          commentProfilePicture = `data:image/png;base64,${b64String}`;
-        } else {
-          commentProfilePicture = "/default-pfp.jpg";
-        }
-
         const commentWithUserData = {
           commentBody: comment.commentBody,
           _id: comment._id,
           parentId: comment.parentId,
           fullname: commentUser.fullname,
           username: commentUser.username,
-          profilePicture: commentProfilePicture,
+          profilePicture: commentUser.img || "default-pfp.jpg",
           isLiked: comment.likes.includes(currUser._id),
           numLikes: comment.likes.length,
         };
@@ -101,7 +75,7 @@ const getPostById = async (req, res) => {
       postBody: post.postBody,
       userId: post.userId,
       _id: post._id,
-      profilePicture: profilePicture,
+      profilePicture: author.img || "default-pfp.jpg",
       comments: comments,
       isBookmarked: currUser.bookmarks.includes(post._id),
     };
@@ -191,15 +165,6 @@ const getTimelinePosts = async (req, res) => {
       allPosts.map(async (post) => {
         const postUser = await User.findById(post.userId);
 
-        let profilePicture;
-        if (postUser.img.data) {
-          const buffer = Buffer.from(postUser.img.data);
-          const b64String = buffer.toString("base64");
-          profilePicture = `data:image/png;base64,${b64String}`;
-        } else {
-          profilePicture = "/default-pfp.jpg";
-        }
-
         return {
           _id: post._id,
           userId: post.userId,
@@ -209,7 +174,7 @@ const getTimelinePosts = async (req, res) => {
           createdAt: post.createdAt,
           fullname: postUser.fullname,
           username: postUser.username,
-          profilePicture: profilePicture,
+          profilePicture: postUser.img || "default-pfp.jpg",
         };
       })
     );
@@ -234,14 +199,6 @@ const getPostsByUsername = async (req, res) => {
     });
     const posts = await Promise.all(
       userPosts.map(async (post) => {
-        let profilePicture;
-        if (user.img.data) {
-          const buffer = Buffer.from(user.img.data);
-          const b64String = buffer.toString("base64");
-          profilePicture = `data:image/png;base64,${b64String}`;
-        } else {
-          profilePicture = "/default-pfp.jpg";
-        }
 
         return {
           _id: post._id,
@@ -252,7 +209,7 @@ const getPostsByUsername = async (req, res) => {
           createdAt: post.createdAt,
           fullname: user.fullname,
           username: user.username,
-          profilePicture: profilePicture,
+          profilePicture: user.img || "default-pfp.jpg",
         };
       })
     );

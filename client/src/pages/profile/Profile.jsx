@@ -3,7 +3,6 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "../../components/modal/Modal";
 import EditProfile from "../../components/modal/EditProfile";
-import ChangeProfilePicture from "../../components/modal/ChangeProfilePicture";
 import Post from "../../components/post/Post";
 import "./profile.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -12,8 +11,6 @@ import { MdArrowBack, MdPhotoCamera } from "react-icons/md";
 export default function Profile() {
   const { username } = useParams();
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
-  const [showChangeProfilePictureModal, setShowChangeProfilePictureModal] =
-    useState(false);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [user, setUser] = useState({});
@@ -110,16 +107,6 @@ export default function Profile() {
                 src={user.img || "default-pfp.jpg"}
                 alt="Profile Picture"
               />
-              {user._id === currentUser._id && (
-                <div
-                  className="change-profile-picture-btn"
-                  onClick={() =>
-                    setShowChangeProfilePictureModal((prev) => !prev)
-                  }
-                >
-                  <MdPhotoCamera size="1.5rem" />
-                </div>
-              )}
             </div>
             <div className="profile-name-username">
               <h1 className="name">{user.fullname}</h1>
@@ -197,13 +184,6 @@ export default function Profile() {
           <EditProfile
             setUser={setUser}
             setShowModal={setShowEditProfileModal}
-          />
-        </Modal>
-      )}
-      {showChangeProfilePictureModal && (
-        <Modal setShowModal={setShowChangeProfilePictureModal}>
-          <ChangeProfilePicture
-            setShowModal={setShowChangeProfilePictureModal}
           />
         </Modal>
       )}

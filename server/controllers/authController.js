@@ -93,22 +93,13 @@ const handleLogin = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    let profilePicture;
-    if (user.img.data) {
-      const buffer = Buffer.from(user.img.data);
-      const b64String = buffer.toString("base64");
-      profilePicture = `data:image/png;base64,${b64String}`;
-    } else {
-      profilePicture = "/default-pfp.jpg";
-    }
-
     let newUser = {
       _id: user._id,
       fullname: user.fullname,
       username: user.username,
       following: user.following,
       followers: user.followers,
-      img: profilePicture,
+      img: user.img || "default-pfp.jpg",
       accessToken,
       bio: user.bio,
     };
@@ -145,22 +136,13 @@ const handlePersistentLogin = async (req, res) => {
           { expiresIn: 900000 } // 15 mins
         );
 
-        let profilePicture;
-        if (user.img.data) {
-          const buffer = Buffer.from(user.img.data);
-          const b64String = buffer.toString("base64");
-          profilePicture = `data:image/png;base64,${b64String}`;
-        } else {
-          profilePicture = "/default-pfp.jpg";
-        }
-
         let newUser = {
           _id: user._id,
           fullname: user.fullname,
           username: user.username,
           following: user.following,
           followers: user.followers,
-          img: profilePicture,
+          img: user.img || "default-pfp.jpg",
           accessToken,
           bio: user.bio,
         };

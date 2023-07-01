@@ -1,15 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
-const multer = require("../middleware/multer")
 const verifyJWT = require("../middleware/verifyJWT")
-
-// Change profile picture
-router.put(
-  "/change-img/:id",
-  multer.upload.single("image"),
-  usersController.changeProfilePicture
-);
 
 // Edit user info
 router.put("/:id", verifyJWT, usersController.editUser);

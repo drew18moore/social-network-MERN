@@ -98,7 +98,7 @@ export default function PostPage() {
       ...comment,
       fullname: currentUser.fullname,
       username: currentUser.username,
-      profilePicture: currentUser.img,
+      profilePicture: currentUser.img || "default-pfp.jpg",
       numLikes: 0,
     });
     let updatedPost = {
