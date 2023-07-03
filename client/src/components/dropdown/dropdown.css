@@ -28,12 +28,12 @@
     var(--box-shadow-color-2) 0px 0px 3px 1px;
 }
 
-.post-dropdown li {
+.post-dropdown li, .share-dropdown li {
   display: flex;
   gap: 15px;
   align-items: center;
-  font-size: 1.25rem;
-  padding: 10px 15px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   color: var(--text-color-primary);
 }

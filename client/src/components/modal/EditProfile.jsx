@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -55,6 +55,7 @@ export default function EditProfile({ setUser, setShowModal }) {
 
   const handleImgChange = (e) => {
     const file = e.target.files?.[0]
+    console.log(file);
     if (file) {
       resizer.imageFileResizer(
         file,
@@ -69,9 +70,14 @@ export default function EditProfile({ setUser, setShowModal }) {
         "base64"
       );
     } else {
-      setProfileImgBase64(null);
+      console.log('object');
+      setProfileImgBase64(currentUser.img || "default-pfp.jpg");
     }
   }
+
+  useEffect(() => {
+    console.log(profileImgBase64);
+  }, [profileImgBase64])
 
   return (
     <div className="edit-profile">

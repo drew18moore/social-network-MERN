@@ -162,3 +162,7 @@
   cursor: pointer;
   transition: 0.1s;
 }
+
+.share-btn {
+  position: relative;
+}

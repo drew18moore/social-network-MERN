@@ -11,6 +11,7 @@ import "./post.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { MdMoreHoriz } from "react-icons/md";
 import { BiComment, BiLike, BiShareAlt, BiSolidLike } from "react-icons/bi";
+import ShareDropdown from "../dropdown/ShareDropdown";
 
 const Post = forwardRef(
   (
@@ -29,7 +30,8 @@ const Post = forwardRef(
     },
     ref
   ) => {
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [showPostDropdown, setShowPostDropdown] = useState(false);
+    const [showShareDropdown, setShowShareDropdown] = useState(false);
     const [showDeletePostModal, setShowDeletePostModal] = useState(false);
     const [showEditPostModal, setShowEditPostModal] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
@@ -64,9 +66,14 @@ const Post = forwardRef(
       dateFormated = date.toLocaleString("en-US", dateOptions);
     }
 
-    const openDropdown = (e) => {
+    const openPostDropdown = (e) => {
       e.stopPropagation();
-      setShowDropdown((prev) => !prev);
+      setShowPostDropdown((prev) => !prev);
+    };
+    
+    const openShareDropdown = (e) => {
+      e.stopPropagation();
+      setShowShareDropdown((prev) => !prev);
     };
 
     const likePost = async (e) => {
@@ -124,14 +131,14 @@ const Post = forwardRef(
                 <p className="post-date">{dateFormated}</p>
               </div>
               <div className="right-post-header">
-                <div className="meatball-btn" onClick={openDropdown}>
+                <div className="meatball-btn" onClick={openPostDropdown}>
                   <MdMoreHoriz size="1.5rem" />
                 </div>
-                {showDropdown && (
-                  <Dropdown setShowDropdown={setShowDropdown}>
+                {showPostDropdown && (
+                  <Dropdown setShowDropdown={setShowPostDropdown}>
                     <PostDropdown
                       username={username}
-                      setShowDropdown={setShowDropdown}
+                      setShowDropdown={setShowPostDropdown}
                       setShowDeletePostModal={setShowDeletePostModal}
                       setShowEditPostModal={setShowEditPostModal}
                     />
@@ -160,9 +167,14 @@ const Post = forwardRef(
             {numberOfComments}
           </div>
           <div className="share-btn">
-            <div className="btn-wrapper">
+            <div className="btn-wrapper" onClick={openShareDropdown}>
               <BiShareAlt className="like-comment-share-icons" />
             </div>
+            {showShareDropdown && (
+              <Dropdown setShowDropdown={setShowShareDropdown}>
+                <ShareDropdown setShowDropdown={setShowShareDropdown} />
+              </Dropdown>
+            )}
           </div>
         </div>
         {showDeletePostModal && (
