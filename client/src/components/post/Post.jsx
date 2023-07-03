@@ -172,7 +172,7 @@ const Post = forwardRef(
             </div>
             {showShareDropdown && (
               <Dropdown setShowDropdown={setShowShareDropdown}>
-                <ShareDropdown setShowDropdown={setShowShareDropdown} />
+                <ShareDropdown setShowDropdown={setShowShareDropdown} authorUsername={username} postId={postId} />
               </Dropdown>
             )}
           </div>
