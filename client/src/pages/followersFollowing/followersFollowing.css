@@ -1,21 +1,21 @@
 .followers-following-page {
   padding-bottom: 50%;
   display: grid;
-  gap: 25px;
+  gap: 1rem;
 }
 
 .header {
-  padding: 15px 25px;
+  padding: 1rem;
   background-color: var(--background-color-primary);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   display: grid;
-  gap: 25px;
+  gap: 0.5rem;
 }
 
 .header .top {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 1rem;
 }
 
 .header .username {
@@ -41,7 +41,7 @@
   color: var(--text-color-primary);
   cursor: pointer;
   border-radius: 50%;
-  padding: 8px;
+  padding: 0.5rem;
   transition: 0.1s;
 }
 
@@ -52,26 +52,21 @@
   }
 }
 
-.header h3 {
-  text-align: center;
-  padding-top: 25px;
-}
-
 .followed-users {
   display: grid;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .header .links {
   justify-self: center;
   display: flex;
-  gap: 15px;
+  gap: 0.5rem;
 }
 
 .followers-link,
 .following-link {
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   padding: 1rem;
   color: var(--text-color-secondary);
   font-weight: bold;
@@ -105,5 +100,5 @@
   margin: 0 auto;
   background-color: var(--background-color-primary);
   color: var(--text-color-secondary);
-  border-radius: 9999px;
+  border-radius: 2rem;
 }
