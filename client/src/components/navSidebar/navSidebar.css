@@ -17,7 +17,7 @@
   list-style: none;
 }
 
-.nav-sidebar li {
+.nav-sidebar nav li {
   display: flex;
   align-items: center;
   font-size: 1.25rem;
@@ -30,7 +30,7 @@
   }
 }
 
-.nav-sidebar a {
+.nav-sidebar nav a {
   text-decoration: none;
   color: var(--text-color-primary);
   display: flex;

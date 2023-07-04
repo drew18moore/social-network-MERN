@@ -10,7 +10,7 @@
 
 .dropdown {
   position: absolute;
-  right: calc(50% - 20px);
+  right: calc(50% - 1rem);
   z-index: 102;
 }
 
@@ -23,14 +23,14 @@
   overflow: hidden;
   list-style: none;
   background-color: var(--background-color-primary);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   box-shadow: var(--box-shadow-color-1) 0px 0px 15px,
     var(--box-shadow-color-2) 0px 0px 3px 1px;
 }
 
 .post-dropdown li, .share-dropdown li {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
   align-items: center;
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -40,10 +40,10 @@
 
 .dropdown a {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
   align-items: center;
-  font-size: 1.25rem;
-  padding: 10px 15px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem !important;
   cursor: pointer;
   text-decoration: none;
 }

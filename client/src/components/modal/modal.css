@@ -10,7 +10,7 @@
 }
 
 .modal-container {
-  padding: 15px;
+  padding: 1rem;
   position: absolute;
   left: 0;
   right: 0;
@@ -18,15 +18,15 @@
   bottom: 0;
   height: fit-content;
   margin: auto;
-  max-width: 600px;
+  max-width: 37.5rem;
   max-height: 90%;
   background-color: var(--background-color-primary);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: auto;
 }
 
 .modal-container hr {
-  margin: 15px 0;
+  margin: 1rem 0;
   border-left: 0;
   border-right: 0;
   border-top: 1px solid var(--hr-color);
@@ -34,15 +34,14 @@
 }
 
 .modal-container input {
-  height: 50px;
   width: 100%;
-  padding: 15px;
+  padding: 1rem;
   font-size: 1rem;
   resize: none;
   border: none;
   background-color: var(--background-color-secondary);
   color: var(--text-color-primary);
-  border-radius: 5px;
+  border-radius: 0.5rem;
 }
 
 .close-modal-btn {
@@ -50,13 +49,13 @@
   width: fit-content;
   height: fit-content;
   border-radius: 50%;
-  padding: 8px;
+  padding: 0.5rem;
   background-color: var(--hr-color);
   color: var(--text-color-secondary);
   font-weight: bold;
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -84,9 +83,9 @@
 }
 
 .modal-container form {
-  padding-inline: 15px;
+  padding-inline: 1rem;
   display: grid;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .modal-centered {
@@ -94,15 +93,15 @@
 }
 
 .modal-btns {
-  margin-top: 20px;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 1rem;
   align-items: center;
 }
 
 .modal-btns button {
-  width: 200px;
+  width: 12.5rem;
 }
 
 .cancel-btn {
@@ -126,13 +125,13 @@
 
 .modal-post {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .modal-post-picture {
-  margin-top: 5px;
+  margin-top: 0.25rem;
   display: flex;
-  gap: 5px;
+  gap: 0.25rem;
   flex-direction: column;
 }
 
@@ -146,8 +145,8 @@
 
 .modal-post-picture img {
   object-fit: cover;
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   vertical-align: middle;
 }
@@ -155,8 +154,8 @@
 .modal-post-header {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 11px 0;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
 }
 
 .modal-post-text {
@@ -188,42 +187,42 @@
   width: 2px;
   border: none;
   height: 3rem;
-  margin-left: 24px;
+  margin-left: 1.5rem;
   background-color: var(--hr-color);
   /* background-color: #cfd9de; */
 }
 
 .modal-comment-form {
-  margin-top: 10px;
+  margin-top: 0.5rem;
   padding: 0 !important;
 }
 
 .modal-comment-form .input-area {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
   align-items: center;
 }
 
 .modal-comment-form .input-area img {
   object-fit: cover;
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   vertical-align: middle;
   transition: 0.1s;
 }
 
 .post-body-input {
-  height: 50px;
+  height: 3rem;
   width: 100%;
-  padding: 15px;
-  font-size: 15px;
+  padding: 1rem;
+  font-size: 1rem;
   resize: none;
   overflow: hidden;
   border: none;
   background-color: var(--background-color-secondary);
   color: var(--text-color-primary);
-  border-radius: 5px;
+  border-radius: 0.5rem;
 }
 
 .post-body-input::placeholder {
@@ -253,12 +252,12 @@
 }
 
 .delete-account-modal .warning-text {
-  margin: 0 15px 15px 15px;
+  margin: 0 1rem 1rem 1rem;
   color: var(--text-color-primary);
 }
 
 .delete-account-modal .error-message {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .delete-account-modal label {
