@@ -1,16 +1,16 @@
 .post-page {
   padding-bottom: 50%;
   display: grid;
-  gap: 25px;
+  gap: 1rem;
 }
 .post-top {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
-  border-radius: 8px;
-  padding: 5px;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .post-top p {
@@ -19,7 +19,7 @@
 }
 
 .meatball-btn {
-  padding: 8px;
+  padding: 0.5rem;
   border-radius: 50%;
   color: var(--text-color-secondary);
   cursor: pointer;
@@ -36,10 +36,10 @@
 
 .post-main {
   background-color: var(--background-color-primary);
-  border-radius: 8px;
-  padding: 15px 15px 0 15px;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem 0 1rem;
   display: grid;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .post-header {
@@ -51,7 +51,7 @@
 .post-header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .post-header-right {
@@ -77,8 +77,8 @@
 
 .post-pfp-btn img {
   object-fit: cover;
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   vertical-align: middle;
 }
@@ -106,7 +106,7 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 5px;
+  gap: 0.25rem;
 }
 
 .post-dot {
@@ -122,8 +122,8 @@
 }
 
 .post-bottom .like-comment-share-btns {
-  margin-top: 3px;
-  margin-bottom: 3px;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
   display: flex;
   justify-content: space-around;
   color: var(--text-color-secondary);
@@ -142,7 +142,7 @@
   border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.25rem;
 }
 
 .post-page .selected {
@@ -153,7 +153,7 @@
 .comment-section h2 {
   color: var(--text-color-primary);
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 0.25rem;
 }
 
 .comments {
