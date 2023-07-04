@@ -1,7 +1,6 @@
 .auth-container {
-  padding: 20px;
+  padding: 1rem;
   background-color: var(--background-color-secondary);
-  border-radius: 8px;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -12,12 +11,12 @@
 .auth-form {
   margin: 50vh auto 0 auto;
   transform: translateY(-50%);
-  max-width: 500px;
+  max-width: 30rem;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 50px;
-  border-radius: 6px;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
   background-color: var(--background-color-primary);
 }
 
@@ -27,11 +26,10 @@
 }
 
 .auth-container input {
-  height: 50px;
   font-size: 1rem;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   border: none;
-  padding: 15px;
+  padding: 1rem;
   color: var(--text-color-primary);
   background-color: var(--background-color-secondary);
 }
