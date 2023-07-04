@@ -1,7 +1,7 @@
 .comment {
   display: flex;
-  gap: 10px;
-  padding: 15px;
+  gap: 0.5rem;
+  padding: 1rem;
 }
 
 .comment-pfp {
@@ -12,16 +12,16 @@
   border-radius: 50%;
   vertical-align: middle;
   object-fit: cover;
-  height: 40px;
-  width: 40px;
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .comment-text {
   flex: 1;
   word-break: break-all;
-  padding: 3px 10px 10px 10px;
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
   background-color: var(--background-color-primary);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   position: relative;
 }
 
@@ -37,7 +37,7 @@
 
 .comment-top .meatball-btn {
   display: flex;
-  padding: 5px;
+  padding: 0.25rem;
   border-radius: 50%;
   color: var(--text-color-secondary);
   cursor: pointer;
@@ -70,11 +70,11 @@
 }
 
 .comment .like-btn {
-  padding: .25rem;
+  padding: 0.25rem;
   width: fit-content;
   height: fit-content;
   background-color: transparent;
-  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
   color: var(--text-color-primary);
 }
 

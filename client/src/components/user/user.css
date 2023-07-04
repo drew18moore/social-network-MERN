@@ -1,15 +1,15 @@
 .user {
   background-color: var(--background-color-primary);
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .user img {
-  height: 50px;
-  width: 50px;
+  height: 3rem;
+  width: 3rem;
   border-radius: 50%;
   object-fit: cover;
   vertical-align: middle;
@@ -25,7 +25,7 @@
 
 .user .user-info {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
   align-items: center;
 }
 
@@ -44,16 +44,18 @@
 }
 
 .follow-user-btn {
+  display: flex;
+  align-items: center;
   color: white;
   font-weight: bold;
-  padding: 10px;
+  padding: 1rem;
 }
 
 .unfollow-user-btn {
   background-color: var(--btn-background-color-secondary);
   color: var(--text-color-primary);
   font-weight: bold;
-  width: 95px;
+  width: 6rem;
 }
 
 @media (hover: hover) and (pointer: fine) {

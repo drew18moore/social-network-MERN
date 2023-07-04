@@ -2,14 +2,14 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  padding: 3px 10px 3px 10px;
+  padding: 0.25rem 0.5rem;
   background-color: var(--background-color-primary);
-  border-radius: 6px;
+  border-radius: 0.5rem;
 }
 
 .post-content {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .post-text {
@@ -18,7 +18,7 @@
 }
 
 .post-picture {
-  padding-top: 5px;
+  padding-top: 0.25rem;
 }
 
 .post-picture-btn {
@@ -27,8 +27,8 @@
 
 .post-picture img {
   object-fit: cover;
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   vertical-align: middle;
   transition: 0.1s;
@@ -71,7 +71,7 @@
 .left-post-header {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.25rem;
 }
 
 .right-post-header {
@@ -80,7 +80,7 @@
 
 .meatball-btn {
   display: flex;
-  padding: 8px;
+  padding: 0.5rem;
   border-radius: 50%;
   color: var(--text-color-secondary);
   cursor: pointer;
@@ -134,7 +134,7 @@
 }
 
 .post hr {
-  margin: 10px 0 3px 0;
+  margin: 0.5rem 0 0.25rem 0;
   border-left: 0;
   border-right: 0;
   border-top: 1px solid var(--hr-color);
@@ -147,7 +147,7 @@
   border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.25rem;
 }
 
 .post .liked {
