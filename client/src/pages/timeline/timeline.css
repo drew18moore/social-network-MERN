@@ -1,11 +1,11 @@
 .timeline {
   padding-bottom: 50%;
   display: grid;
-  gap: 25px;
+  gap: 1rem;
 }
 
 .posts {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 0.5rem;
 }

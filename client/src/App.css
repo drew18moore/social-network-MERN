@@ -1,10 +1,10 @@
 .app-container {
   display: flex;
-  gap: 25px;
-  max-width: 1300px;
+  gap: 1rem;
+  max-width: 81.25rem;
   margin: 0 auto;
   margin-top: 1rem;
-  padding-inline: 25px;
+  padding-inline: 1rem;
 }
 
 .nav-sidebar {
@@ -13,25 +13,25 @@
 }
 
 .main {
-  padding: 25px 25px 0 25px;
+  padding: 1rem 1rem 0 1rem;
   flex-shrink: 0;
-  flex-basis: 600px;
+  flex-basis: 37.5rem;
   background-color: var(--background-color-secondary);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: scroll;
   height: calc(100vh - 1rem);
   position: relative;
 }
 
 .main::-webkit-scrollbar {
-  width: 0px;
+  width: 0;
 }
 
 .right-sidebar {
-  flex-basis: 350px;
+  flex-basis: 23rem;
 }
 
-@media (max-width: 1230px) {
+@media (max-width: 76.875rem) {
   .nav-sidebar .links {
     align-items: center;
   }
@@ -55,7 +55,7 @@
   }
 }
 
-@media (width < 1100px) {
+@media (width < 68.75rem) {
   .nav-sidebar {
     flex-grow: 0;
   }
@@ -70,7 +70,7 @@
 }
 
 /* MOBILE STYLES */
-@media (width < 590px) {
+@media (width < 36.875rem) {
   :root {
     background-color: var(--background-color-secondary) !important;
   }
@@ -100,8 +100,8 @@
   .nav-sidebar .links {
     flex-direction: row !important;
     justify-content: space-around;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
   }
 
   .nav-sidebar .curr-user {
