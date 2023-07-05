@@ -4,7 +4,19 @@ import { useTheme } from "../../contexts/ThemeContext";
 
 const ShareDropdown = ({ setShowDropdown, postId, authorUsername }) => {
   const { theme } = useTheme();
-  const textToCopy = `${window.location.href}${authorUsername}/posts/${postId}`;
+  
+  const extractRootUrl = (url) => {
+    const regex = /^(https?:\/\/[^\/]+)/;
+    const matches = url.match(regex);
+    if (matches && matches.length > 1) {
+      const rootUrl = matches[1];
+      return rootUrl
+    }
+  };
+
+  const rootURL = extractRootUrl(window.location.href)
+  const textToCopy = `${rootURL}/#/${authorUsername}/posts/${postId}`;
+
   return (
     <ul className="share-dropdown">
       <li

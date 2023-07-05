@@ -70,7 +70,7 @@ const Post = forwardRef(
       e.stopPropagation();
       setShowPostDropdown((prev) => !prev);
     };
-    
+
     const openShareDropdown = (e) => {
       e.stopPropagation();
       setShowShareDropdown((prev) => !prev);
@@ -156,7 +156,11 @@ const Post = forwardRef(
             onClick={likePost}
           >
             <div className="btn-wrapper">
-              { liked ? <BiSolidLike className="like-comment-share-icons" /> : <BiLike className="like-comment-share-icons" />}
+              {liked ? (
+                <BiSolidLike className="like-comment-share-icons" />
+              ) : (
+                <BiLike className="like-comment-share-icons" />
+              )}
             </div>
             {numberOfLikes}
           </div>
@@ -172,7 +176,11 @@ const Post = forwardRef(
             </div>
             {showShareDropdown && (
               <Dropdown setShowDropdown={setShowShareDropdown}>
-                <ShareDropdown setShowDropdown={setShowShareDropdown} authorUsername={username} postId={postId} />
+                <ShareDropdown
+                  setShowDropdown={setShowShareDropdown}
+                  authorUsername={username}
+                  postId={postId}
+                />
               </Dropdown>
             )}
           </div>

@@ -11,13 +11,22 @@ import CommentModal from "../../components/modal/CommentModal";
 import "./postPage.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { MdArrowBack, MdMoreHoriz } from "react-icons/md";
-import { BiBookmark, BiComment, BiLike, BiShareAlt, BiSolidLike } from "react-icons/bi";
+import {
+  BiBookmark,
+  BiComment,
+  BiLike,
+  BiShareAlt,
+  BiSolidLike,
+} from "react-icons/bi";
+import ShareDropdown from "../../components/dropdown/ShareDropdown";
 
 export default function PostPage() {
   const { username, postId } = useParams();
   const axiosPrivate = useAxiosPrivate();
 
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showPostDropdown, setShowPostDropdown] = useState(false);
+  const [showShareDropdown, setShowShareDropdown] = useState(false);
+
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -64,9 +73,14 @@ export default function PostPage() {
     fetchPost();
   }, [username, postId]);
 
-  const openDropdown = (e) => {
+  const openPostDropdown = (e) => {
     e.stopPropagation();
-    setShowDropdown((prev) => !prev);
+    setShowPostDropdown((prev) => !prev);
+  };
+
+  const openShareDropdown = (e) => {
+    e.stopPropagation();
+    setShowShareDropdown((prev) => !prev);
   };
 
   const editPost = (newPost) => {
@@ -167,14 +181,14 @@ export default function PostPage() {
             </div>
           </div>
           <div className="post-header-right">
-            <div className="meatball-btn" onClick={openDropdown}>
+            <div className="meatball-btn" onClick={openPostDropdown}>
               <MdMoreHoriz size="1.5rem" />
             </div>
-            {showDropdown && (
-              <Dropdown setShowDropdown={setShowDropdown}>
+            {showPostDropdown && (
+              <Dropdown setShowDropdown={setShowPostDropdown}>
                 <PostDropdown
                   username={username}
-                  setShowDropdown={setShowDropdown}
+                  setShowDropdown={setShowPostDropdown}
                   setShowDeletePostModal={setShowDeletePostModal}
                   setShowEditPostModal={setShowEditPostModal}
                 />
@@ -196,7 +210,11 @@ export default function PostPage() {
               onClick={likePost}
             >
               <div className="btn-wrapper">
-                {liked ? <BiSolidLike className="like-comment-share-icons" /> : <BiLike className="like-comment-share-icons" />}
+                {liked ? (
+                  <BiSolidLike className="like-comment-share-icons" />
+                ) : (
+                  <BiLike className="like-comment-share-icons" />
+                )}
               </div>
               {numberOfLikes}
             </div>
@@ -218,9 +236,18 @@ export default function PostPage() {
               </div>
             </div>
             <div className="share-btn">
-              <div className="btn-wrapper">
+              <div className="btn-wrapper" onClick={openShareDropdown}>
                 <BiShareAlt className="like-comment-share-icons" />
               </div>
+              {showShareDropdown && (
+                <Dropdown setShowDropdown={setShowShareDropdown}>
+                  <ShareDropdown
+                    setShowDropdown={setShowShareDropdown}
+                    authorUsername={username}
+                    postId={postId}
+                  />
+                </Dropdown>
+              )}
             </div>
           </div>
         </div>
