@@ -4,7 +4,18 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../dropdown/Dropdown";
 import AccountDropdown from "../dropdown/AccountDropdown";
-import { MdOutlineBookmarkBorder, MdOutlineHome, MdOutlinePeopleAlt, MdOutlineSettings, MdPerson, MdPersonOutline } from "react-icons/md";
+import {
+  MdBookmark,
+  MdHome,
+  MdOutlineBookmarkBorder,
+  MdOutlineHome,
+  MdOutlinePeopleAlt,
+  MdOutlineSettings,
+  MdPeopleAlt,
+  MdPerson,
+  MdPersonOutline,
+  MdSettings,
+} from "react-icons/md";
 
 export default function NavSideBar() {
   const { currentUser } = useAuth();
@@ -20,7 +31,11 @@ export default function NavSideBar() {
               className={location.pathname === "/" ? "selected" : ""}
               to="/"
             >
-              <MdOutlineHome size="2rem" />
+              {location.pathname === "/" ? (
+                <MdHome size="2rem" />
+              ) : (
+                <MdOutlineHome size="2rem" />
+              )}
               <p className="link-txt">Home</p>
             </Link>
           </li>
@@ -29,7 +44,11 @@ export default function NavSideBar() {
               className={location.pathname === "/connect" ? "selected" : ""}
               to="/connect"
             >
-              <MdOutlinePeopleAlt size="2rem" />
+              {location.pathname === "/connect" ? (
+                <MdPeopleAlt size="2rem" />
+              ) : (
+                <MdOutlinePeopleAlt size="2rem" />
+              )}
               <p className="link-txt">Connect</p>
             </Link>
           </li>
@@ -38,7 +57,11 @@ export default function NavSideBar() {
               className={location.pathname === "/bookmarks" ? "selected" : ""}
               to="/bookmarks"
             >
-              <MdOutlineBookmarkBorder size="2rem" />
+              {location.pathname === "/bookmarks" ? (
+                <MdBookmark size="2rem" />
+              ) : (
+                <MdOutlineBookmarkBorder size="2rem" />
+              )}
               <p className="link-txt">Bookmarks</p>
             </Link>
           </li>
@@ -51,7 +74,12 @@ export default function NavSideBar() {
               }
               to={`/${currentUser.username}`}
             >
-              <MdPersonOutline size="2rem" />
+              {location.pathname === `/${currentUser.username}` ? (
+                <MdPerson size="2rem" />
+              ) : (
+                <MdPersonOutline size="2rem" />
+              )}
+
               <p className="link-txt">Profile</p>
             </Link>
           </li>
@@ -60,7 +88,11 @@ export default function NavSideBar() {
               className={location.pathname === "/settings" ? "selected" : ""}
               to="/settings"
             >
-              <MdOutlineSettings size="2rem" />
+              {location.pathname === "/settings" ? (
+                <MdSettings size="2rem" />
+              ) : (
+                <MdOutlineSettings size="2rem" />
+              )}
               <p className="link-txt">Settings</p>
             </Link>
           </li>
@@ -71,7 +103,10 @@ export default function NavSideBar() {
           className="curr-user account-dropdown-btn"
           onClick={() => setShowDropdown((prev) => !prev)}
         >
-          <img src={currentUser.img || "/default-pfp.jpg"} alt="Current User Profile Picture" />
+          <img
+            src={currentUser.img || "/default-pfp.jpg"}
+            alt="Current User Profile Picture"
+          />
           <div className="curr-user-info">
             <p className="fullname">{currentUser.fullname}</p>
             <p className="username">@{currentUser.username}</p>
