@@ -79,5 +79,5 @@
 }
 
 .comment .liked {
-  color: #1d9bf0;
+  color: var(--accent-color-primary);
 }

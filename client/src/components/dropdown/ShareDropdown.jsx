@@ -1,6 +1,7 @@
 import { BiCopy } from "react-icons/bi";
 import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
+import { MdOutlineContentCopy } from "react-icons/md";
 
 const ShareDropdown = ({ setShowDropdown, postId, authorUsername }) => {
   const { theme } = useTheme();
@@ -32,7 +33,7 @@ const ShareDropdown = ({ setShowDropdown, postId, authorUsername }) => {
           });
         }}
       >
-        <BiCopy />
+        <MdOutlineContentCopy />
         <p>Copy link to post</p>
       </li>
     </ul>

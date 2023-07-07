@@ -47,7 +47,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .back-btn:hover {
-    color: #1d9bf0;
+    color: var(--accent-color-primary);
     background-color: rgba(29, 155, 240, 0.1);
   }
 }
@@ -75,7 +75,7 @@
 @media (hover: hover) and (pointer: fine) {
   .followers-link:hover,
   .following-link:hover {
-    color: #1d9bf0;
+    color: var(--accent-color-primary);
     background-color: rgba(29, 155, 240, 0.1);
   }
 }
@@ -86,7 +86,7 @@
 
 .active-link::after {
   content: "";
-  background-color: #1d9bf0;
+  background-color: var(--accent-color-primary);
   height: 2px;
   display: block;
   position: relative;
