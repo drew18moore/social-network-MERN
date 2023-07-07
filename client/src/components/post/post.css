@@ -90,7 +90,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .meatball-btn:hover {
-    color: #1d9bf0;
+    color: var(--accent-color-primary);
     background-color: rgba(29, 155, 240, 0.1);
   }
 }
@@ -128,7 +128,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .post .btn-wrapper:hover {
-    color: #1d9bf0;
+    color: var(--accent-color-primary);
     background-color: rgba(29, 155, 240, 0.1);
   }
 }
@@ -151,7 +151,7 @@
 }
 
 .post .liked {
-  color: #1d9bf0;
+  color: var(--accent-color-primary);
   font-variation-settings: "FILL" 1;
 }
 

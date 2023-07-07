@@ -10,14 +10,16 @@ import Comment from "../../components/comment/Comment";
 import CommentModal from "../../components/modal/CommentModal";
 import "./postPage.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdArrowBack, MdMoreHoriz } from "react-icons/md";
 import {
-  BiBookmark,
-  BiComment,
-  BiLike,
-  BiShareAlt,
-  BiSolidLike,
-} from "react-icons/bi";
+  MdArrowBack,
+  MdBookmark,
+  MdChatBubbleOutline,
+  MdMoreHoriz,
+  MdOutlineBookmarkBorder,
+  MdOutlineShare,
+  MdOutlineThumbUp,
+  MdThumbUp,
+} from "react-icons/md";
 import ShareDropdown from "../../components/dropdown/ShareDropdown";
 
 export default function PostPage() {
@@ -211,9 +213,9 @@ export default function PostPage() {
             >
               <div className="btn-wrapper">
                 {liked ? (
-                  <BiSolidLike className="like-comment-share-icons" />
+                  <MdThumbUp className="like-comment-share-icons" />
                 ) : (
-                  <BiLike className="like-comment-share-icons" />
+                  <MdOutlineThumbUp className="like-comment-share-icons" />
                 )}
               </div>
               {numberOfLikes}
@@ -223,7 +225,7 @@ export default function PostPage() {
               onClick={() => setShowCommentModal(true)}
             >
               <div className="btn-wrapper">
-                <BiComment className="like-comment-share-icons" />
+                <MdChatBubbleOutline className="like-comment-share-icons" />
               </div>
               {numberOfComments}
             </div>
@@ -232,12 +234,16 @@ export default function PostPage() {
               onClick={bookmarkPost}
             >
               <div className="btn-wrapper">
-                <BiBookmark className="like-comment-share-icons" />
+                {isBookmarked ? (
+                  <MdBookmark className="like-comment-share-icons" />
+                ) : (
+                  <MdOutlineBookmarkBorder className="like-comment-share-icons" />
+                )}
               </div>
             </div>
             <div className="share-btn">
               <div className="btn-wrapper" onClick={openShareDropdown}>
-                <BiShareAlt className="like-comment-share-icons" />
+                <MdOutlineShare className="like-comment-share-icons" />
               </div>
               {showShareDropdown && (
                 <Dropdown setShowDropdown={setShowShareDropdown}>

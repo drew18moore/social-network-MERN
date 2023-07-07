@@ -9,7 +9,7 @@ import EditPost from "../modal/EditPost";
 import CommentModal from "../modal/CommentModal";
 import "./post.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdMoreHoriz } from "react-icons/md";
+import { MdChatBubbleOutline, MdMoreHoriz, MdOutlineShare, MdOutlineThumbUp, MdThumbUp } from "react-icons/md";
 import { BiComment, BiLike, BiShareAlt, BiSolidLike } from "react-icons/bi";
 import ShareDropdown from "../dropdown/ShareDropdown";
 
@@ -157,22 +157,22 @@ const Post = forwardRef(
           >
             <div className="btn-wrapper">
               {liked ? (
-                <BiSolidLike className="like-comment-share-icons" />
+                <MdThumbUp className="like-comment-share-icons" />
               ) : (
-                <BiLike className="like-comment-share-icons" />
+                <MdOutlineThumbUp className="like-comment-share-icons" />
               )}
             </div>
             {numberOfLikes}
           </div>
           <div className="comment-btn" onClick={openCommentModal}>
             <div className="btn-wrapper">
-              <BiComment className="like-comment-share-icons" />
+              <MdChatBubbleOutline className="like-comment-share-icons" />
             </div>
             {numberOfComments}
           </div>
           <div className="share-btn">
             <div className="btn-wrapper" onClick={openShareDropdown}>
-              <BiShareAlt className="like-comment-share-icons" />
+              <MdOutlineShare className="like-comment-share-icons" />
             </div>
             {showShareDropdown && (
               <Dropdown setShowDropdown={setShowShareDropdown}>
