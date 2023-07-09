@@ -87,6 +87,7 @@ button > .lds-ellipsis div{
   width: 3rem;
   aspect-ratio: 1/1;
   border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .skeleton-bg .skeleton {
@@ -94,6 +95,7 @@ button > .lds-ellipsis div{
   width: 100%;
   height: 1rem;
   border-radius: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .skeleton-bg hr {
@@ -112,4 +114,13 @@ button > .lds-ellipsis div{
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
 }
