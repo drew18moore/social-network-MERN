@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
-import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./timeline.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PostSkeleton } from "../../components/loading/SkeletonLoading";
 
 export default function Timeline() {
@@ -74,21 +73,48 @@ export default function Timeline() {
     setPosts(updatedPosts);
   };
 
+  const skeletons = () => {
+    let arr = [];
+    for (let i = 0; i < 10; i++) {
+      arr.push(<PostSkeleton key={i} />);
+    }
+
+    return <>{arr}</>;
+  };
+
   return (
     <div className="timeline">
       <NewPost addPost={addPost} />
-      <div className="posts">
-        {posts.length === 0 && (
-          <p className="no-posts">
-            No Posts
-            <button onClick={() => navigate("/connect")}>Follow People</button>
-          </p>
-        )}
-        {posts.map((post, index) => {
-          if (posts.length - 1 === index) {
+      {!isLoading && posts.length === 0 && (
+        <p className="no-posts">
+          No Posts
+          <button onClick={() => navigate("/connect")}>Follow People</button>
+        </p>
+      )}
+      {!isLoading && posts.length !== 0 && (
+        <div className="posts">
+          {posts.map((post, index) => {
+            if (posts.length - 1 === index) {
+              return (
+                <Post
+                  ref={lastPostRef}
+                  key={post._id}
+                  postId={post._id}
+                  fullname={post.fullname}
+                  username={post.username}
+                  postBody={post.postBody}
+                  createdAt={post.createdAt}
+                  profilePicture={post.profilePicture}
+                  deletePostById={deletePostById}
+                  editPost={editPost}
+                  isLiked={post.likes.includes(currentUser._id)}
+                  numLikes={post.likes.length}
+                  numComments={post.comments.length}
+                />
+              );
+            }
             return (
               <Post
-                ref={lastPostRef}
                 key={post._id}
                 postId={post._id}
                 fullname={post.fullname}
@@ -103,30 +129,10 @@ export default function Timeline() {
                 numComments={post.comments.length}
               />
             );
-          }
-          return (
-            <Post
-              key={post._id}
-              postId={post._id}
-              fullname={post.fullname}
-              username={post.username}
-              postBody={post.postBody}
-              createdAt={post.createdAt}
-              profilePicture={post.profilePicture}
-              deletePostById={deletePostById}
-              editPost={editPost}
-              isLiked={post.likes.includes(currentUser._id)}
-              numLikes={post.likes.length}
-              numComments={post.comments.length}
-            />
-          );
-        })}
-      </div>
-      {isLoading && (
-        <div className="loading-background">
-          <LoadingAnimation />
+          })}
         </div>
       )}
+      {isLoading && <div className="skeleton-container">{skeletons()}</div>}
     </div>
   );
 }

@@ -107,3 +107,9 @@ button > .lds-ellipsis div{
 .skeleton-post-btns {
   justify-content: space-around;
 }
+
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
