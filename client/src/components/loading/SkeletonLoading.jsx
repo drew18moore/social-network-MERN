@@ -5,8 +5,6 @@ const Skeleton = ({ circle, width, style }) => {
     ...(circle && { height: width })
   };
 
-  console.log(styles);
-
   return (
     <span className={`${circle ? "circle" : "skeleton"}`} style={styles}></span>
   );

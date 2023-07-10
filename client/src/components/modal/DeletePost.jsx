@@ -1,6 +1,8 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { toast } from "react-hot-toast";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function DeletePost({
   postId,
@@ -11,6 +13,7 @@ export default function DeletePost({
 }) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const { theme } = useTheme();
   const endpoint =
     type === "POST"
       ? "/api/posts"
@@ -25,11 +28,23 @@ export default function DeletePost({
       });
       deletePostById(response.data._id);
       setShowModal(false);
+      toast.success("Post has been deleted!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        },
+      });
     } catch (err) {
       console.error(err);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
       }
+      toast.error("Error!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        },
+      });
     }
   };
   return (
