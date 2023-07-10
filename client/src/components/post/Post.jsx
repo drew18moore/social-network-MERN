@@ -9,8 +9,13 @@ import EditPost from "../modal/EditPost";
 import CommentModal from "../modal/CommentModal";
 import "./post.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdChatBubbleOutline, MdMoreHoriz, MdOutlineShare, MdOutlineThumbUp, MdThumbUp } from "react-icons/md";
-import { BiComment, BiLike, BiShareAlt, BiSolidLike } from "react-icons/bi";
+import {
+  MdChatBubbleOutline,
+  MdMoreHoriz,
+  MdOutlineShare,
+  MdOutlineThumbUp,
+  MdThumbUp,
+} from "react-icons/md";
 import ShareDropdown from "../dropdown/ShareDropdown";
 
 const Post = forwardRef(

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { toast } from "react-hot-toast";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function EditPost({
   postId,
@@ -13,6 +15,7 @@ export default function EditPost({
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [userMessage, setUserMessage] = useState("");
+  const { theme } = useTheme();
 
   const endpoint =
     type === "POST"
@@ -40,11 +43,23 @@ export default function EditPost({
       });
       setShowModal(false);
       editPost(response.data);
+      toast.success("Post has been updated!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        },
+      });
     } catch (err) {
       console.error(err);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
       }
+      toast.error("Error!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        },
+      });
     }
   };
 

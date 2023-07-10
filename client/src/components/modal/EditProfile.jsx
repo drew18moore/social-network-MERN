@@ -50,6 +50,12 @@ export default function EditProfile({ setUser, setShowModal }) {
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
       }
+      toast.error("Error!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        }
+      })
     }
   };
 
