@@ -145,6 +145,12 @@ button > .lds-ellipsis div{
   gap: 0.5rem;
 }
 
+.whotofollow-skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
