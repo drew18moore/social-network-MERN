@@ -91,7 +91,7 @@ export default function Timeline() {
           <button onClick={() => navigate("/connect")}>Follow People</button>
         </p>
       )}
-      {!isLoading && posts.length !== 0 && (
+      {posts.length !== 0 && (
         <div className="posts">
           {posts.map((post, index) => {
             if (posts.length - 1 === index) {
@@ -132,7 +132,7 @@ export default function Timeline() {
           })}
         </div>
       )}
-      {isLoading && <div className="skeleton-container">{skeletons()}</div>}
+      {isLoading && <div className="post-skeleton-container">{skeletons()}</div>}
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import User from "../../components/user/User";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./connect.css";
 import { MdArrowBack } from "react-icons/md";
+import { UserSkeleton } from "../../components/loading/SkeletonLoading";
 
 const Connect = () => {
   const { currentUser } = useAuth();
@@ -55,6 +55,15 @@ const Connect = () => {
     fetchData();
   }, [page]);
 
+  const skeletons = () => {
+    let arr = [];
+    for (let i = 0; i < 10; i++) {
+      arr.push(<UserSkeleton key={i} />);
+    }
+
+    return <>{arr}</>;
+  };
+
   return (
     <div className="connect-page">
       <div className="connect-top">
@@ -65,22 +74,19 @@ const Connect = () => {
       </div>
       <div className="unfollowed-users-container">
         <h1 className="connect-h1">People you may know</h1>
-        <div className="unfollowed-users">
-          {unfollowedUsers &&
-            unfollowedUsers.map((user, index) => {
-              if (unfollowedUsers.length - 1 === index) {
-                return <User ref={lastUserRef} user={user} key={user._id} />;
-              }
-              return <User user={user} key={user._id} />;
-            })}
-        </div>
+        {unfollowedUsers.length !== 0 && (
+          <div className="unfollowed-users">
+            {unfollowedUsers &&
+              unfollowedUsers.map((user, index) => {
+                if (unfollowedUsers.length - 1 === index) {
+                  return <User ref={lastUserRef} user={user} key={user._id} />;
+                }
+                return <User user={user} key={user._id} />;
+              })}
+          </div>
+        )}
+        {isLoading && <div className="user-skeleton-container">{skeletons()}</div>}
       </div>
-
-      {isLoading && (
-        <div className="loading-background">
-          <LoadingAnimation />
-        </div>
-      )}
     </div>
   );
 };

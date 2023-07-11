@@ -61,13 +61,23 @@ button > .lds-ellipsis div{
 }
 
 /* Skeletons */
-.skeleton-bg {
+.post-skeleton-bg {
   display: flex;
   flex-direction: column;
   background-color: var(--background-color-primary);
   border-radius: 0.5rem;
   width: 100%;
   height: 7.8rem;
+  padding: 0.5rem;
+}
+
+.user-skeleton-bg {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color-primary);
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 4rem;
   padding: 0.5rem;
 }
 
@@ -82,7 +92,18 @@ button > .lds-ellipsis div{
   gap: 1rem;
 }
 
-.skeleton-bg .circle {
+.skeleton-grid {
+  display: grid;
+  place-content: center;
+  gap: 0.25rem;
+}
+
+.skeleton-block {
+  display: block;
+}
+
+.post-skeleton-bg .circle, .user-skeleton-bg .circle {
+  display: flex;
   background-color: var(--background-color-secondary);
   width: 3rem;
   aspect-ratio: 1/1;
@@ -90,7 +111,8 @@ button > .lds-ellipsis div{
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.skeleton-bg .skeleton {
+.post-skeleton-bg .skeleton, .user-skeleton-bg .skeleton {
+  display: flex;
   background-color: var(--background-color-secondary);
   width: 100%;
   height: 1rem;
@@ -98,7 +120,7 @@ button > .lds-ellipsis div{
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.skeleton-bg hr {
+.post-skeleton-bg hr {
   margin: 1rem 0 0.25rem 0;
   border-left: 0;
   border-right: 0;
@@ -110,7 +132,14 @@ button > .lds-ellipsis div{
   justify-content: space-around;
 }
 
-.skeleton-container {
+.post-skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-skeleton-container {
+  margin: 1rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
