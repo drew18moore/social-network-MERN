@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./newPost.css";
+import { toast } from "react-hot-toast";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function NewPost({
   addPost,
@@ -13,15 +15,13 @@ export default function NewPost({
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme } = useTheme();
 
   const [userMessage, setUserMessage] = useState("");
-
-  const [error, setError] = useState<string>();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
-    setError("");
     try {
       const response = await axiosPrivate.post("/api/posts/new", {
         userId: currentUser._id,
@@ -30,11 +30,22 @@ export default function NewPost({
         postBody: userMessage,
       });
       addPost(response.data);
+      toast.success("Post has been created!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        },
+      });
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
       }
+      toast.error("Error!", {
+        style: {
+          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
+          color: `${theme === "light" ? "" : "#fff"}`,
+        },
+      });
     }
     setUserMessage("");
   };
@@ -48,7 +59,6 @@ export default function NewPost({
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="new-post-form">
-        {error && <p className="error-message">{error}</p>}
         <div className="input-area">
           <Link className="input-pfp" to={`/${currentUser.username}`}>
             <img
