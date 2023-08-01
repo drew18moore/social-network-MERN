@@ -10,7 +10,7 @@ import { UserSkeleton } from "../../components/loading/SkeletonLoading";
 const Connect = () => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [unfollowedUsers, setUnfollowedUsers] = useState([]);
+  const [unfollowedUsers, setUnfollowedUsers] = useState<any>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -20,9 +20,9 @@ const Connect = () => {
 
   const [isNextPage, setIsNextPage] = useState(true);
 
-  const observer = useRef();
+  const observer = useRef<any>();
   const lastUserRef = useCallback(
-    (element) => {
+    (element: any) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
@@ -41,7 +41,7 @@ const Connect = () => {
       const response = await axiosPrivate.get(
         `/api/users/all-unfollowed/${currentUser._id}?page=${page}&limit=${limit}`
       );
-      setUnfollowedUsers((prev) => [...prev, ...response.data.unfollowedUsers]);
+      setUnfollowedUsers((prev: any) => [...prev, ...response.data.unfollowedUsers]);
       setIsNextPage(response.data.numFound > 0);
       setIsLoading(false);
     } catch (err) {
@@ -77,7 +77,7 @@ const Connect = () => {
         {unfollowedUsers.length !== 0 && (
           <div className="unfollowed-users">
             {unfollowedUsers &&
-              unfollowedUsers.map((user, index) => {
+              unfollowedUsers.map((user: any, index: any) => {
                 if (unfollowedUsers.length - 1 === index) {
                   return <User ref={lastUserRef} user={user} key={user._id} />;
                 }

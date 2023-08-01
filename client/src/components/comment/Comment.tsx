@@ -9,6 +9,19 @@ import { axiosPrivate } from "../../api/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { MdMoreHoriz } from "react-icons/md";
 
+type Props = {
+  commentId: string
+  parentId: string
+  fullname: string
+  username: string
+  profilePicture: string
+  commentBody: string
+  editComment: any
+  deleteCommentById: any
+  liked: boolean
+  numberOfLikes: number
+}
+
 export default function Comment({
   commentId,
   parentId,
@@ -20,7 +33,7 @@ export default function Comment({
   deleteCommentById,
   liked,
   numberOfLikes
-}) {
+}: Props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [showDeletePostModal, setShowDeletePostModal] = useState(false);

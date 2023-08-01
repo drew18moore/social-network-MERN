@@ -13,13 +13,13 @@ export default function Profile() {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [user, setUser] = useState({});
-  const [isFollowing, setIsFollowing] = useState();
+  const [user, setUser] = useState<any>({});
+  const [isFollowing, setIsFollowing] = useState<any>();
   const [followBtnText, setFollowBtnText] = useState("Following");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<any>([]);
 
   const [page, setPage] = useState(1);
   const limit = 20;
@@ -53,7 +53,7 @@ export default function Profile() {
       const response = await axiosPrivate.get(
         `/api/posts/${username}/all?page=${page + 1}&limit=${limit}`
       );
-      setPosts((prev) => {
+      setPosts((prev: any) => {
         return [...prev, ...response.data.posts];
       });
       response.data.numFound === 0 && setIsNextPage(false);
@@ -69,22 +69,22 @@ export default function Profile() {
       const response = await axiosPrivate.put(`/api/users/follow/${username}`, {
         currUsername: currentUser.username,
       });
-      setIsFollowing((prev) => !prev);
+      setIsFollowing((prev: any) => !prev);
     } catch (err) {
       console.error(err);
       navigate("/login", { state: { from: location }, replace: true });
     }
   };
 
-  const deletePostById = (postId) => {
-    const indexToDelete = posts.findIndex((x) => x._id === postId);
+  const deletePostById = (postId: any) => {
+    const indexToDelete = posts.findIndex((x: any) => x._id === postId);
     let updatedPosts = [...posts];
     updatedPosts.splice(indexToDelete, 1);
     setPosts(updatedPosts);
   };
 
-  const editPost = (post) => {
-    const indexToUpdate = posts.findIndex((x) => x._id === post._id);
+  const editPost = (post: any) => {
+    const indexToUpdate = posts.findIndex((x: any) => x._id === post._id);
     let updatedPosts = [...posts];
     updatedPosts[indexToUpdate].postBody = post.postBody;
     setPosts(updatedPosts);
@@ -155,7 +155,7 @@ export default function Profile() {
         <h2 className="posts-heading">Posts</h2>
         <div className="posts">
           {posts.length === 0 && <p className="no-posts">No Posts</p>}
-          {posts.map((post) => (
+          {posts.map((post: any) => (
             <Post
               key={post._id}
               postId={post._id}

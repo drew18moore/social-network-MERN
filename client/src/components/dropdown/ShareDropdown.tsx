@@ -3,10 +3,10 @@ import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MdOutlineContentCopy } from "react-icons/md";
 
-const ShareDropdown = ({ setShowDropdown, postId, authorUsername }) => {
+const ShareDropdown = ({ setShowDropdown, postId, authorUsername }: any) => {
   const { theme } = useTheme();
   
-  const extractRootUrl = (url) => {
+  const extractRootUrl = (url: any) => {
     const regex = /^(https?:\/\/[^\/]+)/;
     const matches = url.match(regex);
     if (matches && matches.length > 1) {
@@ -24,7 +24,7 @@ const ShareDropdown = ({ setShowDropdown, postId, authorUsername }) => {
         onClick={(e) => {
           e.stopPropagation();
           navigator.clipboard.writeText(textToCopy);
-          setShowDropdown((prev) => !prev);
+          setShowDropdown((prev: any) => !prev);
           toast.success("Copied to clipboard", {
             style: {
               backgroundColor: `${theme === "light" ? "" : "#16181c"}`,

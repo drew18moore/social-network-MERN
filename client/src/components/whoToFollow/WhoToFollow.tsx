@@ -9,10 +9,10 @@ import "./whoToFollow.css";
 const WhoToFollow = () => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [unfollowedUsers, setUnfollowedUsers] = useState();
+  const [unfollowedUsers, setUnfollowedUsers] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const limit = 4;
-  const [isNextPage, setIsNextPage] = useState();
+  const [isNextPage, setIsNextPage] = useState<boolean>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const WhoToFollow = () => {
     <div className="who-to-follow">
       <h2>Who to follow?</h2>
       {unfollowedUsers &&
-        unfollowedUsers.map((user) => {
+        unfollowedUsers.map((user: any) => {
           return <User user={user} key={user._id} />;
         })}
       {isLoading && <div className="whotofollow-skeleton-container">{skeletons()}</div>}

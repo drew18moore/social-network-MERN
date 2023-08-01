@@ -20,7 +20,7 @@ const DeleteAccount = () => {
     );
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
     try {
@@ -28,7 +28,7 @@ const DeleteAccount = () => {
         data: { password: confirmPassword },
       });
       navigate("/login");
-    } catch (err) {
+    } catch (err: any) {
       setError(
         typeof err.response?.data?.message === "string"
           ? err.response?.data?.message

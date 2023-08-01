@@ -5,21 +5,21 @@ const Themes = Object.freeze({
   Dark: "dark"
 })
 
-const ThemeContext = React.createContext();
+const ThemeContext = React.createContext<any>(undefined);
 export const useTheme = () => {
   return useContext(ThemeContext);
 };
 
-export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(Themes.Light);
+export const ThemeProvider = ({ children }: any) => {
+  const [theme, setTheme] = useState<string>(Themes.Light);
 
   useEffect(() => {
     setTheme(localStorage.getItem("theme") || "light");
   }, [])
 
   useEffect(() => {
-    document.querySelector(":root").className = "";
-    document.querySelector(":root").classList.add(theme);
+    document.querySelector(":root")!.className = "";
+    document.querySelector(":root")!.classList.add(theme);
     localStorage.setItem("theme", theme)
   }, [theme]);
 

@@ -1,8 +1,8 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import "./dropdown.css";
 
-export default function Dropdown({ children, setShowDropdown }) {
-  const dropdownRef = useRef();
+export default function Dropdown({ children, setShowDropdown }: any) {
+  const dropdownRef = useRef<any>();
   const [dropdownStyle, setDropdownStyle] = useState({});
 
   useLayoutEffect(() => {
@@ -27,7 +27,7 @@ export default function Dropdown({ children, setShowDropdown }) {
         className="dropdown-backdrop"
         onClick={(e) => {
           e.stopPropagation();
-          setShowDropdown((prev) => !prev);
+          setShowDropdown((prev: any) => !prev);
         }}
       ></div>
     </>

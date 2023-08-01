@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useNavigate } from "react-router-dom";
 
 export default function CommentModal({
   postId,
@@ -12,18 +13,19 @@ export default function CommentModal({
   setShowCommentModal,
   addComment,
   setNumberOfComments,
-}) {
+}: any) {
   const { currentUser } = useAuth();
   const [userReply, setUserReply] = useState("");
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setUserReply(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
     try {
@@ -34,8 +36,8 @@ export default function CommentModal({
       });
       addComment && addComment(response.data);
       setShowCommentModal(false);
-      setNumberOfComments && setNumberOfComments((prev) => prev + 1);
-    } catch (err) {
+      setNumberOfComments && setNumberOfComments((prev: any) => prev + 1);
+    } catch (err: any) {
       console.error(err);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });

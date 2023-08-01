@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 export default function DeletePost({
   postId,
@@ -10,10 +11,11 @@ export default function DeletePost({
   setShowModal,
   deletePostById,
   type,
-}) {
+}: any) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const { theme } = useTheme();
+  const navigate = useNavigate();
   const endpoint =
     type === "POST"
       ? "/api/posts"
@@ -21,7 +23,7 @@ export default function DeletePost({
       ? "api/comments"
       : undefined;
 
-  const deletePost = async (postId) => {
+  const deletePost = async (postId: any) => {
     try {
       const response = await axiosPrivate.delete(`${endpoint}/${postId}`, {
         data: { userId: currentUser._id, parentId: parentId },
@@ -34,7 +36,7 @@ export default function DeletePost({
           color: `${theme === "light" ? "" : "#fff"}`,
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
@@ -55,7 +57,7 @@ export default function DeletePost({
       <div className="modal-btns">
         <button
           type="button"
-          onClick={() => setShowModal((prev) => !prev)}
+          onClick={() => setShowModal((prev: any) => !prev)}
           className="cancel-btn"
         >
           Cancel

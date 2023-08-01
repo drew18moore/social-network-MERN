@@ -34,7 +34,7 @@ export default function PostPage() {
   const [showCommentModal, setShowCommentModal] = useState(false);
 
   const { currentUser } = useAuth();
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState<any>({});
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState();
   const [numberOfComments, setNumberOfComments] = useState();
@@ -44,14 +44,14 @@ export default function PostPage() {
   const location = useLocation();
 
   let time = new Date(post.createdAt);
-  const timeOptions = {
+  const timeOptions: any = {
     hour: "numeric",
     minute: "numeric",
   };
   const timeFormated = time.toLocaleString("en-US", timeOptions);
 
   let date = new Date(post.createdAt);
-  const dateOptions = {
+  const dateOptions: any = {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -75,17 +75,17 @@ export default function PostPage() {
     fetchPost();
   }, [username, postId]);
 
-  const openPostDropdown = (e) => {
+  const openPostDropdown = (e: any) => {
     e.stopPropagation();
     setShowPostDropdown((prev) => !prev);
   };
 
-  const openShareDropdown = (e) => {
+  const openShareDropdown = (e: any) => {
     e.stopPropagation();
     setShowShareDropdown((prev) => !prev);
   };
 
-  const editPost = (newPost) => {
+  const editPost = (newPost: any) => {
     let updatedPost = { ...post, postBody: newPost.postBody };
     setPost(updatedPost);
   };
@@ -94,7 +94,7 @@ export default function PostPage() {
     navigate("/");
   };
 
-  const likePost = async (e) => {
+  const likePost = async (e: any) => {
     e.stopPropagation();
     try {
       const response = await axiosPrivate.put(`/api/posts/${postId}/like`, {
@@ -108,7 +108,7 @@ export default function PostPage() {
     }
   };
 
-  const addComment = (comment) => {
+  const addComment = (comment: any) => {
     const newComments = [...post.comments];
     newComments.unshift({
       ...comment,
@@ -125,8 +125,8 @@ export default function PostPage() {
     setNumberOfComments(updatedPost.comments.length);
   };
 
-  const editComment = (comment) => {
-    const indexToUpdate = post.comments.findIndex((x) => x._id === comment._id);
+  const editComment = (comment: any) => {
+    const indexToUpdate = post.comments.findIndex((x: any) => x._id === comment._id);
     const updatedComments = [...post.comments];
     updatedComments[indexToUpdate].commentBody = comment.commentBody;
 
@@ -134,8 +134,8 @@ export default function PostPage() {
     setPost(updatedPost);
   };
 
-  const deleteCommentById = (commentId) => {
-    const indexToDelete = post.comments.findIndex((x) => x._id === commentId);
+  const deleteCommentById = (commentId: any) => {
+    const indexToDelete = post.comments.findIndex((x: any) => x._id === commentId);
     const updatedComments = [...post.comments];
     updatedComments.splice(indexToDelete, 1);
 
@@ -298,12 +298,12 @@ export default function PostPage() {
         <h2>Comments</h2>
         <div className="comments">
           {post.comments &&
-            post.comments.map((comment) => {
+            post.comments.map((comment: any) => {
               return (
                 <Comment
                   key={comment._id}
                   commentId={comment._id}
-                  parentId={postId}
+                  parentId={postId!}
                   fullname={comment.fullname}
                   username={comment.username}
                   profilePicture={comment.profilePicture}

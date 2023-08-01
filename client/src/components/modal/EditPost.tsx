@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 export default function EditPost({
   postId,
@@ -11,11 +12,12 @@ export default function EditPost({
   setShowModal,
   editPost,
   type,
-}) {
+}: any) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [userMessage, setUserMessage] = useState("");
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   const endpoint =
     type === "POST"
@@ -24,7 +26,7 @@ export default function EditPost({
       ? "api/comments/"
       : undefined;
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -34,7 +36,7 @@ export default function EditPost({
     setUserMessage(postBody);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const response = await axiosPrivate.put(`${endpoint}/${postId}`, {
@@ -49,7 +51,7 @@ export default function EditPost({
           color: `${theme === "light" ? "" : "#fff"}`,
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });

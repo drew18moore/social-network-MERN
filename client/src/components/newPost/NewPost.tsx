@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./newPost.css";
 
-export default function NewPost({ addPost }) {
+export default function NewPost({ addPost }: any) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -12,9 +12,9 @@ export default function NewPost({ addPost }) {
 
   const [userMessage, setUserMessage] = useState("");
 
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
     setError("");
@@ -26,7 +26,7 @@ export default function NewPost({ addPost }) {
         postBody: userMessage,
       });
       addPost(response.data);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.message || err.message);
       if (err.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
@@ -35,7 +35,7 @@ export default function NewPost({ addPost }) {
     setUserMessage("");
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;

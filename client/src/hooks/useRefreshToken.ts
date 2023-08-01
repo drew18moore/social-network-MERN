@@ -8,7 +8,7 @@ const useRefreshToken = () => {
     const response = await api.get("/api/refresh", {
       withCredentials: true
     })
-    setCurrentUser(prev => {
+    setCurrentUser((prev: any) => {
       return { ...prev, accessToken: response.data.accessToken }
     })
     return response.data.accessToken;

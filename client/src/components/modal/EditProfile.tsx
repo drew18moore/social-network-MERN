@@ -6,13 +6,14 @@ import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
 import { MdPhotoCamera } from "react-icons/md";
 import Resizer from "react-image-file-resizer";
-const resizer = Resizer.default || Resizer;
+// @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
+const resizer: typeof Resizer = Resizer.default || Resizer;
 
-export default function EditProfile({ setUser, setShowModal }) {
+export default function EditProfile({ setUser, setShowModal }: any) {
   const [profileImgBase64, setProfileImgBase64] = useState(null);
-  const fullnameRef = useRef(null);
-  const usernameRef = useRef(null);
-  const bioRef = useRef(null);
+  const fullnameRef = useRef<any>(null);
+  const usernameRef = useRef<any>(null);
+  const bioRef = useRef<any>(null);
   const [password, setPassword ] = useState("");
 
   const [error, setError] = useState("");
@@ -22,7 +23,7 @@ export default function EditProfile({ setUser, setShowModal }) {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
     try {
@@ -34,8 +35,8 @@ export default function EditProfile({ setUser, setShowModal }) {
         password: password,
       });
       const { fullname, username, bio, img } = response.data;
-      setCurrentUser(prev => ({ ...prev, fullname, username, bio, img }));
-      setUser(prev => ({ ...prev, fullname, username, bio, img }));
+      setCurrentUser((prev: any) => ({ ...prev, fullname, username, bio, img }));
+      setUser((prev: any) => ({ ...prev, fullname, username, bio, img }));
       setShowModal(false);
       toast.success("Profile has been updated!", {
         style: {
@@ -44,7 +45,7 @@ export default function EditProfile({ setUser, setShowModal }) {
         }
       })
       navigate(`/${username}`, { replace: true })
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setError(err.response.data.message || err.message);
       if (err.response?.status === 403) {
@@ -59,7 +60,7 @@ export default function EditProfile({ setUser, setShowModal }) {
     }
   };
 
-  const handleImgChange = (e) => {
+  const handleImgChange = (e: any) => {
     const file = e.target.files?.[0]
     console.log(file);
     if (file) {
@@ -70,7 +71,7 @@ export default function EditProfile({ setUser, setShowModal }) {
         "JPEG",
         80,
         0,
-        (uri) => {
+        (uri: any) => {
           setProfileImgBase64(uri);
         },
         "base64"

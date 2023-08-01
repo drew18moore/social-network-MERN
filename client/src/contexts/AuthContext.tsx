@@ -1,12 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, ReactNode } from "react";
 
-const AuthContext = React.createContext();
+type AuthContextType = {
+  currentUser: User | undefined;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+};
+
+const AuthContext = React.createContext<any>(undefined);
 
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState({});
 
   // useEffect(() => {

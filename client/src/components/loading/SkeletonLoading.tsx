@@ -1,4 +1,4 @@
-const Skeleton = ({ circle, width, style }) => {
+const Skeleton = ({ circle, width, style }: any) => {
   const styles = {
     ...style,
     width,

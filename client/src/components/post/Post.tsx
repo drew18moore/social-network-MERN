@@ -18,7 +18,7 @@ import {
 } from "react-icons/md";
 import ShareDropdown from "../dropdown/ShareDropdown";
 
-const Post = forwardRef(
+const Post = forwardRef<any, any>(
   (
     {
       postId,
@@ -40,7 +40,7 @@ const Post = forwardRef(
     const [showDeletePostModal, setShowDeletePostModal] = useState(false);
     const [showEditPostModal, setShowEditPostModal] = useState(false);
     const [showCommentModal, setShowCommentModal] = useState(false);
-    const [liked, setLiked] = useState();
+    const [liked, setLiked] = useState<boolean>();
     const [numberOfLikes, setNumberOfLikes] = useState(numLikes);
     const [numberOfComments, setNumberOfComments] = useState(numComments);
 
@@ -55,7 +55,7 @@ const Post = forwardRef(
     let date = new Date(createdAt);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
-    let dateFormated;
+    let dateFormated: string;
     if (diff < 60000) {
       dateFormated = `${Math.floor(diff / 60000)}s`;
     } else if (diff < 3600000) {
@@ -63,7 +63,7 @@ const Post = forwardRef(
     } else if (diff < 86400000) {
       dateFormated = `${Math.floor(diff / 3600000)}h`;
     } else {
-      const dateOptions = {
+      const dateOptions: any = {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -71,17 +71,17 @@ const Post = forwardRef(
       dateFormated = date.toLocaleString("en-US", dateOptions);
     }
 
-    const openPostDropdown = (e) => {
+    const openPostDropdown = (e: any) => {
       e.stopPropagation();
       setShowPostDropdown((prev) => !prev);
     };
 
-    const openShareDropdown = (e) => {
+    const openShareDropdown = (e: any) => {
       e.stopPropagation();
       setShowShareDropdown((prev) => !prev);
     };
 
-    const likePost = async (e) => {
+    const likePost = async (e: any) => {
       e.stopPropagation();
       try {
         const response = await axiosPrivate.put(`/api/posts/${postId}/like`, {
@@ -94,17 +94,17 @@ const Post = forwardRef(
       }
     };
 
-    const openCommentModal = (e) => {
+    const openCommentModal = (e: any) => {
       e.stopPropagation();
       setShowCommentModal(true);
     };
 
-    const gotoPostPage = (e) => {
+    const gotoPostPage = (e: any) => {
       e.preventDefault();
       navigate(`/${username}/posts/${postId}`);
     };
 
-    const gotoProfilePage = (e) => {
+    const gotoProfilePage = (e: any) => {
       e.stopPropagation();
       navigate(`/${username}`);
     };

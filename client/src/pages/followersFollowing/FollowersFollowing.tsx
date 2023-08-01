@@ -5,12 +5,12 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./followersFollowing.css";
 import { MdArrowBack } from "react-icons/md";
 
-export default function FollowersFollowing({ tab }) {
+export default function FollowersFollowing({ tab }: any) {
   const { username } = useParams();
   const axiosPrivate = useAxiosPrivate();
-  const [user, setUser] = useState({});
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
+  const [user, setUser] = useState<any>({});
+  const [followers, setFollowers] = useState<any>([]);
+  const [following, setFollowing] = useState<any>([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [currTab, setCurrTab] = useState(tab);
@@ -64,7 +64,7 @@ export default function FollowersFollowing({ tab }) {
       );
       response.data.numFound === 0
         ? setIsNextPageFollowers(false)
-        : setFollowers((prev) => [...prev, ...response.data.followers]);
+        : setFollowers((prev: any) => [...prev, ...response.data.followers]);
       setPageFollowers((prev) => prev + 1);
     } catch (err) {
       console.error(err);
@@ -79,7 +79,7 @@ export default function FollowersFollowing({ tab }) {
       );
       response.data.numFound === 0
         ? setIsNextPageFollowing(false)
-        : setFollowing((prev) => [...prev, ...response.data.following]);
+        : setFollowing((prev: any) => [...prev, ...response.data.following]);
       setPageFollowing((prev) => prev + 1);
     } catch (err) {
       console.error(err);
@@ -125,7 +125,7 @@ export default function FollowersFollowing({ tab }) {
       </div>
       <div className="followed-users">
         {currTab === "followers" &&
-          followers.map((user) => {
+          followers.map((user: any) => {
             return <User key={user._id} user={user} />;
           })}
         {currTab === "followers" && isNextPageFollowers && (
@@ -134,7 +134,7 @@ export default function FollowersFollowing({ tab }) {
           </button>
         )}
         {currTab === "following" &&
-          following.map((user) => {
+          following.map((user: any) => {
             return <User key={user._id} user={user} />;
           })}
         {currTab === "following" && isNextPageFollowing && (

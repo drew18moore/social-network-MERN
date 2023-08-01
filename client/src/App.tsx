@@ -22,9 +22,9 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<PersistLogin />}>
           <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<Timeline />} exact />
-            <Route path="/connect" element={<Connect />} exact />
-            <Route path="/bookmarks" element={<Bookmarks />} exact />
+            <Route path="/" element={<Timeline />} />
+            <Route path="/connect" element={<Connect />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/:username" element={<Profile />} />
             <Route
               path="/:username/following"

@@ -4,20 +4,32 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./user.css";
 
-const User = forwardRef(({ user }, ref) => {
+type Props = {
+  user: {
+    _id: string;
+    fullname: string;
+    username: string;
+    img: string;
+    isFollowing?: boolean;
+  };
+};
+
+const User = forwardRef<any, Props>(({ user }, ref) => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [isFollowing, setIsFollowing] = useState();
+  const [isFollowing, setIsFollowing] = useState(false);
   const [followBtnText, setFollowBtnText] = useState("Following");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const following = user?.isFollowing;
-    setIsFollowing(following);
+    if (user.isFollowing) {
+      const following = user?.isFollowing;
+      setIsFollowing(following);
+    }
   }, []);
 
-  const followUser = async (e) => {
+  const followUser = async (e: any) => {
     e.stopPropagation();
     try {
       await axiosPrivate.put(`/api/users/follow/${user.username}`, {
@@ -55,7 +67,6 @@ const User = forwardRef(({ user }, ref) => {
       )}
     </div>
   );
-}
-)
+});
 
 export default User;

@@ -5,8 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 export default function Login() {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
+  const usernameRef = useRef<any>(null);
+  const passwordRef = useRef<any>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,7 +16,7 @@ export default function Login() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  async function login(e) {
+  async function login(e: any) {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -35,7 +35,7 @@ export default function Login() {
       setCurrentUser(response.data);
       setIsLoading(false);
       navigate(from, { replace: true });
-    } catch (err) {
+    } catch (err: any) {
       setIsLoading(false);
       console.error(err);
       setError(err.response.data.message);

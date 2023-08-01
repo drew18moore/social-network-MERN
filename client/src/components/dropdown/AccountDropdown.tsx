@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { axiosPrivate } from "../../api/api";
 import { MdOutlineLogout, MdPersonOutline } from "react-icons/md";
 
-export default function AccountDropdown({ setShowDropdown }) {
+export default function AccountDropdown({ setShowDropdown }: any) {
   const { currentUser, setCurrentUser } = useAuth()
 
   const logout = async () => {
@@ -17,7 +17,7 @@ export default function AccountDropdown({ setShowDropdown }) {
   }
   return (
     <ul className="account-dropdown">
-      <li onClick={() => setShowDropdown((prev) => !prev)}>
+      <li onClick={() => setShowDropdown((prev: any) => !prev)}>
         <Link to={`/${currentUser.username}`}>
           <MdPersonOutline size="1.5rem" />
           <p>Profile</p>

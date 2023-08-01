@@ -6,10 +6,10 @@ import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./auth.css";
 
 export default function Register() {
-  const fullnameRef = useRef(null);
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const passwordConfirmRef = useRef(null);
+  const fullnameRef = useRef<any>(null);
+  const usernameRef = useRef<any>(null);
+  const passwordRef = useRef<any>(null);
+  const passwordConfirmRef = useRef<any>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,7 +17,7 @@ export default function Register() {
   const { setCurrentUser } = useAuth();
   const navigate = useNavigate();
 
-  async function register(e) {
+  async function register(e: any) {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -39,7 +39,7 @@ export default function Register() {
       setCurrentUser(response.data);
       setIsLoading(false);
       navigate("/");
-    } catch (err) {
+    } catch (err: any) {
       setIsLoading(false);
       setError(err?.response?.data?.message || err.message);
     }

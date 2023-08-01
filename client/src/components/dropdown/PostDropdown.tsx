@@ -7,7 +7,7 @@ export default function PostDropdown({
   setShowDropdown,
   setShowDeletePostModal,
   setShowEditPostModal,
-}) {
+}: any) {
   const { currentUser } = useAuth();
 
   return (
@@ -29,7 +29,7 @@ export default function PostDropdown({
           onClick={(e) => {
             e.stopPropagation();
             setShowDropdown(false);
-            setShowDeletePostModal((prev) => !prev);
+            setShowDeletePostModal((prev: any) => !prev);
           }}
         >
           <MdOutlineDeleteForever size="1.5rem"/>
