@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { PostSkeleton } from "../../components/loading/SkeletonLoading";
 
 export default function Timeline() {
-  const [posts, setPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -19,9 +19,9 @@ export default function Timeline() {
   const limit = 20;
   const [isNextPage, setIsNextPage] = useState(true);
 
-  const observer = useRef<any>();
+  const observer = useRef<IntersectionObserver>();
   const lastPostRef = useCallback(
-    (element: any) => {
+    (element: HTMLDivElement) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
@@ -39,9 +39,10 @@ export default function Timeline() {
       const response = await axiosPrivate.get(
         `/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`
       );
-      setPosts((prev: any) => [...prev, ...response.data.posts]);
+      setPosts((prev) => [...prev, ...response.data.posts]);
       setIsNextPage(response.data.numFound > 0);
       setIsLoading(false);
+      console.log(response.data.posts);
     } catch (err) {
       setIsLoading(false);
       console.error(err);
@@ -53,21 +54,21 @@ export default function Timeline() {
     fetchPosts();
   }, [page]);
 
-  const addPost = (post: any) => {
+  const addPost = (post: Post) => {
     let updatedPosts = [...posts];
     updatedPosts.unshift(post);
     setPosts(updatedPosts);
   };
 
-  const deletePostById = (postId: any) => {
-    const indexToDelete = posts.findIndex((x: any) => x._id === postId);
+  const deletePostById = (postId: string) => {
+    const indexToDelete = posts.findIndex((x) => x._id === postId);
     let updatedPosts = [...posts];
     updatedPosts.splice(indexToDelete, 1);
     setPosts(updatedPosts);
   };
 
-  const editPost = (post: any) => {
-    const indexToUpdate = posts.findIndex((x: any) => x._id === post._id);
+  const editPost = (post: EditedPost) => {
+    const indexToUpdate = posts.findIndex((x) => x._id === post._id);
     let updatedPosts = [...posts];
     updatedPosts[indexToUpdate].postBody = post.postBody;
     setPosts(updatedPosts);
@@ -93,7 +94,7 @@ export default function Timeline() {
       )}
       {posts.length !== 0 && (
         <div className="posts">
-          {posts.map((post: any, index: any) => {
+          {posts.map((post, index) => {
             if (posts.length - 1 === index) {
               return (
                 <Post

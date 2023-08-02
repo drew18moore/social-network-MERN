@@ -6,10 +6,10 @@ import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./auth.css";
 
 export default function Register() {
-  const fullnameRef = useRef<any>(null);
-  const usernameRef = useRef<any>(null);
-  const passwordRef = useRef<any>(null);
-  const passwordConfirmRef = useRef<any>(null);
+  const fullnameRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,20 +17,20 @@ export default function Register() {
   const { setCurrentUser } = useAuth();
   const navigate = useNavigate();
 
-  async function register(e: any) {
+  async function register(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setIsLoading(true);
     try {
-      if (passwordRef.current.value !== passwordConfirmRef.current.value)
+      if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value)
         throw new Error("Passwords do not match");
       const response = await api.post(
         "/api/auth/register",
         {
-          fullname: fullnameRef.current.value.trim(),
-          username: usernameRef.current.value.trim().toLowerCase(),
-          password: passwordRef.current.value,
-          passwordConfirm: passwordConfirmRef.current.value,
+          fullname: fullnameRef?.current?.value.trim(),
+          username: usernameRef?.current?.value.trim().toLowerCase(),
+          password: passwordRef?.current?.value,
+          passwordConfirm: passwordConfirmRef?.current?.value,
         },
         {
           withCredentials: true,

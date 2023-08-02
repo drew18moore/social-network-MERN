@@ -18,7 +18,7 @@ import {
 } from "react-icons/md";
 import ShareDropdown from "../dropdown/ShareDropdown";
 
-const Post = forwardRef<any, any>(
+const Post = forwardRef<HTMLDivElement, any>(
   (
     {
       postId,
