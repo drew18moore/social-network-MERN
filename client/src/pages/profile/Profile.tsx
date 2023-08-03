@@ -13,13 +13,13 @@ export default function Profile() {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [user, setUser] = useState<any>({});
-  const [isFollowing, setIsFollowing] = useState<any>();
+  const [user, setUser] = useState<ProfileUser>();
+  const [isFollowing, setIsFollowing] = useState(false);
   const [followBtnText, setFollowBtnText] = useState("Following");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [posts, setPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const [page, setPage] = useState(1);
   const limit = 20;
@@ -53,7 +53,7 @@ export default function Profile() {
       const response = await axiosPrivate.get(
         `/api/posts/${username}/all?page=${page + 1}&limit=${limit}`
       );
-      setPosts((prev: any) => {
+      setPosts((prev) => {
         return [...prev, ...response.data.posts];
       });
       response.data.numFound === 0 && setIsNextPage(false);
@@ -69,22 +69,22 @@ export default function Profile() {
       const response = await axiosPrivate.put(`/api/users/follow/${username}`, {
         currUsername: currentUser.username,
       });
-      setIsFollowing((prev: any) => !prev);
+      setIsFollowing((prev) => !prev);
     } catch (err) {
       console.error(err);
       navigate("/login", { state: { from: location }, replace: true });
     }
   };
 
-  const deletePostById = (postId: any) => {
-    const indexToDelete = posts.findIndex((x: any) => x._id === postId);
+  const deletePostById = (postId: string) => {
+    const indexToDelete = posts.findIndex((x) => x._id === postId);
     let updatedPosts = [...posts];
     updatedPosts.splice(indexToDelete, 1);
     setPosts(updatedPosts);
   };
 
-  const editPost = (post: any) => {
-    const indexToUpdate = posts.findIndex((x: any) => x._id === post._id);
+  const editPost = (post: EditedPost) => {
+    const indexToUpdate = posts.findIndex((x) => x._id === post._id);
     let updatedPosts = [...posts];
     updatedPosts[indexToUpdate].postBody = post.postBody;
     setPosts(updatedPosts);
@@ -96,7 +96,7 @@ export default function Profile() {
         <div className="back-btn" onClick={() => navigate(-1)}>
           <MdArrowBack size="1.5rem" />
         </div>
-        <p>{user.fullname}</p>
+        <p>{user?.fullname}</p>
       </div>
       <div className="profile-card">
         <div className="top">
@@ -104,16 +104,16 @@ export default function Profile() {
             <div className="profile-picture-wrapper">
               <img
                 className="profile-picture"
-                src={user.img || "default-pfp.jpg"}
+                src={user?.img || "default-pfp.jpg"}
                 alt="Profile Picture"
               />
             </div>
             <div className="profile-name-username">
-              <h1 className="name">{user.fullname}</h1>
-              <h2 className="username">@{user.username}</h2>
+              <h1 className="name">{user?.fullname}</h1>
+              <h2 className="username">@{user?.username}</h2>
             </div>
           </div>
-          {user._id === currentUser._id ? (
+          {user?._id === currentUser._id ? (
             <button
               className="edit-profile-btn"
               onClick={() => setShowEditProfileModal((prev) => !prev)}
@@ -134,18 +134,18 @@ export default function Profile() {
           )}
         </div>
         <div className="middle">
-        <h3 className="bio">{user.bio}</h3>
+        <h3 className="bio">{user?.bio}</h3>
         </div>
         <div className="bottom">
           <span className="following" onClick={() => navigate(`following`)}>
             <span className="count">
-              {user.numFollowing}
+              {user?.numFollowing}
             </span>{" "}
             Following
           </span>
           <span className="followers" onClick={() => navigate("followers")}>
             <span className="count">
-              {user.numFollowers}
+              {user?.numFollowers}
             </span>{" "}
             Followers
           </span>
@@ -155,7 +155,7 @@ export default function Profile() {
         <h2 className="posts-heading">Posts</h2>
         <div className="posts">
           {posts.length === 0 && <p className="no-posts">No Posts</p>}
-          {posts.map((post: any) => (
+          {posts.map((post) => (
             <Post
               key={post._id}
               postId={post._id}

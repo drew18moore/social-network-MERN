@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 type User = {
-  id: string;
+  _id: string;
   fullname: string;
   username: string;
   accessToken: string;
@@ -22,6 +22,17 @@ type Post = {
 };
 
 type EditedPost = {
-  _id: string
-  postBody: string
-}
+  _id: string;
+  postBody: string;
+};
+
+type ProfileUser = {
+  _id: string;
+  fullname: string;
+  username: string;
+  numFollowing: number;
+  numFollowers: number;
+  isFollowing: boolean;
+  img: string;
+  bio: string;
+};
