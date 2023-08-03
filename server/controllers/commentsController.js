@@ -44,7 +44,11 @@ const editComment = async (req, res) => {
     }
     comment.commentBody = req.body.postBody;
     comment.save();
-    return res.status(200).json(comment);
+    const response = {
+      _id: comment._id,
+      commentBody: comment.commentBody,
+    }
+    return res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err });
   }

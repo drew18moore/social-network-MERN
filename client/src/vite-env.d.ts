@@ -36,3 +36,41 @@ type ProfileUser = {
   img: string;
   bio: string;
 };
+
+type PostComment = {
+  _id: string;
+  fullname: string;
+  username: string;
+  commentBody: string;
+  profilePicture: string;
+  parentId: string;
+  numLikes: number;
+  isLiked: boolean;
+};
+
+type NewComment = {
+  _id: string;
+  userId: string;
+  parentId: string;
+  commentBody: string;
+  createdAt: Date;
+}
+
+type EditedComment = {
+  _id: string;
+  commentBody: string;
+};
+
+type PostPage = {
+  _id: string;
+  userId: string;
+  postBody: string;
+  comments: PostComment[];
+  createdAt: Date;
+  fullname: string;
+  username: string;
+  profilePicture: string;
+  isBookmarked: boolean;
+  isLiked: boolean;
+  numLikes: number;
+};
