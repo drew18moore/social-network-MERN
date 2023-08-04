@@ -12,16 +12,16 @@ const Bookmarks = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
-  const [bookmarks, setBookmarks] = useState<any>([]);
+  const [bookmarks, setBookmarks] = useState<Post[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
   const [isNextPage, setIsNextPage] = useState(true);
 
-  const observer = useRef<any>();
+  const observer = useRef<IntersectionObserver>();
   const lastPostRef = useCallback(
-    (element: any) => {
+    (element: HTMLDivElement) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
@@ -39,7 +39,7 @@ const Bookmarks = () => {
       const response = await axiosPrivate.get(
         `/api/users/${currentUser._id}/bookmarks?page=${page}&limit=${limit}`
       );
-      setBookmarks((prev: any) => [...prev, ...response.data.posts]);
+      setBookmarks((prev) => [...prev, ...response.data.posts]);
       setIsNextPage(response.data.numFound > 0);
       setIsLoading(false);
     } catch (err) {
@@ -53,15 +53,15 @@ const Bookmarks = () => {
     fetchPosts();
   }, [page]);
 
-  const deletePostById = (postId: any) => {
-    const indexToDelete = bookmarks.findIndex((x: any) => x._id === postId);
+  const deletePostById = (postId: string) => {
+    const indexToDelete = bookmarks.findIndex((x) => x._id === postId);
     let updatedBookmarks = [...bookmarks];
     updatedBookmarks.splice(indexToDelete, 1);
     setBookmarks(updatedBookmarks);
   };
 
-  const editPost = (post: any) => {
-    const indexToUpdate = bookmarks.findIndex((x: any) => x._id === post._id);
+  const editPost = (post: EditedPost) => {
+    const indexToUpdate = bookmarks.findIndex((x) => x._id === post._id);
     let updatedBookmarks = [...bookmarks];
     updatedBookmarks[indexToUpdate].postBody = post.postBody;
     setBookmarks(updatedBookmarks);
@@ -77,7 +77,7 @@ const Bookmarks = () => {
       </div>
       <div className="bookmarks-posts">
         {bookmarks.length === 0 && <p className="no-posts">No Bookmarks</p>}
-        {bookmarks.map((post: any, index: any) => {
+        {bookmarks.map((post, index) => {
           if (bookmarks.length - 1 === index) {
             return (
               <Post
