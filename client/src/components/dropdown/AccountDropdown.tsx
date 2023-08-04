@@ -8,7 +8,7 @@ export default function AccountDropdown({ setShowDropdown }: any) {
   const { currentUser, setCurrentUser } = useAuth()
 
   const logout = async () => {
-    setCurrentUser({})
+    setCurrentUser({} as User)
     try {
       await axiosPrivate.get("/api/logout")
     } catch (err) {

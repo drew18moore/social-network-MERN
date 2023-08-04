@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useContext, ReactNode } from "react";
 
 type AuthContextType = {
-  currentUser: User | undefined;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  currentUser: User;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 const AuthContext = React.createContext<any>(undefined);
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   return useContext(AuthContext);
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState<User>({} as User);
 
   // useEffect(() => {
   //   console.log(currentUser);

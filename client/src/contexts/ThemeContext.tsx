@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, ReactNode } from "react";
 
 const Themes = Object.freeze({
   Light: "light",
-  Dark: "dark"
-})
+  Dark: "dark",
+});
 
 const ThemeContext = React.createContext<any>(undefined);
 export const useTheme = () => {
   return useContext(ThemeContext);
 };
 
-export const ThemeProvider = ({ children }: any) => {
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<string>(Themes.Light);
 
   useEffect(() => {
     setTheme(localStorage.getItem("theme") || "light");
-  }, [])
+  }, []);
 
   useEffect(() => {
     document.querySelector(":root")!.className = "";
     document.querySelector(":root")!.classList.add(theme);
-    localStorage.setItem("theme", theme)
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   return (

@@ -10,11 +10,11 @@ import Resizer from "react-image-file-resizer";
 const resizer: typeof Resizer = Resizer.default || Resizer;
 
 export default function EditProfile({ setUser, setShowModal }: any) {
-  const [profileImgBase64, setProfileImgBase64] = useState(null);
+  const [profileImgBase64, setProfileImgBase64] = useState("");
   const fullnameRef = useRef<any>(null);
   const usernameRef = useRef<any>(null);
   const bioRef = useRef<any>(null);
-  const [password, setPassword ] = useState("");
+  const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
 
@@ -29,22 +29,30 @@ export default function EditProfile({ setUser, setShowModal }: any) {
     try {
       const response = await axiosPrivate.put(`/api/users/${currentUser._id}`, {
         fullname: fullnameRef.current.value.trim() || currentUser.fullname,
-        username: usernameRef.current.value.trim().toLowerCase() || currentUser.username,
+        username:
+          usernameRef.current.value.trim().toLowerCase() ||
+          currentUser.username,
         bio: bioRef.current.value.trim() || currentUser.bio,
         img: profileImgBase64,
         password: password,
       });
       const { fullname, username, bio, img } = response.data;
-      setCurrentUser((prev: any) => ({ ...prev, fullname, username, bio, img }));
+      setCurrentUser((prev: any) => ({
+        ...prev,
+        fullname,
+        username,
+        bio,
+        img,
+      }));
       setUser((prev: any) => ({ ...prev, fullname, username, bio, img }));
       setShowModal(false);
       toast.success("Profile has been updated!", {
         style: {
           backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
           color: `${theme === "light" ? "" : "#fff"}`,
-        }
-      })
-      navigate(`/${username}`, { replace: true })
+        },
+      });
+      navigate(`/${username}`, { replace: true });
     } catch (err: any) {
       console.error(err);
       setError(err.response.data.message || err.message);
@@ -55,13 +63,13 @@ export default function EditProfile({ setUser, setShowModal }: any) {
         style: {
           backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
           color: `${theme === "light" ? "" : "#fff"}`,
-        }
-      })
+        },
+      });
     }
   };
 
   const handleImgChange = (e: any) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     console.log(file);
     if (file) {
       resizer.imageFileResizer(
@@ -77,14 +85,14 @@ export default function EditProfile({ setUser, setShowModal }: any) {
         "base64"
       );
     } else {
-      console.log('object');
+      console.log("object");
       setProfileImgBase64(currentUser.img || "default-pfp.jpg");
     }
-  }
+  };
 
   useEffect(() => {
     console.log(profileImgBase64);
-  }, [profileImgBase64])
+  }, [profileImgBase64]);
 
   return (
     <div className="edit-profile">
@@ -93,9 +101,20 @@ export default function EditProfile({ setUser, setShowModal }: any) {
       <form onSubmit={handleSubmit}>
         {error ? <p className="error-message">{error}</p> : ""}
         <div className="profile-img-wrapper">
-          <img src={profileImgBase64 || currentUser.img || "default-pfp.jpg"} alt="profile picture" className="profile-img" />
-          <input type="file" accept="image/*" id="file" onChange={handleImgChange} />
-          <label htmlFor="file"><MdPhotoCamera /></label>
+          <img
+            src={profileImgBase64 || currentUser.img || "default-pfp.jpg"}
+            alt="profile picture"
+            className="profile-img"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            id="file"
+            onChange={handleImgChange}
+          />
+          <label htmlFor="file">
+            <MdPhotoCamera />
+          </label>
         </div>
         <input
           ref={fullnameRef}
@@ -126,7 +145,9 @@ export default function EditProfile({ setUser, setShowModal }: any) {
           placeholder="Current password"
           required
         />
-        <button type="submit" disabled={password === ""}>Save</button>
+        <button type="submit" disabled={password === ""}>
+          Save
+        </button>
       </form>
     </div>
   );
