@@ -1,16 +1,31 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import User from "../../components/user/User";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./followersFollowing.css";
 import { MdArrowBack } from "react-icons/md";
 
-export default function FollowersFollowing({ tab }: any) {
+type Props = {
+  tab: "following" | "followers";
+};
+type User = {
+  fullname: string;
+  username: string;
+};
+type FollowerFollowing = {
+  _id: string;
+  fullname: string;
+  username: string;
+  img: string;
+  isFollowing: boolean;
+};
+
+export default function FollowersFollowing({ tab }: Props) {
   const { username } = useParams();
   const axiosPrivate = useAxiosPrivate();
-  const [user, setUser] = useState<any>({});
-  const [followers, setFollowers] = useState<any>([]);
-  const [following, setFollowing] = useState<any>([]);
+  const [user, setUser] = useState<User>({} as User);
+  const [followers, setFollowers] = useState<FollowerFollowing[]>([]);
+  const [following, setFollowing] = useState<FollowerFollowing[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [currTab, setCurrTab] = useState(tab);
@@ -64,7 +79,7 @@ export default function FollowersFollowing({ tab }: any) {
       );
       response.data.numFound === 0
         ? setIsNextPageFollowers(false)
-        : setFollowers((prev: any) => [...prev, ...response.data.followers]);
+        : setFollowers((prev) => [...prev, ...response.data.followers]);
       setPageFollowers((prev) => prev + 1);
     } catch (err) {
       console.error(err);
@@ -79,7 +94,7 @@ export default function FollowersFollowing({ tab }: any) {
       );
       response.data.numFound === 0
         ? setIsNextPageFollowing(false)
-        : setFollowing((prev: any) => [...prev, ...response.data.following]);
+        : setFollowing((prev) => [...prev, ...response.data.following]);
       setPageFollowing((prev) => prev + 1);
     } catch (err) {
       console.error(err);
@@ -125,7 +140,7 @@ export default function FollowersFollowing({ tab }: any) {
       </div>
       <div className="followed-users">
         {currTab === "followers" &&
-          followers.map((user: any) => {
+          followers.map((user) => {
             return <User key={user._id} user={user} />;
           })}
         {currTab === "followers" && isNextPageFollowers && (
@@ -134,7 +149,7 @@ export default function FollowersFollowing({ tab }: any) {
           </button>
         )}
         {currTab === "following" &&
-          following.map((user: any) => {
+          following.map((user) => {
             return <User key={user._id} user={user} />;
           })}
         {currTab === "following" && isNextPageFollowing && (
