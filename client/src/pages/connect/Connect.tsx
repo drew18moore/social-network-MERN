@@ -7,10 +7,16 @@ import "./connect.css";
 import { MdArrowBack } from "react-icons/md";
 import { UserSkeleton } from "../../components/loading/SkeletonLoading";
 
+type UnfollowedUser = {
+  _id: string;
+  fullname: string;
+  username: string;
+  img: string;
+};
 const Connect = () => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [unfollowedUsers, setUnfollowedUsers] = useState<any>([]);
+  const [unfollowedUsers, setUnfollowedUsers] = useState<UnfollowedUser[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -20,9 +26,9 @@ const Connect = () => {
 
   const [isNextPage, setIsNextPage] = useState(true);
 
-  const observer = useRef<any>();
+  const observer = useRef<IntersectionObserver>();
   const lastUserRef = useCallback(
-    (element: any) => {
+    (element: HTMLDivElement) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
@@ -41,7 +47,7 @@ const Connect = () => {
       const response = await axiosPrivate.get(
         `/api/users/all-unfollowed/${currentUser._id}?page=${page}&limit=${limit}`
       );
-      setUnfollowedUsers((prev: any) => [...prev, ...response.data.unfollowedUsers]);
+      setUnfollowedUsers((prev) => [...prev, ...response.data.unfollowedUsers]);
       setIsNextPage(response.data.numFound > 0);
       setIsLoading(false);
     } catch (err) {
@@ -77,7 +83,7 @@ const Connect = () => {
         {unfollowedUsers.length !== 0 && (
           <div className="unfollowed-users">
             {unfollowedUsers &&
-              unfollowedUsers.map((user: any, index: any) => {
+              unfollowedUsers.map((user, index) => {
                 if (unfollowedUsers.length - 1 === index) {
                   return <User ref={lastUserRef} user={user} key={user._id} />;
                 }
@@ -85,7 +91,9 @@ const Connect = () => {
               })}
           </div>
         )}
-        {isLoading && <div className="user-skeleton-container">{skeletons()}</div>}
+        {isLoading && (
+          <div className="user-skeleton-container">{skeletons()}</div>
+        )}
       </div>
     </div>
   );
