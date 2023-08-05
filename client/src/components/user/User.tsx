@@ -14,7 +14,7 @@ type Props = {
   };
 };
 
-const User = forwardRef<any, Props>(({ user }, ref) => {
+const User = forwardRef<HTMLDivElement, Props>(({ user }, ref) => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [isFollowing, setIsFollowing] = useState(false);
@@ -29,7 +29,9 @@ const User = forwardRef<any, Props>(({ user }, ref) => {
     }
   }, []);
 
-  const followUser = async (e: any) => {
+  const followUser = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     try {
       await axiosPrivate.put(`/api/users/follow/${user.username}`, {

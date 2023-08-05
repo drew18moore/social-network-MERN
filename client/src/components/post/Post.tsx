@@ -18,7 +18,20 @@ import {
 } from "react-icons/md";
 import ShareDropdown from "../dropdown/ShareDropdown";
 
-const Post = forwardRef<HTMLDivElement, any>(
+type Props = {
+  postId: string;
+  fullname: string;
+  username: string;
+  postBody: string;
+  createdAt: Date;
+  profilePicture: string;
+  deletePostById: (postId: string) => void;
+  editPost: (post: EditedPost) => void;
+  isLiked: boolean;
+  numLikes: number;
+  numComments: number;
+};
+const Post = forwardRef<HTMLDivElement, Props>(
   (
     {
       postId,
@@ -63,7 +76,7 @@ const Post = forwardRef<HTMLDivElement, any>(
     } else if (diff < 86400000) {
       dateFormated = `${Math.floor(diff / 3600000)}h`;
     } else {
-      const dateOptions: any = {
+      const dateOptions: Intl.DateTimeFormatOptions = {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -71,17 +84,17 @@ const Post = forwardRef<HTMLDivElement, any>(
       dateFormated = date.toLocaleString("en-US", dateOptions);
     }
 
-    const openPostDropdown = (e: any) => {
+    const openPostDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       setShowPostDropdown((prev) => !prev);
     };
 
-    const openShareDropdown = (e: any) => {
+    const openShareDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       setShowShareDropdown((prev) => !prev);
     };
 
-    const likePost = async (e: any) => {
+    const likePost = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       try {
         const response = await axiosPrivate.put(`/api/posts/${postId}/like`, {
@@ -94,17 +107,17 @@ const Post = forwardRef<HTMLDivElement, any>(
       }
     };
 
-    const openCommentModal = (e: any) => {
+    const openCommentModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       setShowCommentModal(true);
     };
 
-    const gotoPostPage = (e: any) => {
+    const gotoPostPage = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.preventDefault();
       navigate(`/${username}/posts/${postId}`);
     };
 
-    const gotoProfilePage = (e: any) => {
+    const gotoProfilePage = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
       navigate(`/${username}`);
     };

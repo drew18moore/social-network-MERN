@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "../../components/modal/Modal";
@@ -6,7 +6,7 @@ import EditProfile from "../../components/modal/EditProfile";
 import Post from "../../components/post/Post";
 import "./profile.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdArrowBack, MdPhotoCamera } from "react-icons/md";
+import { MdArrowBack } from "react-icons/md";
 
 export default function Profile() {
   const { username } = useParams();
@@ -134,20 +134,14 @@ export default function Profile() {
           )}
         </div>
         <div className="middle">
-        <h3 className="bio">{user?.bio}</h3>
+          <h3 className="bio">{user?.bio}</h3>
         </div>
         <div className="bottom">
           <span className="following" onClick={() => navigate(`following`)}>
-            <span className="count">
-              {user?.numFollowing}
-            </span>{" "}
-            Following
+            <span className="count">{user?.numFollowing}</span> Following
           </span>
           <span className="followers" onClick={() => navigate("followers")}>
-            <span className="count">
-              {user?.numFollowers}
-            </span>{" "}
-            Followers
+            <span className="count">{user?.numFollowers}</span> Followers
           </span>
         </div>
       </div>
