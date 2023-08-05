@@ -1,4 +1,9 @@
-const Skeleton = ({ circle, width, style }: any) => {
+type SkeletonProps = {
+  circle?: boolean;
+  width?: string
+  style?: React.CSSProperties
+}
+const Skeleton = ({ circle, width, style }: SkeletonProps) => {
   const styles = {
     ...style,
     width,

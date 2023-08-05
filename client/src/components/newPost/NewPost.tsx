@@ -4,7 +4,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./newPost.css";
 
-export default function NewPost({ addPost }: any) {
+export default function NewPost({
+  addPost,
+}: {
+  addPost: (post: Post) => void;
+}) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -35,7 +39,7 @@ export default function NewPost({ addPost }: any) {
     setUserMessage("");
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -47,7 +51,10 @@ export default function NewPost({ addPost }: any) {
         {error && <p className="error-message">{error}</p>}
         <div className="input-area">
           <Link className="input-pfp" to={`/${currentUser.username}`}>
-            <img src={currentUser.img || "/default-pfp.jpg"} alt="Current User Profile Picture" />
+            <img
+              src={currentUser.img || "/default-pfp.jpg"}
+              alt="Current User Profile Picture"
+            />
           </Link>
           <textarea
             name="post body input"
