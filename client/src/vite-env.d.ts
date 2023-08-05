@@ -61,16 +61,9 @@ type EditedComment = {
   commentBody: string;
 };
 
-type PostPage = {
+type UnfollowedUser = {
   _id: string;
-  userId: string;
-  postBody: string;
-  comments: PostComment[];
-  createdAt: Date;
   fullname: string;
   username: string;
-  profilePicture: string;
-  isBookmarked: boolean;
-  isLiked: boolean;
-  numLikes: number;
+  img: string;
 };

@@ -22,6 +22,20 @@ import {
 } from "react-icons/md";
 import ShareDropdown from "../../components/dropdown/ShareDropdown";
 
+type Post = {
+  _id: string;
+  userId: string;
+  postBody: string;
+  comments: PostComment[];
+  createdAt: Date;
+  fullname: string;
+  username: string;
+  profilePicture: string;
+  isBookmarked: boolean;
+  isLiked: boolean;
+  numLikes: number;
+};
+
 export default function PostPage() {
   const { username, postId } = useParams();
   const axiosPrivate = useAxiosPrivate();
@@ -34,7 +48,7 @@ export default function PostPage() {
   const [showCommentModal, setShowCommentModal] = useState(false);
 
   const { currentUser } = useAuth();
-  const [post, setPost] = useState<PostPage>({} as PostPage);
+  const [post, setPost] = useState<Post>({} as Post);
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState();
   const [numberOfComments, setNumberOfComments] = useState(0);

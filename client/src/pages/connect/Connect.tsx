@@ -7,12 +7,6 @@ import "./connect.css";
 import { MdArrowBack } from "react-icons/md";
 import { UserSkeleton } from "../../components/loading/SkeletonLoading";
 
-type UnfollowedUser = {
-  _id: string;
-  fullname: string;
-  username: string;
-  img: string;
-};
 const Connect = () => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
