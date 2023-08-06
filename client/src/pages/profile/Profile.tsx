@@ -13,7 +13,7 @@ export default function Profile() {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [user, setUser] = useState<ProfileUser>();
+  const [user, setUser] = useState<ProfileUser>({} as ProfileUser);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followBtnText, setFollowBtnText] = useState("Following");
   const navigate = useNavigate();

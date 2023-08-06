@@ -9,11 +9,15 @@ import Resizer from "react-image-file-resizer";
 // @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
 const resizer: typeof Resizer = Resizer.default || Resizer;
 
-export default function EditProfile({ setUser, setShowModal }: any) {
+type Props = {
+  setUser: React.Dispatch<React.SetStateAction<ProfileUser>>
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+export default function EditProfile({ setUser, setShowModal }: Props) {
   const [profileImgBase64, setProfileImgBase64] = useState("");
-  const fullnameRef = useRef<any>(null);
-  const usernameRef = useRef<any>(null);
-  const bioRef = useRef<any>(null);
+  const fullnameRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const bioRef = useRef<HTMLInputElement>(null);
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
@@ -23,28 +27,28 @@ export default function EditProfile({ setUser, setShowModal }: any) {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     try {
       const response = await axiosPrivate.put(`/api/users/${currentUser._id}`, {
-        fullname: fullnameRef.current.value.trim() || currentUser.fullname,
+        fullname: fullnameRef?.current?.value.trim() || currentUser.fullname,
         username:
-          usernameRef.current.value.trim().toLowerCase() ||
+          usernameRef?.current?.value.trim().toLowerCase() ||
           currentUser.username,
-        bio: bioRef.current.value.trim() || currentUser.bio,
+        bio: bioRef?.current?.value.trim() || currentUser.bio,
         img: profileImgBase64,
         password: password,
       });
       const { fullname, username, bio, img } = response.data;
-      setCurrentUser((prev: any) => ({
+      setCurrentUser((prev) => ({
         ...prev,
         fullname,
         username,
         bio,
         img,
       }));
-      setUser((prev: any) => ({ ...prev, fullname, username, bio, img }));
+      setUser((prev) => ({ ...prev, fullname, username, bio, img }));
       setShowModal(false);
       toast.success("Profile has been updated!", {
         style: {
@@ -68,7 +72,7 @@ export default function EditProfile({ setUser, setShowModal }: any) {
     }
   };
 
-  const handleImgChange = (e: any) => {
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log(file);
     if (file) {
@@ -79,8 +83,8 @@ export default function EditProfile({ setUser, setShowModal }: any) {
         "JPEG",
         80,
         0,
-        (uri: any) => {
-          setProfileImgBase64(uri);
+        (uri) => {
+          setProfileImgBase64(uri as string);
         },
         "base64"
       );
