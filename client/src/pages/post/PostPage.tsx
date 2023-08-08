@@ -286,8 +286,8 @@ export default function PostPage() {
         {showEditPostModal && (
           <Modal setShowModal={setShowEditPostModal}>
             <EditPost
-              postId={postId}
-              username={username}
+              postId={postId!}
+              username={username!}
               postBody={post.postBody}
               setShowModal={setShowEditPostModal}
               editPost={editPost}

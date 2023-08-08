@@ -5,6 +5,14 @@ import { toast } from "react-hot-toast";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
+type Props = {
+  postId: string
+  username: string
+  postBody: string
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+  editPost: (newPost: EditedPost) => void
+  type: "POST" | "COMMENT"
+}
 export default function EditPost({
   postId,
   username,
@@ -12,7 +20,7 @@ export default function EditPost({
   setShowModal,
   editPost,
   type,
-}: any) {
+}: Props) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [userMessage, setUserMessage] = useState("");
@@ -26,7 +34,7 @@ export default function EditPost({
       ? "api/comments/"
       : undefined;
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -36,7 +44,7 @@ export default function EditPost({
     setUserMessage(postBody);
   }, []);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axiosPrivate.put(`${endpoint}/${postId}`, {
