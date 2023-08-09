@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -20,7 +19,7 @@ const DeleteAccount = () => {
     );
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     try {

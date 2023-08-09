@@ -298,9 +298,9 @@ export default function PostPage() {
         {showCommentModal && (
           <Modal setShowModal={setShowCommentModal}>
             <CommentModal
-              postId={postId}
+              postId={postId!}
               fullname={post.fullname}
-              username={username}
+              username={username!}
               postBody={post.postBody}
               profilePicture={post.profilePicture}
               date={dateFormated}
