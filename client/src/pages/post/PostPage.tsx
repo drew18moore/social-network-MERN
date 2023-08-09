@@ -276,7 +276,7 @@ export default function PostPage() {
         {showDeletePostModal && (
           <Modal setShowModal={setShowDeletePostModal}>
             <DeletePost
-              postId={postId}
+              postId={postId!}
               setShowModal={setShowDeletePostModal}
               deletePostById={deletePostById}
               type="POST"
