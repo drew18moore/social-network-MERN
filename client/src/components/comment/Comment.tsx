@@ -16,8 +16,8 @@ type Props = {
   username: string
   profilePicture: string
   commentBody: string
-  editComment: any
-  deleteCommentById: any
+  editComment: (comment: EditedComment) => void
+  deleteCommentById: (commentId: string) => void
   liked: boolean
   numberOfLikes: number
 }

@@ -9,7 +9,7 @@ type Props = {
   postId: string
   parentId?: string
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-  deletePostById: (postId: string) => void
+  deletePostById: ((postId: string) => void) | ((commentId: string) => void)
   type: "POST" | "COMMENT"
 }
 export default function DeletePost({

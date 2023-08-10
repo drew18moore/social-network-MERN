@@ -10,7 +10,7 @@ type Props = {
   username: string
   postBody: string
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-  editPost: (newPost: EditedPost) => void
+  editPost: ((newPost: EditedPost) => void) | ((comment: EditedComment) => void)
   type: "POST" | "COMMENT"
 }
 export default function EditPost({
