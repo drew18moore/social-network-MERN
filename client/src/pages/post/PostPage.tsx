@@ -205,7 +205,7 @@ export default function PostPage() {
             {showPostDropdown && (
               <Dropdown setShowDropdown={setShowPostDropdown}>
                 <PostDropdown
-                  username={username}
+                  username={username!}
                   setShowDropdown={setShowPostDropdown}
                   setShowDeletePostModal={setShowDeletePostModal}
                   setShowEditPostModal={setShowEditPostModal}
@@ -265,8 +265,8 @@ export default function PostPage() {
                 <Dropdown setShowDropdown={setShowShareDropdown}>
                   <ShareDropdown
                     setShowDropdown={setShowShareDropdown}
-                    authorUsername={username}
-                    postId={postId}
+                    authorUsername={username!}
+                    postId={postId!}
                   />
                 </Dropdown>
               )}

@@ -1,19 +1,23 @@
-import React, { useRef, useState, useLayoutEffect } from "react";
+import React, { useRef, useState, useLayoutEffect, ReactNode } from "react";
 import "./dropdown.css";
 
-export default function Dropdown({ children, setShowDropdown }: any) {
-  const dropdownRef = useRef<any>();
-  const [dropdownStyle, setDropdownStyle] = useState({});
+type Props = {
+  children: ReactNode;
+  setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export default function Dropdown({ children, setShowDropdown }: Props) {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
 
   useLayoutEffect(() => {
-    const rect = dropdownRef.current.getBoundingClientRect();
+    const rect = dropdownRef.current!.getBoundingClientRect();
     if (rect.bottom > window.innerHeight) {
       setDropdownStyle({
         bottom: "100%",
       });
     } else {
-      setDropdownStyle({ 
-        top: "100%" 
+      setDropdownStyle({
+        top: "100%",
       });
     }
   }, []);
@@ -27,7 +31,7 @@ export default function Dropdown({ children, setShowDropdown }: any) {
         className="dropdown-backdrop"
         onClick={(e) => {
           e.stopPropagation();
-          setShowDropdown((prev: any) => !prev);
+          setShowDropdown((prev) => !prev);
         }}
       ></div>
     </>

@@ -2,12 +2,18 @@ import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { MdOutlineReport, MdOutlineEdit, MdOutlineDeleteForever } from "react-icons/md";
 
+type Props = {
+  username: string
+  setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDeletePostModal: React.Dispatch<React.SetStateAction<boolean>>
+  setShowEditPostModal: React.Dispatch<React.SetStateAction<boolean>>
+}
 export default function PostDropdown({
   username,
   setShowDropdown,
   setShowDeletePostModal,
   setShowEditPostModal,
-}: any) {
+}: Props) {
   const { currentUser } = useAuth();
 
   return (
@@ -29,7 +35,7 @@ export default function PostDropdown({
           onClick={(e) => {
             e.stopPropagation();
             setShowDropdown(false);
-            setShowDeletePostModal((prev: any) => !prev);
+            setShowDeletePostModal((prev) => !prev);
           }}
         >
           <MdOutlineDeleteForever size="1.5rem"/>
