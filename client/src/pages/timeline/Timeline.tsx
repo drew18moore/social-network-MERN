@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { PostSkeleton } from "../../components/loading/SkeletonLoading";
 
 export default function Timeline() {
-  const [posts, setPosts] = useState<TimelinePost[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export default function Timeline() {
     fetchPosts();
   }, [page]);
 
-  const addPost = (post: TimelinePost) => {
+  const addPost = (post: Post) => {
     let updatedPosts = [...posts];
     updatedPosts.unshift(post);
     setPosts(updatedPosts);

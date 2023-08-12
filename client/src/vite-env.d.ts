@@ -9,7 +9,7 @@ type User = {
   img?: string;
 };
 
-type TimelinePost = {
+type Post = {
   _id: string;
   userId: string;
   postBody: string;
@@ -19,18 +19,6 @@ type TimelinePost = {
   fullname: string;
   username: string;
   isLiked: boolean;
-  profilePicture: string;
-}
-
-type Post = {
-  _id: string;
-  userId: string;
-  postBody: string;
-  likes: string[];
-  comments: string[];
-  createdAt: Date;
-  fullname: string;
-  username: string;
   profilePicture: string;
 };
 

@@ -40,6 +40,7 @@ export default function Profile() {
         setUser(responseUser.data);
         setIsFollowing(responseUser.data.isFollowing);
         setPosts(responsePosts.data.posts);
+        console.log(responsePosts.data.posts);
       } catch (err) {
         console.error(err);
         navigate("/login", { state: { from: location }, replace: true });
@@ -160,9 +161,9 @@ export default function Profile() {
               profilePicture={post.profilePicture}
               deletePostById={deletePostById}
               editPost={editPost}
-              isLiked={post.likes.includes(currentUser._id)}
-              numLikes={post.likes.length}
-              numComments={post.comments.length}
+              isLiked={post.isLiked}
+              numLikes={post.numLikes}
+              numComments={post.numComments}
             />
           ))}
           {isNextPage && (

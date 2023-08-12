@@ -12,7 +12,7 @@ const Bookmarks = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
-  const [bookmarks, setBookmarks] = useState<TimelinePost[]>([]);
+  const [bookmarks, setBookmarks] = useState<Post[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);

@@ -9,7 +9,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 export default function NewPost({
   addPost,
 }: {
-  addPost: (post: TimelinePost) => void;
+  addPost: (post: Post) => void;
 }) {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
