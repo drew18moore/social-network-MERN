@@ -54,7 +54,7 @@ export default function Timeline() {
     fetchPosts();
   }, [page]);
 
-  const addPost = (post: Post) => {
+  const addPost = (post: TimelinePost) => {
     let updatedPosts = [...posts];
     updatedPosts.unshift(post);
     setPosts(updatedPosts);

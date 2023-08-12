@@ -17,14 +17,15 @@ const createNewPost = async (req, res) => {
     const newPostUser = await User.findById(newPost.userId);
 
     const response = {
+      _id: newPost._id,
       userId: newPost.userId,
       postBody: newPost.postBody,
-      likes: [],
-      comments: [],
-      _id: newPost._id,
+      numLikes: 0,
+      numComments: 0,
       createdAt: newPost.createdAt,
       fullname: newPostUser.fullname,
       username: newPostUser.username,
+      isLiked: false,
       profilePicture: newPostUser.img || "default-pfp.jpg",
     };
     res.status(200).json(response);
