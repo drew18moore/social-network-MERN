@@ -12,7 +12,7 @@ const Bookmarks = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
-  const [bookmarks, setBookmarks] = useState<Post[]>([]);
+  const [bookmarks, setBookmarks] = useState<TimelinePost[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -91,9 +91,9 @@ const Bookmarks = () => {
                 profilePicture={post.profilePicture}
                 deletePostById={deletePostById}
                 editPost={editPost}
-                isLiked={post.likes.includes(currentUser._id)}
-                numLikes={post.likes.length}
-                numComments={post.comments.length}
+                isLiked={post.isLiked}
+                numLikes={post.numLikes}
+                numComments={post.numComments}
               />
             );
           }
@@ -108,9 +108,9 @@ const Bookmarks = () => {
               profilePicture={post.profilePicture}
               deletePostById={deletePostById}
               editPost={editPost}
-              isLiked={post.likes.includes(currentUser._id)}
-              numLikes={post.likes.length}
-              numComments={post.comments.length}
+              isLiked={post.isLiked}
+              numLikes={post.numLikes}
+              numComments={post.numComments}
             />
           );
         })}

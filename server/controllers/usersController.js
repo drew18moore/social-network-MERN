@@ -276,11 +276,12 @@ const getBookmarkedPosts = async (req, res) => {
           _id: post._id,
           userId: post.userId,
           postBody: post.postBody,
-          likes: post.likes,
-          comments: post.comments,
+          numLikes: post.likes.length,
+          numComments: post.comments.length,
           createdAt: post.createdAt,
           fullname: postUser.fullname,
           username: postUser.username,
+          isLiked: post.likes.includes(req.userId),
           profilePicture: postUser.img || "default-pfp.jpg",
         };
       })
