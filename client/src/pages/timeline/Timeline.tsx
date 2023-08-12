@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { PostSkeleton } from "../../components/loading/SkeletonLoading";
 
 export default function Timeline() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<TimelinePost[]>([]);
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -108,9 +108,9 @@ export default function Timeline() {
                   profilePicture={post.profilePicture}
                   deletePostById={deletePostById}
                   editPost={editPost}
-                  isLiked={post.likes.includes(currentUser._id)}
-                  numLikes={post.likes.length}
-                  numComments={post.comments.length}
+                  isLiked={post.isLiked}
+                  numLikes={post.numLikes}
+                  numComments={post.numComments}
                 />
               );
             }
@@ -125,9 +125,9 @@ export default function Timeline() {
                 profilePicture={post.profilePicture}
                 deletePostById={deletePostById}
                 editPost={editPost}
-                isLiked={post.likes.includes(currentUser._id)}
-                numLikes={post.likes.length}
-                numComments={post.comments.length}
+                isLiked={post.isLiked}
+                numLikes={post.numLikes}
+                numComments={post.numComments}
               />
             );
           })}

@@ -9,6 +9,19 @@ type User = {
   img?: string;
 };
 
+type TimelinePost = {
+  _id: string;
+  userId: string;
+  postBody: string;
+  numLikes: number;
+  numComments: number;
+  createdAt: Date;
+  fullname: string;
+  username: string;
+  isLiked: boolean;
+  profilePicture: string;
+}
+
 type Post = {
   _id: string;
   userId: string;
