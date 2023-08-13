@@ -1,7 +1,11 @@
-const Comment = require("../models/Comment");
-const Post = require("../models/Post");
+// const Comment = require("../models/Comment");
+// const Post = require("../models/Post");
 
-const newComment = async (req, res) => {
+import { Request, Response } from "express";
+import Comment from "../models/Comment";
+import Post from "../models/Post";
+
+export const newComment = async (req: Request, res: Response) => {
   if (req.body.commentBody === "" || !req.body.commentBody) {
     return res.status(400).json({ message: "You must type a message." });
   }
@@ -23,15 +27,15 @@ const newComment = async (req, res) => {
   try {
     const newComment = await comment.save();
     const post = await Post.findById(req.body.parentId);
-    post.comments.unshift(newComment._id.toString());
-    await post.save();
+    post!.comments.unshift(newComment._id.toString());
+    await post!.save();
     res.status(200).json(newComment);
   } catch (err) {
     res.status(500).json({ message: err });
   }
 };
 
-const editComment = async (req, res) => {
+export const editComment = async (req: Request, res: Response) => {
   try {
     if (!req.body.postBody || req.body.postBody === "")
       return res
@@ -54,7 +58,7 @@ const editComment = async (req, res) => {
   }
 };
 
-const deleteComment = async (req, res) => {
+export const deleteComment = async (req: Request, res: Response) => {
   try {
     if (!req.body.parentId)
       return res
@@ -70,7 +74,7 @@ const deleteComment = async (req, res) => {
         .json({ message: "You can only delete your own comments" });
     }
 
-    await parentPost.updateOne({ $pull: { comments: req.params.id } });
+    await parentPost!.updateOne({ $pull: { comments: req.params.id } });
     const response = await comment.deleteOne();
 
     res.status(200).json(response);
@@ -79,7 +83,7 @@ const deleteComment = async (req, res) => {
   }
 };
 
-const likeComment = async (req, res) => {
+export const likeComment = async (req: Request, res: Response) => {
   try {
     const comment = await Comment.findById(req.params.id);
     if (!comment) return res.status(404).json({ message: "Comment not found" });
@@ -95,9 +99,7 @@ const likeComment = async (req, res) => {
         .status(200)
         .json({ message: "Post has been unliked", numLikes: numLikes - 1 });
     }
-  } catch {
+  } catch (err) {
     res.status(500).json({ message: err });
   }
 };
-
-module.exports = { newComment, editComment, deleteComment, likeComment };

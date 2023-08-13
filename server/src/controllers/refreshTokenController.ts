@@ -1,7 +1,11 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+// const jwt = require("jsonwebtoken");
+// const User = require("../models/User");
 
-const handleRefreshToken = async (req, res) => {
+import jwt from "jsonwebtoken"
+import User from "../models/User";
+import { Request, Response } from "express";
+
+export const handleRefreshToken = async (req: Request, res: Response) => {
   try {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
@@ -12,13 +16,13 @@ const handleRefreshToken = async (req, res) => {
 
     jwt.verify(
       refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      (err, decoded) => {
+      process.env.REFRESH_TOKEN_SECRET!,
+      (err: any, decoded: any) => {
         if (err || user._id.toString() !== decoded.userId)
           return res.status(403).json({ message: "Forbidden" });
         const accessToken = jwt.sign(
           { userId: decoded.userId },
-          process.env.ACCESS_TOKEN_SECRET,
+          process.env.ACCESS_TOKEN_SECRET!,
           { expiresIn: 900000 } // 15 mins
         );
         res.status(200).json({ accessToken });
@@ -29,5 +33,3 @@ const handleRefreshToken = async (req, res) => {
     console.error(err);
   }
 };
-
-module.exports = { handleRefreshToken }

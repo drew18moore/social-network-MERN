@@ -1,10 +1,17 @@
-const User = require("../models/User");
-const fs = require("fs");
-const Post = require("../models/Post");
-const Comment = require("../models/Comment");
-const bcrypt = require("bcrypt");
+// const User = require("../models/User");
+// const fs = require("fs");
+// const Post = require("../models/Post");
+// const Comment = require("../models/Comment");
+// const bcrypt = require("bcrypt");
 
-const editUser = async (req, res) => {
+import User from "../models/User"
+import fs from "fs";
+import Post from "../models/Post";
+import Comment from "../models/Comment";
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+
+export const editUser = async (req: Request, res: Response) => {
   if (req.userId !== req.params.id) {
     return res
       .status(403)
@@ -13,26 +20,26 @@ const editUser = async (req, res) => {
 
   const user = await User.findById(req.params.id);
 
-  if (!(await bcrypt.compare(req.body.password, user.password))) {
+  if (!(await bcrypt.compare(req.body.password, user!.password))) {
     return res.status(400).json({ message: "Incorrect password" });
   }
 
-  user.fullname = req.body.fullname;
-  user.username = req.body.username;
-  user.bio = req.body.bio;
-  user.img = req.body.img;
-  user.save();
+  user!.fullname = req.body.fullname;
+  user!.username = req.body.username;
+  user!.bio = req.body.bio;
+  user!.img = req.body.img;
+  user!.save();
 
   const updatedUserData = {
-    fullname: user.fullname,
-    username: user.username,
-    bio: user.bio,
-    img: user.img,
+    fullname: user!.fullname,
+    username: user!.username,
+    bio: user!.bio,
+    img: user!.img,
   };
   return res.status(200).json(updatedUserData);
 };
 
-const getUserByUsername = async (req, res) => {
+export const getUserByUsername = async (req: Request, res: Response) => {
   try {
     const authUserId = req.userId;
     const user = await User.findOne({ username: req.params.username });
@@ -55,22 +62,22 @@ const getUserByUsername = async (req, res) => {
   }
 };
 
-const followUser = async (req, res) => {
+export const followUser = async (req: Request, res: Response) => {
   try {
     const authUser = await User.findById(req.userId);
-    if (req.params.username === authUser.username) {
+    if (req.params.username === authUser!.username) {
       return res.status(403).json({ message: "You cannot follow yourself" });
     }
     const user = await User.findOne({ username: req.params.username });
     if (!user) return res.status(404).json({ message: "User not found" })
 
-    if (!user.followers.includes(authUser._id)) {
-      await user.updateOne({ $push: { followers: authUser._id.toString() } });
-      await authUser.updateOne({ $push: { following: user._id.toString() } });
+    if (!user.followers.includes(authUser!._id)) {
+      await user.updateOne({ $push: { followers: authUser!._id.toString() } });
+      await authUser!.updateOne({ $push: { following: user._id.toString() } });
       res.status(200).json("User has been followed");
     } else {
-      await user.updateOne({ $pull: { followers: authUser._id.toString() } });
-      await authUser.updateOne({ $pull: { following: user._id.toString() } });
+      await user.updateOne({ $pull: { followers: authUser!._id.toString() } });
+      await authUser!.updateOne({ $pull: { following: user._id.toString() } });
       res.status(200).json("User has been unfollowed");
     }
   } catch (err) {
@@ -78,10 +85,10 @@ const followUser = async (req, res) => {
   }
 };
 
-const getUnfollowedUsers = async (req, res) => {
+export const getUnfollowedUsers = async (req: Request, res: Response) => {
   try {
-    const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 0;
+    const page = parseInt(req.query.page as string) - 1 || 0;
+    const limit = parseInt(req.query.limit as string) || 0;
     const user = await User.findById(req.params.id)
     if (!user) return res.status(404).json({ message: "User not found" })
     const users = await User.find(
@@ -112,10 +119,10 @@ const getUnfollowedUsers = async (req, res) => {
   }
 };
 
-const getFollowedUsers = async (req, res) => {
+export const getFollowedUsers = async (req: Request, res: Response) => {
   try {
-    const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 0;
+    const page = parseInt(req.query.page as string) - 1 || 0;
+    const limit = parseInt(req.query.limit as string) || 0;
     const currUser = await User.findOne({
       username: req.params.username,
     });
@@ -152,10 +159,10 @@ const getFollowedUsers = async (req, res) => {
   }
 };
 
-const getFollowers = async (req, res) => {
+export const getFollowers = async (req: Request, res: Response) => {
   try {
-    const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 0;
+    const page = parseInt(req.query.page as string) - 1 || 0;
+    const limit = parseInt(req.query.limit as string) || 0;
     const currUser = await User.findOne({
       username: req.params.username,
     });
@@ -192,7 +199,7 @@ const getFollowers = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req: Request, res: Response) => {
   try {
     if (req.userId !== req.params.userId) {
       return res
@@ -258,7 +265,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const getBookmarkedPosts = async (req, res) => {
+export const getBookmarkedPosts = async (req: Request, res: Response) => {
   try {
     const page = Number(req.query.page) - 1 || 0;
     const limit = Number(req.query.limit) || 0;
@@ -270,19 +277,19 @@ const getBookmarkedPosts = async (req, res) => {
     const bookmarkedPosts = await Promise.all(
       postIds.map(async (postId) => {
         const post = await Post.findById(postId);
-        const postUser = await User.findById(post.userId);
+        const postUser = await User.findById(post!.userId);
 
         return {
-          _id: post._id,
-          userId: post.userId,
-          postBody: post.postBody,
-          numLikes: post.likes.length,
-          numComments: post.comments.length,
-          createdAt: post.createdAt,
-          fullname: postUser.fullname,
-          username: postUser.username,
-          isLiked: post.likes.includes(req.userId),
-          profilePicture: postUser.img || "default-pfp.jpg",
+          _id: post!._id,
+          userId: post!.userId,
+          postBody: post!.postBody,
+          numLikes: post!.likes.length,
+          numComments: post!.comments.length,
+          createdAt: post!.createdAt,
+          fullname: postUser!.fullname,
+          username: postUser!.username,
+          isLiked: post!.likes.includes(req.userId),
+          profilePicture: postUser!.img || "default-pfp.jpg",
         };
       })
     );
@@ -293,15 +300,4 @@ const getBookmarkedPosts = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-};
-
-module.exports = {
-  editUser,
-  getUserByUsername,
-  followUser,
-  getUnfollowedUsers,
-  getFollowedUsers,
-  getFollowers,
-  deleteUser,
-  getBookmarkedPosts,
 };

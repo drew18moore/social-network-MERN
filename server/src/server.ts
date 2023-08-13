@@ -1,13 +1,15 @@
 const mongoose = require("mongoose")
 const app = require("./app")
 
+import { connect, connection } from "mongoose";
+
+
 // Connect to MongoDB database
-mongoose.connect(process.env.DATABASE_URL);
-const db = mongoose.connection;
-db.on("error", (err) => {
+connect(process.env.DATABASE_UR!);
+connection.on("error", (err) => {
   console.error(err);
 });
-db.once("open", () => {
+connection.once("open", () => {
   console.log("Connected to DB");
 });
 

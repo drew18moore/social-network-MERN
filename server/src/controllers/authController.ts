@@ -1,8 +1,9 @@
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { Request, Response } from "express";
+import User from "../models/User";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const handleRegister = async (req, res) => {
+export const handleRegister = async (req: Request, res: Response) => {
   try {
     if (!req.body.fullname || !req.body.username || !req.body.password) {
       return res
@@ -21,13 +22,13 @@ const handleRegister = async (req, res) => {
 
     const accessToken = jwt.sign(
       { userId: user._id },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET!,
       { expiresIn: 900000 } // 15 mins
     );
 
     const refreshToken = jwt.sign(
       { userId: user._id },
-      process.env.REFRESH_TOKEN_SECRET,
+      process.env.REFRESH_TOKEN_SECRET!,
       { expiresIn: "7d" }
     );
 
@@ -46,20 +47,20 @@ const handleRegister = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json(newUser);
-  } catch (err) {
+  } catch (err: any) {
     if (err.code === 11000) {
       res.status(403).json({ message: "Account already in use" });
     }
   }
 };
 
-const handleLogin = async (req, res) => {
+export const handleLogin = async (req: Request, res: Response) => {
   try {
     if (!req.body.username || !req.body.password) {
       return res
@@ -80,13 +81,13 @@ const handleLogin = async (req, res) => {
 
     const accessToken = jwt.sign(
       { userId: user._id },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET!,
       { expiresIn: 900000 }
     );
 
     const refreshToken = jwt.sign(
       { userId: user._id },
-      process.env.REFRESH_TOKEN_SECRET,
+      process.env.REFRESH_TOKEN_SECRET!,
       { expiresIn: "7d" }
     );
 
@@ -105,7 +106,7 @@ const handleLogin = async (req, res) => {
     };
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -115,7 +116,7 @@ const handleLogin = async (req, res) => {
   }
 };
 
-const handlePersistentLogin = async (req, res) => {
+export const handlePersistentLogin = async (req: Request, res: Response) => {
   try {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
@@ -126,13 +127,13 @@ const handlePersistentLogin = async (req, res) => {
 
     jwt.verify(
       refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      (err, decoded) => {
+      process.env.REFRESH_TOKEN_SECRET!,
+      (err: any, decoded: any) => {
         if (err || user._id.toString() !== decoded.userId)
           return res.status(403).json({ message: "Forbidden" });
         const accessToken = jwt.sign(
           { userId: decoded.userId },
-          process.env.ACCESS_TOKEN_SECRET,
+          process.env.ACCESS_TOKEN_SECRET!,
           { expiresIn: 900000 } // 15 mins
         );
 
@@ -153,5 +154,3 @@ const handlePersistentLogin = async (req, res) => {
     console.error(err);
   }
 };
-
-module.exports = { handleRegister, handleLogin, handlePersistentLogin };

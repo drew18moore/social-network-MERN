@@ -1,6 +1,7 @@
-const User = require("../models/User");
+import { Request, Response } from "express";
+import User from "../models/User";
 
-const handleLogout = async (req, res) => {
+export const handleLogout = async (req: Request, res: Response) => {
   try {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(204);
@@ -10,7 +11,7 @@ const handleLogout = async (req, res) => {
     if (!user) {
       res.clearCookie("jwt", {
         httpOnly: true,
-        sameSite: "None",
+        sameSite: "none",
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
@@ -23,7 +24,7 @@ const handleLogout = async (req, res) => {
 
     res.clearCookie("jwt", {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -32,5 +33,3 @@ const handleLogout = async (req, res) => {
     console.error(err);
   }
 };
-
-module.exports = { handleLogout };

@@ -1,8 +1,13 @@
-const Post = require("../models/Post");
-const User = require("../models/User");
-const Comment = require("../models/Comment");
+// const Post = require("../models/Post");
+// const User = require("../models/User");
+// const Comment = require("../models/Comment");
 
-const createNewPost = async (req, res) => {
+import { Request, Response } from "express";
+import Post from "../models/Post";
+import User from "../models/User";
+import Comment from "../models/Comment";
+
+export const createNewPost = async (req: Request, res: Response) => {
   if (!req.body.postBody || req.body.postBody === "") {
     return res.status(412).json({ message: "You must type a message." });
   }
@@ -23,10 +28,10 @@ const createNewPost = async (req, res) => {
       numLikes: 0,
       numComments: 0,
       createdAt: newPost.createdAt,
-      fullname: newPostUser.fullname,
-      username: newPostUser.username,
+      fullname: newPostUser!.fullname,
+      username: newPostUser!.username,
       isLiked: false,
-      profilePicture: newPostUser.img || "default-pfp.jpg",
+      profilePicture: newPostUser!.img || "default-pfp.jpg",
     };
     res.status(200).json(response);
   } catch (err) {
@@ -34,7 +39,7 @@ const createNewPost = async (req, res) => {
   }
 };
 
-const getPostById = async (req, res) => {
+export const getPostById = async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post not found" });
@@ -49,17 +54,17 @@ const getPostById = async (req, res) => {
     await Promise.all(
       post.comments.map(async (commentId) => {
         const comment = await Comment.findById(commentId);
-        const commentUser = await User.findById(comment.userId);
+        const commentUser = await User.findById(comment!.userId);
 
         const commentWithUserData = {
-          commentBody: comment.commentBody,
-          _id: comment._id,
-          parentId: comment.parentId,
-          fullname: commentUser.fullname,
-          username: commentUser.username,
-          profilePicture: commentUser.img || "default-pfp.jpg",
-          isLiked: comment.likes.includes(currUser._id),
-          numLikes: comment.likes.length,
+          commentBody: comment!.commentBody,
+          _id: comment!._id,
+          parentId: comment!.parentId,
+          fullname: commentUser!.fullname,
+          username: commentUser!.username,
+          profilePicture: commentUser!.img || "default-pfp.jpg",
+          isLiked: comment!.likes.includes(currUser._id),
+          numLikes: comment!.likes.length,
         };
         return commentWithUserData;
       })
@@ -69,14 +74,14 @@ const getPostById = async (req, res) => {
 
     const postData = {
       createdAt: post.createdAt,
-      fullname: author.fullname,
-      username: author.username,
+      fullname: author!.fullname,
+      username: author!.username,
       numLikes: post.likes.length,
       isLiked: post.likes.includes(currUser._id),
       postBody: post.postBody,
       userId: post.userId,
       _id: post._id,
-      profilePicture: author.img || "default-pfp.jpg",
+      profilePicture: author!.img || "default-pfp.jpg",
       comments: comments,
       isBookmarked: currUser.bookmarks.includes(post._id),
     };
@@ -87,7 +92,7 @@ const getPostById = async (req, res) => {
   }
 };
 
-const editPost = async (req, res) => {
+export const editPost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "post not found" });
@@ -108,7 +113,7 @@ const editPost = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res) => {
+export const deletePost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post not found" });
@@ -132,7 +137,7 @@ const deletePost = async (req, res) => {
   }
 };
 
-const likePost = async (req, res) => {
+export const likePost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post not found" });
@@ -153,14 +158,15 @@ const likePost = async (req, res) => {
   }
 };
 
-const getTimelinePosts = async (req, res) => {
+export const getTimelinePosts = async (req: Request, res: Response) => {
   try {
-    const page = req.query.page - 1;
-    const { following } = await User.findById(req.userId);
+    const page = parseInt(req.query.page as string) - 1;
+    const user = await User.findById(req.userId);
+    const limit = parseInt(req.query.limit as string) || 0;
     const allPosts = await Post.find(
-      { userId: { $in: [req.userId, ...following] } },
+      { userId: { $in: [req.userId, ...user!.following] } },
       null,
-      { skip: page * req.query.limit, limit: req.query.limit }
+      { skip: page * limit, limit: limit }
     ).sort({ createdAt: -1 });
     const posts = await Promise.all(
       allPosts.map(async (post) => {
@@ -173,10 +179,10 @@ const getTimelinePosts = async (req, res) => {
           numLikes: post.likes.length,
           numComments: post.comments.length,
           createdAt: post.createdAt,
-          fullname: postUser.fullname,
-          username: postUser.username,
+          fullname: postUser!.fullname,
+          username: postUser!.username,
           isLiked: post.likes.includes(req.userId),
-          profilePicture: postUser.img || "default-pfp.jpg",
+          profilePicture: postUser!.img || "default-pfp.jpg",
         };
       })
     );
@@ -186,10 +192,10 @@ const getTimelinePosts = async (req, res) => {
   }
 };
 
-const getPostsByUsername = async (req, res) => {
+export const getPostsByUsername = async (req: Request, res: Response) => {
   try {
-    const page = req.query.page - 1 || 0;
-    const limit = req.query.limit || 0;
+    const page = parseInt(req.query.page as string) - 1 || 0;
+    const limit = parseInt(req.query.limit as string) || 0;
     const user = await User.findOne({ username: req.params.username });
     if (!user) return res.status(404).json({ message: "User not found" });
     const userPosts = await Post.find({ userId: user._id }, null, {
@@ -201,7 +207,6 @@ const getPostsByUsername = async (req, res) => {
     });
     const posts = await Promise.all(
       userPosts.map(async (post) => {
-
         return {
           _id: post._id,
           userId: post.userId,
@@ -222,30 +227,19 @@ const getPostsByUsername = async (req, res) => {
   }
 };
 
-const bookmarkPost = async (req, res) => {
+export const bookmarkPost = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.userId);
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post not found" });
-    if (!user.bookmarks.includes(req.params.id)) {
-      await user.updateOne({ $push: { bookmarks: req.params.id } });
+    if (!user!.bookmarks.includes(req.params.id)) {
+      await user!.updateOne({ $push: { bookmarks: req.params.id } });
       res.status(200).json({ message: "Post has been bookmarked" });
     } else {
-      await user.updateOne({ $pull: { bookmarks: req.params.id } });
+      await user!.updateOne({ $pull: { bookmarks: req.params.id } });
       res.status(200).json({ message: "Post has been unbookmarked" });
     }
   } catch (err) {
     res.status(500).json(err);
   }
-};
-
-module.exports = {
-  createNewPost,
-  editPost,
-  deletePost,
-  likePost,
-  getTimelinePosts,
-  getPostsByUsername,
-  getPostById,
-  bookmarkPost,
 };
