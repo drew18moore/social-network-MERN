@@ -1,11 +1,4 @@
-// const User = require("../models/User");
-// const fs = require("fs");
-// const Post = require("../models/Post");
-// const Comment = require("../models/Comment");
-// const bcrypt = require("bcrypt");
-
 import User from "../models/User"
-import fs from "fs";
 import Post from "../models/Post";
 import Comment from "../models/Comment";
 import bcrypt from "bcrypt";

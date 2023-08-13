@@ -1,7 +1,3 @@
-// const Post = require("../models/Post");
-// const User = require("../models/User");
-// const Comment = require("../models/Comment");
-
 import { Request, Response } from "express";
 import Post from "../models/Post";
 import User from "../models/User";

@@ -1,12 +1,9 @@
-const mongoose = require("mongoose")
-const app = require("./app")
-
+import app from "./app";
 import { connect, connection } from "mongoose";
 
-
 // Connect to MongoDB database
-connect(process.env.DATABASE_UR!);
-connection.on("error", (err) => {
+connect(process.env.DATABASE_URL as string);
+connection.on("error", (err) => { 
   console.error(err);
 });
 connection.once("open", () => {
