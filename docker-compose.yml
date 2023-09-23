@@ -1,17 +1,36 @@
 version: '3.8'
 
 services:
-  server:
-    container_name: social-server
+  mongo_db:
+    container_name: db_container
+    image: mongo:6.0
     restart: always
-    image: social-server:latest
+    volumes:
+      - mongo_db:/data/db
+    
+  server:
     build: ./server
     ports:
       - 3000:3000
-  client:
-    container_name: social-client
+    environment:
+      - DATABASE_URL=mongodb://mongo_db:27017
+      - ACCESS_TOKEN_SECRET=2febb740c48e60e2423236faac3029bf771a73f6bede633691c4068f79e1db4a8b3621a62965965b6197d50e35a67b28a4f297c36e68d91e1b22a8a214df91f0
+      - REFRESH_TOKEN_SECRET=9a0912d63d5275946c27f3522d682a864b65cb2c7762f19e4fa674414e8e2aeebf428f99ee95e9537e42e575b6200cf4572d4b8edd87ac1b65399d1e2d3ea67a
+    container_name: social-server
     restart: always
-    image: social-client:latest
+    image: social-server:latest
+    depends_on:
+      - mongo_db
+
+  client:
     build: ./client
     ports:
       - 4173:4173
+    container_name: social-client
+    restart: always
+    image: social-client:latest
+    depends_on:
+      - server
+
+volumes:
+  mongo_db: {}
