@@ -11,6 +11,8 @@ A social media app built using the MERN stack
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
 ## Try it out
 [https://social-network-mern.vercel.app/](https://social-network-mern.vercel.app/)
 - Login using your username and password or create a new account
@@ -31,44 +33,24 @@ A social media app built using the MERN stack
 
 ## Getting Started
 ### Prerequisites
-* npm
+- Docker Desktop
 
-Go to https://nodejs.org and install node.js
-```
-npm install npm@latest -g
-```
-* Install mongodb
+Go to https://docs.docker.com/desktop/ and install Docker Desktop
 
-### Installation
+Run the following two commands to ensure that docker and docker compose are properly installed
+```
+docker -v
+docker compose version
+```
+
+### Usage
 1. Clone the repo
 ```
 git clone https://github.com/drew18moore/social-network-MERN.git
 ```
-2. Install npm packages
+2. Navigate to the project's root directory and run the following command
 ```
-cd server
-npm install
-
-cd ../client
-npm install
+docker compose up
 ```
 
-3. Inside of the root of the server directory, create a .env file, and write the following:
-```
-DATABASE_URL = "mongodb://localhost/social"
-ACCESS_TOKEN_SECRET = "<randomstring>"
-REFRESH_TOKEN_SECRET = "<randomstring>"
-```
-## Usage
-* To run the application, open two terminal instances and run:
-
-Instance #1
-```
-cd server
-npm run dev
-```
-Instance #2
-```
-cd client
-npm run start
-```
+3. Type `http://127.0.0.1:4173` into your favorite browser and enjoy!
