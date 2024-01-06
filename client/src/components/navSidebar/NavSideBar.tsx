@@ -22,6 +22,11 @@ export default function NavSideBar() {
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const scrollToTop = () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  };
+
   return (
     <div className="nav-sidebar">
       <nav>
@@ -30,6 +35,7 @@ export default function NavSideBar() {
             <Link
               className={location.pathname === "/" ? "selected" : ""}
               to="/"
+              onClick={scrollToTop}
             >
               {location.pathname === "/" ? (
                 <MdHome size="2rem" />
@@ -43,6 +49,7 @@ export default function NavSideBar() {
             <Link
               className={location.pathname === "/connect" ? "selected" : ""}
               to="/connect"
+              onClick={scrollToTop}
             >
               {location.pathname === "/connect" ? (
                 <MdPeopleAlt size="2rem" />
@@ -56,6 +63,7 @@ export default function NavSideBar() {
             <Link
               className={location.pathname === "/bookmarks" ? "selected" : ""}
               to="/bookmarks"
+              onClick={scrollToTop}
             >
               {location.pathname === "/bookmarks" ? (
                 <MdBookmark size="2rem" />
@@ -73,6 +81,7 @@ export default function NavSideBar() {
                   : ""
               }
               to={`/${currentUser.username}`}
+              onClick={scrollToTop}
             >
               {location.pathname === `/${currentUser.username}` ? (
                 <MdPerson size="2rem" />
@@ -87,6 +96,7 @@ export default function NavSideBar() {
             <Link
               className={location.pathname === "/settings" ? "selected" : ""}
               to="/settings"
+              onClick={scrollToTop}
             >
               {location.pathname === "/settings" ? (
                 <MdSettings size="2rem" />
