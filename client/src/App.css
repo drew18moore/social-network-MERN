@@ -9,6 +9,9 @@
 .nav-sidebar {
   flex-grow: 1;
   z-index: 100;
+  height: calc(100vh);
+  position: sticky;
+  top: 0;
 }
 
 .main {
@@ -16,8 +19,8 @@
   flex-shrink: 0;
   flex-basis: 37.5rem;
   background-color: var(--background-color-secondary);
-  overflow: auto;
-  height: calc(100vh);
+  /* overflow: auto; */
+  /* height: calc(100vh); */
   position: relative;
 }
 
@@ -27,6 +30,9 @@
 
 .right-sidebar {
   flex-basis: 23rem;
+  position: sticky;
+  top: 0;
+  height: fit-content;
 }
 
 @media (max-width: 76.875rem) {
@@ -83,6 +89,8 @@
   }
 
   .nav-sidebar {
+    top: unset;
+    height: unset;
     position: fixed;
     bottom: 0;
     left: 0;
