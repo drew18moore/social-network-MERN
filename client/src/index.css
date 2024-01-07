@@ -11,6 +11,7 @@
 }
 
 :root.light {
+  color-scheme: light;
   --background-color-primary: white;
   --background-color-secondary: #f0f2f5;
   --background-color-warning: rgba(244, 33, 46, 0.1);
@@ -34,6 +35,7 @@
 }
 
 :root.dark {
+  color-scheme: dark;
   --background-color-primary: black;
   --background-color-secondary: #16181c;
   --background-color-warning: rgba(244, 33, 46, 0.1);

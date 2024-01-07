@@ -1,58 +1,36 @@
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../../api/api";
-import { useAuth } from "../../contexts/AuthContext";
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 import "./auth.css";
+import useRegister from "../../hooks/auth/useRegister";
 
 export default function Register() {
-  const fullnameRef = useRef<HTMLInputElement>(null);
+  const displayNameRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { register, isLoading, error } = useRegister();
 
-  const { setCurrentUser } = useAuth();
-  const navigate = useNavigate();
-
-  async function register(e: React.FormEvent<HTMLFormElement>) {
+  async function onRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError("");
-    setIsLoading(true);
-    try {
-      if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value)
-        throw new Error("Passwords do not match");
-      const response = await api.post(
-        "/api/auth/register",
-        {
-          fullname: fullnameRef?.current?.value.trim(),
-          username: usernameRef?.current?.value.trim().toLowerCase(),
-          password: passwordRef?.current?.value,
-          passwordConfirm: passwordConfirmRef?.current?.value,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      setCurrentUser(response.data);
-      setIsLoading(false);
-      navigate("/");
-    } catch (err: any) {
-      setIsLoading(false);
-      setError(err?.response?.data?.message || err.message);
-    }
+
+    await register({
+      displayName: displayNameRef.current?.value.trim()!,
+      username: usernameRef.current?.value.trim().toLowerCase()!,
+      password: passwordRef.current?.value!,
+      passwordConfirm: passwordConfirmRef.current?.value!,
+    });
   }
 
   return (
     <>
       <div className="auth-container">
-        <form onSubmit={register} className="auth-form">
+        <form onSubmit={onRegister} className="auth-form">
           <h2 className="auth-heading">Create a new account</h2>
           {error ? <p className="error-message">{error}</p> : ""}
           <input
-            ref={fullnameRef}
+            ref={displayNameRef}
             type="text"
             name="fullname"
             id="input-fullname"
