@@ -37,7 +37,6 @@ const useLogin = () => {
       setError(err.response.data.message);
     } finally {
       setIsLoading(false);
-      console.log("DONE");
     }
   };
 
