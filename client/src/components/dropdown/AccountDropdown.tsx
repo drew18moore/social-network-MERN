@@ -1,23 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { axiosPrivate } from "../../api/api";
 import { MdOutlineLogout, MdPersonOutline } from "react-icons/md";
+import useLogout from "../../hooks/auth/useLogout";
 
 type Props = {
   setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function AccountDropdown({ setShowDropdown }: Props) {
-  const { currentUser, setCurrentUser } = useAuth();
-
-  const logout = async () => {
-    setCurrentUser({} as User);
-    try {
-      await axiosPrivate.get("/api/logout");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { currentUser } = useAuth();
+  const logout = useLogout();
   return (
     <ul className="account-dropdown">
       <li onClick={() => setShowDropdown((prev) => !prev)}>
