@@ -1,75 +1,38 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { toast } from "react-hot-toast";
-import { useTheme } from "../../contexts/ThemeContext";
 import { MdPhotoCamera } from "react-icons/md";
 import Resizer from "react-image-file-resizer";
+import useEditProfile from "../../hooks/auth/useEditProfile";
 // @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
 const resizer: typeof Resizer = Resizer.default || Resizer;
 
 type Props = {
-  setUser: React.Dispatch<React.SetStateAction<ProfileUser>>
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setUser: React.Dispatch<React.SetStateAction<ProfileUser>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 export default function EditProfile({ setUser, setShowModal }: Props) {
   const [profileImgBase64, setProfileImgBase64] = useState("");
-  const fullnameRef = useRef<HTMLInputElement>(null);
+  const displayNameRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const bioRef = useRef<HTMLInputElement>(null);
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState("");
+  const { currentUser } = useAuth();
 
-  const { currentUser, setCurrentUser } = useAuth();
-  const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const { theme } = useTheme();
+  const { editProfile, error } = useEditProfile({ setUser, setShowModal });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-    try {
-      const response = await axiosPrivate.put(`/api/users/${currentUser._id}`, {
-        fullname: fullnameRef?.current?.value.trim() || currentUser.fullname,
-        username:
-          usernameRef?.current?.value.trim().toLowerCase() ||
-          currentUser.username,
-        bio: bioRef?.current?.value.trim() || currentUser.bio,
-        img: profileImgBase64,
-        password: password,
-      });
-      const { fullname, username, bio, img } = response.data;
-      setCurrentUser((prev) => ({
-        ...prev,
-        fullname,
-        username,
-        bio,
-        img,
-      }));
-      setUser((prev) => ({ ...prev, fullname, username, bio, img }));
-      setShowModal(false);
-      toast.success("Profile has been updated!", {
-        style: {
-          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
-          color: `${theme === "light" ? "" : "#fff"}`,
-        },
-      });
-      navigate(`/${username}`, { replace: true });
-    } catch (err: any) {
-      console.error(err);
-      setError(err.response.data.message || err.message);
-      if (err.response?.status === 403) {
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-      toast.error("Error!", {
-        style: {
-          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
-          color: `${theme === "light" ? "" : "#fff"}`,
-        },
-      });
-    }
+    editProfile({
+      displayName:
+        displayNameRef?.current?.value.trim() || currentUser.fullname,
+      username:
+        usernameRef?.current?.value.trim().toLowerCase() ||
+        currentUser.username,
+      bio: bioRef?.current?.value.trim() || currentUser.bio,
+      img: profileImgBase64 || currentUser.img!,
+      password: password,
+    });
   };
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +84,7 @@ export default function EditProfile({ setUser, setShowModal }: Props) {
           </label>
         </div>
         <input
-          ref={fullnameRef}
+          ref={displayNameRef}
           type="text"
           name="fullname"
           id="input-fullname"
