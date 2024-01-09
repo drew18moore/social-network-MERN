@@ -1,58 +1,13 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 import Post from "../../components/post/Post";
 import NewPost from "../../components/newPost/NewPost";
 import "./timeline.css";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PostSkeleton } from "../../components/loading/SkeletonLoading";
+import useGetTimelinePosts from "../../hooks/posts/useGetTimelinePosts";
 
 export default function Timeline() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const { currentUser } = useAuth();
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const limit = 20;
-  const [isNextPage, setIsNextPage] = useState(true);
-
-  const observer = useRef<IntersectionObserver>();
-  const lastPostRef = useCallback(
-    (element: HTMLDivElement) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prev) => prev + 1);
-        }
-      });
-      if (element && isNextPage) observer.current.observe(element);
-    },
-    [isLoading]
-  );
-
-  const fetchPosts = async () => {
-    try {
-      const response = await axiosPrivate.get(
-        `/api/posts/timeline/${currentUser._id}?page=${page}&limit=${limit}`
-      );
-      setPosts((prev) => [...prev, ...response.data.posts]);
-      setIsNextPage(response.data.numFound > 0);
-      setIsLoading(false);
-      console.log(response.data.posts);
-    } catch (err) {
-      setIsLoading(false);
-      console.error(err);
-      navigate("/login", { state: { from: location }, replace: true });
-    }
-  };
-  useEffect(() => {
-    setIsLoading(true);
-    fetchPosts();
-  }, [page]);
+  const { posts, setPosts, isLoading, lastPostRef } = useGetTimelinePosts();
 
   const addPost = (post: Post) => {
     let updatedPosts = [...posts];
@@ -133,7 +88,9 @@ export default function Timeline() {
           })}
         </div>
       )}
-      {isLoading && <div className="post-skeleton-container">{skeletons()}</div>}
+      {isLoading && (
+        <div className="post-skeleton-container">{skeletons()}</div>
+      )}
     </div>
   );
 }
