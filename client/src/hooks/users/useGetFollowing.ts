@@ -1,10 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useAxiosPrivate from "../useAxiosPrivate";
 
+type User = {
+  fullname: string;
+  username: string;
+}
+
 const useGetFollowing = ({ username }: { username: string }) => {
   const axiosPrivate = useAxiosPrivate();
   const [following, setFollowing] = useState<UserConnection[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User>({} as User);
   const [page, setPage] = useState(1);
   const [isNextPage, setIsNextPage] = useState(true);
   const limit = 10;
@@ -17,6 +23,7 @@ const useGetFollowing = ({ username }: { username: string }) => {
       );
       setFollowing((prev) => [...prev, ...res.data.following]);
       setIsNextPage(res.data.numFound > 0)
+      setUser(res.data.user)
     } catch (err) {
       console.error(err);
     } finally {
@@ -43,7 +50,7 @@ const useGetFollowing = ({ username }: { username: string }) => {
     fetchData();
   }, [username, page]);
 
-  return { following, isLoading, lastUserRef };
+  return { following, isLoading, lastUserRef, user };
 };
 
 export default useGetFollowing

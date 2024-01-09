@@ -1,12 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import useGetFollowers from "../../../hooks/users/useGetFollowers";
 import User from "../../../components/user/User";
+import { useEffect } from "react";
 
 export default function FollowersList() {
+  const [setUser] = useOutletContext<any>();
   const { username } = useParams();
-  const { followers, isLoading, lastUserRef } = useGetFollowers({
+  const { followers, isLoading, lastUserRef, user } = useGetFollowers({
     username: username!,
   });
+
+  useEffect(() => {
+    setUser(user);
+  }, [user]);
   return (
     <>
       {followers.map((user, index) => {

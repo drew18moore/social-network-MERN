@@ -60,7 +60,7 @@ export default function UserConnections() {
         </div>
       </div>
       <div className="user-connections">
-        <Outlet />
+        <Outlet context={[setUser]} />
       </div>
     </div>
   );
