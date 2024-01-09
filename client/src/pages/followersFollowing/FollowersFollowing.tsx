@@ -37,6 +37,10 @@ export default function FollowersFollowing({ tab }: Props) {
   const [isNextPageFollowing, setIsNextPageFollowing] = useState(true);
 
   useEffect(() => {
+    setCurrTab(tab);
+  }, [location]);
+
+  useEffect(() => {
     setFollowers([]);
     setFollowing([]);
     setPageFollowers(1);
