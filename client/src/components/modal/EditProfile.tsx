@@ -59,8 +59,8 @@ export default function EditProfile({ setUser, setShowModal }: Props) {
       navigate(`/${username}`, { replace: true });
     } catch (err: any) {
       console.error(err);
-      setError(err.response.data.message || err.message);
-      if (err.response?.status === 403) {
+      setError(err?.response?.data?.message || err?.message);
+      if (err?.response?.status === 403) {
         navigate("/login", { state: { from: location }, replace: true });
       }
       toast.error("Error!", {
