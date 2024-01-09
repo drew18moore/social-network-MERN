@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useAxiosPrivate from "../useAxiosPrivate";
 
-const useGetFollowers = ({ username }: { username: string }) => {
+const useGetFollowing = ({ username }: { username: string }) => {
   const axiosPrivate = useAxiosPrivate();
-  const [followers, setFollowers] = useState<UserConnection[]>([]);
+  const [following, setFollowing] = useState<UserConnection[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [isNextPage, setIsNextPage] = useState(true);
@@ -13,9 +13,9 @@ const useGetFollowers = ({ username }: { username: string }) => {
       console.log(page);
       setIsLoading(true);
       const res = await axiosPrivate.get(
-        `/api/users/${username}/followers?page=${page}&limit=${limit}`
+        `/api/users/${username}/following?page=${page}&limit=${limit}`
       );
-      setFollowers((prev) => [...prev, ...res.data.followers]);
+      setFollowing((prev) => [...prev, ...res.data.following]);
       setIsNextPage(res.data.numFound > 0)
     } catch (err) {
       console.error(err);
@@ -43,7 +43,7 @@ const useGetFollowers = ({ username }: { username: string }) => {
     fetchData();
   }, [username, page]);
 
-  return { followers, isLoading, lastUserRef };
+  return { following, isLoading, lastUserRef };
 };
 
-export default useGetFollowers
+export default useGetFollowing
