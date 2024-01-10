@@ -47,8 +47,14 @@ const useGetFollowers = ({ username }: { username: string }) => {
   );
 
   useEffect(() => {
+    setPage(1);
+    setFollowers([]);
+    setIsNextPage(true);
+  }, [username])
+
+  useEffect(() => {
     fetchData();
-  }, [username, page]);
+  }, [page]);
 
   return { followers, isLoading, lastUserRef, user };
 };
