@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Dropdown from "../../components/dropdown/Dropdown";
@@ -21,20 +21,7 @@ import {
   MdThumbUp,
 } from "react-icons/md";
 import ShareDropdown from "../../components/dropdown/ShareDropdown";
-
-type Post = {
-  _id: string;
-  userId: string;
-  postBody: string;
-  comments: PostComment[];
-  createdAt: Date;
-  fullname: string;
-  username: string;
-  profilePicture: string;
-  isBookmarked: boolean;
-  isLiked: boolean;
-  numLikes: number;
-};
+import useGetPost from "../../hooks/posts/useGetPost";
 
 export default function PostPage() {
   const { username, postId } = useParams();
@@ -48,23 +35,31 @@ export default function PostPage() {
   const [showCommentModal, setShowCommentModal] = useState(false);
 
   const { currentUser } = useAuth();
-  const [post, setPost] = useState<Post>({} as Post);
-  const [liked, setLiked] = useState(false);
-  const [numberOfLikes, setNumberOfLikes] = useState();
-  const [numberOfComments, setNumberOfComments] = useState(0);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const {
+    post,
+    setPost,
+    liked,
+    setLiked,
+    numberOfLikes,
+    setNumberOfLikes,
+    numberOfComments,
+    setNumberOfComments,
+    isBookmarked,
+    setIsBookmarked,
+  } = useGetPost(postId!);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  let time = new Date(post.createdAt);
+  let time = new Date(post!.createdAt);
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     minute: "numeric",
   };
   const timeFormated = time.toLocaleString("en-US", timeOptions);
 
-  let date = new Date(post.createdAt);
+  let date = new Date(post!.createdAt);
   const dateOptions: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "numeric",
@@ -72,30 +67,16 @@ export default function PostPage() {
   };
   const dateFormated = date.toLocaleString("en-US", dateOptions);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axiosPrivate.get(`/api/posts/${postId}`);
-        setPost(response.data);
-        setLiked(response.data.isLiked);
-        setNumberOfLikes(response.data.numLikes);
-        setNumberOfComments(response.data.comments.length);
-        setIsBookmarked(response.data.isBookmarked);
-        console.log(response.data);
-      } catch (err) {
-        console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-    };
-    fetchPost();
-  }, [username, postId]);
-
-  const openPostDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const openPostDropdown = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     setShowPostDropdown((prev) => !prev);
   };
 
-  const openShareDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const openShareDropdown = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     setShowShareDropdown((prev) => !prev);
   };
