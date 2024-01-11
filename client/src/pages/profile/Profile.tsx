@@ -41,9 +41,11 @@ export default function Profile() {
         setIsFollowing(responseUser.data.isFollowing);
         setPosts(responsePosts.data.posts);
         console.log(responsePosts.data.posts);
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
+        if (err.response?.status === 403) {
+          navigate("/login", { state: { from: location }, replace: true });
+        }
       }
     };
     fetchData();
@@ -59,9 +61,11 @@ export default function Profile() {
       });
       response.data.numFound === 0 && setIsNextPage(false);
       setPage((prev) => prev + 1);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      navigate("/login", { state: { from: location }, replace: true });
+      if (err.response?.status === 403) {
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
   };
 
@@ -71,9 +75,11 @@ export default function Profile() {
         currUsername: currentUser.username,
       });
       setIsFollowing((prev) => !prev);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      navigate("/login", { state: { from: location }, replace: true });
+      if (err.response?.status === 403) {
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
   };
 
