@@ -25,7 +25,10 @@ export default function Profile() {
   const limit = 20;
   const [isNextPage, setIsNextPage] = useState(true);
 
+  const [accountExists, setAccountExists] = useState(true);
+
   useEffect(() => {
+    setAccountExists(true);
     setPage(1);
     setIsNextPage(true);
     const fetchData = async () => {
@@ -43,6 +46,9 @@ export default function Profile() {
         console.log(responsePosts.data.posts);
       } catch (err: any) {
         console.error(err);
+        if (err.response?.status === 404) {
+          setAccountExists(false);
+        }
         if (err.response?.status === 403) {
           navigate("/login", { state: { from: location }, replace: true });
         }
@@ -117,7 +123,7 @@ export default function Profile() {
             </div>
             <div className="profile-name-username">
               <h1 className="name">{user?.fullname}</h1>
-              <h2 className="username">@{user?.username}</h2>
+              <h2 className="username">@{username}</h2>
             </div>
           </div>
           {user?._id === currentUser._id ? (
@@ -127,7 +133,7 @@ export default function Profile() {
             >
               Edit profile
             </button>
-          ) : (
+          ) : accountExists ? (
             <button
               className={
                 isFollowing ? "unfollow-profile-btn" : "follow-profile-btn"
@@ -138,7 +144,7 @@ export default function Profile() {
             >
               {isFollowing ? followBtnText : "Follow"}
             </button>
-          )}
+          ) : undefined}
         </div>
         <div className="middle">
           <h3 className="bio">{user?.bio}</h3>
@@ -152,7 +158,8 @@ export default function Profile() {
           </span>
         </div>
       </div>
-      <div className="posts-container">
+      {accountExists ? (
+        <div className="posts-container">
         <h2 className="posts-heading">Posts</h2>
         <div className="posts">
           {posts.length === 0 && <p className="no-posts">No Posts</p>}
@@ -179,6 +186,10 @@ export default function Profile() {
           )}
         </div>
       </div>
+      ) : (
+        <h2 className="account-doesnt-exist">This account doesn't exist</h2>
+      )}
+      
 
       {showEditProfileModal && (
         <Modal setShowModal={setShowEditProfileModal}>
