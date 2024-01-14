@@ -220,7 +220,7 @@ const Post = forwardRef<HTMLDivElement, Props>(
               username={username}
               postBody={postBody}
               setShowModal={setShowEditPostModal}
-              editPost={editPost}
+              onEditPost={editPost}
               type="POST"
             />
           </Modal>

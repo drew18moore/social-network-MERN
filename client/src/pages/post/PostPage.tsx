@@ -271,7 +271,7 @@ export default function PostPage() {
               username={username!}
               postBody={post.postBody}
               setShowModal={setShowEditPostModal}
-              editPost={editPost}
+              onEditPost={editPost}
               type="POST"
             />
           </Modal>
