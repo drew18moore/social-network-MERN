@@ -1,29 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./settings.css";
 import Modal from "../../components/modal/Modal";
 import DeleteAccount from "../../components/modal/DeleteAccount";
 import { useTheme } from "../../contexts/ThemeContext";
-import { useAuth } from "../../contexts/AuthContext";
-import { axiosPrivate } from "../../api/api";
 import { MdArrowBack, MdOutlineLogout } from "react-icons/md";
+import useLogout from "../../hooks/auth/useLogout";
 
 const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { setCurrentUser } = useAuth();
 
   const navigate = useNavigate();
-
-  const logout = async () => {
-    setCurrentUser({} as User);
-    try {
-      await axiosPrivate.get("/api/logout");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  const logout = useLogout();
   return (
     <div className="settings-page">
       <div className="settings-top">
