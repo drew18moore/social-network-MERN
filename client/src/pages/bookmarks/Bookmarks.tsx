@@ -1,57 +1,16 @@
-import { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Post from "../../components/post/Post";
 import LoadingAnimation from "../../components/loading/LoadingAnimation";
 
 import "./bookmarks.css";
 import { MdArrowBack } from "react-icons/md";
+import useGetBookmarkedPosts from "../../hooks/posts/useGetBookmarkedPosts";
 
 const Bookmarks = () => {
-  const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const axiosPrivate = useAxiosPrivate();
-  const [bookmarks, setBookmarks] = useState<Post[]>([]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const limit = 10;
-  const [isNextPage, setIsNextPage] = useState(true);
-
-  const observer = useRef<IntersectionObserver>();
-  const lastPostRef = useCallback(
-    (element: HTMLDivElement) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prev) => prev + 1);
-        }
-      });
-      if (element && isNextPage) observer.current.observe(element);
-    },
-    [isLoading]
-  );
-
-  const fetchPosts = async () => {
-    try {
-      const response = await axiosPrivate.get(
-        `/api/users/${currentUser._id}/bookmarks?page=${page}&limit=${limit}`
-      );
-      setBookmarks((prev) => [...prev, ...response.data.posts]);
-      setIsNextPage(response.data.numFound > 0);
-      setIsLoading(false);
-    } catch (err) {
-      console.error(err);
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetchPosts();
-  }, [page]);
+  const { bookmarks, setBookmarks, isLoading, lastPostRef } =
+    useGetBookmarkedPosts();
 
   const deletePostById = (postId: string) => {
     const indexToDelete = bookmarks.findIndex((x) => x._id === postId);

@@ -34,7 +34,7 @@ const useLogin = () => {
       navigate(from, { replace: true });
     } catch (err: any) {
       console.error(err);
-      setError(err.response.data.message);
+      setError(err?.response?.data?.message || err.message);
     } finally {
       setIsLoading(false);
     }
