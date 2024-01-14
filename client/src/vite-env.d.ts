@@ -68,3 +68,11 @@ type UnfollowedUser = {
   username: string;
   img: string;
 };
+
+type UserConnection = {
+  _id: string;
+  fullname: string;
+  username: string;
+  img: string;
+  isFollowing: boolean;
+}

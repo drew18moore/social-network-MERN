@@ -52,7 +52,7 @@
   }
 }
 
-.followed-users {
+.user-connections {
   display: grid;
   gap: 0.5rem;
 }
