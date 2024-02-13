@@ -101,7 +101,7 @@ export default function Comment({
             username={username}
             postBody={commentBody}
             setShowModal={setShowEditPostModal}
-            editPost={editComment}
+            onEditPost={editComment}
             type="COMMENT"
           />
         </Modal>

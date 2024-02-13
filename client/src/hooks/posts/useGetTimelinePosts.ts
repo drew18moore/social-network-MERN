@@ -1,13 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../useAxiosPrivate";
 
 const useGetTimelinePosts = () => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [posts, setPosts] = useState<Post[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +29,7 @@ const useGetTimelinePosts = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [page, axiosPrivate, currentUser._id, navigate, location]);
+  }, [page, axiosPrivate, currentUser._id]);
 
   const observer = useRef<IntersectionObserver>();
   const lastPostRef = useCallback(

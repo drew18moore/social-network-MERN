@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { toast } from "react-hot-toast";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import useEditPost from "../../hooks/posts/useEditPost";
 
 type Props = {
   postId: string
   username: string
   postBody: string
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-  editPost: ((newPost: EditedPost) => void) | ((comment: EditedComment) => void)
+  onEditPost: ((newPost: EditedPost) => void) | ((comment: EditedComment) => void)
   type: "POST" | "COMMENT"
 }
 export default function EditPost({
@@ -18,22 +14,11 @@ export default function EditPost({
   username,
   postBody,
   setShowModal,
-  editPost,
+  onEditPost,
   type,
 }: Props) {
-  const { currentUser } = useAuth();
-  const axiosPrivate = useAxiosPrivate();
   const [userMessage, setUserMessage] = useState("");
-  const { theme } = useTheme();
-  const navigate = useNavigate();
-
-  const endpoint =
-    type === "POST"
-      ? "/api/posts/"
-      : type === "COMMENT"
-      ? "api/comments/"
-      : undefined;
-
+  const { editPost } = useEditPost({ postId, onEditPost, setShowModal, type });
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
@@ -46,31 +31,7 @@ export default function EditPost({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await axiosPrivate.put(`${endpoint}/${postId}`, {
-        userId: currentUser._id,
-        postBody: userMessage,
-      });
-      setShowModal(false);
-      editPost(response.data);
-      toast.success("Post has been updated!", {
-        style: {
-          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
-          color: `${theme === "light" ? "" : "#fff"}`,
-        },
-      });
-    } catch (err: any) {
-      console.error(err);
-      if (err.response?.status === 403) {
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-      toast.error("Error!", {
-        style: {
-          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
-          color: `${theme === "light" ? "" : "#fff"}`,
-        },
-      });
-    }
+    editPost({ postBody: userMessage });
   };
 
   return (

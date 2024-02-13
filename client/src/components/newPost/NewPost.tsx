@@ -1,52 +1,23 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./newPost.css";
-import { toast } from "react-hot-toast";
-import { useTheme } from "../../contexts/ThemeContext";
+import useNewPost from "../../hooks/posts/useNewPost";
 
 export default function NewPost({
   addPost,
 }: {
   addPost: (post: Post) => void;
 }) {
+  const { newPost } = useNewPost({ onAddPost: addPost });
   const { currentUser } = useAuth();
-  const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { theme } = useTheme();
 
   const [userMessage, setUserMessage] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
-    try {
-      const response = await axiosPrivate.post("/api/posts/new", {
-        userId: currentUser._id,
-        fullname: currentUser.fullname,
-        username: currentUser.username,
-        postBody: userMessage,
-      });
-      addPost(response.data);
-      toast.success("Post has been created!", {
-        style: {
-          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
-          color: `${theme === "light" ? "" : "#fff"}`,
-        },
-      });
-    } catch (err: any) {
-      if (err.response?.status === 403) {
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-      toast.error("Error!", {
-        style: {
-          backgroundColor: `${theme === "light" ? "" : "#16181c"}`,
-          color: `${theme === "light" ? "" : "#fff"}`,
-        },
-      });
-    }
+    newPost({ postBody: userMessage.trim() });
     setUserMessage("");
   };
 
@@ -74,7 +45,11 @@ export default function NewPost({
             onChange={handleChange}
           />
         </div>
-        <button disabled={userMessage === ""} type="submit" id="post-btn">
+        <button
+          disabled={userMessage.trim() === ""}
+          type="submit"
+          id="post-btn"
+        >
           Post
         </button>
       </form>
