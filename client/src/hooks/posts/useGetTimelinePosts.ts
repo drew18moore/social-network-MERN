@@ -32,7 +32,7 @@ const useGetTimelinePosts = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [page, axiosPrivate, currentUser._id, navigate, location]);
+  }, [page, axiosPrivate, currentUser._id]);
 
   const observer = useRef<IntersectionObserver>();
   const lastPostRef = useCallback(
