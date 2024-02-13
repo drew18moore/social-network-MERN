@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAxiosPrivate from "../useAxiosPrivate";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const useGetUnfollowedUsers = () => {
+const useGetUnfollowedUsers = ({ limit }: { limit: number }) => {
   const { currentUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [unfollowedUsers, setUnfollowedUsers] = useState<UnfollowedUser[]>([]);
@@ -11,7 +11,6 @@ const useGetUnfollowedUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [isNextPage, setIsNextPage] = useState(true);
-  const limit = 20;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -51,7 +50,7 @@ const useGetUnfollowedUsers = () => {
     fetchData();
   }, [page]);
 
-  return { unfollowedUsers, lastUserRef, isLoading };
+  return { unfollowedUsers, lastUserRef, isLoading, isNextPage };
 };
 
 export default useGetUnfollowedUsers;

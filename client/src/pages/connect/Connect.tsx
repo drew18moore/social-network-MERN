@@ -7,7 +7,9 @@ import useGetUnfollowedUsers from "../../hooks/users/useGetUnfollowedUsers";
 
 const Connect = () => {
   const navigate = useNavigate();
-  const { unfollowedUsers, lastUserRef, isLoading } = useGetUnfollowedUsers();
+  const { unfollowedUsers, lastUserRef, isLoading } = useGetUnfollowedUsers({
+    limit: 20,
+  });
 
   const skeletons = () => {
     let arr = [];
