@@ -13,6 +13,7 @@ type Post = {
   _id: string;
   userId: string;
   postBody: string;
+  img: string;
   numLikes: number;
   numComments: number;
   createdAt: Date;

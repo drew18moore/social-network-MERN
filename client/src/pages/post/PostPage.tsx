@@ -196,6 +196,7 @@ export default function PostPage() {
           </div>
         </div>
         <div className="post-body">{post.postBody}</div>
+        {post.img && <img src={post.img} alt="post img" />}
         <div className="post-date">
           <p>{timeFormated}</p>
           <p className="post-dot">&#8226;</p>

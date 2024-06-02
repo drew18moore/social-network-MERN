@@ -11,13 +11,14 @@ const useNewPost = ({ onAddPost }: { onAddPost: (post: Post) => void }) => {
   const location = useLocation();
   const { theme } = useTheme();
 
-  const newPost = async ({ postBody }: { postBody: string }) => {
+  const newPost = async ({ postBody, img }: { postBody: string, img: string }) => {
     try {
       const response = await axiosPrivate.post("/api/posts/new", {
         userId: currentUser._id,
         fullname: currentUser.fullname,
         username: currentUser.username,
         postBody,
+        img,
       });
       onAddPost(response.data);
       toast.success("Post has been created!", {

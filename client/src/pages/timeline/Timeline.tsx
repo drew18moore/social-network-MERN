@@ -59,6 +59,7 @@ export default function Timeline() {
                   fullname={post.fullname}
                   username={post.username}
                   postBody={post.postBody}
+                  img={post.img}
                   createdAt={post.createdAt}
                   profilePicture={post.profilePicture}
                   deletePostById={deletePostById}
@@ -76,6 +77,7 @@ export default function Timeline() {
                 fullname={post.fullname}
                 username={post.username}
                 postBody={post.postBody}
+                img={post.img}
                 createdAt={post.createdAt}
                 profilePicture={post.profilePicture}
                 deletePostById={deletePostById}

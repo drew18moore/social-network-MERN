@@ -11,6 +11,7 @@ export const createNewPost = async (req: Request, res: Response) => {
   const post = new Post({
     userId: req.userId,
     postBody: req.body.postBody,
+    img: req.body.img,
   });
 
   try {
@@ -21,6 +22,7 @@ export const createNewPost = async (req: Request, res: Response) => {
       _id: newPost._id,
       userId: newPost.userId,
       postBody: newPost.postBody,
+      img: newPost.img,
       numLikes: 0,
       numComments: 0,
       createdAt: newPost.createdAt,
@@ -75,6 +77,7 @@ export const getPostById = async (req: Request, res: Response) => {
       numLikes: post.likes.length,
       isLiked: post.likes.includes(currUser._id),
       postBody: post.postBody,
+      img: post.img,
       userId: post.userId,
       _id: post._id,
       profilePicture: author!.img || "default-pfp.jpg",
@@ -172,6 +175,7 @@ export const getTimelinePosts = async (req: Request, res: Response) => {
           _id: post._id,
           userId: post.userId,
           postBody: post.postBody,
+          img: post.img,
           numLikes: post.likes.length,
           numComments: post.comments.length,
           createdAt: post.createdAt,
@@ -207,6 +211,7 @@ export const getPostsByUsername = async (req: Request, res: Response) => {
           _id: post._id,
           userId: post.userId,
           postBody: post.postBody,
+          img: post.img,
           numLikes: post.likes.length,
           numComments: post.comments.length,
           isLiked: post.likes.includes(req.userId),

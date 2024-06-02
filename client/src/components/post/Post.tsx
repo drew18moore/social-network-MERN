@@ -23,6 +23,7 @@ type Props = {
   fullname: string;
   username: string;
   postBody: string;
+  img: string;
   createdAt: Date;
   profilePicture: string;
   deletePostById: (postId: string) => void;
@@ -38,6 +39,7 @@ const Post = forwardRef<HTMLDivElement, Props>(
       fullname,
       username,
       postBody,
+      img,
       createdAt,
       profilePicture,
       deletePostById,
@@ -165,6 +167,7 @@ const Post = forwardRef<HTMLDivElement, Props>(
               </div>
             </div>
             <p className="post-body">{postBody}</p>
+            {img && <img src={img} alt="post img" />}
           </div>
         </div>
         <hr />
