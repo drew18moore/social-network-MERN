@@ -7,6 +7,18 @@
   background-color: var(--background-color-primary);
 }
 
+.new-post-form #file {
+  display: none;
+}
+
+.new-post-form label {
+  background-color: var(--background-color-secondary);
+  padding: 0.5rem;
+  width: fit-content;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
 .input-area {
   display: flex;
   gap: 0.5rem;

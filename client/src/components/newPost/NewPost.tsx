@@ -78,6 +78,7 @@ export default function NewPost({
           id="file"
           onChange={handleImgChange}
         />
+        <label htmlFor="file">Upload a photo</label>
         {imgBase64 && <img src={imgBase64} alt="post img" />}
         <button
           disabled={userMessage.trim() === ""}
