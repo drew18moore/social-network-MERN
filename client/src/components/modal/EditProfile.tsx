@@ -75,7 +75,7 @@ export default function EditProfile({ setUser, setShowModal }: Props) {
           />
           <input
             type="file"
-            accept="image/*"
+            accept="image/jpeg, image/png"
             id="file"
             onChange={handleImgChange}
           />
