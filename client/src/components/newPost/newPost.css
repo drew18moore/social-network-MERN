@@ -17,6 +17,13 @@
   width: fit-content;
   border-radius: 0.5rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.new-post-form label svg {
+  color: #45BD62;
 }
 
 .input-area {

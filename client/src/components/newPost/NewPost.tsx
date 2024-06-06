@@ -6,6 +6,7 @@ import useNewPost from "../../hooks/posts/useNewPost";
 import Resizer from "react-image-file-resizer";
 // @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
 const resizer: typeof Resizer = Resizer.default || Resizer;
+import { MdOutlineImage  } from "react-icons/md";
 
 export default function NewPost({
   addPost,
@@ -78,7 +79,7 @@ export default function NewPost({
           id="file"
           onChange={handleImgChange}
         />
-        <label htmlFor="file">Upload a photo</label>
+        <label htmlFor="file"><MdOutlineImage  size="1.5rem" />Upload a photo</label>
         {imgBase64 && <img src={imgBase64} alt="post img" />}
         <button
           disabled={userMessage.trim() === ""}
