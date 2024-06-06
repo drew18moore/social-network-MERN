@@ -50,8 +50,7 @@ export default function NewPost({
         "base64"
       );
     } else {
-      console.log("object");
-      setImgBase64(currentUser.img || "default-pfp.jpg");
+      setImgBase64("");
     }
   };
 
