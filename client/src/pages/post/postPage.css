@@ -3,6 +3,7 @@
   display: grid;
   gap: 1rem;
 }
+
 .post-top {
   background-color: var(--background-color-primary);
   color: var(--text-color-primary);
@@ -61,6 +62,16 @@
 
 .post-body {
   word-break: break-all;
+}
+
+.post-page .post-img-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.post-page .post-img-container img {
+  width: 100%;
+  vertical-align: middle;
 }
 
 .post-pfp-btn {
