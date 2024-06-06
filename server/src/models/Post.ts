@@ -15,7 +15,7 @@ const PostSchema = new mongoose.Schema<IPost>({
   },
   postBody: {
     type: String,
-    required: true,
+    default: "",
   },
   img: {
     type: String,

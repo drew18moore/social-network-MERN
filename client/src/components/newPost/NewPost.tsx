@@ -99,7 +99,7 @@ export default function NewPost({
           </div>
         )}
         <button
-          disabled={userMessage.trim() === ""}
+          disabled={userMessage.trim() === "" && imgBase64 === ""}
           type="submit"
           id="post-btn"
         >

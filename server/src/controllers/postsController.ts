@@ -4,8 +4,8 @@ import User from "../models/User";
 import Comment from "../models/Comment";
 
 export const createNewPost = async (req: Request, res: Response) => {
-  if (!req.body.postBody || req.body.postBody === "") {
-    return res.status(412).json({ message: "You must type a message." });
+  if ((!req.body.postBody || req.body.postBody === "") && (!req.body.img || req.body.img === "")) {
+    return res.status(412).json({ message: "You must type a message or include an image." });
   }
 
   const post = new Post({
