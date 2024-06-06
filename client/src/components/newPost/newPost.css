@@ -7,6 +7,16 @@
   background-color: var(--background-color-primary);
 }
 
+.new-post-form .img-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.new-post-form .img-container img {
+  width: 100%;
+  vertical-align: middle;
+}
+
 .new-post-form #file {
   display: none;
 }
