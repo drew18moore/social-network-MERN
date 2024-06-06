@@ -6,7 +6,7 @@ import useNewPost from "../../hooks/posts/useNewPost";
 import Resizer from "react-image-file-resizer";
 // @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
 const resizer: typeof Resizer = Resizer.default || Resizer;
-import { MdOutlineImage } from "react-icons/md";
+import { MdOutlineClose, MdOutlineImage } from "react-icons/md";
 
 export default function NewPost({
   addPost,
@@ -34,6 +34,7 @@ export default function NewPost({
   };
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("IMG CHANGE");
     const file = e.target.files?.[0];
     console.log(file);
     if (file) {
@@ -52,6 +53,8 @@ export default function NewPost({
     } else {
       setImgBase64("");
     }
+
+    e.target.value = "";
   };
 
   return (
@@ -82,9 +85,19 @@ export default function NewPost({
           <MdOutlineImage size="1.5rem" />
           Upload a photo
         </label>
-        <div className="img-container">
-          {imgBase64 && <img src={imgBase64} alt="post img" />}
-        </div>
+        {imgBase64 && (
+          <div className="img-container">
+            <span
+              className="remove-img-btn"
+              onClick={() => {
+                setImgBase64("");
+              }}
+            >
+              <MdOutlineClose size="1.5rem" />
+            </span>
+            <img src={imgBase64} alt="post img" />
+          </div>
+        )}
         <button
           disabled={userMessage.trim() === ""}
           type="submit"
