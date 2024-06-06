@@ -74,7 +74,7 @@ export default function NewPost({
         </div>
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/png"
           id="file"
           onChange={handleImgChange}
         />
