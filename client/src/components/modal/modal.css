@@ -300,3 +300,13 @@
     filter: brightness(90%);
   }
 }
+
+.edit-post-modal .img-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.edit-post-modal .img-container img {
+  width: 100%;
+  vertical-align: middle;
+}

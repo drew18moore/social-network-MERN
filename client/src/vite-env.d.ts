@@ -26,6 +26,7 @@ type Post = {
 type EditedPost = {
   _id: string;
   postBody: string;
+  img?: string;
 };
 
 type ProfileUser = {

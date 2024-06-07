@@ -5,6 +5,7 @@ type Props = {
   postId: string
   username: string
   postBody: string
+  img?: string
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
   onEditPost: ((newPost: EditedPost) => void) | ((comment: EditedComment) => void)
   type: "POST" | "COMMENT"
@@ -13,6 +14,7 @@ export default function EditPost({
   postId,
   username,
   postBody,
+  img,
   setShowModal,
   onEditPost,
   type,
@@ -35,7 +37,7 @@ export default function EditPost({
   };
 
   return (
-    <div>
+    <div className="edit-post-modal">
       <h1 className="modal-centered">Edit Post</h1>
       <hr />
       <form onSubmit={handleSubmit}>
@@ -46,6 +48,9 @@ export default function EditPost({
           placeholder={`What's on your mind, ${username}?`}
           onChange={handleChange}
         />
+        {type === "POST" && <div className="img-container">
+          <img src={img} alt="post image" />
+        </div>}
         <button disabled={userMessage === "" ? true : false} id="post-btn">
           Save
         </button>

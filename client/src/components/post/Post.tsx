@@ -234,6 +234,7 @@ const Post = forwardRef<HTMLDivElement, Props>(
               postId={postId}
               username={username}
               postBody={postBody}
+              img={img}
               setShowModal={setShowEditPostModal}
               onEditPost={editPost}
               type="POST"
