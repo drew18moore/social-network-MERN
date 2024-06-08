@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import useEditPost from "../../hooks/posts/useEditPost";
+import { MdOutlineClose } from "react-icons/md";
 
 type Props = {
-  postId: string
-  username: string
-  postBody: string
-  img?: string
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-  onEditPost: ((newPost: EditedPost) => void) | ((comment: EditedComment) => void)
-  type: "POST" | "COMMENT"
-}
+  postId: string;
+  username: string;
+  postBody: string;
+  img?: string;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  onEditPost:
+    | ((newPost: EditedPost) => void)
+    | ((comment: EditedComment) => void);
+  type: "POST" | "COMMENT";
+};
 export default function EditPost({
   postId,
   username,
@@ -20,6 +23,7 @@ export default function EditPost({
   type,
 }: Props) {
   const [userMessage, setUserMessage] = useState("");
+  const [postImg, setPostImg] = useState("");
   const { editPost } = useEditPost({ postId, onEditPost, setShowModal, type });
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(e.target.value);
@@ -29,11 +33,12 @@ export default function EditPost({
 
   useEffect(() => {
     setUserMessage(postBody);
+    setPostImg(img || "");
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    editPost({ postBody: userMessage });
+    editPost({ postBody: userMessage, postImg: postImg });
   };
 
   return (
@@ -48,9 +53,19 @@ export default function EditPost({
           placeholder={`What's on your mind, ${username}?`}
           onChange={handleChange}
         />
-        {type === "POST" && <div className="img-container">
-          <img src={img} alt="post image" />
-        </div>}
+        {type === "POST" && postImg !== "" && (
+          <div className="img-container">
+            <span
+              className="remove-img-btn"
+              onClick={() => {
+                setPostImg("");
+              }}
+            >
+              <MdOutlineClose size="1.5rem" />
+            </span>
+            <img src={postImg} alt="post image" />
+          </div>
+        )}
         <button disabled={userMessage === "" ? true : false} id="post-btn">
           Save
         </button>

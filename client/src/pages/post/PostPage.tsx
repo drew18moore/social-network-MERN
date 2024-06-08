@@ -82,7 +82,8 @@ export default function PostPage() {
   };
 
   const editPost = (newPost: EditedPost) => {
-    let updatedPost = { ...post, postBody: newPost.postBody };
+    let image = newPost.img !== "" ? newPost.img : post.img
+    let updatedPost = { ...post, postBody: newPost.postBody, postImg: newPost.img };
     setPost(updatedPost);
   };
 
@@ -273,6 +274,7 @@ export default function PostPage() {
               postId={postId!}
               username={username!}
               postBody={post.postBody}
+              img={post.img}
               setShowModal={setShowEditPostModal}
               onEditPost={editPost}
               type="POST"

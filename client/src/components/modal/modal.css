@@ -304,9 +304,23 @@
 .edit-post-modal .img-container {
   border-radius: 0.5rem;
   overflow: hidden;
+  position: relative;
 }
 
 .edit-post-modal .img-container img {
   width: 100%;
   vertical-align: middle;
+}
+
+.edit-post-modal .img-container .remove-img-btn {
+  background-color: var(--background-color-secondary);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  padding: 0.5rem;
+  top: 0.25rem;
+  right: 0.25rem;
+  cursor: pointer;
 }

@@ -100,11 +100,13 @@ export const editPost = async (req: Request, res: Response) => {
     }
 
     post.postBody = req.body.postBody;
+    post.img = req.body.img;
     post.save();
 
     const postData = {
       _id: post._id,
       postBody: post.postBody,
+      img: post.img,
     };
     return res.status(200).json(postData);
   } catch (err) {

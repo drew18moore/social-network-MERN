@@ -27,6 +27,7 @@ const ProfilePosts = ({
     const indexToUpdate = posts.findIndex((x) => x._id === post._id);
     let updatedPosts = [...posts];
     updatedPosts[indexToUpdate].postBody = post.postBody;
+    updatedPosts[indexToUpdate].img = post.img || "";
     setPosts(updatedPosts);
   };
 
