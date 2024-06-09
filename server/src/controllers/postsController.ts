@@ -93,6 +93,9 @@ export const getPostById = async (req: Request, res: Response) => {
 
 export const editPost = async (req: Request, res: Response) => {
   try {
+    if ((!req.body.postBody || req.body.postBody === "") && (!req.body.img || req.body.img === "")) {
+      return res.status(412).json({ message: "You must type a message or include an image." });
+    }
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "post not found" });
     if (post.userId !== req.userId) {

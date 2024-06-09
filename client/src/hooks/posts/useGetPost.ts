@@ -6,7 +6,7 @@ type Post = {
   _id: string;
   userId: string;
   postBody: string;
-  img: string;
+  img?: string;
   comments: PostComment[];
   createdAt: Date;
   fullname: string;

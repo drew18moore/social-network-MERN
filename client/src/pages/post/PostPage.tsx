@@ -82,8 +82,7 @@ export default function PostPage() {
   };
 
   const editPost = (newPost: EditedPost) => {
-    let image = newPost.img !== "" ? newPost.img : post.img
-    let updatedPost = { ...post, postBody: newPost.postBody, postImg: newPost.img };
+    let updatedPost = { ...post, postBody: newPost.postBody, img: newPost.img };
     setPost(updatedPost);
   };
 

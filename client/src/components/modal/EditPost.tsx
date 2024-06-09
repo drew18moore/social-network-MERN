@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useEditPost from "../../hooks/posts/useEditPost";
-import { MdOutlineClose } from "react-icons/md";
+import { MdOutlineClose, MdOutlineImage } from "react-icons/md";
+import Resizer from "react-image-file-resizer";
+// @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
+const resizer: typeof Resizer = Resizer.default || Resizer;
 
 type Props = {
   postId: string;
@@ -41,6 +44,30 @@ export default function EditPost({
     editPost({ postBody: userMessage, postImg: postImg });
   };
 
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("IMG CHANGE");
+    const file = e.target.files?.[0];
+    console.log(file);
+    if (file) {
+      resizer.imageFileResizer(
+        file,
+        400,
+        400,
+        "JPEG",
+        80,
+        0,
+        (uri) => {
+          setPostImg(uri as string);
+        },
+        "base64"
+      );
+    } else {
+      setPostImg("");
+    }
+
+    e.target.value = "";
+  };
+
   return (
     <div className="edit-post-modal">
       <h1 className="modal-centered">Edit Post</h1>
@@ -66,9 +93,21 @@ export default function EditPost({
             <img src={postImg} alt="post image" />
           </div>
         )}
-        <button disabled={userMessage === "" ? true : false} id="post-btn">
-          Save
-        </button>
+        <div className="btns-container">
+          <button disabled={userMessage === "" && postImg === "" ? true : false} id="post-btn">
+            Save
+          </button>
+          <label htmlFor="edit-post-file">
+            <MdOutlineImage size="1.5rem" />
+            {postImg === "" ? "Add a photo" : "Change photo"}
+          </label>
+          <input
+            type="file"
+            accept="image/jpeg, image/png"
+            id="edit-post-file"
+            onChange={handleImgChange}
+          />
+        </div>
       </form>
     </div>
   );
