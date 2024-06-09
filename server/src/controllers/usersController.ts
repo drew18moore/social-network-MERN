@@ -276,6 +276,7 @@ export const getBookmarkedPosts = async (req: Request, res: Response) => {
           _id: post!._id,
           userId: post!.userId,
           postBody: post!.postBody,
+          img: post?.img,
           numLikes: post!.likes.length,
           numComments: post!.comments.length,
           createdAt: post!.createdAt,
