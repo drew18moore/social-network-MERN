@@ -3,6 +3,7 @@ import mongoose, { Document } from "mongoose";
 interface IPost extends Document {
   userId: string;
   postBody: string;
+  img: string;
   createdAt: Date;
   likes: string[];
   comments: string[];
@@ -14,7 +15,11 @@ const PostSchema = new mongoose.Schema<IPost>({
   },
   postBody: {
     type: String,
-    required: true,
+    default: "",
+  },
+  img: {
+    type: String,
+    default: "",
   },
   createdAt: {
     type: Date,

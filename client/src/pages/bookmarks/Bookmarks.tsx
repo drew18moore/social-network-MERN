@@ -23,6 +23,7 @@ const Bookmarks = () => {
     const indexToUpdate = bookmarks.findIndex((x) => x._id === post._id);
     let updatedBookmarks = [...bookmarks];
     updatedBookmarks[indexToUpdate].postBody = post.postBody;
+    updatedBookmarks[indexToUpdate].img = post.img || "";
     setBookmarks(updatedBookmarks);
   };
 
@@ -46,6 +47,7 @@ const Bookmarks = () => {
                 fullname={post.fullname}
                 username={post.username}
                 postBody={post.postBody}
+                img={post.img}
                 createdAt={post.createdAt}
                 profilePicture={post.profilePicture}
                 deletePostById={deletePostById}
@@ -63,6 +65,7 @@ const Bookmarks = () => {
               fullname={post.fullname}
               username={post.username}
               postBody={post.postBody}
+              img={post.img}
               createdAt={post.createdAt}
               profilePicture={post.profilePicture}
               deletePostById={deletePostById}

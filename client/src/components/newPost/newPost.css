@@ -7,6 +7,49 @@
   background-color: var(--background-color-primary);
 }
 
+.new-post-form .img-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.new-post-form .img-container img {
+  width: 100%;
+  vertical-align: middle;
+}
+
+.new-post-form .remove-img-btn {
+  background-color: var(--background-color-secondary);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  padding: 0.5rem;
+  top: 0.25rem;
+  right: 0.25rem;
+  cursor: pointer;
+}
+
+.new-post-form #file {
+  display: none;
+}
+
+.new-post-form label {
+  background-color: var(--background-color-secondary);
+  padding: 0.5rem;
+  width: fit-content;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.new-post-form label svg {
+  color: #45BD62;
+}
+
 .input-area {
   display: flex;
   gap: 0.5rem;

@@ -13,6 +13,7 @@ type Post = {
   _id: string;
   userId: string;
   postBody: string;
+  img: string;
   numLikes: number;
   numComments: number;
   createdAt: Date;
@@ -25,6 +26,7 @@ type Post = {
 type EditedPost = {
   _id: string;
   postBody: string;
+  img?: string;
 };
 
 type ProfileUser = {

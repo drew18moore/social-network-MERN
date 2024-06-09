@@ -26,11 +26,12 @@ const useEditPost = ({ postId, setShowModal, onEditPost, type }: Props) => {
       ? "api/comments/"
       : undefined;
 
-  const editPost = async ({ postBody }: { postBody: string }) => {
+  const editPost = async ({ postBody, postImg }: { postBody: string, postImg: string }) => {
     try {
       const response = await axiosPrivate.put(`${endpoint}/${postId}`, {
         userId: currentUser._id,
         postBody: postBody,
+        img: postImg,
       });
       setShowModal(false);
       onEditPost(response.data);

@@ -7,6 +7,17 @@
   border-radius: 0.5rem;
 }
 
+.post .post-img-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-right: 4rem;
+}
+
+.post-img {
+  width: 100%;
+  vertical-align: middle;
+}
+
 .post-content {
   display: flex;
   gap: 1rem;

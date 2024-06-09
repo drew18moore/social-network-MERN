@@ -34,6 +34,7 @@ const useGetBookmarkedPosts = () => {
       const response = await axiosPrivate.get(
         `/api/users/${currentUser._id}/bookmarks?page=${page}&limit=${limit}`
       );
+      console.log(response.data);
       setBookmarks((prev) => [...prev, ...response.data.posts]);
       setIsNextPage(response.data.numFound > 0);
     } catch (err: any) {

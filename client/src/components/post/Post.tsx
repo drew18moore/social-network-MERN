@@ -23,6 +23,7 @@ type Props = {
   fullname: string;
   username: string;
   postBody: string;
+  img: string;
   createdAt: Date;
   profilePicture: string;
   deletePostById: (postId: string) => void;
@@ -38,6 +39,7 @@ const Post = forwardRef<HTMLDivElement, Props>(
       fullname,
       username,
       postBody,
+      img,
       createdAt,
       profilePicture,
       deletePostById,
@@ -84,17 +86,23 @@ const Post = forwardRef<HTMLDivElement, Props>(
       dateFormated = date.toLocaleString("en-US", dateOptions);
     }
 
-    const openPostDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const openPostDropdown = (
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
       e.stopPropagation();
       setShowPostDropdown((prev) => !prev);
     };
 
-    const openShareDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const openShareDropdown = (
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
       e.stopPropagation();
       setShowShareDropdown((prev) => !prev);
     };
 
-    const likePost = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const likePost = async (
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
       e.stopPropagation();
       try {
         const response = await axiosPrivate.put(`/api/posts/${postId}/like`, {
@@ -107,7 +115,9 @@ const Post = forwardRef<HTMLDivElement, Props>(
       }
     };
 
-    const openCommentModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const openCommentModal = (
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
       e.stopPropagation();
       setShowCommentModal(true);
     };
@@ -117,7 +127,9 @@ const Post = forwardRef<HTMLDivElement, Props>(
       navigate(`/${username}/posts/${postId}`);
     };
 
-    const gotoProfilePage = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const gotoProfilePage = (
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
       e.stopPropagation();
       navigate(`/${username}`);
     };
@@ -165,6 +177,9 @@ const Post = forwardRef<HTMLDivElement, Props>(
               </div>
             </div>
             <p className="post-body">{postBody}</p>
+            <div className="post-img-container">
+              {img && <img src={img} alt="post img" className="post-img" />}
+            </div>
           </div>
         </div>
         <hr />
@@ -219,6 +234,7 @@ const Post = forwardRef<HTMLDivElement, Props>(
               postId={postId}
               username={username}
               postBody={postBody}
+              img={img}
               setShowModal={setShowEditPostModal}
               onEditPost={editPost}
               type="POST"

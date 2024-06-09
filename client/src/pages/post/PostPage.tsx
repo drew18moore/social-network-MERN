@@ -82,7 +82,7 @@ export default function PostPage() {
   };
 
   const editPost = (newPost: EditedPost) => {
-    let updatedPost = { ...post, postBody: newPost.postBody };
+    let updatedPost = { ...post, postBody: newPost.postBody, img: newPost.img };
     setPost(updatedPost);
   };
 
@@ -196,6 +196,9 @@ export default function PostPage() {
           </div>
         </div>
         <div className="post-body">{post.postBody}</div>
+        <div className="post-img-container">
+          {post.img && <img src={post.img} alt="post img" />}
+        </div>
         <div className="post-date">
           <p>{timeFormated}</p>
           <p className="post-dot">&#8226;</p>
@@ -270,6 +273,7 @@ export default function PostPage() {
               postId={postId!}
               username={username!}
               postBody={post.postBody}
+              img={post.img}
               setShowModal={setShowEditPostModal}
               onEditPost={editPost}
               type="POST"

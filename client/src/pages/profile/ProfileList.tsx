@@ -27,6 +27,7 @@ const ProfilePosts = ({
     const indexToUpdate = posts.findIndex((x) => x._id === post._id);
     let updatedPosts = [...posts];
     updatedPosts[indexToUpdate].postBody = post.postBody;
+    updatedPosts[indexToUpdate].img = post.img || "";
     setPosts(updatedPosts);
   };
 
@@ -45,6 +46,7 @@ const ProfilePosts = ({
                 fullname={post.fullname}
                 username={post.username}
                 postBody={post.postBody}
+                img={post.img}
                 createdAt={post.createdAt}
                 profilePicture={post.profilePicture}
                 deletePostById={deletePostById}
@@ -62,6 +64,7 @@ const ProfilePosts = ({
               fullname={post.fullname}
               username={post.username}
               postBody={post.postBody}
+              img={post.img}
               createdAt={post.createdAt}
               profilePicture={post.profilePicture}
               deletePostById={deletePostById}

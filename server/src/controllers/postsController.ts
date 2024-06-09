@@ -4,13 +4,14 @@ import User from "../models/User";
 import Comment from "../models/Comment";
 
 export const createNewPost = async (req: Request, res: Response) => {
-  if (!req.body.postBody || req.body.postBody === "") {
-    return res.status(412).json({ message: "You must type a message." });
+  if ((!req.body.postBody || req.body.postBody === "") && (!req.body.img || req.body.img === "")) {
+    return res.status(412).json({ message: "You must type a message or include an image." });
   }
 
   const post = new Post({
     userId: req.userId,
     postBody: req.body.postBody,
+    img: req.body.img,
   });
 
   try {
@@ -21,6 +22,7 @@ export const createNewPost = async (req: Request, res: Response) => {
       _id: newPost._id,
       userId: newPost.userId,
       postBody: newPost.postBody,
+      img: newPost.img,
       numLikes: 0,
       numComments: 0,
       createdAt: newPost.createdAt,
@@ -75,6 +77,7 @@ export const getPostById = async (req: Request, res: Response) => {
       numLikes: post.likes.length,
       isLiked: post.likes.includes(currUser._id),
       postBody: post.postBody,
+      img: post.img,
       userId: post.userId,
       _id: post._id,
       profilePicture: author!.img || "default-pfp.jpg",
@@ -90,6 +93,9 @@ export const getPostById = async (req: Request, res: Response) => {
 
 export const editPost = async (req: Request, res: Response) => {
   try {
+    if ((!req.body.postBody || req.body.postBody === "") && (!req.body.img || req.body.img === "")) {
+      return res.status(412).json({ message: "You must type a message or include an image." });
+    }
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "post not found" });
     if (post.userId !== req.userId) {
@@ -97,11 +103,13 @@ export const editPost = async (req: Request, res: Response) => {
     }
 
     post.postBody = req.body.postBody;
+    post.img = req.body.img;
     post.save();
 
     const postData = {
       _id: post._id,
       postBody: post.postBody,
+      img: post.img,
     };
     return res.status(200).json(postData);
   } catch (err) {
@@ -172,6 +180,7 @@ export const getTimelinePosts = async (req: Request, res: Response) => {
           _id: post._id,
           userId: post.userId,
           postBody: post.postBody,
+          img: post.img,
           numLikes: post.likes.length,
           numComments: post.comments.length,
           createdAt: post.createdAt,
@@ -207,6 +216,7 @@ export const getPostsByUsername = async (req: Request, res: Response) => {
           _id: post._id,
           userId: post.userId,
           postBody: post.postBody,
+          img: post.img,
           numLikes: post.likes.length,
           numComments: post.comments.length,
           isLiked: post.likes.includes(req.userId),

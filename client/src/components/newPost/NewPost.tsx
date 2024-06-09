@@ -3,12 +3,17 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./newPost.css";
 import useNewPost from "../../hooks/posts/useNewPost";
+import Resizer from "react-image-file-resizer";
+// @ts-expect-error https://github.com/onurzorluer/react-image-file-resizer/issues/68
+const resizer: typeof Resizer = Resizer.default || Resizer;
+import { MdOutlineClose, MdOutlineImage } from "react-icons/md";
 
 export default function NewPost({
   addPost,
 }: {
   addPost: (post: Post) => void;
 }) {
+  const [imgBase64, setImgBase64] = useState("");
   const { newPost } = useNewPost({ onAddPost: addPost });
   const { currentUser } = useAuth();
 
@@ -17,14 +22,39 @@ export default function NewPost({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     e.target[0].style.height = "50px";
-    newPost({ postBody: userMessage.trim() });
+    newPost({ postBody: userMessage.trim(), img: imgBase64 });
     setUserMessage("");
+    setImgBase64("");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(e.target.value);
     e.target.style.height = "50px";
     e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("IMG CHANGE");
+    const file = e.target.files?.[0];
+    console.log(file);
+    if (file) {
+      resizer.imageFileResizer(
+        file,
+        400,
+        400,
+        "JPEG",
+        80,
+        0,
+        (uri) => {
+          setImgBase64(uri as string);
+        },
+        "base64"
+      );
+    } else {
+      setImgBase64("");
+    }
+
+    e.target.value = "";
   };
 
   return (
@@ -45,8 +75,31 @@ export default function NewPost({
             onChange={handleChange}
           />
         </div>
+        <input
+          type="file"
+          accept="image/jpeg, image/png"
+          id="file"
+          onChange={handleImgChange}
+        />
+        <label htmlFor="file">
+          <MdOutlineImage size="1.5rem" />
+          Upload a photo
+        </label>
+        {imgBase64 && (
+          <div className="img-container">
+            <span
+              className="remove-img-btn"
+              onClick={() => {
+                setImgBase64("");
+              }}
+            >
+              <MdOutlineClose size="1.5rem" />
+            </span>
+            <img src={imgBase64} alt="post img" />
+          </div>
+        )}
         <button
-          disabled={userMessage.trim() === ""}
+          disabled={userMessage.trim() === "" && imgBase64 === ""}
           type="submit"
           id="post-btn"
         >
