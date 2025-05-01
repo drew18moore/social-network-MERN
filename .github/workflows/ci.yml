@@ -1,17 +1,13 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches:
-      - main
-      - drew18moore
   pull_request:
     branches:
       - main
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
