@@ -34,7 +34,7 @@ jobs:
 
       - name: Run server tests
         working-directory: ./server
-        run: npm test
+        run: npx jest --runInBand
 
       - name: Build server
         working-directory: ./server
