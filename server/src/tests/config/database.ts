@@ -1,20 +1,21 @@
-import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import User from "../../models/User";
+import dotenv from "dotenv";
 
-let mongoServer: MongoMemoryServer;
+dotenv.config({ path: ".env.test" });
+
+const mongoUri = process.env.MONGO_URI!;
 
 export const connect = async () => {
-  mongoServer = await MongoMemoryServer.create();
-  const mongoUri = await mongoServer.getUri();
-  mongoose.connect(mongoUri);
+  await mongoose.connect(mongoUri);
 }
 
 export const disconnect = async () => {
   await mongoose.disconnect();
-  await mongoServer.stop();
 }
 
 export const reset = async () => {
-  await User.deleteMany({})
+  const collections = await mongoose.connection.db.collections();
+  for (let collection of collections) {
+    await collection.deleteMany({});
+  }
 }

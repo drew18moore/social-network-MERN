@@ -9,20 +9,25 @@ jobs:
   build-and-test:
     runs-on: ubuntu-22.04
 
-    strategy:
-      matrix:
-        node-version: [18.x]
+    services:
+      mongo:
+        image: mongo:6.0
+        ports:
+          - 27018:27017
 
+    env:
+      MONGO_URI: mongodb://localhost:27018/testdb
+      ACCESS_TOKEN_SECRET: testaccesstokensecret
+      REFRESH_TOKEN_SECRET: testrefreshtokensecret
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
 
-      # Server: Install and test
+      # Server: Install, test, and build
       - name: Install server dependencies
         working-directory: ./server
         run: npm ci
