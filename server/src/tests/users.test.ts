@@ -1,10 +1,19 @@
-const jwt = require("jsonwebtoken");
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+} from "@jest/globals";
+import jwt from "jsonwebtoken";
+("jsonwebtoken");
 const request = require("supertest");
-const app = require("../app");
-const Post = require("../models/Post");
-const User = require("../models/User");
-const Comment = require("../models/Comment");
-const { connect, disconnect, reset } = require("./config/database");
+import app from "../app";
+import Post from "../models/Post";
+import User from "../models/User";
+import Comment from "../models/Comment";
+import { connect, disconnect, reset } from "./config/database";
 
 beforeAll(async () => {
   await connect();
@@ -47,9 +56,9 @@ describe("PUT /users/:id", () => {
     };
     expect(updatedUser.body).toEqual(expectedResponseBody);
     const user = await User.findById(registeredUser.body._id);
-    expect(user.fullname).toEqual(updates.fullname);
-    expect(user.username).toEqual(updates.username);
-    expect(user.bio).toEqual(updates.bio);
+    expect(user?.fullname).toEqual(updates.fullname);
+    expect(user?.username).toEqual(updates.username);
+    expect(user?.bio).toEqual(updates.bio);
   });
 
   test("If userId in req.userId doesn't match id in params, return 403 status code", async () => {
@@ -127,10 +136,12 @@ describe("GET /users/:username", () => {
     };
     Object.keys(expectedData).forEach((field) => {
       if (typeof response.body[field] === "string") {
-        expect(response.body[field]).toMatch(expectedData[field]);
+        expect(response.body[field]).toMatch(
+          expectedData[field as keyof typeof expectedData]
+        );
       } else {
         expect(JSON.stringify(response.body[field])).toMatch(
-          expectedData[field]
+          expectedData[field as keyof typeof expectedData]
         );
       }
     });
@@ -179,8 +190,8 @@ describe("PUT /users/follow/:username", () => {
     expect(response.statusCode).toBe(200);
     let user1 = await User.findById(registeredUser1.body._id);
     let user2 = await User.findById(registeredUser2.body._id);
-    expect(user1.following).toContain(user2._id.toString());
-    expect(user2.followers).toContain(user1._id.toString());
+    expect(user1?.following).toContain(user2?._id.toString());
+    expect(user2?.followers).toContain(user1?._id.toString());
     // Unfollow user
     const response2 = await request(app)
       .put(`/api/users/follow/${userData2.username}`)
@@ -188,8 +199,8 @@ describe("PUT /users/follow/:username", () => {
     expect(response2.statusCode).toBe(200);
     user1 = await User.findById(registeredUser1.body._id);
     user2 = await User.findById(registeredUser2.body._id);
-    expect(user1.following).not.toContain(user2._id.toString());
-    expect(user2.followers).not.toContain(user1._id.toString());
+    expect(user1?.following).not.toContain(user2?._id.toString());
+    expect(user2?.followers).not.toContain(user1?._id.toString());
   });
   test("If username in req.params and username from req.userId match, return 403 status code", async () => {
     const userData = {
@@ -253,20 +264,20 @@ describe("GET /users/all-unfollowed/:id", () => {
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
       let user2 = await User.findById(registeredUser2.body._id);
-      expect(user1.following).toContain(user2._id.toString());
-      expect(user2.followers).toContain(user1._id.toString());
+      expect(user1?.following).toContain(user2?._id.toString());
+      expect(user2?.followers).toContain(user1?._id.toString());
       // Get unfollowed users
       const response = await request(app)
         .get(`/api/users/all-unfollowed/${registeredUser1.body._id}`)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(response.statusCode).toBe(200);
-      expectedData = {
+      const expectedData = {
         numFound: 0,
         unfollowedUsers: [],
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(response.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -308,27 +319,27 @@ describe("GET /users/all-unfollowed/:id", () => {
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
       let user2 = await User.findById(registeredUser2.body._id);
-      expect(user1.following).toContain(user2._id.toString());
-      expect(user2.followers).toContain(user1._id.toString());
+      expect(user1?.following).toContain(user2?._id.toString());
+      expect(user2?.followers).toContain(user1?._id.toString());
       // Get unfollowed users
       const response = await request(app)
         .get(`/api/users/all-unfollowed/${registeredUser1.body._id}`)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(response.statusCode).toBe(200);
-      expectedData = {
+      const expectedData = {
         numFound: 1,
         unfollowedUsers: [
           {
             _id: registeredUser3.body._id,
             fullname: registeredUser3.body.fullname,
             username: registeredUser3.body.username,
-            img: registeredUser3.body.img || "/default-pfp.jpg",
+            img: registeredUser3.body.img || "default-pfp.jpg",
           },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(response.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -378,7 +389,7 @@ describe("GET /users/:username/following", () => {
         .get(`/api/users/${registeredUser1.body.username}/following`)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(response.statusCode).toBe(200);
-      expectedData = {
+      const expectedData = {
         user: {
           fullname: registeredUser1.body.fullname,
           username: registeredUser1.body.username,
@@ -388,7 +399,7 @@ describe("GET /users/:username/following", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(response.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -420,14 +431,14 @@ describe("GET /users/:username/following", () => {
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
       let user2 = await User.findById(registeredUser2.body._id);
-      expect(user1.following).toContain(user2._id.toString());
-      expect(user2.followers).toContain(user1._id.toString());
+      expect(user1?.following).toContain(user2?._id.toString());
+      expect(user2?.followers).toContain(user1?._id.toString());
       // Get followed users
       const response = await request(app)
         .get(`/api/users/${registeredUser1.body.username}/following`)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(response.statusCode).toBe(200);
-      expectedData = {
+      const expectedData = {
         user: {
           fullname: registeredUser1.body.fullname,
           username: registeredUser1.body.username,
@@ -438,14 +449,14 @@ describe("GET /users/:username/following", () => {
             _id: registeredUser2.body._id,
             fullname: registeredUser2.body.fullname,
             username: registeredUser2.body.username,
-            img: registeredUser2.body.img || "/default-pfp.jpg",
+            img: registeredUser2.body.img || "default-pfp.jpg",
             isFollowing: true,
           },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(response.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -495,7 +506,7 @@ describe("GET /users/:username/followers", () => {
         .get(`/api/users/${registeredUser1.body.username}/followers`)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(response.statusCode).toBe(200);
-      expectedData = {
+      const expectedData = {
         user: {
           fullname: registeredUser1.body.fullname,
           username: registeredUser1.body.username,
@@ -505,7 +516,7 @@ describe("GET /users/:username/followers", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(response.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -537,14 +548,14 @@ describe("GET /users/:username/followers", () => {
       expect(followUserResponse.statusCode).toBe(200);
       let user1 = await User.findById(registeredUser1.body._id);
       let user2 = await User.findById(registeredUser2.body._id);
-      expect(user1.followers).toContain(user2._id.toString());
-      expect(user2.following).toContain(user1._id.toString());
+      expect(user1?.followers).toContain(user2?._id.toString());
+      expect(user2?.following).toContain(user1?._id.toString());
       // Get followed users
       const response = await request(app)
         .get(`/api/users/${registeredUser1.body.username}/followers`)
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(response.statusCode).toBe(200);
-      expectedData = {
+      const expectedData = {
         user: {
           fullname: registeredUser1.body.fullname,
           username: registeredUser1.body.username,
@@ -555,14 +566,14 @@ describe("GET /users/:username/followers", () => {
             _id: registeredUser2.body._id,
             fullname: registeredUser2.body.fullname,
             username: registeredUser2.body.username,
-            img: registeredUser2.body.img || "/default-pfp.jpg",
+            img: registeredUser2.body.img || "default-pfp.jpg",
             isFollowing: false,
           },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(response.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -809,7 +820,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(followSecondUser.statusCode).toBe(200);
       let secondUser = await User.findById(registeredUser2.body._id);
-      expect(secondUser.followers).toContain(registeredUser1.body._id);
+      expect(secondUser?.followers).toContain(registeredUser1.body._id);
       // Delete user
       const deleteUser = await request(app)
         .delete(`/api/users/delete/${registeredUser1.body._id}`)
@@ -817,7 +828,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(deleteUser.statusCode).toBe(200);
       secondUser = await User.findById(registeredUser2.body._id);
-      expect(secondUser.followers).not.toContain(registeredUser1.body._id);
+      expect(secondUser?.followers).not.toContain(registeredUser1.body._id);
     });
     test("...return 200 status code and remove user's id from other users' following list", async () => {
       // Register main user
@@ -846,7 +857,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(followMainUser.statusCode).toBe(200);
       let secondUser = await User.findById(registeredUser2.body._id);
-      expect(secondUser.following).toContain(registeredUser1.body._id);
+      expect(secondUser?.following).toContain(registeredUser1.body._id);
       // Delete user
       const deleteUser = await request(app)
         .delete(`/api/users/delete/${registeredUser1.body._id}`)
@@ -854,7 +865,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(deleteUser.statusCode).toBe(200);
       secondUser = await User.findById(registeredUser2.body._id);
-      expect(secondUser.following).not.toContain(registeredUser1.body._id);
+      expect(secondUser?.following).not.toContain(registeredUser1.body._id);
     });
     test("...return 200 status code and remove user's post ids from other users' bookmarks list", async () => {
       // Register main user
@@ -890,7 +901,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser2.body.accessToken}`);
       expect(bookmarkPost.statusCode).toBe(200);
       let secondUser = await User.findById(registeredUser2.body._id);
-      expect(secondUser.bookmarks).toContain(newPost.body._id);
+      expect(secondUser?.bookmarks).toContain(newPost.body._id);
       // Delete main user
       const deleteUser = await request(app)
         .delete(`/api/users/delete/${registeredUser1.body._id}`)
@@ -898,7 +909,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(deleteUser.statusCode).toBe(200);
       secondUser = await User.findById(registeredUser2.body._id);
-      expect(secondUser.bookmarks).not.toContain(newPost.body._id);
+      expect(secondUser?.bookmarks).not.toContain(newPost.body._id);
     });
     test("...return 200 status code and remove user's id from other users' post likes list", async () => {
       // Register main user
@@ -934,7 +945,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(likePost.statusCode).toBe(200);
       let post = await Post.findById(newPost.body._id);
-      expect(post.likes).toContain(registeredUser1.body._id);
+      expect(post?.likes).toContain(registeredUser1.body._id);
       // Delete main user
       const deleteUser = await request(app)
         .delete(`/api/users/delete/${registeredUser1.body._id}`)
@@ -942,7 +953,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(deleteUser.statusCode).toBe(200);
       post = await Post.findById(newPost.body._id);
-      expect(post.likes).not.toContain(registeredUser1.body._id);
+      expect(post?.likes).not.toContain(registeredUser1.body._id);
     });
     test("...return 200 status code and remove user's id from other users' comment likes list", async () => {
       // Register main user
@@ -987,7 +998,7 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(likeComment.statusCode).toBe(200);
       let comment = await Comment.findById(newComment.body._id);
-      expect(comment.likes).toContain(registeredUser1.body._id);
+      expect(comment?.likes).toContain(registeredUser1.body._id);
       // Delete main user
       const deleteUser = await request(app)
         .delete(`/api/users/delete/${registeredUser1.body._id}`)
@@ -995,13 +1006,13 @@ describe("DELETE /users/delete/:userId", () => {
         .set("Authorization", `Bearer ${registeredUser1.body.accessToken}`);
       expect(deleteUser.statusCode).toBe(200);
       comment = await Comment.findById(newComment.body._id);
-      expect(comment.likes).not.toContain(registeredUser1.body._id);
+      expect(comment?.likes).not.toContain(registeredUser1.body._id);
     });
   });
   test("If user doesn't exist, return 404 status code", async () => {
     const tempAccessToken = jwt.sign(
       { userId: "5509f07f227cde6d205a0962" },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET!,
       { expiresIn: 900000 }
     );
     const deleteUser = await request(app)
@@ -1052,7 +1063,7 @@ describe("GET /users/:id/bookmarks", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(bookmarks.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -1091,18 +1102,20 @@ describe("GET /users/:id/bookmarks", () => {
             _id: newPost.body._id,
             userId: registeredUser1.body._id,
             postBody: newPost.body.postBody,
-            likes: [],
-            comments: [],
+            img: newPost.body.img,
+            numLikes: newPost.body.numLikes,
+            numComments: newPost.body.numComments,
             createdAt: newPost.body.createdAt,
             fullname: registeredUser1.body.fullname,
             username: registeredUser1.body.username,
-            profilePicture: "/default-pfp.jpg",
+            isLiked: false,
+            profilePicture: "default-pfp.jpg",
           },
         ],
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(bookmarks.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -1110,7 +1123,7 @@ describe("GET /users/:id/bookmarks", () => {
   test("If user doesn't exist, return 404 status code", async () => {
     const tempAccessToken = jwt.sign(
       { userId: "5509f07f227cde6d205a0962" },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET!,
       { expiresIn: 900000 }
     );
     // Get bookmarks

@@ -1,9 +1,10 @@
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "@jest/globals";
 const request = require("supertest");
-const app = require("../app");
-const { connect, disconnect, reset } = require("./config/database");
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import app from "../app";
+import { connect, disconnect, reset } from "./config/database";
+import User from "../models/User";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 beforeAll(async () => {
   await connect();
@@ -48,13 +49,13 @@ describe("POST /auth/register", () => {
       expect(response.statusCode).toBe(200);
 
       const user = await User.findById(response.body._id);
-      expect(user.fullname).toBe(fullname);
-      expect(user.username).toBe(username);
-      expect(await bcrypt.compare(password, user.password)).toBe(true);
-      expect(user.bio).toBe("");
-      expect(user.following).toEqual([]);
-      expect(user.followers).toEqual([]);
-      expect(user.refreshToken).toBeTruthy();
+      expect(user?.fullname).toBe(fullname);
+      expect(user?.username).toBe(username);
+      expect(await bcrypt.compare(password, user?.password!)).toBe(true);
+      expect(user?.bio).toBe("");
+      expect(user?.following).toEqual([]);
+      expect(user?.followers).toEqual([]);
+      expect(user?.refreshToken).toBeTruthy();
     });
 
     test("If successfull, a 200 status code and correct data are sent as a response", async () => {
@@ -80,10 +81,10 @@ describe("POST /auth/register", () => {
       };
       Object.keys(correctResponse).forEach((field) => {
         if (typeof response.body[field] === "string") {
-          expect(response.body[field]).toMatch(correctResponse[field]);
+          expect(response.body[field]).toMatch(correctResponse[field as keyof typeof correctResponse]);
         } else {
           expect(JSON.stringify(response.body[field])).toMatch(
-            correctResponse[field]
+            correctResponse[field as keyof typeof correctResponse]
           );
         }
       });
@@ -226,10 +227,10 @@ describe("POST /auth/login", () => {
       };
       Object.keys(correctResponse).forEach((field) => {
         if (typeof response2.body[field] === "string") {
-          expect(response2.body[field]).toMatch(correctResponse[field]);
+          expect(response2.body[field]).toMatch(correctResponse[field as keyof typeof correctResponse]);
         } else {
           expect(JSON.stringify(response2.body[field])).toMatch(
-            correctResponse[field]
+            correctResponse[field as keyof typeof correctResponse]
           );
         }
       });
@@ -315,10 +316,10 @@ describe("POST /auth/login/persist", () => {
     };
     Object.keys(correctResponse).forEach((field) => {
       if (typeof response2.body[field] === "string") {
-        expect(response2.body[field]).toMatch(correctResponse[field]);
+        expect(response2.body[field]).toMatch(correctResponse[field as keyof typeof correctResponse]);
       } else {
         expect(JSON.stringify(response2.body[field])).toMatch(
-          correctResponse[field]
+          correctResponse[field as keyof typeof correctResponse]
         );
       }
     });
@@ -347,11 +348,11 @@ describe("POST /auth/login/persist", () => {
     const user = await User.findById(response.body._id);
     const newRefreshToken = jwt.sign(
       { userId: "640e3338a1753d0168586gj8" },
-      process.env.REFRESH_TOKEN_SECRET,
+      process.env.REFRESH_TOKEN_SECRET!,
       { expiresIn: "7d" }
     );
-    user.refreshToken = newRefreshToken;
-    await user.save();
+    user!.refreshToken = newRefreshToken;
+    await user?.save();
     // Send custom cookie with newRefreshToken
     const cookieStr = `jwt=${newRefreshToken}; Max-Age=604800; Path=/; Expires=Sun, 19 Mar 2023 20:09:04 GMT; HttpOnly; Secure; SameSite=None`;
     const response2 = await request(app)

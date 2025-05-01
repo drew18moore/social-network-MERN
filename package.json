@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "social-network-mern": "file:"
   }
 }

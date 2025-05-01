@@ -1,10 +1,11 @@
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "@jest/globals";
 const request = require("supertest");
-const app = require("../app");
-const Post = require("../models/Post");
-const User = require("../models/User");
-const { connect, disconnect, reset } = require("./config/database");
-const Comment = require("../models/Comment");
-const jwt = require("jsonwebtoken")
+import app from "../app";
+import Post from "../models/Post";
+import User from "../models/User";
+import { connect, disconnect, reset } from "./config/database";
+import Comment from "../models/Comment";
+import jwt from "jsonwebtoken";
 
 beforeAll(async () => {
   await connect();
@@ -39,10 +40,10 @@ describe("POST /posts/new", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       const post = await Post.findById(newPost.body._id);
-      expect(post.userId).toBe(registeredUser.body._id);
-      expect(post.postBody).toBe(postBody);
-      expect(post.likes).toEqual([]);
-      expect(post.comments).toEqual([]);
+      expect(post?.userId).toBe(registeredUser.body._id);
+      expect(post?.postBody).toBe(postBody);
+      expect(post?.likes).toEqual([]);
+      expect(post?.comments).toEqual([]);
     });
     test("Should return correct json data", async () => {
       // Register user
@@ -65,23 +66,29 @@ describe("POST /posts/new", () => {
       const expectedData = {
         userId: registeredUser.body._id,
         postBody: postBody,
-        likes: [],
-        comments: [],
+        numLikes: 0,
+        numComments: 0,
+        img: "",
+        isLiked: false,
         _id: /^[a-z0-9]+$/i,
         createdAt: /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/,
         fullname: userData.fullname,
         username: userData.username,
-        profilePicture: "/default-pfp.jpg",
+        profilePicture: "default-pfp.jpg",
       };
-      Object.keys(expectedData).forEach((field) => {
-        if (typeof newPost.body[field] === "string") {
-          expect(newPost.body[field]).toMatch(expectedData[field]);
+      Object.entries(expectedData).forEach(([field, expectedValue]) => {
+        const actualValue = newPost.body[field];
+      
+        expect(actualValue).toBeDefined();
+      
+        if (expectedValue instanceof RegExp) {
+          expect(typeof actualValue).toBe("string");
+          expect(actualValue).toMatch(expectedValue);
         } else {
-          expect(JSON.stringify(newPost.body[field])).toMatch(
-            JSON.stringify(expectedData[field])
-          );
+          expect(actualValue).toEqual(expectedValue);
         }
       });
+      
     });
   });
   test("Should return 412 if user forgets to include postBody in request", async () => {
@@ -155,16 +162,16 @@ describe("GET /posts/:id", () => {
       postBody: postBody,
       userId: registeredUser.body._id,
       _id: /^[a-z0-9]+$/i,
-      profilePicture: "/default-pfp",
+      profilePicture: "default-pfp",
       comments: [],
       isBookmarked: false,
     };
     Object.keys(expectedData).forEach((field) => {
       if (typeof getPostById.body[field] === "string") {
-        expect(getPostById.body[field]).toMatch(expectedData[field]);
+        expect(getPostById.body[field]).toMatch(expectedData[field as keyof typeof expectedData]);
       } else {
         expect(JSON.stringify(getPostById.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       }
     });
@@ -209,7 +216,7 @@ describe("PUT /posts/:id", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       let post = await Post.findById(newPost.body._id);
-      expect(post.postBody).toBe(postBody);
+      expect(post?.postBody).toBe(postBody);
       const updatedPostBody = "Updated post";
       const updatedPost = await request(app)
         .put(`/api/posts/${newPost.body._id}`)
@@ -217,7 +224,7 @@ describe("PUT /posts/:id", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(updatedPost.statusCode).toBe(200);
       post = await Post.findById(newPost.body._id);
-      expect(post.postBody).toBe(updatedPostBody);
+      expect(post?.postBody).toBe(updatedPostBody);
     });
     test("Should return correct json data", async () => {
       // Register user
@@ -248,7 +255,7 @@ describe("PUT /posts/:id", () => {
         postBody: updatedPostBody,
       };
       Object.keys(expectedData).forEach((field) => {
-        expect(updatedPost.body[field]).toMatch(expectedData[field]);
+        expect(updatedPost.body[field]).toMatch(expectedData[field as keyof typeof expectedData]);
       });
     });
   });
@@ -361,14 +368,14 @@ describe("DELETE /posts/:id", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(bookmarkPost.statusCode).toBe(200);
       let user = await User.findById(registeredUser.body._id);
-      expect(user.bookmarks).toContain(newPost.body._id);
+      expect(user?.bookmarks).toContain(newPost.body._id);
       // Delete post
       const deletePost = await request(app)
         .delete(`/api/posts/${newPost.body._id}`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(deletePost.statusCode).toBe(200);
       user = await User.findById(registeredUser.body._id);
-      expect(user.bookmarks).not.toContain(newPost.body._id);
+      expect(user?.bookmarks).not.toContain(newPost.body._id);
     });
     test("Should remove comments on post", async () => {
       // Register user
@@ -478,13 +485,13 @@ describe("PUT /posts/:id/like", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       let post = await Post.findById(newPost.body._id);
-      expect(post.likes).not.toContain(registeredUser.body._id);
+      expect(post?.likes).not.toContain(registeredUser.body._id);
       const likePost = await request(app)
         .put(`/api/posts/${newPost.body._id}/like`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(likePost.statusCode).toBe(200);
       post = await Post.findById(newPost.body._id);
-      expect(post.likes).toContain(registeredUser.body._id);
+      expect(post?.likes).toContain(registeredUser.body._id);
     });
     test("Should REMOVE user's id to post's likes if previously liked", async () => {
       // Register user
@@ -510,14 +517,14 @@ describe("PUT /posts/:id/like", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(likePost.statusCode).toBe(200);
       let post = await Post.findById(newPost.body._id);
-      expect(post.likes).toContain(registeredUser.body._id);
+      expect(post?.likes).toContain(registeredUser.body._id);
       // Unlike post
       const unlikePost = await request(app)
         .put(`/api/posts/${newPost.body._id}/like`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(unlikePost.statusCode).toBe(200);
       post = await Post.findById(newPost.body._id);
-      expect(post.likes).not.toContain(registeredUser.body._id);
+      expect(post?.likes).not.toContain(registeredUser.body._id);
     });
     test("Should return correct json data if post is liked", async () => {
       // Register user
@@ -548,7 +555,7 @@ describe("PUT /posts/:id/like", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(likePost.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -585,7 +592,7 @@ describe("PUT /posts/:id/like", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         expect(JSON.stringify(unlikePost.body[field])).toMatch(
-          JSON.stringify(expectedData[field])
+          JSON.stringify(expectedData[field as keyof typeof expectedData])
         );
       });
     });
@@ -630,14 +637,14 @@ describe("PUT /posts/:id/bookmark", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(newPost.statusCode).toBe(200);
       let user = await User.findById(registeredUser.body._id);
-      expect(user.bookmarks).not.toContain(newPost.body._id);
+      expect(user?.bookmarks).not.toContain(newPost.body._id);
       // Bookmark post
       const bookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(bookmarkPost.statusCode).toBe(200);
       user = await User.findById(registeredUser.body._id);
-      expect(user.bookmarks).toContain(newPost.body._id);
+      expect(user?.bookmarks).toContain(newPost.body._id);
     });
     test("Should REMOVE post's id to user's bookmarks if previously bookmarked", async () => {
       // Register user
@@ -663,14 +670,14 @@ describe("PUT /posts/:id/bookmark", () => {
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(bookmarkPost.statusCode).toBe(200);
       let user = await User.findById(registeredUser.body._id);
-      expect(user.bookmarks).toContain(newPost.body._id);
+      expect(user?.bookmarks).toContain(newPost.body._id);
       // Unbookmark post
       const unbookmarkPost = await request(app)
         .put(`/api/posts/${newPost.body._id}/bookmark`)
         .set("Authorization", `Bearer ${registeredUser.body.accessToken}`);
       expect(unbookmarkPost.statusCode).toBe(200);
       user = await User.findById(registeredUser.body._id);
-      expect(user.bookmarks).not.toContain(newPost.body._id);
+      expect(user?.bookmarks).not.toContain(newPost.body._id);
     });
   });
   test("Should return 404 if post isn't found", async () => {
@@ -716,10 +723,10 @@ describe("GET /posts/timeline/:userId", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         if (typeof timelinePosts.body[field] === "string") {
-          expect(timelinePosts.body[field]).toMatch(expectedData[field]);
+          expect(timelinePosts.body[field]).toEqual(expectedData[field as keyof typeof expectedData]);
         } else {
           expect(JSON.stringify(timelinePosts.body[field])).toMatch(
-            JSON.stringify(expectedData[field])
+            JSON.stringify(expectedData[field as keyof typeof expectedData])
           );
         }
       });
@@ -761,35 +768,35 @@ describe("GET /posts/timeline/:userId", () => {
             _id: newPost2.body._id,
             userId: newPost2.body.userId,
             postBody: postBody2,
-            likes: [],
-            comments: [],
+            img: newPost2.body.img,
+            numLikes: newPost2.body.numLikes,
+            numComments: newPost2.body.numComments,
+            isLiked: false,
             createdAt: newPost2.body.createdAt,
             fullname: registeredUser.body.fullname,
             username: registeredUser.body.username,
-            profilePicture: "/default-pfp.jpg",
+            profilePicture: "default-pfp.jpg",
           },
           {
             _id: newPost1.body._id,
             userId: newPost1.body.userId,
             postBody: postBody1,
-            likes: [],
-            comments: [],
+            img: newPost1.body.img,
+            numLikes: newPost1.body.numLikes,
+            numComments: newPost1.body.numComments,
+            isLiked: false,
             createdAt: newPost1.body.createdAt,
             fullname: registeredUser.body.fullname,
             username: registeredUser.body.username,
-            profilePicture: "/default-pfp.jpg",
+            profilePicture: "default-pfp.jpg",
           },
         ],
       };
-      Object.keys(expectedData).forEach((field) => {
-        if (typeof timelinePosts.body[field] === "string") {
-          expect(timelinePosts.body[field]).toMatch(expectedData[field]);
-        } else {
-          expect(JSON.stringify(timelinePosts.body[field])).toMatch(
-            JSON.stringify(expectedData[field])
-          );
-        }
-      });
+      Object.entries(expectedData).forEach(([field, expectedValue]) => {
+        const actualValue = timelinePosts.body[field];
+        expect(actualValue).toBeDefined();
+        expect(actualValue).toEqual(expectedValue);
+      });      
     });
   });
 });
@@ -818,10 +825,10 @@ describe("GET /posts/:username/all", () => {
       };
       Object.keys(expectedData).forEach((field) => {
         if (typeof userPosts.body[field] === "string") {
-          expect(userPosts.body[field]).toMatch(expectedData[field]);
+          expect(userPosts.body[field]).toEqual(expectedData[field as keyof typeof expectedData]);
         } else {
           expect(JSON.stringify(userPosts.body[field])).toMatch(
-            JSON.stringify(expectedData[field])
+            JSON.stringify(expectedData[field as keyof typeof expectedData])
           );
         }
       });
@@ -863,41 +870,41 @@ describe("GET /posts/:username/all", () => {
             _id: newPost2.body._id,
             userId: newPost2.body.userId,
             postBody: postBody2,
-            likes: [],
-            comments: [],
+            img: newPost2.body.img,
+            numLikes: newPost2.body.numLikes,
+            numComments: newPost2.body.numComments,
+            isLiked: false,
             createdAt: newPost2.body.createdAt,
             fullname: registeredUser.body.fullname,
             username: registeredUser.body.username,
-            profilePicture: "/default-pfp.jpg",
+            profilePicture: "default-pfp.jpg",
           },
           {
             _id: newPost1.body._id,
             userId: newPost1.body.userId,
             postBody: postBody1,
-            likes: [],
-            comments: [],
+            img: newPost1.body.img,
+            numLikes: newPost1.body.numLikes,
+            numComments: newPost1.body.numComments,
+            isLiked: false,
             createdAt: newPost1.body.createdAt,
             fullname: registeredUser.body.fullname,
             username: registeredUser.body.username,
-            profilePicture: "/default-pfp.jpg",
+            profilePicture: "default-pfp.jpg",
           },
         ],
       };
-      Object.keys(expectedData).forEach((field) => {
-        if (typeof userPosts.body[field] === "string") {
-          expect(userPosts.body[field]).toMatch(expectedData[field]);
-        } else {
-          expect(JSON.stringify(userPosts.body[field])).toMatch(
-            JSON.stringify(expectedData[field])
-          );
-        }
+      Object.entries(expectedData).forEach(([field, expectedValue]) => {
+        const actualValue = userPosts.body[field];
+        expect(actualValue).toBeDefined();
+        expect(actualValue).toEqual(expectedValue);
       });
     });
   });
   test("Should return 404 if user isn't found", async () => {
     const tempAccessToken = jwt.sign(
       { userId: "5509f07f227cde6d205a0962" },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET!,
       { expiresIn: 900000 } // 15 mins
     );
     // Get user posts
