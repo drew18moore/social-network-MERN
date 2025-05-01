@@ -13,28 +13,37 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Compose
-        run: docker-compose --version
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      - name: Build containers
-        run: docker-compose build
-
-      - name: Start containers
-        run: docker-compose up -d
-
-      - name: Wait for MongoDB to be ready
-        run: |
-          echo "Waiting for MongoDB to be ready..."
-          docker-compose exec -T mongo_db bash -c 'until mongosh --eval "db.stats()" >/dev/null 2>&1; do sleep 2; done'
-        timeout-minutes: 2
+      # Server: Install and test
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm ci
 
       - name: Run server tests
-        run: docker-compose exec -T server npm test
+        working-directory: ./server
+        run: npm test
 
-      - name: Shutdown containers
-        if: always()
-        run: docker-compose down
+      - name: Build server
+        working-directory: ./server
+        run: npm run build
+
+      # Client: Install and build
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Build client app
+        working-directory: ./client
+        run: npm run build
