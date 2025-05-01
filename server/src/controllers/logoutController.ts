@@ -8,6 +8,7 @@ export const handleLogout = async (req: Request, res: Response) => {
 
     const refreshToken = cookies.jwt;
     const user = await User.findOne({ refreshToken });
+    console.log(JSON.stringify(user));
     if (!user) {
       res.clearCookie("jwt", {
         httpOnly: true,
