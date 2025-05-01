@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - drew18moore
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: docker-compose --version
+
+      - name: Build containers
+        run: docker-compose build
+
+      - name: Start containers
+        run: docker-compose up -d
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          echo "Waiting for MongoDB to be ready..."
+          docker-compose exec -T mongo_db bash -c 'until mongosh --eval "db.stats()" >/dev/null 2>&1; do sleep 2; done'
+        timeout-minutes: 2
+
+      - name: Run server tests
+        run: docker-compose exec -T server npm test
+
+      - name: Shutdown containers
+        if: always()
+        run: docker-compose down
