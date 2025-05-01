@@ -3,8 +3,6 @@ const request = require("supertest");
 import app from "../app";
 import { connect, disconnect, reset } from "./config/database";
 import User from "../models/User";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 beforeAll(async () => {
   await connect();
@@ -20,6 +18,19 @@ afterAll(async () => {
 
 describe("GET /logout", () => {
   describe("On successful logout should return 204 status code and...", () => {
+    test("Should return 204 and clear cookie if refreshToken does not match any user", async () => {
+      // Fake a cookie that won't match any user
+      const fakeCookie = "jwt=fake.invalid.token";
+    
+      const res = await request(app)
+        .get("/api/logout")
+        .set("Cookie", fakeCookie);
+    
+      expect(res.statusCode).toBe(204);
+      const clearedCookie = res.headers["set-cookie"];
+      expect(clearedCookie).toBeDefined();
+      expect(clearedCookie[0]).toMatch(/jwt=;/);
+    });
     test("Should clear the cookie", async () => {
       // Register user
       const userData = {
