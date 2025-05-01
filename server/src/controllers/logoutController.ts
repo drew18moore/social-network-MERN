@@ -15,7 +15,7 @@ export const handleLogout = async (req: Request, res: Response) => {
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      return res.status(204);
+      return res.sendStatus(204);
     }
 
     // Delete refresh token from db
@@ -30,6 +30,6 @@ export const handleLogout = async (req: Request, res: Response) => {
     });
     res.sendStatus(204);
   } catch (err) {
-    console.error(err);
+    res.sendStatus(500);
   }
 };

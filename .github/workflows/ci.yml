@@ -1,0 +1,50 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-22.04
+
+    services:
+      mongo:
+        image: mongo:6.0
+        ports:
+          - 27018:27017
+
+    env:
+      MONGO_URI: mongodb://localhost:27018/testdb
+      ACCESS_TOKEN_SECRET: testaccesstokensecret
+      REFRESH_TOKEN_SECRET: testrefreshtokensecret
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Server: Install, test, and build
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm ci
+
+      - name: Run server tests
+        working-directory: ./server
+        run: npx jest --runInBand
+
+      - name: Build server
+        working-directory: ./server
+        run: npm run build
+
+      # Client: Install and build
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Build client app
+        working-directory: ./client
+        run: npm run build

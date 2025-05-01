@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mongo_test:
+    image: mongo:6.0
+    container_name: test_mongo_container
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_DATABASE: testdb
+    volumes:
+      - mongo_test_data:/data/db
+
+volumes:
+  mongo_test_data: {}
